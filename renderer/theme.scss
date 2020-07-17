@@ -1,0 +1,114 @@
+@import '~@angular/material/theming';
+
+@font-face {
+  font-family: system;
+  font-style: normal;
+  font-weight: 400;
+  src: local("-apple-sysyem"), local("BlinkMacSystemFont"), local("Segoe UI"), local("Roboto"), local("Oxygen"), local("Ubuntu"), local("Cantarell"), local("Tahoma"), local('sans-serif');
+}
+
+$custom-typography: mat-typography-config(
+  $font-family: 'system'
+);
+
+@include mat-core($custom-typography);
+
+//  Custom Angulat Material theme
+
+$custom-primary: mat-palette($mat-blue, 400, 200, 600);
+$custom-accent:  mat-palette($mat-amber, 400, 200, 600);
+$custom-warn:  mat-palette($mat-red, 400, 200, 600);
+$custom-theme: mat-dark-theme($custom-primary, $custom-accent, $custom-warn);
+
+@include angular-material-theme($custom-theme);
+
+// Bridge from Angular Material variables to CSS variables
+
+@import 'colors.scss';
+
+:root {
+
+  --primary-color: var(--mat-blue-400);
+  --accent-color: var(--mat-amber-300);
+  --warn-color: var(--mat-red-400);
+
+  --text-color: var(--mat-grey-100);
+  --disabled-color: var(--mat-grey-500);
+  --background-color: var(--mat-grey-900);
+
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(128, 128, 128, 0.9);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.66);
+  border-radius: 4px;
+}
+
+:focus {
+  outline: 0;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.as-split-gutter {
+  background-color: var(--mat-gray-800) !important;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'system';
+  font-size: 1rem;
+  font-weight: 400;
+  height: 100%;
+  line-height: 150%;
+  overflow: hidden;
+  width: 100%;
+}
+
+html {
+  border: 0;
+  font-size: 12px;
+  height: 100%;
+  width: 100%;
+}
+
+.mat-button-toggle-checked {
+  color: var(--text-color);
+}
+
+.mat-button-wrapper {
+  text-transform: uppercase;
+}
+
+.mat-expansion-panel {
+  background-color: var(--mat-grey-850);
+}
+
+.mat-expansion-panel-header-title {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mat-radio-label {
+  align-items: flex-start !important;
+  white-space: unset !important;
+}
