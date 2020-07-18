@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "importHelpers": true,
+    "lib": [
+      "es2019"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es6",
+    "target": "es2019",
     "outDir": "../dist/main",
     "sourceMap": true,
     "rootDir": "."

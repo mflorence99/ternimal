@@ -12,6 +12,6 @@
     "polyfills.ts"
   ],
   "include": [
-    "../common/meld-configurations.ts"
+    "../common/**/*.ts"
   ]
 }

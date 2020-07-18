@@ -1,23 +1,23 @@
 import * as path from 'path';
 import * as url from 'url';
 
-import electron = require('electron');
-import Store = require('electron-store');
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const  { app, BrowserWindow, Rectangle } = require('electron');
+const store = require('./local-storage');
 
 const isDev = process.env['DEV_MODE'] === '1';
-const store = new Store();
 let theWindow = null;
 
-electron.app.on('ready', () => {
+app.on('ready', () => {
 
   const bounds = store.get('theWindow.bounds', {
     height: 600,
     width: 800,
     x: undefined,
     y: undefined
-  }) as electron.Rectangle;
+  }) as typeof Rectangle;
 
-  theWindow = new electron.BrowserWindow({
+  theWindow = new BrowserWindow({
     height: bounds.height,
     width: bounds.width,
     resizable: true,
@@ -57,6 +57,6 @@ electron.app.on('ready', () => {
 
 });
 
-electron.app.on('window-all-closed', () => {
-  electron.app.quit();
+app.on('window-all-closed', () => {
+  app.quit();
 });

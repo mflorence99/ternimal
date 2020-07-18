@@ -4,6 +4,7 @@ const { compilerOptions } = require('./tsconfig');
 module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
+    '<rootDir>/common/**/*.ts',
     '<rootDir>/main/**/*.ts',
     '<rootDir>/renderer/app/**/*.ts',
     '!<rootDir>/renderer/app/**/barrel.ts',
@@ -16,7 +17,7 @@ module.exports = {
   }),
   preset: 'jest-preset-angular',
   reporters: ['default', ['jest-junit', { outputDirectory: './reports/junit' } ]],
-  roots: ['<rootDir>/main/', '<rootDir>/renderer/'],
+  roots: ['<rootDir>/common/', '<rootDir>/main/', '<rootDir>/renderer/'],
   testMatch: ['**/+(*.)+(spec).+(ts)'],
   testResultsProcessor: 'jest-junit',
   transform: {

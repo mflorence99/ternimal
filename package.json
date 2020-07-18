@@ -48,6 +48,7 @@
     "jest-junit": "^11.0.1",
     "jest-preset-angular": "^8.2.1",
     "ngx-contextmenu": "^5.4.0",
+    "ngx-electron": "^2.2.0",
     "node-pty": "^0.9.0",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.0",
@@ -79,6 +80,9 @@
   "scripts": {
     "build:main": "tsc -p main/tsconfig.json",
     "build:renderer": "ng build",
+    "clean:caches": "jest --clearCache",
+    "clean:config": "rm -f ~/.config/ternimal/config.dev.json",
+    "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
     "electron:main": "npm run build:main && DEV_MODE=1 electron . --ignore-gpu-blacklist",
     "electron:renderer": "ng serve",
     "test": "jest --runInBand --coverage && ts-node --dir bin coverage-icon.ts",

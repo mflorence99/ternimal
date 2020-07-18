@@ -6,19 +6,17 @@ import { states } from './state/app';
 
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { NgModule } from '@angular/core';
+import { NgxElectronModule } from 'ngx-electron';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
 
-/**
- * lintel module definition
- */
-
 const COMPONENTS = [];
 
 const MODULES = [
   BarrelModule,
+  NgxElectronModule,
   RootPageModule
 ];
 

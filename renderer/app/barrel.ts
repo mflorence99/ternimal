@@ -7,10 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-/**
- * A barrel of all the modules we use everywhere
- */
-
 const MODULES = [
   BrowserModule,
   ContextMenuModule,
