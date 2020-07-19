@@ -7,7 +7,7 @@ import * as url from 'url';
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const  { app, BrowserWindow } = electron;
 
-export let theWindow = null;
+let theWindow = null;
 
 app.on('ready', () => {
 
@@ -53,7 +53,7 @@ app.on('ready', () => {
 
   theWindow.setMenu(null);
   
-  const setBounds = () =>
+  const setBounds = (): void =>
     store.set('theWindow.bounds', theWindow.getBounds());
   theWindow.on('move', setBounds);
   theWindow.on('resize', setBounds);

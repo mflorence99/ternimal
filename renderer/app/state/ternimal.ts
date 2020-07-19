@@ -32,8 +32,8 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  enable(@Payload('enable') { enabled, message }): void {
-    this.ctx.setState(patch({ enabled, message }));
+  enable(@Payload('enable') { enabled }): void {
+    this.ctx.setState(patch({ enabled }));
   }
 
   // accessors
@@ -42,7 +42,7 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
     return this.snapshot.enabled;
   }
 
-  @Computed() get unique(): number {
+  get unique(): number {
     const unique = this.ctx.getState().unique;
     this.ctx.setState(patch({ unique: unique + 1 }));
     return unique;
