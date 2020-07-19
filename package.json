@@ -30,8 +30,6 @@
     "@ngxs-labs/data": "^3.0.6",
     "@ngxs/logger-plugin": "^3.6.2",
     "@ngxs/store": "^3.6.2",
-    "@types/electron": "^1.6.10",
-    "@types/electron-store": "^3.2.0",
     "@types/jest": "^26.0.4",
     "@types/node": "^12",
     "@typescript-eslint/eslint-plugin": "^3.6.1",

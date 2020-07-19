@@ -8,7 +8,7 @@ export class StorageService implements Storage {
 
   length = 0;
 
-  constructor(private electron: ElectronService) { }
+  constructor(public electron: ElectronService) { }
 
   // @see https://developer.mozilla.org/en-US/docs/Web/API/Storage
 

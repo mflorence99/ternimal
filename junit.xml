@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" time="4.281">
-  <testsuite name="RootPageComponent" errors="0" failures="0" skipped="0" timestamp="2020-07-18T11:22:02" time="2.687" tests="1">
-    <testcase classname="RootPageComponent App is created" name="RootPageComponent App is created" time="0.114">
+<testsuites name="jest tests" tests="3" failures="0" time="3.17">
+  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-07-19T12:27:51" time="2.566" tests="3">
+    <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.004">
+    </testcase>
+    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0">
+    </testcase>
+    <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
