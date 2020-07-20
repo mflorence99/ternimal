@@ -5,7 +5,8 @@ export class ElectronService {
 
   ipcRenderer = {
     send: jest.fn(),
-    sendSync: jest.fn(channel => channel)
+    // NOTE: need to accomodate special @ngxs state persistence keys
+    sendSync: jest.fn((channel, key) => key?.startsWith?.('@ngxs.store') ? null :  channel)
   };
 
 }
