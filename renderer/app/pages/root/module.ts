@@ -1,4 +1,5 @@
 import { BarrelModule } from '../../barrel';
+import { ComponentsModule } from '../components/module';
 import { RootPageComponent } from './page';
 
 import { NgModule } from '@angular/core';
@@ -12,7 +13,8 @@ const COMPONENTS = [
 ];
 
 const MODULES = [
-  BarrelModule
+  BarrelModule,
+  ComponentsModule
 ];
 
 @NgModule({

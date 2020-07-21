@@ -1,11 +1,15 @@
+import { Channels } from './common/channels';
+import { SystemInfo } from './common/system-info';
+
 import { store } from './local-storage';
 
 import * as electron from 'electron';
+import * as osutils from 'os-utils';
 import * as path from 'path';
 import * as url from 'url';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const  { app, BrowserWindow } = electron;
+const  { app, BrowserWindow, ipcMain } = electron;
 
 let theWindow = null;
 
@@ -52,6 +56,16 @@ app.on('ready', () => {
   }
 
   theWindow.setMenu(null);
+
+  setInterval(() => {
+    osutils.cpuUsage(usage => {
+      const systemInfo: SystemInfo = {
+        cpuUsage: usage * 100,
+        memUsage: (osutils.freemem() / osutils.totalmem()) * 100
+      };
+      theWindow.webContents.send(Channels.systemInfo, systemInfo);
+    });
+  }, 1000);
   
   const setBounds = (): void =>
     store.set('theWindow.bounds', theWindow.getBounds());
@@ -62,4 +76,12 @@ app.on('ready', () => {
 
 app.on('window-all-closed', () => {
   app.quit();
+});
+
+ipcMain.on(Channels.openDevTools, (): void => {
+  theWindow?.webContents.openDevTools();
+});
+
+ipcMain.on(Channels.reload, (): void => {
+  theWindow?.webContents.reload();
 });

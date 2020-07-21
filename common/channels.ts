@@ -6,4 +6,9 @@ export enum Channels {
   localStorageRemoveItem = 'local-storage.removeItem',
   localStorageSetItem = 'local-storage.setItem',
 
+  openDevTools = 'toolbar.openDevTools',
+  reload = 'toolbar.reload',
+
+  systemInfo = 'info.systemInfo'
+
 }

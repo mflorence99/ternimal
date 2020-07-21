@@ -1,4 +1,16 @@
 :host {
+  --ternimal-cy-header: 48px;
+
   display: block;
-  margin: 2rem;
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.header {
+  display: block;
+  height: var(--ternimal-cy-header);
+  position: absolute;
+  top: 0;
+  width: 100%;
 }

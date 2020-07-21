@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import './ternimal';
 
+import { Channels } from './common/channels';
+
 import { store } from './local-storage';
 
 import * as electron from 'electron';
@@ -11,6 +13,8 @@ describe('ternimal', () => {
   beforeEach(() => {
     const theWindow = electron['theWindow'];
     theWindow?.loadURL.mockReset();
+    theWindow?.webContents.openDevTools.mockReset();
+    theWindow?.webContents.reload.mockReset();
   });
 
   test('ready (dev mode)', () => {
@@ -47,6 +51,20 @@ describe('ternimal', () => {
     const callbacks = electron['callbacks'];
     callbacks['window-all-closed']();
     expect(electron.app.quit).toHaveBeenCalled();
+  });
+
+  test('openDevTools', () => {
+    const callbacks = electron['callbacks'];
+    callbacks[Channels.openDevTools]();
+    const theWindow = electron['theWindow'];
+    expect(theWindow.webContents.openDevTools).toHaveBeenCalled();
+  });
+
+  test('reload', () => {
+    const callbacks = electron['callbacks'];
+    callbacks[Channels.reload]();
+    const theWindow = electron['theWindow'];
+    expect(theWindow.webContents.reload).toHaveBeenCalled();
   });
 
 });

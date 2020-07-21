@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -13,6 +14,7 @@ const MODULES = [
   FontAwesomeModule,
   FormsModule,
   IconsModule,
+  MatButtonModule,
   ReactiveFormsModule
 ];
 

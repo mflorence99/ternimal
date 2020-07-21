@@ -11,7 +11,9 @@ class BrowserWindow {
   on = jest.fn((channel, cb) => electron.callbacks[channel] = cb);
   setMenu = jest.fn();
   webContents = {
-    openDevTools: jest.fn()
+    openDevTools: jest.fn(),
+    send: jest.fn(),
+    reload: jest.fn()
   };
 
   constructor(public options: any) {
