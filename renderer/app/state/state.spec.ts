@@ -1,4 +1,6 @@
 import { LayoutState } from './layout';
+import { SelectionState } from './selection';
+import { TabsState } from './tabs';
 import { TernimalState } from './ternimal';
 
 import { states } from './app';
@@ -10,6 +12,8 @@ import { TestBed } from '@angular/core/testing';
 
 export interface Bundle {
   layout?: LayoutState;
+  selection?: SelectionState;
+  tabs?: TabsState;
   ternimal?: TernimalState;
 }
 
@@ -25,6 +29,8 @@ export function prepare(): Bundle {
   });
 
   bundle.layout = TestBed.inject(LayoutState);
+  bundle.selection = TestBed.inject(SelectionState);
+  bundle.tabs = TestBed.inject(TabsState);
   bundle.ternimal = TestBed.inject(TernimalState);
 
   return bundle;

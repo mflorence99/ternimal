@@ -7,9 +7,8 @@ describe('Params', () => {
   let params: Params;
 
   beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     params = TestBed.inject(Params);
-    // TODO
-    console.log(params);
   });
 
   test('uuid', () => {

@@ -1,68 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="24" failures="0" time="6.733">
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-20T09:22:00" time="3.304" tests="2">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.003">
-    </testcase>
-    <testcase classname="ConfigsState LayoutState is initialized" name="ConfigsState LayoutState is initialized" time="0.046">
-    </testcase>
-  </testsuite>
-  <testsuite name="RootPageComponent" errors="0" failures="0" skipped="0" timestamp="2020-07-20T09:22:03" time="0.499" tests="1">
-    <testcase classname="RootPageComponent App is created" name="RootPageComponent App is created" time="0.139">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-20T09:22:04" time="0.402" tests="3">
+<testsuites name="jest tests" tests="42" failures="0" time="5.777">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:53" time="0.908" tests="7">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="TernimalState Ternimal can be enabled and disabled" name="TernimalState Ternimal can be enabled and disabled" time="0.046">
+    <testcase classname="TabsState newTab/removeTab" name="TabsState newTab/removeTab" time="0.045">
     </testcase>
-    <testcase classname="TernimalState Ternimal can compute a locally unique number" name="TernimalState Ternimal can compute a locally unique number" time="0.013">
+    <testcase classname="TabsState moveTab - left" name="TabsState moveTab - left" time="0.015">
+    </testcase>
+    <testcase classname="TabsState moveTab - right" name="TabsState moveTab - right" time="0.013">
+    </testcase>
+    <testcase classname="TabsState updateTab" name="TabsState updateTab" time="0.013">
+    </testcase>
+    <testcase classname="TabsState tab accessor" name="TabsState tab accessor" time="0.017">
+    </testcase>
+    <testcase classname="TabsState tabIndex accessor" name="TabsState tabIndex accessor" time="0.01">
     </testcase>
   </testsuite>
-  <testsuite name="StorageService" errors="0" failures="0" skipped="0" timestamp="2020-07-20T09:22:04" time="0.338" tests="5">
-    <testcase classname="StorageService clear" name="StorageService clear" time="0.026">
+  <testsuite name="local-storage" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:54" time="0.32" tests="6">
+    <testcase classname="local-storage smoke test" name="local-storage smoke test" time="0.002">
+    </testcase>
+    <testcase classname="local-storage clear" name="local-storage clear" time="0.001">
+    </testcase>
+    <testcase classname="local-storage getItem" name="local-storage getItem" time="0">
+    </testcase>
+    <testcase classname="local-storage key" name="local-storage key" time="0.001">
+    </testcase>
+    <testcase classname="local-storage removeItem" name="local-storage removeItem" time="0">
+    </testcase>
+    <testcase classname="local-storage setItem" name="local-storage setItem" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="RootPageComponent" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:55" time="0.48" tests="1">
+    <testcase classname="RootPageComponent App is created" name="RootPageComponent App is created" time="0.118">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:55" time="0.411" tests="7">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="LayoutState makeSplit/closeSplit - vertical" name="LayoutState makeSplit/closeSplit - vertical" time="0.038">
+    </testcase>
+    <testcase classname="LayoutState makeSplit/closeSplit - horizontal" name="LayoutState makeSplit/closeSplit - horizontal" time="0.013">
+    </testcase>
+    <testcase classname="LayoutState updateSplit" name="LayoutState updateSplit" time="0.013">
+    </testcase>
+    <testcase classname="LayoutState newLayout/removeLayout" name="LayoutState newLayout/removeLayout" time="0.016">
+    </testcase>
+    <testcase classname="LayoutState findSplitByID" name="LayoutState findSplitByID" time="0.012">
+    </testcase>
+    <testcase classname="LayoutState visitSplits" name="LayoutState visitSplits" time="0.009">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:55" time="0.345" tests="3">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="SelectionState selectLayout" name="SelectionState selectLayout" time="0.036">
+    </testcase>
+    <testcase classname="SelectionState selectSplit" name="SelectionState selectSplit" time="0.021">
+    </testcase>
+  </testsuite>
+  <testsuite name="StorageService" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:56" time="0.354" tests="5">
+    <testcase classname="StorageService clear" name="StorageService clear" time="0.027">
     </testcase>
     <testcase classname="StorageService getItem" name="StorageService getItem" time="0.008">
     </testcase>
-    <testcase classname="StorageService key" name="StorageService key" time="0.009">
+    <testcase classname="StorageService key" name="StorageService key" time="0.008">
     </testcase>
-    <testcase classname="StorageService removeItem" name="StorageService removeItem" time="0.014">
+    <testcase classname="StorageService removeItem" name="StorageService removeItem" time="0.012">
     </testcase>
     <testcase classname="StorageService setItem" name="StorageService setItem" time="0.007">
     </testcase>
   </testsuite>
-  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-07-20T09:22:05" time="0.282" tests="4">
+  <testsuite name="Params" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:56" time="0.33" tests="1">
+    <testcase classname="Params uuid" name="Params uuid" time="0.026">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:57" time="0.347" tests="3">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="TernimalState Ternimal can be enabled and disabled" name="TernimalState Ternimal can be enabled and disabled" time="0.044">
+    </testcase>
+    <testcase classname="TernimalState Ternimal can compute a locally unique number" name="TernimalState Ternimal can compute a locally unique number" time="0.013">
+    </testcase>
+  </testsuite>
+  <testsuite name="Utils" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:57" time="0.293" tests="2">
+    <testcase classname="Utils Object can be deep copied" name="Utils Object can be deep copied" time="0.027">
+    </testcase>
+    <testcase classname="Utils nextTick works asynchronously" name="Utils nextTick works asynchronously" time="0.009">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:57" time="0.327" tests="1">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:58" time="0.269" tests="4">
     <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.003">
     </testcase>
-    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0.001">
+    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0">
     </testcase>
     <testcase classname="ternimal ready (getBounds)" name="ternimal ready (getBounds)" time="0.001">
     </testcase>
     <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Params" errors="0" failures="0" skipped="0" timestamp="2020-07-20T09:22:05" time="0.3" tests="1">
-    <testcase classname="Params uuid" name="Params uuid" time="0.028">
+  <testsuite name="operators" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:58" time="0.248" tests="1">
+    <testcase classname="operators scratch" name="operators scratch" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-20T09:22:05" time="0.316" tests="1">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="local-storage" errors="0" failures="0" skipped="0" timestamp="2020-07-20T09:22:06" time="0.275" tests="6">
-    <testcase classname="local-storage smoke test" name="local-storage smoke test" time="0.003">
-    </testcase>
-    <testcase classname="local-storage clear" name="local-storage clear" time="0.001">
-    </testcase>
-    <testcase classname="local-storage getItem" name="local-storage getItem" time="0">
-    </testcase>
-    <testcase classname="local-storage key" name="local-storage key" time="0">
-    </testcase>
-    <testcase classname="local-storage removeItem" name="local-storage removeItem" time="0.001">
-    </testcase>
-    <testcase classname="local-storage setItem" name="local-storage setItem" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="channels" errors="0" failures="0" skipped="0" timestamp="2020-07-20T09:22:06" time="0.264" tests="1">
+  <testsuite name="channels" errors="0" failures="0" skipped="0" timestamp="2020-07-21T12:17:58" time="0.3" tests="1">
     <testcase classname="channels enums" name="channels enums" time="0.002">
     </testcase>
   </testsuite>

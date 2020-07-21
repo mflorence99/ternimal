@@ -17,7 +17,7 @@ export interface TernimalStateModel {
 }
 
 @Injectable({ providedIn: 'root' })
-@Persistence({ useClass: StorageService })
+@Persistence({ path: 'ternimal', useClass: StorageService })
 @StateRepository()
 @State<TernimalStateModel>({
   name: 'ternimal',
