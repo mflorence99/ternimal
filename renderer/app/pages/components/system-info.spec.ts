@@ -1,4 +1,4 @@
-import { InfoComponent } from './info';
+import { SystemInfoComponent } from './system-info';
 
 import { prepare } from './component.spec';
 
@@ -6,12 +6,12 @@ import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
 
-describe('InfoComponent', () => {
+describe('SystemInfoComponent', () => {
 
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
-    const fixture = TestBed.createComponent(InfoComponent);
+    const fixture = TestBed.createComponent(SystemInfoComponent);
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });

@@ -1,5 +1,6 @@
 import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from '../components/module';
+import { PipesModule } from '../../pipes/module';
 import { RootPageComponent } from './page';
 
 import { NgModule } from '@angular/core';
@@ -14,7 +15,8 @@ const COMPONENTS = [
 
 const MODULES = [
   BarrelModule,
-  ComponentsModule
+  ComponentsModule,
+  PipesModule
 ];
 
 @NgModule({

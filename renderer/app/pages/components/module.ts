@@ -1,6 +1,8 @@
 import { BarrelModule } from '../../barrel';
+import { ComponentsModule as CommonComponentsModule } from '../../components/module';
 import { HeaderComponent } from './header';
-import { InfoComponent } from './info';
+import { PipesModule } from '../../pipes/module';
+import { SystemInfoComponent } from './system-info';
 import { TabsComponent } from './tabs';
 import { ToolbarComponent } from './toolbar';
 
@@ -12,7 +14,7 @@ import { NgModule } from '@angular/core';
 
 const COMPONENTS = [
   HeaderComponent,
-  InfoComponent,
+  SystemInfoComponent,
   TabsComponent,
   ToolbarComponent
 ];
@@ -28,7 +30,9 @@ const COMPONENTS = [
   ],
 
   imports: [
-    BarrelModule
+    BarrelModule,
+    CommonComponentsModule,
+    PipesModule
   ]
 
 })

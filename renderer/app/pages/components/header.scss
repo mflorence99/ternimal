@@ -5,6 +5,7 @@
 header {
   background-color: var(--mat-grey-850);
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-gap: 2rem;
+  grid-template-columns: 1fr minmax(120px, 0.25fr) auto;
   height: 100%;
 }

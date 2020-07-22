@@ -13,12 +13,12 @@ import { timer } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
   providers: [DestroyService],
-  selector: 'ternimal-info',
-  templateUrl: 'info.html',
-  styleUrls: ['info.scss']
+  selector: 'ternimal-system-info',
+  templateUrl: 'system-info.html',
+  styleUrls: ['system-info.scss']
 })
 
-export class InfoComponent {
+export class SystemInfoComponent {
 
   systemInfo: SystemInfo;
 
@@ -32,7 +32,7 @@ export class InfoComponent {
   // private methods
 
   private pollSystemInfo$(): void {
-    timer(this.params.systemInfoPollInterval, this.params.systemInfoPollInterval)
+    timer(0, this.params.systemInfoPollInterval)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.systemInfo = this.electron.ipcRenderer.sendSync(Channels.systemInfo);
