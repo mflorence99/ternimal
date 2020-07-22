@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
-import { Channels } from '../../common/channels';
 import { InfoComponent } from './info';
 
 import { prepare } from './component.spec';
@@ -16,10 +14,6 @@ describe('InfoComponent', () => {
     const fixture = TestBed.createComponent(InfoComponent);
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
-    expect(component.electron.ipcRenderer.on).toHaveBeenCalled();
-    const call = (component.electron.ipcRenderer.on as any).mock.calls[0];
-    const channel = call[0];
-    expect(channel).toEqual(Channels.systemInfo);
   });
 
 });

@@ -16,9 +16,7 @@ class BrowserWindow {
     reload: jest.fn()
   };
 
-  constructor(public options: any) {
-    electron.theWindow = this;
-  }
+  constructor(public options: any) {  }
   
 }
 
@@ -30,7 +28,6 @@ const electron = {
 
   // private API for testing
   callbacks: { },
-  theWindow: null,
 
   // public API
   app,

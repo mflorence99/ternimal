@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="6" failures="0" time="1.263">
-  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-07-21T21:14:18" time="0.714" tests="6">
-    <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.005">
+<testsuites name="jest tests" tests="2" failures="0" time="6.074">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-22T08:35:20" time="5.173" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.003">
     </testcase>
-    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0.001">
-    </testcase>
-    <testcase classname="ternimal ready (getBounds)" name="ternimal ready (getBounds)" time="0.001">
-    </testcase>
-    <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0.001">
-    </testcase>
-    <testcase classname="ternimal openDevTools" name="ternimal openDevTools" time="0">
-    </testcase>
-    <testcase classname="ternimal reload" name="ternimal reload" time="0.001">
+    <testcase classname="InfoComponent Component is created" name="InfoComponent Component is created" time="0.256">
     </testcase>
   </testsuite>
 </testsuites>

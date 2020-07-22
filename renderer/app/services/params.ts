@@ -6,5 +6,7 @@ import { UUID } from 'angular2-uuid';
 export class Params {
 
   static uuid: string = UUID.UUID();
+
+  systemInfoPollInterval = 1000;
   
 }
