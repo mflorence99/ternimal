@@ -1,6 +1,16 @@
 <menu>
 
   <button
+    (click)="newLayout()"
+    mat-icon-button
+    matTooltip="Add a new layout">
+    <fa-icon
+      [icon]="['fas', 'plus']"
+      size="lg">
+    </fa-icon>
+  </button>
+
+  <button
     mat-icon-button
     matTooltip="Preferences">
     <fa-icon

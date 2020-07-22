@@ -1,3 +1,33 @@
-<nav>
+<nav
+  (onResize)="handleResize($event)">
+
+  <li
+    (click)="select(tab)"
+    (onResize)="measureTab($event)"
+    [ngClass]="{selected: tab.layoutID === selection.layoutID, singleton: tabs.snapshot.length === 1}"
+    *ngFor="let tab of tabs.snapshot"
+    class="tab"
+    matRipple>
+
+    <fa-icon
+      [icon]="tab.icon"
+      [ngStyle]="{color: tab.color}"
+      size="lg">
+    </fa-icon>
+
+    <div
+      class="label">
+      {{ tab.label }}
+    </div>
+
+    <fa-icon
+      (click)="remove(tab)"
+      [icon]="['fas', 'times']"
+      *ngIf="tabs.snapshot.length > 1"
+      class="closer"
+      matTooltip="Remove this layout">
+    </fa-icon>
+
+  </li>
 
 </nav>

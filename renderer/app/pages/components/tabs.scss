@@ -1,3 +1,51 @@
 :host {
   display: block;
+  min-width: 20rem;
+  overflow: hidden;
+}
+
+nav {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  justify-content: flex-start;
+  list-style-type: none;
+
+  .tab {
+    align-items: end;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    display: grid;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    grid-gap: 0.5rem;
+    grid-template-columns: auto 1fr auto;
+    height: 4rem;
+    opacity: 0.6;
+    padding: 0 1rem 1rem 1rem;
+    width: 14rem;
+
+    &.selected {
+      border-bottom: 2px solid var(--primary-color);
+      opacity: 1;
+    }
+
+    &.singleton {
+      grid-template-columns: auto auto;
+      justify-content: center;
+    }
+
+    .closer {
+      opacity: 0.6;
+    }
+
+    .label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+  }
+
 }

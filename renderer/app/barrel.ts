@@ -6,6 +6,7 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatRippleModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgModule } from '@angular/core';
 import { NgxResizeObserverModule } from 'ngx-resize-observer';
@@ -19,6 +20,7 @@ const MODULES = [
   FormsModule,
   IconsModule,
   MatButtonModule,
+  MatRippleModule,
   MatTooltipModule, 
   NgxResizeObserverModule,
   ReactiveFormsModule
