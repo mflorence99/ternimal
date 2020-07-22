@@ -1,8 +1,18 @@
 <menu>
 
   <button
+    mat-icon-button
+    matTooltip="Preferences">
+    <fa-icon
+      [icon]="['fas', 'cog']"
+      size="lg">
+    </fa-icon>
+  </button>
+
+  <button
     (click)="devTools()"
-    mat-icon-button>
+    mat-icon-button
+    matTooltip="Open dev tools">
     <fa-icon
       [icon]="['fas', 'bug']"
       size="lg">
@@ -11,7 +21,8 @@
 
   <button
     (click)="reload()"
-    mat-icon-button>
+    mat-icon-button
+    matTooltip="Reload TERИIMAL">
     <fa-icon
       [icon]="['fas', 'sync']"
       size="lg">

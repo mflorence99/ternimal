@@ -3,5 +3,13 @@
 }
 
 menu {
+  align-items: center;
   display: flex;
+  height: 100%;
+
+  button {
+  background-color: var(--mat-grey-800);
+    margin-right: 1rem;
+  }
+
 }
