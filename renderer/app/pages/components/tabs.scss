@@ -12,35 +12,63 @@ nav {
   justify-content: flex-start;
   list-style-type: none;
 
+  .closer {
+    opacity: 0.6;
+  }
+
+  .more,
   .tab {
-    align-items: end;
     border-bottom: 2px solid transparent;
     cursor: pointer;
-    display: grid;
+    display: flex;
     flex-shrink: 0;
     font-size: 1.2rem;
-    grid-gap: 0.5rem;
-    grid-template-columns: auto 1fr auto;
-    height: 4rem;
+    justify-content: space-between;
     opacity: 0.6;
     padding: 0 1rem 1rem 1rem;
+
+    &.selected {
+      opacity: 1;
+    }
+
+  }
+
+  .more {
+    width: 12rem;
+
+    &.selected {
+      border-bottom: 2px solid var(--accent-color);
+    }
+
+    select {
+      background-color: var(--mat-gray-850);
+      border: 0;
+      color: var(--text-color);
+      flex-grow: 1;
+      font-size: 1.2rem;
+      margin-right: 0.5rem;
+    }
+
+  }
+
+  .tab {
     width: 14rem;
 
     &.selected {
       border-bottom: 2px solid var(--primary-color);
-      opacity: 1;
     }
 
     &.singleton {
-      grid-template-columns: auto auto;
       justify-content: center;
     }
 
-    .closer {
-      opacity: 0.6;
+    &.singleton .label {
+      flex-grow: 0;
     }
 
     .label {
+      flex-grow: 1;
+      margin: 0 0.5rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

@@ -5,7 +5,7 @@
     (click)="select(tab)"
     (onResize)="measureTab($event)"
     [ngClass]="{selected: tab.layoutID === selection.layoutID, singleton: tabs.snapshot.length === 1}"
-    *ngFor="let tab of tabs.snapshot"
+    *ngFor="let tab of inTabs"
     class="tab"
     matRipple>
 
@@ -25,7 +25,42 @@
       [icon]="['fas', 'times']"
       *ngIf="tabs.snapshot.length > 1"
       class="closer"
-      matTooltip="Remove this layout">
+      matTooltip="Remove this tab">
+    </fa-icon>
+
+  </li>
+
+  <li
+    (onResize)="measureMore($event)"
+    [ngClass]="{selected: isInMore(selection.layoutID)}"
+    *ngIf="inMore.length > 0"
+    class="more">
+
+    <select
+      (change)="select(inMore[$event.target.selectedIndex - 1])"
+      autoComplete="off"
+      tabIndex=0>
+
+      <option
+        [attr.selected]="!isInMore(selection.layoutID)? true : null"
+        [value]="null">
+        More tabs...
+      </option>
+
+      <option
+        [attr.selected]="(tab.layoutID === selection.layoutID)? true : null"
+        [value]="tab.layoutID"
+        *ngFor="let tab of inMore">
+        {{ tab.label }}
+      </option>
+    </select>
+
+    <fa-icon
+      (click)="remove(tabs.findTabByID(selection.layoutID))"
+      [icon]="['fas', 'times']"
+      *ngIf="isInMore(selection.layoutID)"
+      class="closer"
+      matTooltip="Remove this tab">
     </fa-icon>
 
   </li>

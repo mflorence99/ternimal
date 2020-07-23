@@ -36,7 +36,7 @@ export class ToolbarComponent {
     const tab: Tab = {
       color: 'var(--google-blue-500)',
       icon: ['fab', 'docker'],
-      label: 'Docker',
+      label: `Layout ${Math.trunc(Math.random() * 100)}`,
       layoutID: layoutID
     };
     this.layout.newLayout({ layoutID });
