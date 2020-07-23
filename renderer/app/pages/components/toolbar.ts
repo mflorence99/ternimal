@@ -3,6 +3,7 @@ import { LayoutState } from '../../state/layout';
 import { SelectionState } from '../../state/selection';
 import { Tab } from '../../state/tabs';
 import { TabsState } from '../../state/tabs';
+import { TernimalState } from '../../state/ternimal';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -22,7 +23,8 @@ export class ToolbarComponent {
   constructor(public electron: ElectronService,
               public layout: LayoutState,
               public selection: SelectionState,
-              public tabs: TabsState) { }
+              public tabs: TabsState,
+              public ternimal: TernimalState) { }
 
   /** Open dev tools */
   devTools(): void {
@@ -36,7 +38,7 @@ export class ToolbarComponent {
     const tab: Tab = {
       color: 'var(--google-blue-500)',
       icon: ['fab', 'docker'],
-      label: `Layout ${Math.trunc(Math.random() * 100)}`,
+      label: `New Tab ${this.ternimal.unique('tab')}`,
       layoutID: layoutID
     };
     this.layout.newLayout({ layoutID });

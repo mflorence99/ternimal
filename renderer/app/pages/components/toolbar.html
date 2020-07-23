@@ -11,8 +11,9 @@
   </button>
 
   <button
+    (click)="ternimal.toggleTabPrefs()"
     mat-icon-button
-    matTooltip="Preferences">
+    matTooltip="{{ tabs.tab.label }} setup">
     <fa-icon
       [icon]="['fas', 'cog']"
       size="lg">
@@ -20,23 +21,36 @@
   </button>
 
   <button
-    (click)="devTools()"
+    [matMenuTriggerFor]="actions"
     mat-icon-button
-    matTooltip="Open dev tools">
+    matTooltip="More actions...">
     <fa-icon
-      [icon]="['fas', 'bug']"
-      size="lg">
-    </fa-icon>
-  </button>
-
-  <button
-    (click)="reload()"
-    mat-icon-button
-    matTooltip="Reload TERИIMAL">
-    <fa-icon
-      [icon]="['fas', 'sync']"
+      [icon]="['fas', 'ellipsis-v']"
       size="lg">
     </fa-icon>
   </button>
 
 </menu>
+
+<mat-menu 
+  #actions="matMenu">
+
+  <button
+    (click)="devTools()"
+    mat-menu-item>
+    <fa-icon
+      [icon]="['fas', 'bug']">
+    </fa-icon>
+    <span>&nbsp;Open dev tools</span>
+  </button>
+
+  <button
+    (click)="reload()"
+    mat-menu-item>
+    <fa-icon
+      [icon]="['fas', 'sync']">
+    </fa-icon>
+    <span>&nbsp;Reload TERИIMAL</span>
+  </button>
+
+</mat-menu>

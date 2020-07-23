@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+section {
+
+  form {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 1fr;
+    padding: 1rem;
+
+    mat-button-toggle-group {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+
+      .mat-button-toggle {
+        border: 1px solid transparent;
+      }
+
+      .mat-button-toggle.mat-button-toggle-checked {
+        border: 1px dotted var(--text-color);
+      }
+
+    }
+
+  }
+
+  header {
+    align-items: center;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: auto 1fr;
+    height: var(--ternimal-cy-header);
+    padding: 1rem;
+  }
+
+}

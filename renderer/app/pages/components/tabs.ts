@@ -91,8 +91,8 @@ export class TabsComponent {
   }
 
   private whichTabs(): void {
-    const count = (this.tabWidth === 0) ? 1 :
-      Math.trunc((this.containerWidth - this.moreWidth) / this.tabWidth) - 1;
+    const count = ((this.tabs.snapshot.length === 1) || (this.tabWidth === 0)) ? 1 :
+      Math.max(Math.trunc((this.containerWidth - this.moreWidth) / this.tabWidth) - 1, 0);
     this.inMore = this.tabs.snapshot.slice(count);
     this.inTabs = this.tabs.snapshot.slice(0, count);
   }

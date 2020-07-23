@@ -14,9 +14,15 @@ describe('TernimalState', () => {
     expect(bundle.ternimal.isEnabled).toBe(false);
   });
 
+  test('Tab prefs can be shown/hidden', () => {
+    expect(bundle.ternimal.tabPrefsShowing).toBe(false);
+    bundle.ternimal.toggleTabPrefs();
+    expect(bundle.ternimal.tabPrefsShowing).toBe(true);
+  });
+
   test('Ternimal can compute a locally unique number', () => {
-    const unique1 = bundle.ternimal.unique;
-    const unique2 = bundle.ternimal.unique;
+    const unique1 = bundle.ternimal.unique('tab');
+    const unique2 = bundle.ternimal.unique('tab');
     expect(unique2 - unique1).toBe(1);
   });
 

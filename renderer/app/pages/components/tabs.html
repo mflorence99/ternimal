@@ -56,7 +56,7 @@
     </select>
 
     <fa-icon
-      (click)="remove(tabs.findTabByID(selection.layoutID))"
+      (click)="remove(tabs.tab)"
       [icon]="['fas', 'times']"
       *ngIf="isInMore(selection.layoutID)"
       class="closer"

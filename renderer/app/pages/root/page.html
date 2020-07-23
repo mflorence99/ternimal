@@ -1,7 +1,28 @@
-<main>
+  <mat-sidenav-container
+    class="container">
 
-  <ternimal-header
-    class="header">
-  </ternimal-header>
+    <mat-sidenav 
+      [opened]="ternimal.tabPrefsShowing"
+      class="sidenav"
+      mode="side"
+      position="end">
 
-</main>
+      <ternimal-tab-prefs>
+      </ternimal-tab-prefs>
+      
+    </mat-sidenav>
+
+    <mat-sidenav-content
+      class="content">
+
+      <ternimal-header
+        class="header">
+      </ternimal-header>
+
+      <div
+        class="splittable">
+      </div>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>

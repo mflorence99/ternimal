@@ -1,3 +1,5 @@
+import { TernimalState } from '../../state/ternimal';
+
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 
@@ -9,5 +11,8 @@ import { Component } from '@angular/core';
 })
 
 export class RootPageComponent {
+
+  /** ctor */
+  constructor(public ternimal: TernimalState) { }
 
 }

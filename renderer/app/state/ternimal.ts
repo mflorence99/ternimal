@@ -13,7 +13,8 @@ import { patch } from '@ngxs/store/operators';
 
 export interface TernimalStateModel {
   enabled: boolean;
-  unique: number;
+  showTabPrefs: boolean;
+  unique: Record<string, number>;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +24,8 @@ export interface TernimalStateModel {
   name: 'ternimal',
   defaults: {
     enabled: true,
-    unique: 1
+    showTabPrefs: false,
+    unique: { }
   }
 })
 
@@ -36,15 +38,27 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
     this.ctx.setState(patch({ enabled }));
   }
 
+  @DataAction({ insideZone: true })
+  toggleTabPrefs(): void {
+    const showTabPrefs = this.ctx.getState().showTabPrefs;
+    this.ctx.setState(patch({ showTabPrefs: !showTabPrefs }));
+  }
+
   // accessors
 
   @Computed() get isEnabled(): boolean {
     return this.snapshot.enabled;
   }
 
-  get unique(): number {
-    const unique = this.ctx.getState().unique;
-    this.ctx.setState(patch({ unique: unique + 1 }));
+  @Computed() get tabPrefsShowing(): boolean {
+    return this.snapshot.showTabPrefs;
+  }
+
+  // public methods
+
+  unique(context: string): number {
+    const unique = this.ctx.getState().unique[context] || 1;
+    this.ctx.setState(patch({ unique: patch({ [context]: unique + 1 }) }));
     return unique;
   }
 

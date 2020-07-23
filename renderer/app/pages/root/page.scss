@@ -2,15 +2,30 @@
   --ternimal-cy-header: 5rem;
 
   display: block;
+}
+
+.container {
+  display: block;
   height: 100%;
-  position: relative;
+  left: 0;
+  position: absolute;
+  top: 0;
   width: 100%;
+}
+
+.content,
+.sidenav {
+  overflow: hidden;
 }
 
 .header {
   display: block;
   height: var(--ternimal-cy-header);
-  position: absolute;
-  top: 0;
+  width: 100%;
+}
+
+.splittable {
+  display: block;
+  height: calc(100% - var(--ternimal-cy-header));
   width: 100%;
 }
