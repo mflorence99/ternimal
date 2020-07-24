@@ -44,6 +44,12 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
     this.ctx.setState(patch({ showTabPrefs: !showTabPrefs }));
   }
 
+  @DataAction({ insideZone: true })
+  updateUnique(@Payload('updateUnique') { context }): void {
+    const unique = this.ctx.getState().unique[context] || 0;
+    this.ctx.setState(patch({ unique: patch({ [context]: unique + 1 }) }));
+  }
+
   // accessors
 
   @Computed() get isEnabled(): boolean {
@@ -54,12 +60,11 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
     return this.snapshot.showTabPrefs;
   }
 
-  // public methods
+  /* eslint-disable @typescript-eslint/member-ordering */
 
   unique(context: string): number {
-    const unique = this.ctx.getState().unique[context] || 1;
-    this.ctx.setState(patch({ unique: patch({ [context]: unique + 1 }) }));
-    return unique;
+    this.updateUnique({ context });
+    return this.snapshot.unique[context];
   }
 
 }

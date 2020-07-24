@@ -1,5 +1,6 @@
 <nav
-  (onResize)="handleResize($event)">
+
+(onResize)="handleResize($event)">
 
   <li
     (click)="select(tab)"
@@ -10,9 +11,10 @@
     matRipple>
 
     <fa-icon
+      [fixedWidth]="true"
       [icon]="tab.icon"
       [ngStyle]="{color: tab.color}"
-      size="lg">
+      class="icon">
     </fa-icon>
 
     <div
@@ -25,7 +27,8 @@
       [icon]="['fas', 'times']"
       *ngIf="tabs.snapshot.length > 1"
       class="closer"
-      matTooltip="Remove this tab">
+      matTooltip="Remove this tab"
+      size="sm">
     </fa-icon>
 
   </li>
@@ -60,7 +63,8 @@
       [icon]="['fas', 'times']"
       *ngIf="isInMore(selection.layoutID)"
       class="closer"
-      matTooltip="Remove this tab">
+      matTooltip="Remove this tab"
+      size="sm">
     </fa-icon>
 
   </li>

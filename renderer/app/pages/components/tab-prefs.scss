@@ -11,6 +11,7 @@ section {
     padding: 1rem;
 
     mat-button-toggle-group {
+      border: none;
       display: grid;
       grid-template-columns: repeat(4, auto);
 
@@ -19,6 +20,7 @@ section {
       }
 
       .mat-button-toggle.mat-button-toggle-checked {
+        background-color: inherit;
         border: 1px dotted var(--text-color);
       }
 
@@ -33,6 +35,12 @@ section {
     grid-template-columns: auto 1fr;
     height: var(--ternimal-cy-header);
     padding: 1rem;
+
+    fa-icon {
+      background-color: var(--mat-grey-700);
+      border-radius: 50%;
+      padding: 0.75rem;
+    }
   }
 
 }

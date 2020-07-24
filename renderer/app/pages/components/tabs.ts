@@ -3,6 +3,7 @@ import { LayoutState } from '../../state/layout';
 import { SelectionState } from '../../state/selection';
 import { Tab } from '../../state/tabs';
 import { TabsState } from '../../state/tabs';
+import { Utils } from '../../services/utils';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -34,7 +35,8 @@ export class TabsComponent {
               private destroy$: DestroyService,
               public layout: LayoutState,
               public selection: SelectionState,
-              public tabs: TabsState) { 
+              public tabs: TabsState,
+              private utils: Utils) { 
     this.handleActions$();
   }
 
@@ -81,8 +83,7 @@ export class TabsComponent {
     this.actions$
       .pipe(
         filter(({ action, status }) => {
-          return (action['TabsState.newTab']
-            || action['TabsState.removeTab'])
+          return this.utils.hasProperty(action, /^TabsState\./)
             && (status === 'SUCCESSFUL');
         }),
         takeUntil(this.destroy$)

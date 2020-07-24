@@ -45,6 +45,7 @@
             "polyfills": "renderer/polyfills.ts",
             "styles": [
               "node_modules/typeface-b612-mono/index.css",
+              "node_modules/typeface-roboto/index.css",
               "node_modules/xterm/css/xterm.css",
               "renderer/theme.scss"
             ],

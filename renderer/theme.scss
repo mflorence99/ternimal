@@ -1,17 +1,6 @@
 @import '~@angular/material/theming';
 
-@font-face {
-  font-family: system;
-  font-style: normal;
-  font-weight: 400;
-  src: local("-apple-sysyem"), local("BlinkMacSystemFont"), local("Segoe UI"), local("Roboto"), local("Oxygen"), local("Ubuntu"), local("Cantarell"), local("Tahoma"), local('sans-serif');
-}
-
-$custom-typography: mat-typography-config(
-  $font-family: 'system'
-);
-
-@include mat-core($custom-typography);
+@include mat-core();
 
 //  Custom Angulat Material theme
 
@@ -50,12 +39,11 @@ $custom-theme: mat-dark-theme($custom-primary, $custom-accent, $custom-warn);
 }
 
 ::-webkit-scrollbar-track {
-  background-color: rgba(128, 128, 128, 0.9);
-  border-radius: 4px;
+  background-color: var(--mat-grey-800);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(128, 128, 128, 0.66);
+  background-color: var(--mat-grey-700);
   border-radius: 4px;
 }
 
@@ -69,13 +57,13 @@ a {
 }
 
 .as-split-gutter {
-  background-color: var(--mat-gray-800) !important;
+  background-color: var(--mat-grey-800) !important;
 }
 
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: 'system', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   font-weight: 400;
   height: 100%;

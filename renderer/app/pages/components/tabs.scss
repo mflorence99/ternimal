@@ -18,6 +18,7 @@ nav {
 
   .more,
   .tab {
+    align-items: center;
     border-bottom: 2px solid transparent;
     cursor: pointer;
     display: flex;
@@ -34,6 +35,8 @@ nav {
   }
 
   .more {
+    // TODO: hack to align with real tabs
+    padding-bottom: 1.5rem;
     width: 12rem;
 
     &.selected {
@@ -41,7 +44,7 @@ nav {
     }
 
     select {
-      background-color: var(--mat-gray-850);
+      background-color: var(--mat-grey-850);
       border: 0;
       color: var(--text-color);
       flex-grow: 1;
@@ -64,6 +67,13 @@ nav {
 
     &.singleton .label {
       flex-grow: 0;
+    }
+
+    .icon {
+      background-color: var(--mat-grey-700);
+      border-radius: 50%;
+      flex-shrink: 0;
+      padding: 0.5rem;
     }
 
     .label {
