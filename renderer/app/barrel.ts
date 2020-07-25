@@ -1,5 +1,6 @@
 import { IconsModule } from './icons';
 
+import { AngularSplitModule } from 'angular-split';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContextMenuModule } from 'ngx-contextmenu';
@@ -18,6 +19,7 @@ import { NgxResizeObserverModule } from 'ngx-resize-observer';
 import { ReactiveFormsModule } from '@angular/forms';
 
 const MODULES = [
+  AngularSplitModule,
   BrowserAnimationsModule,
   BrowserModule,
   ContextMenuModule,

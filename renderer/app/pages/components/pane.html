@@ -1,0 +1,40 @@
+<section
+  [contextMenu]="contextMenu">
+
+</section>
+
+<context-menu>
+
+  <ng-template
+    contextMenuItem
+    (execute)="execute($event, 'vertical-')">
+    <div>Split up</div>
+  </ng-template>
+
+  <ng-template
+    contextMenuItem
+    (execute)="execute($event, 'vertical+')">
+    <div>Split down</div>
+  </ng-template>
+
+  <ng-template
+    contextMenuItem
+    (execute)="execute($event, 'horizontal-')">
+    <div>Split left</div>
+  </ng-template>
+
+  <ng-template
+    contextMenuItem
+    (execute)="execute($event, 'horizontal+')">
+    <div>Split right</div>
+  </ng-template>
+
+  <ng-template
+    contextMenuItem
+    (execute)="execute($event, 'close')"
+    [enabled]="isCloseEnabled.bind(this)">
+    <div>Close pane</div>
+  </ng-template>
+
+</context-menu>
+

@@ -1,0 +1,37 @@
+<as-split
+  [direction]="layout.direction"
+  [useTransition]="true"
+  gutterSize="5">
+
+  <ng-template
+    ngFor
+    let-split
+    [ngForOf]="layout.splits"
+    let-ix="index">
+
+    <as-split-area
+      [order]="ix"
+      [size]="split.size">
+
+      <ng-container
+        *ngIf="!split.splits; else splittable">
+
+        <ternimal-pane
+          [index]="ix">
+        </ternimal-pane>
+
+      </ng-container>
+
+      <ng-template #splittable>
+
+        <ternimal-splittable
+          [layout]="split">
+        </ternimal-splittable>
+
+      </ng-template>
+
+    </as-split-area>
+
+  </ng-template>
+
+</as-split>
