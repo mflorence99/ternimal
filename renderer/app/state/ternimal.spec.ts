@@ -18,6 +18,10 @@ describe('TernimalState', () => {
     expect(bundle.ternimal.tabPrefsShowing).toBe(false);
     bundle.ternimal.toggleTabPrefs();
     expect(bundle.ternimal.tabPrefsShowing).toBe(true);
+    bundle.ternimal.hideTabPrefs();
+    expect(bundle.ternimal.tabPrefsShowing).toBe(false);
+    bundle.ternimal.showTabPrefs();
+    expect(bundle.ternimal.tabPrefsShowing).toBe(true);
   });
 
   test('Ternimal can compute a locally unique number', () => {

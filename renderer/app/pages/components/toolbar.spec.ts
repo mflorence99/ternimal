@@ -28,6 +28,14 @@ describe('ToolbarComponent', () => {
     expect(channel).toEqual(Channels.openDevTools);
   });
 
+  test('newLayout', () => {
+    const fixture = TestBed.createComponent(ToolbarComponent);
+    const component = fixture.componentInstance;
+    expect(component.tabs.snapshot.length).toBe(1);
+    component.newLayout();
+    expect(component.tabs.snapshot.length).toBe(2);
+  });
+
   test('reload', () => {
     const fixture = TestBed.createComponent(ToolbarComponent);
     const component = fixture.componentInstance;

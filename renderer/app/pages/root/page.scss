@@ -13,10 +13,9 @@
   width: 100%;
 }
 
-// .content,
-// .sidenav {
-//   overflow: hidden;
-// }
+.content {
+  background-color: var(--mat-grey-900);
+}
 
 .header {
   display: block;

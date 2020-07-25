@@ -1,17 +1,24 @@
 import { DestroyService } from '../../services/destroy';
 import { LayoutState } from '../../state/layout';
+import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { Tab } from '../../state/tabs';
 import { TabsState } from '../../state/tabs';
+import { TernimalState } from '../../state/ternimal';
 import { Utils } from '../../services/utils';
 
 import { Actions } from '@ngxs/store';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ResizeObserverEntry } from 'ngx-resize-observer';
 
 import { filter } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
+import { timer } from 'rxjs';
+import { zip } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -27,6 +34,7 @@ export class TabsComponent {
   inTabs: Tab[] = [];
 
   private containerWidth = 0;
+  private dragging = false;
   private moreWidth = 0;
   private tabWidth = 0;
 
@@ -34,10 +42,22 @@ export class TabsComponent {
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
               public layout: LayoutState,
+              private params: Params,
               public selection: SelectionState,
               public tabs: TabsState,
+              public ternimal: TernimalState,
               private utils: Utils) { 
     this.handleActions$();
+  }
+
+  /** Handle a drop event */
+  drop(event: CdkDragDrop<Tab>): void {
+    if (Array.isArray(event.item.data)) {
+      // NOTE: attempt to animate this
+      zip(timer(0, this.params.tabsMoveInterval), from(event.item.data))
+        .pipe(take(event.item.data.length))
+        .subscribe(([ix, tab]) => this.tabs.moveTab({ tab, ix: event.currentIndex + ix }));
+    } else this.tabs.moveTab({ tab: event.item.data, ix: event.currentIndex });
   }
 
   /** Handle resize of tabs */
@@ -53,22 +73,28 @@ export class TabsComponent {
 
   /** Measure the size of the "more" dropdown */
   measureMore(resize: ResizeObserverEntry): void {
-    this.moreWidth = resize.contentRect.width;
-    this.whichTabs();
+    if (this.moreWidth === 0) {
+      this.moreWidth = resize.contentRect.width;
+      this.whichTabs();
+    }
   }
 
   /** Measure the size of an individual tab (they're all the same size) */
   measureTab(resize: ResizeObserverEntry): void {
-    this.tabWidth = resize.contentRect.width;
-    this.whichTabs();
+    if (this.tabWidth === 0) {
+      this.tabWidth = resize.contentRect.width;
+      this.whichTabs();
+    }
   }
 
   /** Remove tab */
   remove(tab: Tab): void {
-    // TODO:
+    const ix = this.tabs.findTabIndexByID(tab.layoutID);
     this.layout.removeLayout({ layoutID: tab.layoutID, visitor: null });
     this.tabs.removeTab({ tab });
-    this.selection.selectLayout({ layoutID: this.tabs.snapshot[0].layoutID });
+    const iy = Math.min(ix, this.tabs.snapshot.length - 1);
+    this.selection.selectLayout({ layoutID: this.tabs.snapshot[iy].layoutID });
+    this.ternimal.hideTabPrefs();
   }
 
   /** Select tab */

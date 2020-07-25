@@ -12,7 +12,8 @@ nav {
   justify-content: flex-start;
   list-style-type: none;
 
-  .closer {
+  .closer,
+  .mover {
     opacity: 0.6;
   }
 
@@ -26,7 +27,8 @@ nav {
     font-size: 1.2rem;
     justify-content: space-between;
     opacity: 0.6;
-    padding: 0 1rem 1rem 1rem;
+    padding: 0.5rem 1rem;
+    width: 14rem;
 
     &.selected {
       opacity: 1;
@@ -36,11 +38,14 @@ nav {
 
   .more {
     // TODO: hack to align with real tabs
-    padding-bottom: 1.5rem;
-    width: 12rem;
+    padding-bottom: 1rem;
 
     &.selected {
       border-bottom: 2px solid var(--accent-color);
+    }
+
+    .closer {
+      margin-right: 0.5rem;
     }
 
     select {
@@ -55,7 +60,6 @@ nav {
   }
 
   .tab {
-    width: 14rem;
 
     &.selected {
       border-bottom: 2px solid var(--primary-color);

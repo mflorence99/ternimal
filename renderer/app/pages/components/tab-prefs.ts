@@ -25,30 +25,30 @@ import { takeUntil } from 'rxjs/operators';
 export class TabPrefsComponent implements OnInit {
 
   colors = [
-    ['var(--mat-grey-100)', 'var(--mat-grey-100)'],
-    ['var(--mat-grey-400)', 'var(--mat-grey-400)'],
-    ['var(--mat-blue-grey-100)', 'var(--mat-blue-grey-100)'],
-    ['var(--mat-brown-200)', 'var(--mat-brown-200)'],
+    'var(--mat-grey-100)',
+    'var(--mat-grey-400)',
+    'var(--mat-blue-grey-100)',
+    'var(--mat-blue-grey-400)',
 
-    ['var(--mat-red-400)', 'var(--mat-red-400)'],
-    ['var(--mat-pink-400)', 'var(--mat-pink-400)'],
-    ['var(--mat-purple-400)', 'var(--mat-purple-400)'],
-    ['var(--mat-deep-purple-400)', 'var(--mat-deep-purple-400)'],
+    'var(--mat-blue-500)',
+    'var(--mat-light-blue-500)',
+    'var(--mat-cyan-500)',
+    'var(--mat-teal-500)',
 
-    ['var(--mat-indigo-400)', 'var(--mat-indigo-400)'],
-    ['var(--mat-blue-400)', 'var(--mat-blue-400)'],
-    ['var(--mat-light-blue-400)', 'var(--mat-light-blue-400)'],
-    ['var(--mat-cyan-400)', 'var(--mat-cyan-400)'],
+    'var(--google-green-500)',
+    'var(--mat-green-500)',
+    'var(--mat-light-green-500)',
+    'var(--mat-lime-500)',
 
-    ['var(--mat-teal-400)', 'var(--mat-teal-400)'],
-    ['var(--mat-green-400)', 'var(--mat-green-400)'],
-    ['var(--mat-light-green-400)', 'var(--mat-light-green-400)'],
-    ['var(--mat-lime-400)', 'var(--mat-lime-400)'],
+    'var(--mat-yellow-500)',
+    'var(--mat-amber-500)',
+    'var(--mat-orange-500)',
+    'var(--mat-deep-orange-500)',
 
-    ['var(--mat-yellow-400)', 'var(--mat-yellow-400)'],
-    ['var(--mat-amber-400)', 'var(--mat-amber-400)'],
-    ['var(--mat-orange-400)', 'var(--mat-orange-400)'],
-    ['var(--mat-deep-orange-400)', 'var(--mat-deep-orange-400)']
+    'var(--mat-red-500)',
+    'var(--mat-pink-400)',
+    'var(--mat-purple-300)',
+    'var(--mat-indigo-300)'
   ];
 
   icons = [
@@ -73,6 +73,8 @@ export class TabPrefsComponent implements OnInit {
     'fab node-js',
     'fab windows'
   ];
+
+  splitIcons = this.icons.map(icon => icon.split(' '));
 
   tabPrefsForm: FormGroup;
 

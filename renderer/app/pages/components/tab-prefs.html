@@ -3,10 +3,11 @@
   <header>
 
     <fa-icon
+      [classes]="['fa-icon-shadow']"
       [fixedWidth]="true"
       [icon]="tabs.tab.icon"
       [ngStyle]="{color: tabs.tab.color}"
-      size="lg">
+      size=lg>
     </fa-icon>
 
     <h3>
@@ -46,10 +47,10 @@
 
         <mat-button-toggle 
           [value]="icon"
-          *ngFor="let icon of icons">
+          *ngFor="let icon of icons; let ix = index">
           <fa-icon
             [fixedWidth]="true"
-            [icon]="icon.split(' ')"
+            [icon]="splitIcons[ix]"
             size="2x">
           </fa-icon>
         </mat-button-toggle>
@@ -66,11 +67,11 @@
         formControlName="color">
 
         <mat-button-toggle 
-          [value]="color[0]"
+          [value]="color"
           *ngFor="let color of colors">
           <fa-icon
             [icon]="['fas', 'square']"
-            [ngStyle]="{color: color[1]}"
+            [ngStyle]="{color: color}"
             size="2x">
           </fa-icon>
         </mat-button-toggle>

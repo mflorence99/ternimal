@@ -1,16 +1,26 @@
 <nav
-
-(onResize)="handleResize($event)">
+  (cdkDropListDropped)="drop($event)"
+  (onResize)="handleResize($event)"
+  cdkDropList
+  cdkDropListOrientation="horizontal">
 
   <li
     (click)="select(tab)"
     (onResize)="measureTab($event)"
+    [cdkDragData]="tab"
     [ngClass]="{selected: tab.layoutID === selection.layoutID, singleton: tabs.snapshot.length === 1}"
     *ngFor="let tab of inTabs"
+    cdkDrag
+    cdkDragLockAxis="x"
     class="tab"
     matRipple>
 
+    <div 
+      *cdkDragPreview>
+    </div>
+
     <fa-icon
+      [classes]="['fa-icon-shadow']"
       [fixedWidth]="true"
       [icon]="tab.icon"
       [ngStyle]="{color: tab.color}"
@@ -35,9 +45,17 @@
 
   <li
     (onResize)="measureMore($event)"
+    [cdkDragData]="inMore"
     [ngClass]="{selected: isInMore(selection.layoutID)}"
     *ngIf="inMore.length > 0"
+    cdkDrag
+    cdkDragLockAxis="x"
     class="more">
+
+    <div 
+      *cdkDragPreview>
+      More tabs...
+    </div>
 
     <select
       (change)="select(inMore[$event.target.selectedIndex - 1])"
@@ -64,6 +82,14 @@
       *ngIf="isInMore(selection.layoutID)"
       class="closer"
       matTooltip="Remove this tab"
+      size="sm">
+    </fa-icon>
+
+    <fa-icon
+      [icon]="['fas', 'arrows-alt']"
+      cdkDragHandle
+      class="mover"
+      matTooltip="Move all these tabs"
       size="sm">
     </fa-icon>
 

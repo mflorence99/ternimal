@@ -16,5 +16,7 @@ export class Params {
   };
 
   systemInfoPollInterval = 1000;
+
+  tabsMoveInterval = 250;
   
 }

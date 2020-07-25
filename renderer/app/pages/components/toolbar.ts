@@ -33,17 +33,17 @@ export class ToolbarComponent {
 
   /** Create a new layout */
   newLayout(): void {
-    // TODO:
     const layoutID = UUID.UUID();
     const tab: Tab = {
-      color: 'var(--google-blue-500)',
-      icon: ['fab', 'docker'],
+      color: 'var(--mat-grey-100)',
+      icon: ['fas', 'laptop'],
       label: `New Tab ${this.ternimal.unique('tab')}`,
       layoutID: layoutID
     };
     this.layout.newLayout({ layoutID });
     this.tabs.newTab({ tab });
     this.selection.selectLayout({ layoutID });
+    this.ternimal.showTabPrefs();
   }
 
   /** Reload app */

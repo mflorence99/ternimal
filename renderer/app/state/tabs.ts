@@ -43,7 +43,7 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
     return [
       {
         color: 'var(--mat-grey-100)',
-        icon: ['fab', 'linux'],
+        icon: ['fas', 'laptop'],
         label: 'My Ternimal',
         layoutID: Params.uuid
       }
@@ -56,7 +56,8 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
   moveTab(@Payload('TabsState.moveTab') { tab, ix }): void {
     const iy = this.findTabIndexByID(tab.layoutID);
     if ((ix !== iy) && (iy !== -1)) {
-      this.ctx.setState(insertItem(tab, ix));
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+      this.ctx.setState(insertItem(tab, (ix > iy) ? ix + 1 : ix));
       this.ctx.setState(removeItem((iy > ix) ? iy + 1 : iy));
     }
   }

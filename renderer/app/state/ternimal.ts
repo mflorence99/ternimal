@@ -39,6 +39,16 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   }
 
   @DataAction({ insideZone: true })
+  hideTabPrefs(): void {
+    this.ctx.setState(patch({ showTabPrefs: false }));
+  }
+
+  @DataAction({ insideZone: true })
+  showTabPrefs(): void {
+    this.ctx.setState(patch({ showTabPrefs: true }));
+  }
+
+  @DataAction({ insideZone: true })
   toggleTabPrefs(): void {
     const showTabPrefs = this.ctx.getState().showTabPrefs;
     this.ctx.setState(patch({ showTabPrefs: !showTabPrefs }));
