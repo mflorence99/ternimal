@@ -38,7 +38,6 @@ export class TabsComponent {
   private moreWidth = 0;
   private tabWidth = 0;
 
-  /** ctor */
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
               public layout: LayoutState,
@@ -50,7 +49,6 @@ export class TabsComponent {
     this.handleActions$();
   }
 
-  /** Handle a drop event */
   drop(event: CdkDragDrop<Tab>): void {
     if (Array.isArray(event.item.data)) {
       // NOTE: attempt to animate this
@@ -60,18 +58,15 @@ export class TabsComponent {
     } else this.tabs.moveTab({ tab: event.item.data, ix: event.currentIndex });
   }
 
-  /** Handle resize of tabs */
   handleResize(resize: ResizeObserverEntry): void {
     this.containerWidth = resize.contentRect.width;
     this.whichTabs();
   }
 
-  /** Is a given tab in the more dropdown? */
   isInMore(layoutID: string): boolean {
     return !!this.inMore.find(tab => layoutID === tab.layoutID);
   }
 
-  /** Measure the size of the "more" dropdown */
   measureMore(resize: ResizeObserverEntry): void {
     if (this.moreWidth === 0) {
       this.moreWidth = resize.contentRect.width;
@@ -79,7 +74,6 @@ export class TabsComponent {
     }
   }
 
-  /** Measure the size of an individual tab (they're all the same size) */
   measureTab(resize: ResizeObserverEntry): void {
     if (this.tabWidth === 0) {
       this.tabWidth = resize.contentRect.width;
@@ -87,7 +81,6 @@ export class TabsComponent {
     }
   }
 
-  /** Remove tab */
   remove(tab: Tab): void {
     const ix = this.tabs.findTabIndexByID(tab.layoutID);
     this.layout.removeLayout({ layoutID: tab.layoutID, visitor: null });
@@ -97,7 +90,6 @@ export class TabsComponent {
     this.ternimal.hideTabPrefs();
   }
 
-  /** Select tab */
   select(tab: Tab): void {
     if (tab && (tab.layoutID !== this.selection.layoutID))
       this.selection.selectLayout({ layoutID: tab.layoutID });

@@ -5,4 +5,13 @@
 
 section {
   height: 100%;
+  overflow: hidden;
+  position: relative;
+
+  figure {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+  }
+
 }

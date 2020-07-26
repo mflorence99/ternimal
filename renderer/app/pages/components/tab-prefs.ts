@@ -78,7 +78,6 @@ export class TabPrefsComponent implements OnInit {
 
   tabPrefsForm: FormGroup;
 
-  /** ctor */
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
               private formBuilder: FormBuilder,
@@ -95,12 +94,10 @@ export class TabPrefsComponent implements OnInit {
     this.handleActions$();
   }
 
-  /** Clear form contents */
   clear(nm: string): void {
     this.tabPrefsForm.patchValue({ [nm]: '' });
   }
 
-  /** When we're ready */
   ngOnInit(): void {
     this.tabPrefsForm.valueChanges
       .pipe(takeUntil(this.destroy$))

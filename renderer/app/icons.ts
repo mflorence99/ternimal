@@ -15,7 +15,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 
 }) export class IconsModule {
 
-  /** ctor */
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fab, far, fas);
   }

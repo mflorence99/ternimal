@@ -13,6 +13,6 @@ import { Input } from '@angular/core';
 
 export class SplittableComponent {
 
-  @Input() layout: Layout;
+  @Input() splittable: Layout;
 
 }

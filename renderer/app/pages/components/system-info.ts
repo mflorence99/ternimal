@@ -22,7 +22,6 @@ export class SystemInfoComponent {
 
   systemInfo: SystemInfo;
 
-  /** ctor */
   constructor(private destroy$: DestroyService,
               public electron: ElectronService,
               private params: Params) { 

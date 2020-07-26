@@ -19,19 +19,16 @@ import { UUID } from 'angular2-uuid';
 
 export class ToolbarComponent {
 
-  /** ctor */
   constructor(public electron: ElectronService,
               public layout: LayoutState,
               public selection: SelectionState,
               public tabs: TabsState,
               public ternimal: TernimalState) { }
 
-  /** Open dev tools */
   devTools(): void {
     this.electron.ipcRenderer.send(Channels.openDevTools);
   }
 
-  /** Create a new layout */
   newLayout(): void {
     const layoutID = UUID.UUID();
     const tab: Tab = {
@@ -46,7 +43,6 @@ export class ToolbarComponent {
     this.ternimal.showTabPrefs();
   }
 
-  /** Reload app */
   reload(): void {
     this.electron.ipcRenderer.send(Channels.reload);
   }

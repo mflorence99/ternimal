@@ -19,10 +19,8 @@ export class EqGaugeComponent {
   @Input() tag: string;
   @Input() value: number;
 
-  /** ctor */
   constructor(public params: Params) { }
 
-  /** Color LED */
   color(ix: number): string {
     const ratio = ix / this.count;
     if (ratio > this.value)
@@ -34,7 +32,6 @@ export class EqGaugeComponent {
     else return this.params.led.green;
   }
 
-  /** Handle resize of gauge */
   handleResize(resize: ResizeObserverEntry): void {
     this.count = Math.trunc((resize.contentRect.width + this.params.led.gap) 
       / (this.params.led.gap + this.params.led.width));

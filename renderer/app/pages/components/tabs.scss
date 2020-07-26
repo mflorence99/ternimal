@@ -20,11 +20,13 @@ nav {
   .more,
   .tab {
     align-items: center;
+    background-color: rgba(var(--rgb-blue-grey-850, 0.1));
     border-bottom: 2px solid transparent;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
     cursor: pointer;
     display: flex;
     flex-shrink: 0;
-    font-size: 1.2rem;
     justify-content: space-between;
     opacity: 0.6;
     padding: 0.5rem 1rem;
@@ -39,6 +41,7 @@ nav {
   .more {
     // TODO: hack to align with real tabs
     padding-bottom: 1rem;
+    padding-top: 1rem;
 
     &.selected {
       border-bottom: 2px solid var(--accent-color);
@@ -49,11 +52,11 @@ nav {
     }
 
     select {
-      background-color: var(--mat-grey-850);
+      background-color: inherit;
       border: 0;
       color: var(--text-color);
       flex-grow: 1;
-      font-size: 1.2rem;
+      font-size: 1rem;
       margin-right: 0.5rem;
     }
 

@@ -1,5 +1,16 @@
 <section
+  (click)="select()"
   [contextMenu]="contextMenu">
+
+  <figure>
+
+    <fa-icon
+      [icon]="tabs.tab.icon"
+      [ngStyle]="{color: tabs.tab.color}"
+      size="4x">
+    </fa-icon>
+
+  </figure>
 
 </section>
 
@@ -7,31 +18,31 @@
 
   <ng-template
     contextMenuItem
-    (execute)="execute($event, 'vertical-')">
+    (execute)="execute('vertical-')">
     <div>Split up</div>
   </ng-template>
 
   <ng-template
     contextMenuItem
-    (execute)="execute($event, 'vertical+')">
+    (execute)="execute('vertical+')">
     <div>Split down</div>
   </ng-template>
 
   <ng-template
     contextMenuItem
-    (execute)="execute($event, 'horizontal-')">
+    (execute)="execute('horizontal-')">
     <div>Split left</div>
   </ng-template>
 
   <ng-template
     contextMenuItem
-    (execute)="execute($event, 'horizontal+')">
+    (execute)="execute('horizontal+')">
     <div>Split right</div>
   </ng-template>
 
   <ng-template
     contextMenuItem
-    (execute)="execute($event, 'close')"
+    (execute)="execute('close')"
     [enabled]="isCloseEnabled.bind(this)">
     <div>Close pane</div>
   </ng-template>

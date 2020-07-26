@@ -13,7 +13,6 @@ import { Component } from '@angular/core';
 
 export class RootPageComponent {
 
-  /** ctor */
   constructor(public layout: LayoutState,
               public ternimal: TernimalState) { }
 

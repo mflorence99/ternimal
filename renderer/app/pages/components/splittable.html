@@ -1,12 +1,12 @@
 <as-split
-  [direction]="layout.direction"
+  [direction]="splittable.direction"
   [useTransition]="true"
   gutterSize="5">
 
   <ng-template
     ngFor
     let-split
-    [ngForOf]="layout.splits"
+    [ngForOf]="splittable.splits"
     let-ix="index">
 
     <as-split-area
@@ -17,15 +17,18 @@
         *ngIf="!split.splits; else splittable">
 
         <ternimal-pane
-          [index]="ix">
+          [index]="ix"
+          [split]="split"
+          [splittable]="splittable">
         </ternimal-pane>
 
       </ng-container>
 
-      <ng-template #splittable>
+      <ng-template 
+        #splittable>
 
         <ternimal-splittable
-          [layout]="split">
+          [splittable]="split">
         </ternimal-splittable>
 
       </ng-template>
