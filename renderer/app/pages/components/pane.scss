@@ -1,4 +1,7 @@
 :host {
+  --pane-cy-header: 1.5rem;
+  --pane-cy-footer: 1.5rem;
+
   display: block;
   height: 100%;
 }
@@ -8,10 +11,51 @@ section {
   overflow: hidden;
   position: relative;
 
-  figure {
+  footer,
+  header {
+    font-size: 0.85rem;
+    opacity: 0.33;
+    padding: 0 0.5rem;
     position: absolute;
-    right: 2rem;
-    top: 2rem;
+    transition: opacity 0.25s ease-in-out;
+    width: 100%;
+
+    &.selected {
+      opacity: 1;
+
+      .tool {
+        opacity: 0.6;
+      }
+
+    }
+
+  }
+
+  footer {
+    bottom: 0;
+    height: var(--pane-cy-footer);
+    justify-content: flex-start !important;
+  }
+
+  header {
+    height: var(--pane-cy-header);
+    justify-content: flex-end !important;
+    top: 0;
+  }
+
+  .tool {
+    cursor: pointer;
+  }
+
+  .tools {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+
+    > * {
+      margin-left: 0.5rem;
+    }
+
   }
 
 }

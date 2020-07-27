@@ -1,4 +1,5 @@
 import { BarrelModule } from '../barrel';
+import { ConfirmDialogComponent } from './confirm-dialog';
 import { EqGaugeComponent } from './eq-gauge';
 import { PipesModule } from '../pipes/module';
 
@@ -9,6 +10,7 @@ import { NgModule } from '@angular/core';
  */
 
 const COMPONENTS = [
+  ConfirmDialogComponent,
   EqGaugeComponent
 ];
 

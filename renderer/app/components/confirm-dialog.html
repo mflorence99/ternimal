@@ -1,0 +1,27 @@
+<h3 
+  mat-dialog-title>
+  {{ title }}
+</h3>
+ 
+<div 
+  mat-dialog-content>
+  {{ message }}
+</div>
+ 
+<div 
+  mat-dialog-actions>
+
+  <button 
+    (click)="dismiss()"
+    mat-button >
+    No
+  </button>
+
+  <button 
+    (click)="confirm()"
+    color="primary"
+    mat-raised-button>
+    Yes
+  </button>
+
+</div>

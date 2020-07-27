@@ -7,8 +7,11 @@ import { TernimalState } from '../../state/ternimal';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ContextMenuComponent } from 'ngx-contextmenu';
+import { ContextMenuService } from 'ngx-contextmenu';
 import { ElectronService } from 'ngx-electron';
 import { UUID } from 'angular2-uuid';
+import { ViewChild } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -19,7 +22,10 @@ import { UUID } from 'angular2-uuid';
 
 export class ToolbarComponent {
 
-  constructor(public electron: ElectronService,
+  @ViewChild(ContextMenuComponent, { static: true }) contextMenu: ContextMenuComponent;
+
+  constructor(private contextMenuService: ContextMenuService,
+              public electron: ElectronService,
               public layout: LayoutState,
               public selection: SelectionState,
               public tabs: TabsState,
@@ -45,6 +51,17 @@ export class ToolbarComponent {
 
   reload(): void {
     this.electron.ipcRenderer.send(Channels.reload);
+  }
+
+  showContextMenu(event: MouseEvent): void {
+    // @see https://www.npmjs.com/package/ngx-contextmenu
+    this.contextMenuService.show.next({ 
+      contextMenu: this.contextMenu, 
+      event: event, 
+      item: null 
+    });
+    event.preventDefault();
+    event.stopPropagation();
   }
 
 }

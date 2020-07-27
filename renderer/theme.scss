@@ -95,6 +95,10 @@ html {
   text-transform: uppercase;
 }
 
+.mat-dialog-actions {
+  justify-content: flex-end;
+}
+
 .mat-expansion-panel {
   background-color: var(--mat-grey-850);
 }
@@ -115,7 +119,6 @@ html {
 
 .ngx-contextmenu.dropdown {
   background-color: var(--mat-grey-800);
-  border: 1px solid var(--mat-grey-200);
   min-width: 10rem;
 
   ul {
@@ -126,8 +129,7 @@ html {
     li {
 
       &.divider {
-        border-bottom: 1px solid var(--mat-grey-200);
-        margin: 6px 0;
+        margin: 0.5rem 0;
       }
 
       &.disabled {
@@ -153,7 +155,7 @@ html {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 0.5rem 1rem;
+        padding: 0.25rem 1rem;
         text-decoration: none;
 
         &:hover {

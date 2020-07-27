@@ -14,13 +14,19 @@
 }
 
 .content {
-  background-color: var(--mat-grey-900);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .header {
   display: block;
   height: var(--ternimal-cy-header);
   width: 100%;
+}
+
+.sidenav {
+  background-color: var(--mat-grey-800);
+  color: var(--text-color);
 }
 
 .splittable {

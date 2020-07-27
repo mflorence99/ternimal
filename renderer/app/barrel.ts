@@ -9,8 +9,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -29,8 +29,8 @@ const MODULES = [
   IconsModule,
   MatButtonModule,
   MatButtonToggleModule,
+  MatDialogModule,
   MatInputModule,
-  MatMenuModule,
   MatRippleModule,
   MatSidenavModule,
   MatTooltipModule, 

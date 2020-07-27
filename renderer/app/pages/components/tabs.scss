@@ -77,10 +77,14 @@ nav {
     }
 
     .icon {
+      align-items: center;
       background-color: var(--mat-grey-700);
       border-radius: 50%;
+      display: flex;
       flex-shrink: 0;
-      padding: 0.5rem;
+      height: 2.25rem;
+      justify-content: center;
+      width: 2.25rem;
     }
 
     .label {

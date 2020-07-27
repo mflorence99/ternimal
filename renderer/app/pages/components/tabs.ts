@@ -1,3 +1,5 @@
+import { ConfirmDialogComponent } from '../../components/confirm-dialog';
+import { ConfirmDialogModel } from '../../components/confirm-dialog';
 import { DestroyService } from '../../services/destroy';
 import { LayoutState } from '../../state/layout';
 import { Params } from '../../services/params';
@@ -11,6 +13,7 @@ import { Actions } from '@ngxs/store';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ResizeObserverEntry } from 'ngx-resize-observer';
 
 import { filter } from 'rxjs/operators';
@@ -40,6 +43,7 @@ export class TabsComponent {
 
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
+              private dialog: MatDialog,
               public layout: LayoutState,
               private params: Params,
               public selection: SelectionState,
@@ -47,6 +51,15 @@ export class TabsComponent {
               public ternimal: TernimalState,
               private utils: Utils) { 
     this.handleActions$();
+  }
+
+  confirmRemove(tab: Tab): void {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: new ConfirmDialogModel(this.params.conFirmTabRemoval.title, this.params.conFirmTabRemoval.message)
+    }).afterClosed().subscribe(result => {
+      if (result)
+        this.remove(tab);
+    });
   }
 
   drop(event: CdkDragDrop<Tab>): void {

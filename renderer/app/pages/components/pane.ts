@@ -16,7 +16,7 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['pane.scss']
 })
 
-export class PaneComponent {
+export class PaneComponent  {
 
   @ViewChild(ContextMenuComponent, { static: true }) contextMenu: ContextMenuComponent;
 
@@ -28,32 +28,36 @@ export class PaneComponent {
               public tabs: TabsState,
               public selection: SelectionState) { }
 
-  // TODO:
-  execute(command): void {
-    switch (command) {
-      case 'close':
-        break;
-      case 'horizontal-':
-        this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'horizontal', before: true });
-        break;
-      case 'horizontal+':
-        this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'horizontal', before: false });
-        break;
-      case 'vertical-':
-        this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'vertical', before: true });
-        break;
-      case 'vertical+':
-        this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'vertical', before: false });
-        break;
-    }
+  closePane(): void {
+    this.layout.closeSplit({ splitID: this.splittable.id, ix: this.index, visitor: null });
   }
 
   isCloseEnabled(): boolean {
     return this.splittable.splits?.length > 1;
   }
 
+  isSelected(): boolean {
+    return this.split.id === this.selection.splitID;
+  }
+
   select(): void {
     this.selection.selectSplit({ splitID: this.split.id });
+  }
+
+  splitDown(): void {
+    this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'vertical', before: false });
+  }
+
+  splitLeft(): void {
+    this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'horizontal', before: true });
+  }
+
+  splitRight(): void {
+    this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'horizontal', before: false });
+  }
+
+  splitUp(): void {
+    this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'vertical', before: true });
   }
 
 }

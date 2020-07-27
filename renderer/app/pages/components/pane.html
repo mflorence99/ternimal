@@ -2,47 +2,89 @@
   (click)="select()"
   [contextMenu]="contextMenu">
 
-  <figure>
+  <header
+    [ngClass]="{selected: isSelected()}"
+    class="tools">
+
+    <div 
+      [ngStyle]="{visibility: isSelected()? 'visible' : 'hidden'}"
+      class="tools">
+
+      <fa-icon
+        (click)="splitRight()"
+        [icon]="['fas', 'grip-vertical']"
+        class="tool"
+        matTooltip="Split right">
+      </fa-icon>
+
+      <fa-icon
+        (click)="splitDown()"
+        [icon]="['fas', 'grip-horizontal']"
+        class="tool"
+        matTooltip="Split down">
+      </fa-icon>
+
+    </div>
+
+    <fa-icon
+      (click)="closePane()"
+      [icon]="['fas', 'times']"
+      *ngIf="isCloseEnabled()"
+      class="tool"
+      matTooltip="Close this pane">
+    </fa-icon>
+
+  </header>
+
+  <footer
+    [ngClass]="{selected: isSelected()}"
+    class="tools">
 
     <fa-icon
       [icon]="tabs.tab.icon"
-      [ngStyle]="{color: tabs.tab.color}"
-      size="4x">
+      [ngStyle]="{color: tabs.tab.color}">
     </fa-icon>
 
-  </figure>
+  </footer>
 
 </section>
+
+<!-- TODO: temporary -->
 
 <context-menu>
 
   <ng-template
     contextMenuItem
-    (execute)="execute('vertical-')">
+    (execute)="splitUp()">
     <div>Split up</div>
   </ng-template>
 
   <ng-template
     contextMenuItem
-    (execute)="execute('vertical+')">
+    (execute)="splitDown()">
     <div>Split down</div>
   </ng-template>
 
   <ng-template
     contextMenuItem
-    (execute)="execute('horizontal-')">
+    (execute)="splitLeft()">
     <div>Split left</div>
   </ng-template>
 
   <ng-template
     contextMenuItem
-    (execute)="execute('horizontal+')">
+    (execute)="splitRight()">
     <div>Split right</div>
   </ng-template>
 
   <ng-template
     contextMenuItem
-    (execute)="execute('close')"
+    divider="true">
+  </ng-template>
+
+  <ng-template
+    contextMenuItem
+    (execute)="closePane()"
     [enabled]="isCloseEnabled.bind(this)">
     <div>Close pane</div>
   </ng-template>

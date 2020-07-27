@@ -7,6 +7,23 @@ import * as electron from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
+// const psList = require('ps-list');
+// const pidUsage = require('pidusage');
+
+// console.time('psList');
+// console.time('pidUsage');
+// psList().then(results => {
+//   const stats = results
+//     .filter(result => result.cpu > 0)
+//     .map(result => ({ pid: result.pid, uid: result.uid, cpu: result.cpu, memory: result.memory, name: result.name }));
+//   pidUsage(stats.map(stat => stat.pid), (err, stats) => {
+//     console.timeEnd('pidUsage');
+//     console.table(stats);
+//   });
+//   console.timeEnd('psList');
+//   console.table(stats);
+// });
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const  { app, BrowserWindow } = electron;
 

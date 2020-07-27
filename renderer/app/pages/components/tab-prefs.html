@@ -2,13 +2,18 @@
 
   <header>
 
-    <fa-icon
-      [classes]="['fa-icon-shadow']"
-      [fixedWidth]="true"
-      [icon]="tabs.tab.icon"
-      [ngStyle]="{color: tabs.tab.color}"
-      size=lg>
-    </fa-icon>
+    <div 
+      class="icon">
+
+      <fa-icon
+        [classes]="['fa-icon-shadow']"
+        [fixedWidth]="true"
+        [icon]="tabs.tab.icon"
+        [ngStyle]="{color: tabs.tab.color}"
+        size=lg>
+      </fa-icon>
+
+    </div>
 
     <h3>
       {{ tabs.tab.label }} Setup

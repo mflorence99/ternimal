@@ -7,6 +7,11 @@ export class Params {
 
   static uuid: string = UUID.UUID();
 
+  conFirmTabRemoval = {
+    message: 'Are you sure you want to proceed? This operation cannot be undone and all sessions will be terminated.',
+    title: 'Confirm Tab Removal'
+  };
+
   led = {
     gap: 3,
     green: 'var(--google-green-500)',

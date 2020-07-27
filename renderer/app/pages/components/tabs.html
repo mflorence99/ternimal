@@ -19,13 +19,17 @@
       *cdkDragPreview>
     </div>
 
-    <fa-icon
-      [classes]="['fa-icon-shadow']"
-      [fixedWidth]="true"
-      [icon]="tab.icon"
-      [ngStyle]="{color: tab.color}"
+    <div 
       class="icon">
-    </fa-icon>
+
+      <fa-icon
+        [classes]="['fa-icon-shadow']"
+        [fixedWidth]="true"
+        [icon]="tab.icon"
+        [ngStyle]="{color: tab.color}">
+      </fa-icon>
+
+    </div>
 
     <div
       class="label">
@@ -33,7 +37,7 @@
     </div>
 
     <fa-icon
-      (click)="remove(tab)"
+      (click)="confirmRemove(tab)"
       [icon]="['fas', 'times']"
       *ngIf="tabs.snapshot.length > 1"
       class="closer"
@@ -77,7 +81,7 @@
     </select>
 
     <fa-icon
-      (click)="remove(tabs.tab)"
+      (click)="confirmRemove(tabs.tab)"
       [icon]="['fas', 'times']"
       *ngIf="isInMore(selection.layoutID)"
       class="closer"

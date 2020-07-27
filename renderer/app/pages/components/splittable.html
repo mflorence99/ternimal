@@ -14,22 +14,22 @@
       [size]="split.size">
 
       <ng-container
-        *ngIf="!split.splits; else splittable">
+        *ngIf="split.splits; else notSplittable">
+
+        <ternimal-splittable
+          [splittable]="split">
+        </ternimal-splittable>
+
+      </ng-container>
+
+      <ng-template 
+        #notSplittable>
 
         <ternimal-pane
           [index]="ix"
           [split]="split"
           [splittable]="splittable">
         </ternimal-pane>
-
-      </ng-container>
-
-      <ng-template 
-        #splittable>
-
-        <ternimal-splittable
-          [splittable]="split">
-        </ternimal-splittable>
 
       </ng-template>
 

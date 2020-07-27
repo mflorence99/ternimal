@@ -36,10 +36,14 @@ section {
     height: var(--ternimal-cy-header);
     padding: 1rem;
 
-    fa-icon {
+    .icon {
+      align-items: center;
       background-color: var(--mat-grey-700);
       border-radius: 50%;
-      padding: 0.75rem;
+      display: flex;
+      height: 3rem;
+      justify-content: center;
+      width: 3rem;
     }
   }
 

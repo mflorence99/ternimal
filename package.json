@@ -51,6 +51,8 @@
     "ngx-resize-observer": "^1.0.2",
     "node-pty": "^0.9.0",
     "os-utils": "0.0.14",
+    "pidusage": "^2.0.21",
+    "ps-list": "^7.2.0",
     "rfdc": "^1.1.4",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.0",

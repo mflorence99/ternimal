@@ -21,36 +21,32 @@
   </button>
 
   <button
-    [matMenuTriggerFor]="actions"
+    (click)="showContextMenu($event)"
+    [contextMenu]="contextMenu"
     mat-icon-button
     matTooltip="More actions...">
     <fa-icon
-      [icon]="['fas', 'ellipsis-v']"
+      [icon]="['fas', 'ellipsis-h']"
       size="lg">
     </fa-icon>
   </button>
 
 </menu>
 
-<mat-menu 
-  #actions="matMenu">
+<!-- More actions menu -->
 
-  <button
-    (click)="devTools()"
-    mat-menu-item>
-    <fa-icon
-      [icon]="['fas', 'bug']">
-    </fa-icon>
-    <span>&nbsp;Open dev tools</span>
-  </button>
+<context-menu>
 
-  <button
-    (click)="reload()"
-    mat-menu-item>
-    <fa-icon
-      [icon]="['fas', 'sync']">
-    </fa-icon>
-    <span>&nbsp;Reload TERИIMAL</span>
-  </button>
+  <ng-template
+    contextMenuItem
+    (execute)="devTools()">
+    <div>Open dev tools</div>
+  </ng-template>
 
-</mat-menu>
+  <ng-template
+    contextMenuItem
+    (execute)="reload()">
+    <div>Reload TERИIMAL</div>
+  </ng-template>
+
+</context-menu>
