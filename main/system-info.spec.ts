@@ -7,12 +7,12 @@ import * as electron from 'electron';
 
 describe('system-info', () => {
 
-  const event = {
-    returnValue: null
-  };
+  let event;
 
   beforeEach(() => {
-    event.returnValue = null;
+    event = {
+      returnValue: null
+    };
   });
 
   test('systemInfo', () => {

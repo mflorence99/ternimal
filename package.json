@@ -33,6 +33,7 @@
     "@types/jest": "^26.0.4",
     "@types/node": "^12",
     "@types/os-utils": "0.0.0",
+    "@types/pidusage": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^3.6.1",
     "@typescript-eslint/parser": "^3.6.1",
     "angular-split": "^3.0.3",

@@ -7,8 +7,9 @@ export enum Channels {
   localStorageSetItem = 'local-storage.setItem',
 
   openDevTools = 'toolbar.openDevTools',
+  processListRequest = 'ternimal.processListRequest',
+  processListResponse = 'ternimal.processListResponse',
   reload = 'toolbar.reload',
-
-  systemInfo = 'info.systemInfo'
+  systemInfo = 'ternimal.systemInfo'
 
 }
