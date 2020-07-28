@@ -29,7 +29,7 @@ export class PaneComponent  {
               public selection: SelectionState) { }
 
   closePane(): void {
-    this.layout.closeSplit({ splitID: this.splittable.id, ix: this.index, visitor: null });
+    this.layout.closeSplit({ splitID: this.splittable.id, ix: this.index });
   }
 
   isCloseEnabled(): boolean {

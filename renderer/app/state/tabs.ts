@@ -16,6 +16,11 @@ import { insertItem } from '@ngxs/store/operators';
 import { removeItem } from '@ngxs/store/operators';
 import { updateItem } from '@ngxs/store/operators';
 
+interface DataActionParams {
+  ix?: number;
+  tab: Tab
+}
+
 export interface Tab {
   color?: string;
   icon?: string[];
@@ -53,29 +58,28 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  moveTab(@Payload('TabsState.moveTab') { tab, ix }): void {
+  moveTab(@Payload('TabsState.moveTab') { tab, ix }: DataActionParams): void {
     const iy = this.findTabIndexByID(tab.layoutID);
     if ((ix !== iy) && (iy !== -1)) {
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       this.ctx.setState(insertItem(tab, (ix > iy) ? ix + 1 : ix));
       this.ctx.setState(removeItem((iy > ix) ? iy + 1 : iy));
     }
   }
 
   @DataAction({ insideZone: true })
-  newTab(@Payload('TabsState.newTab') { tab }): void {
+  newTab(@Payload('TabsState.newTab') { tab }: DataActionParams): void {
     this.ctx.setState(append([tab]));
   }
 
   @DataAction({ insideZone: true })
-  removeTab(@Payload('TabsState.removeTab') { tab }): void {
+  removeTab(@Payload('TabsState.removeTab') { tab }: DataActionParams): void {
     const ix = this.findTabIndexByID(tab.layoutID);
     if (ix !== -1)
       this.ctx.setState(removeItem(ix));
   }
 
   @DataAction({ insideZone: true })
-  updateTab(@Payload('TabsState.updateTab') { tab }): void {
+  updateTab(@Payload('TabsState.updateTab') { tab }: DataActionParams): void {
     const ix = this.findTabIndexByID(tab.layoutID);
     if (ix !== -1)
       this.ctx.setState(updateItem(ix, tab));

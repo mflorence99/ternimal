@@ -11,6 +11,11 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 
 import { patch } from '@ngxs/store/operators';
 
+interface DataActionParams {
+  context?: string;
+  enabled?: boolean;
+}
+
 export interface TernimalStateModel {
   enabled: boolean;
   showTabPrefs: boolean;
@@ -34,7 +39,7 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  enable(@Payload('enable') { enabled }): void {
+  enable(@Payload('enable') { enabled }: DataActionParams): void {
     this.ctx.setState(patch({ enabled }));
   }
 
@@ -55,7 +60,7 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  updateUnique(@Payload('updateUnique') { context }): void {
+  updateUnique(@Payload('updateUnique') { context }: DataActionParams): void {
     const unique = this.ctx.getState().unique[context] || 0;
     this.ctx.setState(patch({ unique: patch({ [context]: unique + 1 }) }));
   }

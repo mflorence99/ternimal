@@ -12,6 +12,11 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 
 import { patch } from '@ngxs/store/operators';
 
+interface DataActionParams {
+  layoutID?: string;
+  splitID?: string;
+}
+
 export interface SelectionStateModel {
   layoutID: string;
   splitIDByLayoutID: Record<string, string>;
@@ -37,12 +42,12 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  selectLayout(@Payload('SelectionState.selectLayout') { layoutID }): void {
+  selectLayout(@Payload('SelectionState.selectLayout') { layoutID }: DataActionParams): void {
     this.ctx.setState(patch({ layoutID }));
   }
 
   @DataAction({ insideZone: true })
-  selectSplit(@Payload('SelectionState.selectLayout') { splitID }): void {
+  selectSplit(@Payload('SelectionState.selectLayout') { splitID }: DataActionParams): void {
     this.ctx.setState(patch({ splitIDByLayoutID: patch({ [this.layoutID]: splitID }) }));
   }
 

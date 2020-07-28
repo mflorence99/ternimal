@@ -96,7 +96,7 @@ export class TabsComponent {
 
   remove(tab: Tab): void {
     const ix = this.tabs.findTabIndexByID(tab.layoutID);
-    this.layout.removeLayout({ layoutID: tab.layoutID, visitor: null });
+    this.layout.removeLayout({ layoutID: tab.layoutID });
     this.tabs.removeTab({ tab });
     const iy = Math.min(ix, this.tabs.snapshot.length - 1);
     this.selection.selectLayout({ layoutID: this.tabs.snapshot[iy].layoutID });

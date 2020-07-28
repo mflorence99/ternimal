@@ -17,6 +17,16 @@ import { UUID } from 'angular2-uuid';
 
 import { patch } from '@ngxs/store/operators';
 
+interface DataActionParams {
+  before?: boolean;
+  direction?: SplitDir;
+  ix?: number;
+  layoutID?: string;
+  sizes?: any[];
+  splitID?: string;
+  visitor?: SplitVisitorFn;
+}
+
 export interface Layout {
   direction?: SplitDir;
   id: string;
@@ -64,7 +74,7 @@ export type SplitVisitorFn = (split: Layout) => void;
   // actions
 
   @DataAction({ insideZone: true })
-  closeSplit(@Payload('LayoutState.closeSplit') { splitID, ix, visitor }): void {
+  closeSplit(@Payload('LayoutState.closeSplit') { splitID, ix, visitor }: DataActionParams): void {
     const model = this.utils.deepCopy(this.ctx.getState());
     const split = this.findSplitByID(splitID, model);
     if (split) {
@@ -88,14 +98,13 @@ export type SplitVisitorFn = (split: Layout) => void;
   }
 
   @DataAction({ insideZone: true })
-  makeSplit(@Payload('LayoutState.makeSplit') { splitID, ix, direction, before }): void {
+  makeSplit(@Payload('LayoutState.makeSplit') { splitID, ix, direction, before }: DataActionParams): void {
     const model = this.utils.deepCopy(this.ctx.getState());
     const split = this.findSplitByID(splitID, model);
     if (split) {
       // making a split on the same axis is easy
       // we set everyone to the same size, distributed evenly
       if (split.direction === direction) {
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         const iy = ix + (before ? 0 : 1);
         split.splits.splice(iy, 0, { id: UUID.UUID(), size: 0 });
         const size = 100 / split.splits.length;
@@ -117,12 +126,12 @@ export type SplitVisitorFn = (split: Layout) => void;
   }
 
   @DataAction({ insideZone: true })
-  newLayout(@Payload('LayoutState.newLayout') { layoutID }): void {
+  newLayout(@Payload('LayoutState.newLayout') { layoutID }: DataActionParams): void {
     this.ctx.setState(patch({ [layoutID]: LayoutState.defaultLayout() }));
   }
 
   @DataAction({ insideZone: true })
-  removeLayout(@Payload('LayoutState.removeLayout') { layoutID, visitor }): void {
+  removeLayout(@Payload('LayoutState.removeLayout') { layoutID, visitor }: DataActionParams): void {
     const layout = this.snapshot[layoutID];
     if (layout) {
       // visit every layout we're deleting
@@ -132,7 +141,7 @@ export type SplitVisitorFn = (split: Layout) => void;
   }
 
   @DataAction({ insideZone: true })
-  updateSplit(@Payload('LayoutState.updateSplit') { splitID, sizes }): void {
+  updateSplit(@Payload('LayoutState.updateSplit') { splitID, sizes }: DataActionParams): void {
     const model = this.utils.deepCopy(this.ctx.getState());
     const split = this.findSplitByID(splitID, model);
     if (split) {
