@@ -3,6 +3,7 @@ import { ProcessDescriptor } from './common/process-list';
 import { ProcessList } from './common/process-list';
 
 import * as electron from 'electron';
+import * as osutils from 'os-utils';
 
 const pidUsage = require('pidusage');
 const psList = require('ps-list');
@@ -25,7 +26,7 @@ ipcMain.on(Channels.processListRequest, async(event: any) => {
         cpu: item.cpu || stat.cpu,
         ctime: stat.ctime,
         elapsed: stat.elapsed,
-        memory: stat.memory,
+        memory: item.memory || (stat.memory / osutils.totalmem()),
         name: item.name,
         pid: item.pid,
         ppid: item.ppid,

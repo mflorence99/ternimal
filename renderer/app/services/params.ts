@@ -20,6 +20,11 @@ export class Params {
     yellow: 'var(--google-yellow-500)',
   };
 
+  processList = {
+    maxTimeline: 5 * 60 * 1000,
+    pollInterval: 5000
+  };
+
   systemInfoPollInterval = 1000;
 
   tabsMoveInterval = 250;
