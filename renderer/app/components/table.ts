@@ -1,5 +1,7 @@
+import { ColumnSort } from '../state/sort';
 import { DestroyService } from '../services/destroy';
 import { Params } from '../services/params';
+import { SortState } from '../state/sort';
 
 import { Actions } from '@ngxs/store';
 import { AfterContentInit } from '@angular/core';
@@ -8,15 +10,10 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
+import { Input } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 import { takeUntil } from 'rxjs/operators';
-
-export interface ColumnSort {
-  sortDir: number;
-  sortedColumn?: number;
-  sortedID?: string;
-}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -35,6 +32,8 @@ export class TableComponent implements AfterContentInit {
   selectedRows$ = new BehaviorSubject<string[]>([]);
   sortedColumn$ = new BehaviorSubject<ColumnSort>({ sortDir: 0 });
 
+  @Input() splitID: string;
+
   // NOTE: hidden until view rendered
   visibility = 'hidden';
 
@@ -48,7 +47,8 @@ export class TableComponent implements AfterContentInit {
 
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
-              private params: Params) { 
+              private params: Params,
+              public sort: SortState) { 
     this.handleActions$();            
   }
 
@@ -105,6 +105,7 @@ export class TableComponent implements AfterContentInit {
           sortedID: newColumn.getAttribute('id')
         };
         this.sortedColumn$.next(columnSort);
+        this.sort.updateSort({ splitID: this.splitID, columnSort });
       }
     }
   }

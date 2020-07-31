@@ -37,7 +37,7 @@
     </div>
 
     <fa-icon
-      (click)="confirmRemove(tab)"
+      (click)="confirmRemove($event, tab)"
       [icon]="['fas', 'times']"
       *ngIf="tabs.snapshot.length > 1"
       class="closer"
@@ -81,7 +81,7 @@
     </select>
 
     <fa-icon
-      (click)="confirmRemove(tabs.tab)"
+      (click)="confirmRemove($event, tabs.tab)"
       [icon]="['fas', 'times']"
       *ngIf="isInMore(selection.layoutID)"
       class="closer"

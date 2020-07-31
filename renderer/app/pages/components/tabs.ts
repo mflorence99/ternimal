@@ -4,6 +4,7 @@ import { DestroyService } from '../../services/destroy';
 import { LayoutState } from '../../state/layout';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
+import { SortState } from '../../state/sort';
 import { Tab } from '../../state/tabs';
 import { TabsState } from '../../state/tabs';
 import { TernimalState } from '../../state/ternimal';
@@ -47,19 +48,23 @@ export class TabsComponent {
               public layout: LayoutState,
               private params: Params,
               public selection: SelectionState,
+              public sort: SortState,
               public tabs: TabsState,
               public ternimal: TernimalState,
               private utils: Utils) { 
     this.handleActions$();
   }
 
-  confirmRemove(tab: Tab): void {
+  confirmRemove(event: MouseEvent, tab: Tab): void {
     this.dialog.open(ConfirmDialogComponent, {
       data: new ConfirmDialogModel(this.params.conFirmTabRemoval.title, this.params.conFirmTabRemoval.message)
     }).afterClosed().subscribe(result => {
       if (result)
         this.remove(tab);
     });
+    // NOTE: don't select this tab
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   drop(event: CdkDragDrop<Tab>): void {
@@ -96,11 +101,18 @@ export class TabsComponent {
 
   remove(tab: Tab): void {
     const ix = this.tabs.findTabIndexByID(tab.layoutID);
-    this.layout.removeLayout({ layoutID: tab.layoutID });
     this.tabs.removeTab({ tab });
-    const iy = Math.min(ix, this.tabs.snapshot.length - 1);
-    this.selection.selectLayout({ layoutID: this.tabs.snapshot[iy].layoutID });
-    this.ternimal.hideTabPrefs();
+    this.layout.removeLayout({ 
+      layoutID: tab.layoutID,
+      // TODO
+      visitor: split => this.sort.removeSort({ splitID: split.id })
+    });
+    // if the tab we're removing is currently selected, select another
+    if (tab.layoutID === this.selection.layoutID) {
+      const iy = Math.min(ix, this.tabs.snapshot.length - 1);
+      this.selection.selectLayout({ layoutID: this.tabs.snapshot[iy].layoutID });
+      this.ternimal.hideTabPrefs();
+    }
   }
 
   select(tab: Tab): void {

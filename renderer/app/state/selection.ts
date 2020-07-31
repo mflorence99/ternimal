@@ -47,7 +47,7 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  selectSplit(@Payload('SelectionState.selectLayout') { splitID }: DataActionParams): void {
+  selectSplit(@Payload('SelectionState.selectSplit') { splitID }: DataActionParams): void {
     this.ctx.setState(patch({ splitIDByLayoutID: patch({ [this.layoutID]: splitID }) }));
   }
 

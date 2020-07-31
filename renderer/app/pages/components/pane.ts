@@ -1,6 +1,7 @@
 import { Layout } from '../../state/layout';
 import { LayoutState } from '../../state/layout';
 import { SelectionState } from '../../state/selection';
+import { SortState } from '../../state/sort';
 import { TabsState } from '../../state/tabs';
 
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -26,10 +27,19 @@ export class PaneComponent  {
 
   constructor(public layout: LayoutState,
               public tabs: TabsState,
-              public selection: SelectionState) { }
+              public selection: SelectionState,
+              public sort: SortState) { }
 
   closePane(): void {
-    this.layout.closeSplit({ splitID: this.splittable.id, ix: this.index });
+    this.layout.closeSplit({ 
+      splitID: this.splittable.id, 
+      ix: this.index,
+      // TODO
+      visitor: split => this.sort.removeSort({ splitID: split.id })
+    });
+    // if the split we're removing is currently selected, try to select another
+    if (this.isSelected()) 
+      this.selection.selectSplit({ splitID: this.splittable.splits[0].id });
   }
 
   isCloseEnabled(): boolean {

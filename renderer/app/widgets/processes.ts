@@ -1,4 +1,4 @@
-import { ColumnSort } from '../components/table';
+import { ColumnSort } from '../state/sort';
 import { DestroyService } from '../services/destroy';
 import { ProcessesState } from '../state/processes';
 import { ProcessStats } from '../state/processes';
@@ -9,7 +9,6 @@ import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
-import { OnDestroy } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 import { delay } from 'rxjs/operators';
@@ -24,7 +23,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['processes.scss']
 })
 
-export class ProcessesComponent implements AfterViewInit, OnDestroy {
+export class ProcessesComponent implements AfterViewInit {
 
   stats: ProcessStats[] = [];
 
@@ -51,10 +50,6 @@ export class ProcessesComponent implements AfterViewInit, OnDestroy {
         this.columnSort = columnSort;
         this.stats = this.sortStats(this.processes.snapshot);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.processes.stopPolling();
   }
 
   trackByPID(_, process): string {

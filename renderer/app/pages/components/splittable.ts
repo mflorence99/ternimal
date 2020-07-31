@@ -33,4 +33,8 @@ export class SplittableComponent implements AfterViewInit {
       });
   }
 
+  trackBySplitID(_, split: Layout): string {
+    return split.id;
+  }
+
 }

@@ -72,18 +72,18 @@ export class SparklineComponent implements AfterViewInit {
         labels: [],
         datasets: [
           {
-            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.green, 0.1),
-            borderColor: this.utils.colorOf(this.host, this.params.rgb.green, 0.5),
+            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.green, 0.25),
+            borderColor: this.utils.colorOf(this.host, this.params.rgb.green, 1),
             data: []
           },
           {
-            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.yellow, 0.1),
-            borderColor: this.utils.colorOf(this.host, this.params.rgb.yellow, 0.5),
+            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.yellow, 0.25),
+            borderColor: this.utils.colorOf(this.host, this.params.rgb.yellow, 1),
             data: []
           },
           {
-            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.red, 0.1),
-            borderColor: this.utils.colorOf(this.host, this.params.rgb.red, 0.5),
+            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.red, 0.25),
+            borderColor: this.utils.colorOf(this.host, this.params.rgb.red, 1),
             data: []
           }
         ]
@@ -108,7 +108,7 @@ export class SparklineComponent implements AfterViewInit {
           yAxes: [
             {
               display: false,
-              ticks: { min: 0 }
+              ticks: { suggestedMin: 0, suggestedMax: 100 }
             }
           ],
           xAxes: [

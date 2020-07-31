@@ -3,11 +3,8 @@
   [useTransition]="false"
   gutterSize="5">
 
-  <ng-template
-    ngFor
-    let-split
-    [ngForOf]="splittable.splits"
-    let-ix="index">
+  <ng-container
+    *ngFor="let split of splittable.splits; let ix = index; trackBy: trackBySplitID">
 
     <as-split-area
       [order]="ix"
@@ -35,6 +32,6 @@
 
     </as-split-area>
 
-  </ng-template>
+  </ng-container>
 
 </as-split>

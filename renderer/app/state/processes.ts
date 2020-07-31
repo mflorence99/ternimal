@@ -13,7 +13,6 @@ import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
-import { takeWhile } from 'rxjs/operators';
 import { timer } from 'rxjs';
 
 interface DataActionParams {
@@ -52,7 +51,7 @@ export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> impl
 
   private accrueCPU;
   private accrueMemory;
-  private numPollers = 0;
+  private polling = false;
 
   constructor(public electron: ElectronService,
               private params: Params,
@@ -84,13 +83,10 @@ export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> impl
   }
 
   startPolling(): void {
-    this.numPollers += 1;
-    if (this.numPollers === 1)
+    if (!this.polling) {
       this.pollProcessList$();
-  }
-
-  stopPolling(): void {
-    this.numPollers -= 1;
+      this.polling = true;
+    }
   }
 
   // private methods
@@ -129,9 +125,6 @@ export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> impl
 
   private pollProcessList$(): void {
     timer(0, this.params.processList.pollInterval)
-      .pipe(
-        takeWhile(() => this.numPollers > 0)
-      )
       .subscribe(() => {
         this.electron.ipcRenderer.send(Channels.processListRequest);
       });

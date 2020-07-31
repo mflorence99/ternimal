@@ -60,6 +60,7 @@ export class ToolbarComponent {
       event: event, 
       item: null 
     });
+    // NOTE: eat mouse click
     event.preventDefault();
     event.stopPropagation();
   }
