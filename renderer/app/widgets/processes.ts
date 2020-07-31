@@ -9,8 +9,10 @@ import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
+import { delay } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
@@ -22,7 +24,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['processes.scss']
 })
 
-export class ProcessesComponent implements AfterViewInit {
+export class ProcessesComponent implements AfterViewInit, OnDestroy {
 
   stats: ProcessStats[] = [];
 
@@ -38,12 +40,21 @@ export class ProcessesComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.processes.startPolling();
     this.table.sortedColumn$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        // @see https://blog.angular-university.io/angular-debugging/
+        delay(0),
+        takeUntil(this.destroy$)
+      )
       .subscribe(columnSort => {
         this.columnSort = columnSort;
         this.stats = this.sortStats(this.processes.snapshot);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.processes.stopPolling();
   }
 
   trackByPID(_, process): string {
@@ -74,8 +85,6 @@ export class ProcessesComponent implements AfterViewInit {
         let order = 0;
         if (['name', 'uid'].includes(nm))
           order = p[nm].toLowerCase().localeCompare(q[nm].toLowerCase());
-        else if (['cpu', 'memory'].includes(nm))
-          order = p[nm][p[nm].length - 1].y - q[nm][q[nm].length - 1].y;
         else order = p[nm] - q[nm];
         return order * this.columnSort.sortDir;
       });

@@ -27,9 +27,9 @@
         class="cpu">
         <div>
           <ternimal-sparkline
-            [sparkline]="stat.cpu">
+            [sparkline]="stat.cpuTimeline">
           </ternimal-sparkline>
-          {{ stat.cpu[stat.cpu.length - 1].y / 100 | percent:'0.1-1' }}
+          {{ stat.cpu / 100 | percent:'0.1-1' }}
         </div>
       </td>
 
@@ -37,9 +37,9 @@
         class="memory">
         <div>
           <ternimal-sparkline
-            [sparkline]="stat.memory">
+            [sparkline]="stat.memoryTimeline">
           </ternimal-sparkline>
-          {{ stat.memory[stat.memory.length - 1].y / 100 | percent:'0.1-1' }}
+          {{ stat.memory / 100 | percent:'0.1-1' }}
         </div>
       </td>
 

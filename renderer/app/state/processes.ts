@@ -2,6 +2,7 @@ import { Channels } from '../common/channels';
 import { Params } from '../services/params';
 import { ProcessDescriptor } from '../common/process-list';
 import { ProcessList } from '../common/process-list';
+import { Utils } from '../services/utils';
 
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { ElectronService } from 'ngx-electron';
@@ -12,23 +13,26 @@ import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
+import { takeWhile } from 'rxjs/operators';
 import { timer } from 'rxjs';
 
 interface DataActionParams {
   processList: ProcessList
 }
 
-interface DataPoint {
-  x: number;
-  y: number;
+interface Timeline {
+  data: number[];
+  labels: string[];
 }
 
 export interface ProcessStats {
   cmd: string;
-  cpu: DataPoint[];
+  cpu: number;
+  cpuTimeline: Timeline;
   ctime: number;
   elapsed: number;
-  memory: DataPoint[];
+  memory: number;
+  memoryTimeline: Timeline;
   name: string;
   pid: number;
   ppid: number;
@@ -48,9 +52,11 @@ export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> impl
 
   private accrueCPU;
   private accrueMemory;
+  private numPollers = 0;
 
   constructor(public electron: ElectronService,
-              private params: Params) {  
+              private params: Params,
+              private utils: Utils) {  
     super();
     this.accrueCPU = this.accrue('cpu');
     this.accrueMemory = this.accrue('memory');
@@ -60,11 +66,11 @@ export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> impl
 
   @DataAction({ insideZone: true })
   update(@Payload('ProcessesState.update') { processList }: DataActionParams): void {
-    const processes = processList.map((ps: ProcessDescriptor) => {
+    const processes = processList.map((ps: ProcessDescriptor): ProcessStats => {
       return {
         ...ps,
-        cpu: this.accrueCPU(ps),
-        memory: this.accrueMemory(ps)
+        cpuTimeline: this.accrueCPU(ps),
+        memoryTimeline: this.accrueMemory(ps)
       };
     });
     this.ctx.setState(processes);
@@ -74,30 +80,58 @@ export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> impl
 
   ngxsOnInit(): void {
     super.ngxsOnInit(); 
-    this.pollProcessList$();
     this.rcvProcessList$();
+  }
+
+  startPolling(): void {
+    this.numPollers += 1;
+    if (this.numPollers === 1)
+      this.pollProcessList$();
+  }
+
+  stopPolling(): void {
+    this.numPollers -= 1;
   }
 
   // private methods
 
   private accrue(attr: string): Function {
-    const acc: Record<string, DataPoint[]> = { };
-    return (ps: ProcessDescriptor): DataPoint[] => {
-      let accrued = acc[ps.pid];
-      if (!accrued) {
-        accrued = [];
-        acc[ps.pid] = accrued;
+    const timelines: Record<string, Timeline> = { };
+    const indexes: Record<string, number> = { };
+    const numPoints = this.params.processList.maxTimeline / this.params.processList.pollInterval;
+    // perform actual accrual
+    return (ps: ProcessDescriptor): Timeline => {
+      let timeline = timelines[ps.pid];
+      // initialize the timeline
+      if (!timeline) {
+        timeline = {
+          data: new Array(numPoints).fill(null),
+          labels: new Array(numPoints).fill(null)
+        };
+        // make sure we start with 2 points so we can chart the timeline
+        timeline.data[0] = ps[attr];
+        timeline.labels[0] = String(ps.timestamp);
+        timelines[ps.pid] = timeline;
+        indexes[ps.pid] = 1;
       }
-      accrued.push({ x: ps.timestamp, y: ps[attr] });
-      // NOTE: only keep N minutes of data
-      while ((ps.timestamp - accrued[0].x) > this.params.processList.maxTimeline)
-        accrued.shift();
-      return [...accrued];
+      // populate the timeline
+      timeline.data[indexes[ps.pid]] = ps[attr];
+      timeline.labels[indexes[ps.pid]] = String(ps.timestamp);
+      // prepare for the next iteration
+      if (++indexes[ps.pid] >= numPoints) {
+        timeline.data.shift();
+        timeline.labels.shift();
+        indexes[ps.pid] -= 1;
+      }
+      return this.utils.deepCopy(timeline);
     };
   }
 
   private pollProcessList$(): void {
     timer(0, this.params.processList.pollInterval)
+      .pipe(
+        takeWhile(() => this.numPollers > 0)
+      )
       .subscribe(() => {
         this.electron.ipcRenderer.send(Channels.processListRequest);
       });

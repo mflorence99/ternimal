@@ -10,6 +10,11 @@ import { ViewChild } from '@angular/core';
 
 import Chart from 'chart.js';
 
+interface Sparkline {
+  data: number[];
+  labels: string[];
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
   selector: 'ternimal-sparkline',
@@ -23,16 +28,26 @@ export class SparklineComponent implements AfterViewInit {
 
   chart: Chart;
   @Input() 
-  get sparkline(): any[] {
+  get sparkline(): Sparkline {
     return this._sparkline;
   }
-  set sparkline(data: any[]) {
+  set sparkline(data: Sparkline) {
     this._sparkline = data;
     if (this.chart) {
-      const dataset = this.chart.data.datasets[0];
-      dataset.backgroundColor = this.utils.colorOf(this.host, this.color(), 0.25);
-      dataset.borderColor = this.utils.colorOf(this.host, this.color(), 1);
-      dataset.data = this.sparkline;
+      this.chart.data.labels = this.sparkline.labels;
+      const green = new Array(this.sparkline.data.length).fill(null);
+      const yellow = new Array(this.sparkline.data.length).fill(null);
+      const red = new Array(this.sparkline.data.length).fill(null);
+      this.sparkline.data.forEach((value, ix) => {
+        if (value > 66)
+          red[ix] = value;
+        else if (value > 33)
+          yellow[ix] = value;
+        else green[ix] = value;
+      });
+      this.chart.data.datasets[0].data = green;
+      this.chart.data.datasets[1].data = yellow;
+      this.chart.data.datasets[2].data = red;
       this.chart.update();
     }
   }
@@ -40,7 +55,7 @@ export class SparklineComponent implements AfterViewInit {
   @ViewChild('canvas', { static: true }) canvas: ElementRef;
   @ViewChild('wrapper', { static: true }) wrapper: ElementRef;
 
-  private _sparkline: any[] = [];
+  private _sparkline: Sparkline;
 
   constructor(private host: ElementRef,
               private params: Params,
@@ -55,9 +70,23 @@ export class SparklineComponent implements AfterViewInit {
       type: 'line',
       data: {
         labels: [],
-        datasets: [{
-          data: []
-        }]
+        datasets: [
+          {
+            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.green, 0.1),
+            borderColor: this.utils.colorOf(this.host, this.params.rgb.green, 0.5),
+            data: []
+          },
+          {
+            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.yellow, 0.1),
+            borderColor: this.utils.colorOf(this.host, this.params.rgb.yellow, 0.5),
+            data: []
+          },
+          {
+            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.red, 0.1),
+            borderColor: this.utils.colorOf(this.host, this.params.rgb.red, 0.5),
+            data: []
+          }
+        ]
       },
       options: {
         responsive: false,
@@ -69,7 +98,7 @@ export class SparklineComponent implements AfterViewInit {
             borderWidth: 1
           },
           point: {
-            radius: 0
+            radius: 0          
           }
         },
         tooltips: {
@@ -79,7 +108,7 @@ export class SparklineComponent implements AfterViewInit {
           yAxes: [
             {
               display: false,
-              ticks: { suggestedMin: 0, suggestedMax: 100 }
+              ticks: { min: 0 }
             }
           ],
           xAxes: [
@@ -91,17 +120,6 @@ export class SparklineComponent implements AfterViewInit {
       }
     });
 
-  }
-
-  // private methods
-
-  private color(): string {
-    const value = this.sparkline[this.sparkline.length - 1].y;
-    if (value > 66)
-      return this.params.rgb.red;
-    else if (value > 33)
-      return this.params.rgb.yellow;
-    else return this.params.rgb.green;
   }
 
 }

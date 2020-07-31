@@ -32,12 +32,12 @@
         vertical-align: top;
 
         &.hover {
-          background-color: rgba(var(--rgb-grey-600), 0.25);
+          background-color: rgba(var(--rgb-grey-200), 0.25);
         }
 
         &.selected,
         &.sorted {
-          background-color: rgba(var(--rgb-blue-grey-200), 0.25);
+          background-color: rgba(var(--rgb-blue-grey-600), 0.25);
         }
 
         &.hover.selected,
@@ -76,7 +76,14 @@
           border-right: 1px solid var(--mat-grey-500);
         }
 
-        &.hover .column,
+        &.hover .column {
+          background-color: rgba(var(--rgb-grey-200), 0.25);
+        }
+
+        &.sorted .column {
+          background-color: rgba(var(--rgb-blue-grey-600), 0.25);
+        }
+
         &.hover.sorted .column {
           background-color: rgba(var(--rgb-blue-grey-500), 0.5);
         }
@@ -89,10 +96,6 @@
           // NOTE: skew is a magic number and should be calculated by trig
           transform: rotateZ(-90deg) skew(-22.5deg);
           width: min-content;
-        }
-
-        &.sorted .column {
-          background-color: rgba(var(--rgb-blue-grey-200), 0.25);
         }
 
         .column {

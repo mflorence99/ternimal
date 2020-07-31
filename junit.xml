@@ -1,481 +1,255 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="91" failures="18" time="93.627">
-  <testsuite name="Components tests helpers" errors="0" failures="4" skipped="0" timestamp="2020-07-31T08:39:41" time="24.035" tests="5">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.093">
+<testsuites name="jest tests" tests="91" failures="0" time="23.683">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:30" time="1.816" tests="5">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.13">
     </testcase>
-    <testcase classname="ToolbarComponent Component is created" name="ToolbarComponent Component is created" time="5.126">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+    <testcase classname="ToolbarComponent Component is created" name="ToolbarComponent Component is created" time="0.139">
     </testcase>
-    <testcase classname="ToolbarComponent devtools" name="ToolbarComponent devtools" time="5.077">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
-      <failure>Error: expect(received).toEqual(expected) // deep equality
-
-Expected: &quot;toolbar.openDevTools&quot;
-Received: &quot;ternimal.processListRequest&quot;
-    at /home/mflo/mflorence99/ternimal/renderer/app/pages/components/toolbar.spec.ts:28:21
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
-    at AsyncTestZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/async-test.js:102:47)
-    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:114:43)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
-    at Object.wrappedFunc (/home/mflo/mflorence99/ternimal/node_modules/jest-preset-angular/build/zone-patch/index.js:49:30)
-    at Object.asyncJestTest (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:47:12
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:30:19)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41
-    at runNextTicks (internal/process/task_queues.js:62:5)
-    at listOnTimeout (internal/timers.js:518:9)
-    at processTimers (internal/timers.js:492:7)</failure>
+    <testcase classname="ToolbarComponent devtools" name="ToolbarComponent devtools" time="0.049">
     </testcase>
-    <testcase classname="ToolbarComponent newLayout" name="ToolbarComponent newLayout" time="5.076">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41
-    at runNextTicks (internal/process/task_queues.js:62:5)
-    at listOnTimeout (internal/timers.js:518:9)
-    at processTimers (internal/timers.js:492:7)</failure>
+    <testcase classname="ToolbarComponent newLayout" name="ToolbarComponent newLayout" time="0.048">
     </testcase>
-    <testcase classname="ToolbarComponent reload" name="ToolbarComponent reload" time="5.044">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41
-    at runNextTicks (internal/process/task_queues.js:62:5)
-    at listOnTimeout (internal/timers.js:518:9)
-    at processTimers (internal/timers.js:492:7)</failure>
-      <failure>Error: expect(received).toEqual(expected) // deep equality
-
-Expected: &quot;toolbar.reload&quot;
-Received: &quot;ternimal.processListRequest&quot;
-    at /home/mflo/mflorence99/ternimal/renderer/app/pages/components/toolbar.spec.ts:46:21
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
-    at AsyncTestZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/async-test.js:102:47)
-    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:114:43)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
-    at Object.wrappedFunc (/home/mflo/mflorence99/ternimal/node_modules/jest-preset-angular/build/zone-patch/index.js:49:30)
-    at Object.asyncJestTest (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:47:12
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:30:19)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41
-    at runNextTicks (internal/process/task_queues.js:62:5)
-    at listOnTimeout (internal/timers.js:518:9)
-    at processTimers (internal/timers.js:492:7)</failure>
+    <testcase classname="ToolbarComponent reload" name="ToolbarComponent reload" time="0.036">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:05" time="0.519" tests="2">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:32" time="0.85" tests="4">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.049">
+    </testcase>
+    <testcase classname="EqGaugeComponent Component is created" name="EqGaugeComponent Component is created" time="0.077">
+    </testcase>
+    <testcase classname="EqGaugeComponent count is calculated correctly" name="EqGaugeComponent count is calculated correctly" time="0.033">
+    </testcase>
+    <testcase classname="EqGaugeComponent color is calculated correctly" name="EqGaugeComponent color is calculated correctly" time="0.023">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:33" time="0.591" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.044">
+    </testcase>
+    <testcase classname="TableComponent Component is created" name="TableComponent Component is created" time="0.066">
+    </testcase>
+  </testsuite>
+  <testsuite name="RootComponent" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:34" time="0.993" tests="1">
+    <testcase classname="RootComponent App is created" name="RootComponent App is created" time="0.347">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:35" time="0.91" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.046">
+    </testcase>
+    <testcase classname="ConfirmDialogComponent Component is created" name="ConfirmDialogComponent Component is created" time="0.096">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:36" time="0.688" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.099">
+    </testcase>
+    <testcase classname="SplittableComponent Component is created" name="SplittableComponent Component is created" time="0.068">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:36" time="0.758" tests="2">
     <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.003">
     </testcase>
-    <testcase classname="process-list processListRequest" name="process-list processListRequest" time="0.09">
+    <testcase classname="process-list processListRequest" name="process-list processListRequest" time="0.296">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="4" skipped="0" timestamp="2020-07-31T08:40:06" time="20.89" tests="5">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.122">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:37" time="1.031" tests="5">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.131">
     </testcase>
-    <testcase classname="TabsComponent Component is created" name="TabsComponent Component is created" time="5.079">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+    <testcase classname="TabsComponent Component is created" name="TabsComponent Component is created" time="0.104">
     </testcase>
-    <testcase classname="TabsComponent isInMore" name="TabsComponent isInMore" time="5.06">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41
-    at runNextTicks (internal/process/task_queues.js:62:5)
-    at listOnTimeout (internal/timers.js:518:9)
-    at processTimers (internal/timers.js:492:7)</failure>
+    <testcase classname="TabsComponent isInMore" name="TabsComponent isInMore" time="0.036">
     </testcase>
-    <testcase classname="TabsComponent remove" name="TabsComponent remove" time="5.035">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41
-    at runNextTicks (internal/process/task_queues.js:62:5)
-    at listOnTimeout (internal/timers.js:518:9)
-    at processTimers (internal/timers.js:492:7)</failure>
+    <testcase classname="TabsComponent remove" name="TabsComponent remove" time="0.047">
     </testcase>
-    <testcase classname="TabsComponent select" name="TabsComponent select" time="5.039">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41
-    at runNextTicks (internal/process/task_queues.js:62:5)
-    at listOnTimeout (internal/timers.js:518:9)
-    at processTimers (internal/timers.js:492:7)</failure>
+    <testcase classname="TabsComponent select" name="TabsComponent select" time="0.04">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:40:27" time="0.743" tests="4">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.042">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:38" time="0.883" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.136">
     </testcase>
-    <testcase classname="EqGaugeComponent Component is created" name="EqGaugeComponent Component is created" time="0.044">
-    </testcase>
-    <testcase classname="EqGaugeComponent count is calculated correctly" name="EqGaugeComponent count is calculated correctly" time="0.023">
-    </testcase>
-    <testcase classname="EqGaugeComponent color is calculated correctly" name="EqGaugeComponent color is calculated correctly" time="0.03">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: &quot;--google-green-500&quot;
-Received: &quot;var(--google-green-500)&quot;
-    at /home/mflo/mflorence99/ternimal/renderer/app/components/eq-gauge.spec.ts:32:32
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
-    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:117:43)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
-    at Object.wrappedFunc (/home/mflo/mflorence99/ternimal/node_modules/jest-preset-angular/build/zone-patch/index.js:49:30)
-    at Object.asyncJestTest (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:47:12
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:30:19)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+    <testcase classname="HeaderComponent Component is created" name="HeaderComponent Component is created" time="0.128">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:40:27" time="5.71" tests="2">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.108">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:39" time="0.944" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.156">
     </testcase>
-    <testcase classname="TabPrefsComponent Component is created" name="TabPrefsComponent Component is created" time="5.12">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+    <testcase classname="TabPrefsComponent Component is created" name="TabPrefsComponent Component is created" time="0.149">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:33" time="0.522" tests="1">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.087">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:40" time="0.863" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.119">
+    </testcase>
+    <testcase classname="SystemInfoComponent Component is created" name="SystemInfoComponent Component is created" time="0.088">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:40:34" time="5.729" tests="2">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.091">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:41" time="0.78" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.138">
     </testcase>
-    <testcase classname="HeaderComponent Component is created" name="HeaderComponent Component is created" time="5.105">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+    <testcase classname="PaneComponent Component is created" name="PaneComponent Component is created" time="0.098">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:40:39" time="5.65" tests="2">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.091">
+  <testsuite name="Widgets tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:42" time="0.628" tests="2">
+    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.049">
     </testcase>
-    <testcase classname="SystemInfoComponent Component is created" name="SystemInfoComponent Component is created" time="5.095">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+    <testcase classname="ProcessesComponent Component is created" name="ProcessesComponent Component is created" time="0.097">
     </testcase>
   </testsuite>
-  <testsuite name="StorageService" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:45" time="0.315" tests="5">
-    <testcase classname="StorageService clear" name="StorageService clear" time="0.016">
-    </testcase>
-    <testcase classname="StorageService getItem" name="StorageService getItem" time="0.004">
-    </testcase>
-    <testcase classname="StorageService key" name="StorageService key" time="0.002">
-    </testcase>
-    <testcase classname="StorageService removeItem" name="StorageService removeItem" time="0.003">
-    </testcase>
-    <testcase classname="StorageService setItem" name="StorageService setItem" time="0.003">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:42" time="0.801" tests="1">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.182">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:45" time="0.406" tests="7">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-    <testcase classname="TabsState newTab/removeTab" name="TabsState newTab/removeTab" time="0.029">
-    </testcase>
-    <testcase classname="TabsState moveTab - left" name="TabsState moveTab - left" time="0.015">
-    </testcase>
-    <testcase classname="TabsState moveTab - right" name="TabsState moveTab - right" time="0.013">
-    </testcase>
-    <testcase classname="TabsState updateTab" name="TabsState updateTab" time="0.015">
-    </testcase>
-    <testcase classname="TabsState tab accessor" name="TabsState tab accessor" time="0.01">
-    </testcase>
-    <testcase classname="TabsState tabIndex accessor" name="TabsState tabIndex accessor" time="0.009">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:43" time="0.523" tests="1">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.039">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:46" time="0.515" tests="1">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.037">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:44" time="0.89" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.055">
+    </testcase>
+    <testcase classname="SparklineComponent Component is created" name="SparklineComponent Component is created" time="0.084">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:46" time="0.353" tests="3">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-    <testcase classname="SelectionState selectLayout" name="SelectionState selectLayout" time="0.038">
-    </testcase>
-    <testcase classname="SelectionState selectSplit" name="SelectionState selectSplit" time="0.008">
+  <testsuite name="Widgets tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:45" time="0.639" tests="1">
+    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.07">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:47" time="0.393" tests="7">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-    <testcase classname="LayoutState makeSplit/closeSplit - vertical" name="LayoutState makeSplit/closeSplit - vertical" time="0.033">
-    </testcase>
-    <testcase classname="LayoutState makeSplit/closeSplit - horizontal" name="LayoutState makeSplit/closeSplit - horizontal" time="0.007">
-    </testcase>
-    <testcase classname="LayoutState updateSplit" name="LayoutState updateSplit" time="0.006">
-    </testcase>
-    <testcase classname="LayoutState newLayout/removeLayout" name="LayoutState newLayout/removeLayout" time="0.007">
-    </testcase>
-    <testcase classname="LayoutState findSplitByID" name="LayoutState findSplitByID" time="0.013">
-    </testcase>
-    <testcase classname="LayoutState visitSplits" name="LayoutState visitSplits" time="0.004">
-    </testcase>
-  </testsuite>
-  <testsuite name="channels" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:47" time="0.282" tests="1">
-    <testcase classname="channels enums" name="channels enums" time="0.01">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:47" time="0.328" tests="1">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="toolbar" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:48" time="0.267" tests="2">
-    <testcase classname="toolbar openDevTools" name="toolbar openDevTools" time="0.002">
-    </testcase>
-    <testcase classname="toolbar reload" name="toolbar reload" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="local-storage" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:48" time="0.274" tests="6">
-    <testcase classname="local-storage smoke test" name="local-storage smoke test" time="0.002">
-    </testcase>
-    <testcase classname="local-storage clear" name="local-storage clear" time="0.001">
-    </testcase>
-    <testcase classname="local-storage getItem" name="local-storage getItem" time="0">
-    </testcase>
-    <testcase classname="local-storage key" name="local-storage key" time="0.001">
-    </testcase>
-    <testcase classname="local-storage removeItem" name="local-storage removeItem" time="0">
-    </testcase>
-    <testcase classname="local-storage setItem" name="local-storage setItem" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="system-info" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:48" time="0.258" tests="1">
-    <testcase classname="system-info systemInfo" name="system-info systemInfo" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:49" time="0.257" tests="1">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="operators" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:49" time="0.256" tests="1">
-    <testcase classname="operators scratch" name="operators scratch" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:49" time="0.296" tests="4">
-    <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.003">
-    </testcase>
-    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0">
-    </testcase>
-    <testcase classname="ternimal ready (getBounds)" name="ternimal ready (getBounds)" time="0.002">
-    </testcase>
-    <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="Widgets tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:49" time="0.446" tests="1">
-    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.038">
-    </testcase>
-  </testsuite>
-  <testsuite name="RootComponent" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:40:50" time="1.109" tests="1">
-    <testcase classname="RootComponent App is created" name="RootComponent App is created" time="0.646">
-      <failure>NullInjectorError: R3InjectorError(DynamicTestModule)[ContextMenuService -&gt; ContextMenuService]: 
-  NullInjectorError: No provider for ContextMenuService!
-    at NullInjector.get (/home/mflo/mflorence99/packages/core/src/di/injector_compatibility.ts:231:21)
-    at R3Injector.get (/home/mflo/mflorence99/packages/core/src/di/r3_injector.ts:220:27)
-    at R3Injector.get (/home/mflo/mflorence99/packages/core/src/di/r3_injector.ts:220:27)
-    at NgModuleRef$1.get (/home/mflo/mflorence99/packages/core/src/render3/ng_module_ref.ts:80:29)
-    at Object.get (/home/mflo/mflorence99/packages/core/src/render3/component_ref.ts:98:29)
-    at getOrCreateInjectable (/home/mflo/mflorence99/packages/core/src/render3/di.ts:433:31)
-    at ɵɵdirectiveInject (/home/mflo/mflorence99/packages/core/src/render3/instructions/di.ts:48:10)
-    at NodeInjectorFactory.ToolbarComponent_Factory [as factory] (ng:///ToolbarComponent/ɵfac.js:3:44)
-    at getNodeInjectable (/home/mflo/mflorence99/packages/core/src/render3/di.ts:552:38)
-    at instantiateAllDirectives (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:1270:23)
-    at createDirectivesInstances (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:583:3)
-    at ɵɵelementStart (/home/mflo/mflorence99/packages/core/src/render3/instructions/element.ts:117:5)
-    at ɵɵelement (/home/mflo/mflorence99/packages/core/src/render3/instructions/element.ts:176:3)
-    at HeaderComponent_Template (ng:///HeaderComponent.js:9:9)
-    at executeTemplate (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:554:5)
-    at renderView (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:346:7)
-    at renderComponent (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:1737:3)
-    at renderChildComponents (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:149:5)
-    at renderView (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:375:7)
-    at renderComponent (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:1737:3)
-    at renderChildComponents (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:149:5)
-    at renderView (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:375:7)
-    at ComponentFactory.create (/home/mflo/mflorence99/packages/core/src/render3/component_ref.ts:218:7)
-    at initComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:354:28)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
-    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:117:43)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Object.onInvoke (/home/mflo/mflorence99/packages/core/src/zone/ng_zone.ts:326:29)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
-    at NgZone.run (/home/mflo/mflorence99/packages/core/src/zone/ng_zone.ts:180:50)
-    at TestBedRender3.createComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:357:37)
-    at Function.TestBedRender3.createComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:182:33)
-    at /home/mflo/mflorence99/ternimal/renderer/app/pages/root.spec.ts:33:29
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
-    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:117:43)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
-    at Object.wrappedFunc (/home/mflo/mflorence99/ternimal/node_modules/jest-preset-angular/build/zone-patch/index.js:49:30)
-    at Object.asyncJestTest (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:47:12
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:30:19)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
-    </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:40:51" time="0.827" tests="2">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.047">
-    </testcase>
-    <testcase classname="ConfirmDialogComponent Component is created" name="ConfirmDialogComponent Component is created" time="0.384">
-      <failure>NullInjectorError: R3InjectorError(DynamicTestModule)[MatDialogRef -&gt; MatDialogRef]: 
-  NullInjectorError: No provider for MatDialogRef!
-    at NullInjector.get (/home/mflo/mflorence99/packages/core/src/di/injector_compatibility.ts:231:21)
-    at R3Injector.get (/home/mflo/mflorence99/packages/core/src/di/r3_injector.ts:220:27)
-    at R3Injector.get (/home/mflo/mflorence99/packages/core/src/di/r3_injector.ts:220:27)
-    at NgModuleRef$1.get (/home/mflo/mflorence99/packages/core/src/render3/ng_module_ref.ts:80:29)
-    at Object.get (/home/mflo/mflorence99/packages/core/src/render3/component_ref.ts:98:29)
-    at getOrCreateInjectable (/home/mflo/mflorence99/packages/core/src/render3/di.ts:433:31)
-    at ɵɵdirectiveInject (/home/mflo/mflorence99/packages/core/src/render3/instructions/di.ts:48:10)
-    at NodeInjectorFactory.ConfirmDialogComponent_Factory [as factory] (ng:///ConfirmDialogComponent/ɵfac.js:3:50)
-    at getNodeInjectable (/home/mflo/mflorence99/packages/core/src/render3/di.ts:552:38)
-    at instantiateRootComponent (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:1116:21)
-    at createRootComponent (/home/mflo/mflorence99/packages/core/src/render3/component.ts:219:21)
-    at ComponentFactory.create (/home/mflo/mflorence99/packages/core/src/render3/component_ref.ts:215:19)
-    at initComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:354:28)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
-    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:117:43)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Object.onInvoke (/home/mflo/mflorence99/packages/core/src/zone/ng_zone.ts:326:29)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
-    at NgZone.run (/home/mflo/mflorence99/packages/core/src/zone/ng_zone.ts:180:50)
-    at TestBedRender3.createComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:357:37)
-    at Function.TestBedRender3.createComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:182:33)
-    at /home/mflo/mflorence99/ternimal/renderer/app/components/confirm-dialog.spec.ts:14:29
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
-    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:117:43)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
-    at Object.wrappedFunc (/home/mflo/mflorence99/ternimal/node_modules/jest-preset-angular/build/zone-patch/index.js:49:30)
-    at Object.asyncJestTest (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:47:12
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:30:19)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:52" time="0.337" tests="2">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:45" time="0.512" tests="7">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.003">
     </testcase>
-    <testcase classname="ProcessesState dummy" name="ProcessesState dummy" time="0.031">
+    <testcase classname="TabsState newTab/removeTab" name="TabsState newTab/removeTab" time="0.036">
+    </testcase>
+    <testcase classname="TabsState moveTab - left" name="TabsState moveTab - left" time="0.007">
+    </testcase>
+    <testcase classname="TabsState moveTab - right" name="TabsState moveTab - right" time="0.007">
+    </testcase>
+    <testcase classname="TabsState updateTab" name="TabsState updateTab" time="0.017">
+    </testcase>
+    <testcase classname="TabsState tab accessor" name="TabsState tab accessor" time="0.007">
+    </testcase>
+    <testcase classname="TabsState tabIndex accessor" name="TabsState tabIndex accessor" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:52" time="0.39" tests="4">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:46" time="0.487" tests="7">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="TernimalState Ternimal can be enabled and disabled" name="TernimalState Ternimal can be enabled and disabled" time="0.03">
+    <testcase classname="LayoutState makeSplit/closeSplit - vertical" name="LayoutState makeSplit/closeSplit - vertical" time="0.036">
     </testcase>
-    <testcase classname="TernimalState Tab prefs can be shown/hidden" name="TernimalState Tab prefs can be shown/hidden" time="0.018">
+    <testcase classname="LayoutState makeSplit/closeSplit - horizontal" name="LayoutState makeSplit/closeSplit - horizontal" time="0.011">
+    </testcase>
+    <testcase classname="LayoutState updateSplit" name="LayoutState updateSplit" time="0.01">
+    </testcase>
+    <testcase classname="LayoutState newLayout/removeLayout" name="LayoutState newLayout/removeLayout" time="0.009">
+    </testcase>
+    <testcase classname="LayoutState findSplitByID" name="LayoutState findSplitByID" time="0.011">
+    </testcase>
+    <testcase classname="LayoutState visitSplits" name="LayoutState visitSplits" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:46" time="0.419" tests="4">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="TernimalState Ternimal can be enabled and disabled" name="TernimalState Ternimal can be enabled and disabled" time="0.034">
+    </testcase>
+    <testcase classname="TernimalState Tab prefs can be shown/hidden" name="TernimalState Tab prefs can be shown/hidden" time="0.008">
     </testcase>
     <testcase classname="TernimalState Ternimal can compute a locally unique number" name="TernimalState Ternimal can compute a locally unique number" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:40:53" time="5.612" tests="2">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.101">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:47" time="0.478" tests="2">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="SplittableComponent Component is created" name="SplittableComponent Component is created" time="5.09">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+    <testcase classname="ProcessesState dummy" name="ProcessesState dummy" time="0.05">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:40:58" time="0.524" tests="2">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.049">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:47" time="0.419" tests="3">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="SparklineComponent Component is created" name="SparklineComponent Component is created" time="0.043">
+    <testcase classname="SelectionState selectLayout" name="SelectionState selectLayout" time="0.031">
     </testcase>
-  </testsuite>
-  <testsuite name="Widgets tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:40:59" time="5.554" tests="2">
-    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.04">
-    </testcase>
-    <testcase classname="ProcessesComponent Component is created" name="ProcessesComponent Component is created" time="5.077">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+    <testcase classname="SelectionState selectSplit" name="SelectionState selectSplit" time="0.008">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:41:04" time="0.865" tests="2">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.038">
+  <testsuite name="local-storage" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:48" time="0.322" tests="6">
+    <testcase classname="local-storage smoke test" name="local-storage smoke test" time="0.004">
     </testcase>
-    <testcase classname="TableComponent Component is created" name="TableComponent Component is created" time="0.4">
-      <failure>NullInjectorError: R3InjectorError(DynamicTestModule)[Actions -&gt; Actions]: 
-  NullInjectorError: No provider for Actions!
-    at NullInjector.get (/home/mflo/mflorence99/packages/core/src/di/injector_compatibility.ts:231:21)
-    at R3Injector.get (/home/mflo/mflorence99/packages/core/src/di/r3_injector.ts:220:27)
-    at R3Injector.get (/home/mflo/mflorence99/packages/core/src/di/r3_injector.ts:220:27)
-    at NgModuleRef$1.get (/home/mflo/mflorence99/packages/core/src/render3/ng_module_ref.ts:80:29)
-    at Object.get (/home/mflo/mflorence99/packages/core/src/render3/component_ref.ts:98:29)
-    at getOrCreateInjectable (/home/mflo/mflorence99/packages/core/src/render3/di.ts:433:31)
-    at ɵɵdirectiveInject (/home/mflo/mflorence99/packages/core/src/render3/instructions/di.ts:48:10)
-    at NodeInjectorFactory.TableComponent_Factory [as factory] (ng:///TableComponent/ɵfac.js:3:42)
-    at getNodeInjectable (/home/mflo/mflorence99/packages/core/src/render3/di.ts:552:38)
-    at instantiateRootComponent (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:1116:21)
-    at createRootComponent (/home/mflo/mflorence99/packages/core/src/render3/component.ts:219:21)
-    at ComponentFactory.create (/home/mflo/mflorence99/packages/core/src/render3/component_ref.ts:215:19)
-    at initComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:354:28)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
-    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:117:43)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Object.onInvoke (/home/mflo/mflorence99/packages/core/src/zone/ng_zone.ts:326:29)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
-    at NgZone.run (/home/mflo/mflorence99/packages/core/src/zone/ng_zone.ts:180:50)
-    at TestBedRender3.createComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:357:37)
-    at Function.TestBedRender3.createComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:182:33)
-    at /home/mflo/mflorence99/ternimal/renderer/app/components/table.spec.ts:14:29
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
-    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:117:43)
-    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
-    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
-    at Object.wrappedFunc (/home/mflo/mflorence99/ternimal/node_modules/jest-preset-angular/build/zone-patch/index.js:49:30)
-    at Object.asyncJestTest (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:47:12
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:30:19)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+    <testcase classname="local-storage clear" name="local-storage clear" time="0.001">
+    </testcase>
+    <testcase classname="local-storage getItem" name="local-storage getItem" time="0.001">
+    </testcase>
+    <testcase classname="local-storage key" name="local-storage key" time="0">
+    </testcase>
+    <testcase classname="local-storage removeItem" name="local-storage removeItem" time="0.001">
+    </testcase>
+    <testcase classname="local-storage setItem" name="local-storage setItem" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-07-31T08:41:05" time="5.746" tests="2">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.104">
-    </testcase>
-    <testcase classname="PaneComponent Component is created" name="PaneComponent Component is created" time="5.099">
-      <failure>Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000 ms timeout specified by jest.setTimeout.
-    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:29:45)
-    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41</failure>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:48" time="0.34" tests="1">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Params" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:41:11" time="0.327" tests="1">
-    <testcase classname="Params uuid" name="Params uuid" time="0.015">
+  <testsuite name="StorageService" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:49" time="0.421" tests="5">
+    <testcase classname="StorageService clear" name="StorageService clear" time="0.023">
+    </testcase>
+    <testcase classname="StorageService getItem" name="StorageService getItem" time="0.005">
+    </testcase>
+    <testcase classname="StorageService key" name="StorageService key" time="0.004">
+    </testcase>
+    <testcase classname="StorageService removeItem" name="StorageService removeItem" time="0.012">
+    </testcase>
+    <testcase classname="StorageService setItem" name="StorageService setItem" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="RangePipe" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:41:11" time="0.345" tests="2">
-    <testcase classname="RangePipe creates array without offset" name="RangePipe creates array without offset" time="0.004">
+  <testsuite name="Utils" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:49" time="0.492" tests="4">
+    <testcase classname="Utils Object can be deep copied" name="Utils Object can be deep copied" time="0.033">
     </testcase>
-    <testcase classname="RangePipe creates array with offset" name="RangePipe creates array with offset" time="0.001">
+    <testcase classname="Utils hasProperty can test for a string" name="Utils hasProperty can test for a string" time="0.004">
     </testcase>
-  </testsuite>
-  <testsuite name="Utils" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:41:12" time="0.531" tests="4">
-    <testcase classname="Utils Object can be deep copied" name="Utils Object can be deep copied" time="0.02">
-    </testcase>
-    <testcase classname="Utils hasProperty can test for a string" name="Utils hasProperty can test for a string" time="0.003">
-    </testcase>
-    <testcase classname="Utils hasProperty can test for a regexp" name="Utils hasProperty can test for a regexp" time="0.003">
+    <testcase classname="Utils hasProperty can test for a regexp" name="Utils hasProperty can test for a regexp" time="0.005">
     </testcase>
     <testcase classname="Utils nextTick works asynchronously" name="Utils nextTick works asynchronously" time="0.007">
     </testcase>
   </testsuite>
-  <testsuite name="DestroyService" errors="0" failures="0" skipped="0" timestamp="2020-07-31T08:41:12" time="0.363" tests="1">
-    <testcase classname="DestroyService destroy$ will complete a stream" name="DestroyService destroy$ will complete a stream" time="0.005">
+  <testsuite name="Params" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:49" time="0.368" tests="1">
+    <testcase classname="Params uuid" name="Params uuid" time="0.023">
+    </testcase>
+  </testsuite>
+  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:50" time="0.361" tests="4">
+    <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.004">
+    </testcase>
+    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0.001">
+    </testcase>
+    <testcase classname="ternimal ready (getBounds)" name="ternimal ready (getBounds)" time="0.001">
+    </testcase>
+    <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="operators" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:50" time="0.313" tests="1">
+    <testcase classname="operators scratch" name="operators scratch" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="system-info" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:51" time="0.309" tests="1">
+    <testcase classname="system-info systemInfo" name="system-info systemInfo" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="channels" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:51" time="0.292" tests="1">
+    <testcase classname="channels enums" name="channels enums" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="toolbar" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:51" time="0.382" tests="2">
+    <testcase classname="toolbar openDevTools" name="toolbar openDevTools" time="0.003">
+    </testcase>
+    <testcase classname="toolbar reload" name="toolbar reload" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="RangePipe" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:52" time="0.498" tests="2">
+    <testcase classname="RangePipe creates array without offset" name="RangePipe creates array without offset" time="0.003">
+    </testcase>
+    <testcase classname="RangePipe creates array with offset" name="RangePipe creates array with offset" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:52" time="0.298" tests="1">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="DestroyService" errors="0" failures="0" skipped="0" timestamp="2020-07-31T12:40:52" time="0.291" tests="1">
+    <testcase classname="DestroyService destroy$ will complete a stream" name="DestroyService destroy$ will complete a stream" time="0.004">
     </testcase>
   </testsuite>
 </testsuites>
