@@ -1,0 +1,121 @@
+:host {
+  --table-cy-header: 4rem;
+
+  display: block;
+  height: 100%;
+}
+
+.body-wrapper {
+  height: calc(100% - var(--table-cy-header));
+  overflow-y: auto;
+}
+
+.header-wrapper {
+  height: var(--table-cy-header);
+}
+
+::ng-deep {
+
+  table {
+    border-collapse: collapse;
+
+    &.body {
+      width: 100%;
+    }
+
+    tbody {
+
+      td {
+        border: 1px dotted var(--mat-grey-500);
+        min-width: 3rem;
+        padding: 0.25rem 0.5rem;
+        vertical-align: top;
+
+        &.hover {
+          background-color: rgba(var(--rgb-grey-600), 0.25);
+        }
+
+        &.selected,
+        &.sorted {
+          background-color: rgba(var(--rgb-blue-grey-200), 0.25);
+        }
+
+        &.hover.selected,
+        &.hover.sorted {
+          background-color: rgba(var(--rgb-blue-grey-500), 0.5);
+        }
+
+      }
+
+      tr {
+
+        &:hover {
+          background-color: var(--mat-grey-800);
+        }
+
+      }
+
+    }
+
+    thead {
+
+      th {
+        cursor: pointer;
+        font-weight: normal;
+        height: var(--table-cy-header);
+
+        &[sortable] {
+          font-weight: bold;
+        }
+
+        &:first-child .column {
+          border-left: 1px solid var(--mat-grey-500);
+        }
+
+        &:not(:last-child) .column {
+          border-right: 1px solid var(--mat-grey-500);
+        }
+
+        &.hover .column,
+        &.hover.sorted .column {
+          background-color: rgba(var(--rgb-blue-grey-500), 0.5);
+        }
+
+        &.horizontal .text {
+          transform: skew(30deg);
+        }
+
+        &.vertical .text {
+          // NOTE: skew is a magic number and should be calculated by trig
+          transform: rotateZ(-90deg) skew(-22.5deg);
+          width: min-content;
+        }
+
+        &.sorted .column {
+          background-color: rgba(var(--rgb-blue-grey-200), 0.25);
+        }
+
+        .column {
+          align-items: center;
+          // border-top: 1px dotted var(--mat-grey-500);
+          display: flex;
+          height: 100%;
+          justify-content: center;
+          line-height: 1.1;
+          // NOTE: translate is a magic number and should be calculated by trig
+          transform: translateX(17px) skew(-30deg);
+
+          .text {
+            text-transform: uppercase;
+            transition: transform 0.25s ease-in-out;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}

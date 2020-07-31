@@ -1,6 +1,6 @@
 import { BarrelModule } from './barrel';
-import { RootPageComponent } from './pages/root/page';
-import { RootPageModule } from './pages/root/module';
+import { PagesModule } from './pages/module';
+import { RootComponent } from './pages/root';
 
 import { states } from './state/app';
 
@@ -17,12 +17,12 @@ const COMPONENTS = [];
 const MODULES = [
   BarrelModule,
   NgxElectronModule,
-  RootPageModule
+  PagesModule
 ];
 
 @NgModule({
 
-  bootstrap: [RootPageComponent],
+  bootstrap: [RootComponent],
 
   declarations: [
     ...COMPONENTS

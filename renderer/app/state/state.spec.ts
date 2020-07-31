@@ -1,4 +1,5 @@
 import { LayoutState } from './layout';
+import { ProcessesState } from './processes';
 import { SelectionState } from './selection';
 import { TabsState } from './tabs';
 import { TernimalState } from './ternimal';
@@ -12,6 +13,7 @@ import { TestBed } from '@angular/core/testing';
 
 export interface Bundle {
   layout?: LayoutState;
+  processes?: ProcessesState;
   selection?: SelectionState;
   tabs?: TabsState;
   ternimal?: TernimalState;
@@ -29,6 +31,7 @@ export function prepare(): Bundle {
   });
 
   bundle.layout = TestBed.inject(LayoutState);
+  bundle.processes = TestBed.inject(ProcessesState);
   bundle.selection = TestBed.inject(SelectionState);
   bundle.tabs = TestBed.inject(TabsState);
   bundle.ternimal = TestBed.inject(TernimalState);

@@ -1,8 +1,8 @@
-import { BarrelModule } from '../../barrel';
-import { ComponentsModule } from '../components/module';
-import { RootPageComponent } from './page';
+import { BarrelModule } from '../barrel';
+import { ComponentsModule } from './components/module';
+import { RootComponent } from './root';
 
-import { states } from '../../state/app';
+import { states } from '../state/app';
 
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
@@ -11,13 +11,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
 
-describe('RootPageComponent', () => {
+describe('RootComponent', () => {
 
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
       declarations: [
-        RootPageComponent
+        RootComponent
       ],
       imports: [
         BarrelModule,
@@ -30,7 +30,7 @@ describe('RootPageComponent', () => {
   }));
 
   test('App is created', () => {
-    const fixture = TestBed.createComponent(RootPageComponent);
+    const fixture = TestBed.createComponent(RootComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });

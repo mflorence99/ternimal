@@ -26,10 +26,10 @@ export class EqGaugeComponent {
     if (ratio > this.value)
       return 'var(--mat-grey-800)';
     else if (ratio > 0.66)
-      return this.params.led.red;
+      return `var(${this.params.rgb.red})`;
     else if (ratio > 0.33)
-      return this.params.led.yellow;
-    else return this.params.led.green;
+      return `var(${this.params.rgb.yellow})`;
+    else return `var(${this.params.rgb.green})`;
   }
 
   handleResize(resize: ResizeObserverEntry): void {

@@ -2,16 +2,16 @@ import { BarrelModule } from '../barrel';
 import { ConfirmDialogComponent } from './confirm-dialog';
 import { EqGaugeComponent } from './eq-gauge';
 import { PipesModule } from '../pipes/module';
+import { SparklineComponent } from './sparkline';
+import { TableComponent } from './table';
 
 import { NgModule } from '@angular/core';
 
-/**
- * All our components
- */
-
 const COMPONENTS = [
   ConfirmDialogComponent,
-  EqGaugeComponent
+  EqGaugeComponent,
+  SparklineComponent,
+  TableComponent
 ];
 
 @NgModule({

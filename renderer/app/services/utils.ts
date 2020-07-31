@@ -1,3 +1,4 @@
+import { ElementRef } from '@angular/core';
 import { Injectable } from '@angular/core';
 
 import rfdc from 'rfdc';
@@ -6,6 +7,21 @@ import rfdc from 'rfdc';
 export class Utils {
 
   private clone = rfdc();
+
+  colorOf(element: ElementRef, nm: string, tx: number): string {
+    const style = window.getComputedStyle(element.nativeElement);
+    const color = style.getPropertyValue(nm);
+    if (tx === 0)
+      return 'rgba(0, 0, 0, 0)';
+    else if (tx === 1)
+      return color.trim();
+    else {
+      // TODO: assumes variable is in hex format
+      let a = Math.round(255 * tx).toString(16);
+      a = (a.length === 1) ? ('0' + a) : a;
+      return `${color}${a}`.trim();
+    }
+  }
 
   deepCopy(obj: any): any {
     return this.clone(obj);

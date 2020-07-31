@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
 import { NgxResizeObserverModule } from 'ngx-resize-observer';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -34,6 +35,7 @@ const MODULES = [
   MatRippleModule,
   MatSidenavModule,
   MatTooltipModule, 
+  MomentModule,
   NgxResizeObserverModule,
   ReactiveFormsModule
 ];

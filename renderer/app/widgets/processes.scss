@@ -1,0 +1,43 @@
+:host {
+  display: block;
+}
+
+ternimal-table {
+
+  td {
+    white-space: nowrap;
+  }
+
+  .cmd {
+    font-family: 'B612 mono', monospace;
+    max-width: 20rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cpu,
+  .mem,
+  .pid,
+  .ppid {
+    text-align: right;
+  }
+
+  .cpu,
+  .memory {
+    > div {
+      align-items: center;
+      display: grid;
+      grid-gap: 0.5rem;
+      grid-template-columns: auto 3rem;
+      height: 100%;
+      justify-content: center;
+    }
+  }
+
+  ternimal-sparkline {
+    height: 1.5rem;
+    width: 3rem;
+  }
+
+}

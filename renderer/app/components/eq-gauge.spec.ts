@@ -29,9 +29,9 @@ describe('EqGaugeComponent', () => {
     component.handleResize({ contentRect: { width: 80 } } as any);
     expect(component.count).toBe(13);
     component.value = 0.85;
-    expect(component.color(0)).toBe(component.params.led.green);
-    expect(component.color(5)).toBe(component.params.led.yellow);
-    expect(component.color(10)).toBe(component.params.led.red);
+    expect(component.color(0)).toBe(component.params.rgb.green);
+    expect(component.color(5)).toBe(component.params.rgb.yellow);
+    expect(component.color(10)).toBe(component.params.rgb.red);
     expect(component.color(12)).toBe('var(--mat-grey-800)');
   });
 

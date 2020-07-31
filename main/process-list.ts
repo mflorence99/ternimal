@@ -3,7 +3,7 @@ import { ProcessDescriptor } from './common/process-list';
 import { ProcessList } from './common/process-list';
 
 import * as electron from 'electron';
-import * as osutils from 'os-utils';
+import * as os from 'os';
 
 const pidUsage = require('pidusage');
 const psList = require('ps-list');
@@ -18,19 +18,23 @@ ipcMain.on(Channels.processListRequest, async(event: any) => {
   const statsByPID = await pidUsage(ps.map(item => item.pid));
   // NOTE: we need to zip ps+stats because psList's numbers
   // aren't supported for Windows, but pidusage's are
+  const totalmem = os.totalmem();
+  const userInfo = os.userInfo();
   const processList: ProcessList = ps
     .map(item => {
       const stat = statsByPID[item.pid];
       return {
         cmd: item.cmd,
-        cpu: item.cpu || stat.cpu,
+        cpu: Math.max(item.cpu, stat.cpu),
         ctime: stat.ctime,
         elapsed: stat.elapsed,
-        memory: item.memory || (stat.memory / osutils.totalmem()),
+        memory: Math.max(item.memory, (stat.memory / totalmem) * 100),
         name: item.name,
         pid: item.pid,
         ppid: item.ppid,
-        timestamp: stat.timestamp
+        timestamp: stat.timestamp,
+        uid: (item.uid === userInfo.uid) ? userInfo.username : 
+          ((item.uid === 0) ? 'root' : String(item.uid))
       } as ProcessDescriptor;
     })
     // NOTE: filter again because ps's cpu number isn't valid on Windows

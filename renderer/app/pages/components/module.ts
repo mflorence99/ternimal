@@ -8,12 +8,9 @@ import { SystemInfoComponent } from './system-info';
 import { TabPrefsComponent } from './tab-prefs';
 import { TabsComponent } from './tabs';
 import { ToolbarComponent } from './toolbar';
+import { WidgetsModule } from '../../widgets/module';
 
 import { NgModule } from '@angular/core';
-
-/**
- * All our components
- */
 
 const COMPONENTS = [
   HeaderComponent,
@@ -38,7 +35,8 @@ const COMPONENTS = [
   imports: [
     BarrelModule,
     CommonComponentsModule,
-    PipesModule
+    PipesModule,
+    WidgetsModule
   ]
 
 })

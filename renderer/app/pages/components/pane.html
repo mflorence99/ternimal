@@ -2,47 +2,47 @@
   (click)="select()"
   [contextMenu]="contextMenu">
 
-  <header
-    [ngClass]="{selected: isSelected()}"
-    class="tools">
+  <!-- TODO: temporary -->
 
-    <div 
-      [ngStyle]="{visibility: isSelected()? 'visible' : 'hidden'}"
-      class="tools">
+  <ternimal-processes 
+    *ngIf="split.id === 'dff51a77-63fc-c99d-1f7e-78f549c3dbc6'"
+    class="content">
+  </ternimal-processes>
 
-      <fa-icon
-        (click)="splitRight()"
-        [icon]="['fas', 'grip-vertical']"
-        class="tool"
-        matTooltip="Split right">
-      </fa-icon>
+  <footer
+    [ngClass]="{selected: isSelected()}">
 
-      <fa-icon
-        (click)="splitDown()"
-        [icon]="['fas', 'grip-horizontal']"
-        class="tool"
-        matTooltip="Split down">
-      </fa-icon>
+    <fa-icon
+      [icon]="tabs.tab.icon"
+      [ngStyle]="{color: tabs.tab.color}">
+    </fa-icon>
 
+    <div
+      class="placeholder">
     </div>
 
     <fa-icon
+      (click)="splitRight()"
+      [icon]="['fas', 'grip-vertical']"
+      *ngIf="isSelected()"
+      class="tool"
+      matTooltip="Split right">
+    </fa-icon>
+
+    <fa-icon
+      (click)="splitDown()"
+      [icon]="['fas', 'grip-horizontal']"
+      *ngIf="isSelected()"
+      class="tool"
+      matTooltip="Split down">
+    </fa-icon>
+
+      <fa-icon
       (click)="closePane()"
       [icon]="['fas', 'times']"
       *ngIf="isCloseEnabled()"
       class="tool"
       matTooltip="Close this pane">
-    </fa-icon>
-
-  </header>
-
-  <footer
-    [ngClass]="{selected: isSelected()}"
-    class="tools">
-
-    <fa-icon
-      [icon]="tabs.tab.icon"
-      [ngStyle]="{color: tabs.tab.color}">
     </fa-icon>
 
   </footer>

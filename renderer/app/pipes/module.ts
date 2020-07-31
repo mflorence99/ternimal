@@ -3,10 +3,6 @@ import { RangePipe } from './range';
 
 import { NgModule } from '@angular/core';
 
-/**
- * All our pipes
- */
-
 const PIPES = [
   RangePipe
 ];

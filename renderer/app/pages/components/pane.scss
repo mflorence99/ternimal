@@ -1,8 +1,8 @@
 :host {
-  --pane-cy-header: 1.5rem;
   --pane-cy-footer: 1.5rem;
 
   display: block;
+  font-size: 0.85rem;
   height: 100%;
 }
 
@@ -11,14 +11,30 @@ section {
   overflow: hidden;
   position: relative;
 
-  footer,
-  header {
-    font-size: 0.85rem;
+  .content {
+    bottom: var(--pane-cy-footer);
+    height: calc(100% - var(--pane-cy-footer));
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  footer {
+    align-items: center;
+    bottom: 0;
+    display: flex;
+    height: var(--pane-cy-footer);
+    justify-content: space-between;
     opacity: 0.33;
     padding: 0 0.5rem;
     position: absolute;
     transition: opacity 0.25s ease-in-out;
     width: 100%;
+
+    > *:not(:first-child) {
+      margin-left: 0.5rem;
+    }
 
     &.selected {
       opacity: 1;
@@ -29,31 +45,12 @@ section {
 
     }
 
-  }
+    .placeholder {
+      flex-grow: 1;
+    }
 
-  footer {
-    bottom: 0;
-    height: var(--pane-cy-footer);
-    justify-content: flex-start !important;
-  }
-
-  header {
-    height: var(--pane-cy-header);
-    justify-content: flex-end !important;
-    top: 0;
-  }
-
-  .tool {
-    cursor: pointer;
-  }
-
-  .tools {
-    align-items: center;
-    display: flex;
-    justify-content: flex-end;
-
-    > * {
-      margin-left: 0.5rem;
+    .tool {
+      cursor: pointer;
     }
 
   }

@@ -8,6 +8,7 @@ export interface ProcessDescriptor {
   pid: number;
   ppid: number;
   timestamp: number;
+  uid: string;
 }
 
 export type ProcessList = ProcessDescriptor[];

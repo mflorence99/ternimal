@@ -1,0 +1,57 @@
+<ternimal-table>
+
+  <thead>
+    <tr>
+      <th id="pid" sortable>PID</th>
+      <th id="ppid" sortable>PPID</th>
+      <th id="uid" sortable>UID</th>
+      <th id="name" sortable>Name</th>
+      <th id="cpu" sortable>CPU</th>
+      <th id="memory" sortable>Mem</th>
+      <th id="ctime" sortable>Time+</th>
+      <th>Command</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr
+      *ngFor="let stat of stats; trackBy: trackByPID"
+      [id]="stat.pid">
+
+      <td class="pid">{{ stat.pid }}</td>
+      <td class="ppid">{{ stat.ppid }}</td>
+      <td class="uid">{{ stat.uid }}</td>
+      <td class="name">{{ stat.name }}</td>
+
+      <td 
+        class="cpu">
+        <div>
+          <ternimal-sparkline
+            [sparkline]="stat.cpu">
+          </ternimal-sparkline>
+          {{ stat.cpu[stat.cpu.length - 1].y / 100 | percent:'0.1-1' }}
+        </div>
+      </td>
+
+      <td 
+        class="memory">
+        <div>
+          <ternimal-sparkline
+            [sparkline]="stat.memory">
+          </ternimal-sparkline>
+          {{ stat.memory[stat.memory.length - 1].y / 100 | percent:'0.1-1' }}
+        </div>
+      </td>
+
+      <td class="ctime">{{ stat.ctime | amDuration:'ms' }}</td>
+
+      <td 
+        [matTooltip]="stat.cmd"
+        class="cmd">
+        {{ stat.cmd }}
+      </td>
+
+    </tr>
+  </tbody>
+
+</ternimal-table>

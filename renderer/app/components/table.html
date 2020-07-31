@@ -1,0 +1,37 @@
+<div
+  [ngStyle]="{transform: 'translateX(-' + scrollLeft + 'px)', visibility: visibility}"
+  class="header-wrapper">
+
+  <table
+    (mousedown)="columnSort($event)"
+    (mouseover)="columnHover($event)"
+    #header
+    class="header">
+
+    <ng-content
+      select="thead">
+    </ng-content>
+
+  </table>
+
+</div>
+
+<div
+  (mousedown)="rowSelect($event)"
+  (mouseover)="rowSelectXtnd($event)"
+  (mouseup)="rowSelectCancel()"
+  (scroll)="scrollLeft = $event.target.scrollLeft"
+  class="body-wrapper">
+
+  <table
+    (onResize)="resize()"
+    #body
+    class="body">
+
+    <ng-content
+      select="tbody">
+    </ng-content>
+
+  </table>
+
+</div>

@@ -41,7 +41,8 @@ export class PaneComponent  {
   }
 
   select(): void {
-    this.selection.selectSplit({ splitID: this.split.id });
+    if (!this.isSelected())
+      this.selection.selectSplit({ splitID: this.split.id });
   }
 
   splitDown(): void {

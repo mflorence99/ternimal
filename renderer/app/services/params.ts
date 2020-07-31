@@ -14,10 +14,7 @@ export class Params {
 
   led = {
     gap: 3,
-    green: 'var(--google-green-500)',
-    red: 'var(--google-red-500)',
-    width: 3,
-    yellow: 'var(--google-yellow-500)',
+    width: 3
   };
 
   processList = {
@@ -25,7 +22,17 @@ export class Params {
     pollInterval: 5000
   };
 
+  rgb = {
+    green: '--google-green-500',
+    red: '--google-red-500',
+    yellow: '--google-yellow-500'
+  };
+
   systemInfoPollInterval = 1000;
+
+  table = {
+    verticalThreshold: 100
+  };
 
   tabsMoveInterval = 250;
   

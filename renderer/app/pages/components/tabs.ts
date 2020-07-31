@@ -119,7 +119,7 @@ export class TabsComponent {
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe(_ => this.whichTabs());
+      .subscribe(() => this.whichTabs());
   }
 
   private whichTabs(): void {

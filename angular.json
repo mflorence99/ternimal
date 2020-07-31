@@ -43,6 +43,9 @@
             "main": "renderer/main.ts",
             "outputPath": "dist/renderer",
             "polyfills": "renderer/polyfills.ts",
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.bundle.min.js"
+            ],
             "styles": [
               "node_modules/typeface-b612-mono/index.css",
               "node_modules/typeface-roboto/index.css",

@@ -23,7 +23,7 @@ interface DataPoint {
   y: number;
 }
 
-export interface Processes {
+export interface ProcessStats {
   cmd: string;
   cpu: DataPoint[];
   ctime: number;
@@ -32,9 +32,10 @@ export interface Processes {
   name: string;
   pid: number;
   ppid: number;
+  uid: string;
 }
 
-export type ProcessesStateModel = Processes[];
+export type ProcessesStateModel = ProcessStats[];
 
 @Injectable({ providedIn: 'root' })
 @StateRepository()
