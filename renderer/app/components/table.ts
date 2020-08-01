@@ -120,7 +120,6 @@ export class TableComponent implements AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    console.log({ sortDir: this.sortDir, sortedColumn: this.sortedColumn });
     this.mungeHeaders();
     this.syncCells();
   }

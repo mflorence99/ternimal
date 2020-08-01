@@ -104,11 +104,8 @@ export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> impl
           data: new Array(numPoints).fill(null),
           labels: new Array(numPoints).fill(null)
         };
-        // make sure we start with 2 points so we can chart the timeline
-        timeline.data[0] = ps[attr];
-        timeline.labels[0] = String(ps.timestamp);
         timelines[ps.pid] = timeline;
-        indexes[ps.pid] = 1;
+        indexes[ps.pid] = 0;
       }
       // populate the timeline
       timeline.data[indexes[ps.pid]] = ps[attr];

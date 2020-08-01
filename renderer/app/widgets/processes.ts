@@ -5,6 +5,7 @@ import { ProcessStats } from '../state/processes';
 import { SortState } from '../state/sort';
 import { TableComponent } from '../components/table';
 import { Utils } from '../services/utils';
+import { Widget } from './widget';
 
 import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
@@ -26,13 +27,13 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['processes.scss']
 })
 
-export class ProcessesComponent implements AfterViewInit, OnInit {
+export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
 
   columnSort: ColumnSort;
 
   @Input() splitID: string;
 
-  stats: ProcessStats[] = [];
+  stats: ProcessStats[];
 
   @ViewChild(TableComponent, { static: true }) table: TableComponent;
 
@@ -40,9 +41,7 @@ export class ProcessesComponent implements AfterViewInit, OnInit {
               private destroy$: DestroyService,
               public processes: ProcessesState,
               public sort: SortState,
-              private utils: Utils) { 
-    this.handleActions$();
-  }
+              private utils: Utils) { }
 
   ngAfterViewInit(): void {
     this.processes.startPolling();
@@ -61,7 +60,9 @@ export class ProcessesComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+    this.handleActions$();
     this.columnSort = this.sort.columnSort(this.splitID);
+    this.stats = this.sortStats(this.processes.snapshot);
   }
 
   trackByPID(_, process): string {

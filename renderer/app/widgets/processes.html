@@ -45,7 +45,7 @@
         </div>
       </td>
 
-      <td class="ctime">{{ stat.ctime | amDuration:'ms' }}</td>
+      <td class="ctime">{{ stat.ctime | amUtc | amDateFormat:'HH:mm:ss' }}</td>
 
       <td 
         [matTooltip]="stat.cmd"
