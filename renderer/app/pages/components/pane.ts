@@ -35,7 +35,7 @@ export class PaneComponent  {
       splitID: this.splittable.id, 
       ix: this.index,
       // TODO
-      visitor: split => this.sort.removeSort({ splitID: split.id })
+      visitor: split => this.sort.remove({ splitID: split.id })
     });
     // if the split we're removing is currently selected, try to select another
     if (this.isSelected()) 

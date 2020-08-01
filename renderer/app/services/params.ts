@@ -31,6 +31,8 @@ export class Params {
   systemInfoPollInterval = 1000;
 
   table = {
+    sortDownArrow: '\u2B9F',
+    sortUpArrow: '\u2B9D',
     verticalThreshold: 100
   };
 

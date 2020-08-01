@@ -2,6 +2,7 @@ import { ColumnSort } from '../state/sort';
 import { DestroyService } from '../services/destroy';
 import { ProcessesState } from '../state/processes';
 import { ProcessStats } from '../state/processes';
+import { SortState } from '../state/sort';
 import { TableComponent } from '../components/table';
 import { Utils } from '../services/utils';
 
@@ -9,6 +10,8 @@ import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { Input } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 import { delay } from 'rxjs/operators';
@@ -23,17 +26,20 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['processes.scss']
 })
 
-export class ProcessesComponent implements AfterViewInit {
+export class ProcessesComponent implements AfterViewInit, OnInit {
+
+  columnSort: ColumnSort;
+
+  @Input() splitID: string;
 
   stats: ProcessStats[] = [];
 
   @ViewChild(TableComponent, { static: true }) table: TableComponent;
 
-  private columnSort: ColumnSort = { sortDir: 0 };
-
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
               public processes: ProcessesState,
+              public sort: SortState,
               private utils: Utils) { 
     this.handleActions$();
   }
@@ -48,8 +54,14 @@ export class ProcessesComponent implements AfterViewInit {
       )
       .subscribe(columnSort => {
         this.columnSort = columnSort;
+        this.sort.update({ splitID: this.splitID, columnSort });
+        // resort that stats
         this.stats = this.sortStats(this.processes.snapshot);
       });
+  }
+
+  ngOnInit(): void {
+    this.columnSort = this.sort.columnSort(this.splitID);
   }
 
   trackByPID(_, process): string {
@@ -67,7 +79,9 @@ export class ProcessesComponent implements AfterViewInit {
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.stats = this.sortStats(this.processes.snapshot));
+      .subscribe(() => {
+        this.stats = this.sortStats(this.processes.snapshot);
+      });
   }
 
   private sortStats(stats: ProcessStats[]): ProcessStats[] {

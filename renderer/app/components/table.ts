@@ -1,16 +1,15 @@
 import { ColumnSort } from '../state/sort';
 import { DestroyService } from '../services/destroy';
 import { Params } from '../services/params';
-import { SortState } from '../state/sort';
 
 import { Actions } from '@ngxs/store';
 import { AfterContentInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { Input } from '@angular/core';
+import { Subject } from 'rxjs';
 import { ViewChild } from '@angular/core';
 
 import { takeUntil } from 'rxjs/operators';
@@ -29,10 +28,13 @@ export class TableComponent implements AfterContentInit {
   @ViewChild('header', { static: true }) header: ElementRef;
 
   scrollLeft: 0;
-  selectedRows$ = new BehaviorSubject<string[]>([]);
-  sortedColumn$ = new BehaviorSubject<ColumnSort>({ sortDir: 0 });
 
-  @Input() splitID: string;
+  selectedRows$ = new Subject<string[]>();
+  sortedColumn$ = new Subject<ColumnSort>();
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  @Input() sortDir: number;
+  @Input() sortedColumn: number;
 
   // NOTE: hidden until view rendered
   visibility = 'hidden';
@@ -41,14 +43,11 @@ export class TableComponent implements AfterContentInit {
   private rowIDs: string[] = null;
   private rowIndexByID: Record<string, number> = null;
   private selectedRows: string[] = [];
-  private sortDir = 0;
-  private sortedColumn = -1;
   private ths: HTMLElement[];
 
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
-              private params: Params,
-              public sort: SortState) { 
+              private params: Params) { 
     this.handleActions$();            
   }
 
@@ -95,7 +94,7 @@ export class TableComponent implements AfterContentInit {
         } else this.sortDir *= -1;
         // set the column text to indicate the sort direction
         const newColumn = this.ths[this.sortedColumn];
-        this.setHeaderText(newColumn, newColumn.getAttribute('_text') + '\u00a0' + ((this.sortDir === 1) ? '\u2B9D' : '\u2B9F'));
+        this.setHeaderText(newColumn, newColumn.getAttribute('_text') + '\u00a0' + ((this.sortDir === 1) ? this.params.table.sortUpArrow : this.params.table.sortDownArrow));
         // clear the selection
         this.rowSelect(event, true);
         // publish the sort
@@ -105,7 +104,6 @@ export class TableComponent implements AfterContentInit {
           sortedID: newColumn.getAttribute('id')
         };
         this.sortedColumn$.next(columnSort);
-        this.sort.updateSort({ splitID: this.splitID, columnSort });
       }
     }
   }
@@ -122,6 +120,7 @@ export class TableComponent implements AfterContentInit {
   }
 
   ngAfterContentInit(): void {
+    console.log({ sortDir: this.sortDir, sortedColumn: this.sortedColumn });
     this.mungeHeaders();
     this.syncCells();
   }
@@ -218,10 +217,13 @@ export class TableComponent implements AfterContentInit {
       this.addClass(th, 'horizontal');
       th.setAttribute('_dir', 'horizontal');
       th.setAttribute('_text', th.innerText);
+      let text = th.innerText;
+      if (ix === this.sortedColumn)
+        text += (this.sortDir === 1) ? `\u00a0${this.params.table.sortUpArrow}` : `\u00a0${this.params.table.sortDownArrow}`;
       th.innerHTML = `
         <div class="column" _ix="${ix}">
           <div class="text" _ix="${ix}">
-            ${th.innerText}
+            ${text}
           </div
         </div>`;
     });

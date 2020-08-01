@@ -105,7 +105,7 @@ export class TabsComponent {
     this.layout.removeLayout({ 
       layoutID: tab.layoutID,
       // TODO
-      visitor: split => this.sort.removeSort({ splitID: split.id })
+      visitor: split => this.sort.remove({ splitID: split.id })
     });
     // if the tab we're removing is currently selected, select another
     if (tab.layoutID === this.selection.layoutID) {
