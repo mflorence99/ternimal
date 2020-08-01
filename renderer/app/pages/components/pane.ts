@@ -6,12 +6,12 @@ import { SelectionState } from '../../state/selection';
 import { SortState } from '../../state/sort';
 import { TabsState } from '../../state/tabs';
 import { Widget } from '../../widgets/widget';
+import { WidgetCommand } from '../../widgets/widget';
 import { WidgetHostDirective } from '../directives/widget-host';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ComponentFactoryResolver } from '@angular/core';
-import { ComponentRef } from '@angular/core';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -26,15 +26,15 @@ import { ViewChild } from '@angular/core';
 
 export class PaneComponent implements OnInit {
 
-  static modelWidgets: Widget[] = Object.keys(widgets).map(nm => new widgets[nm]);
-
-  cRef: ComponentRef<Widget>;
+  static allWidgets: Widget[] = Object.keys(widgets).map(nm => new widgets[nm]);
 
   @ViewChild(ContextMenuComponent, { static: true }) contextMenu: ContextMenuComponent;
 
   @Input() index: number;
   @Input() split: Layout;
   @Input() splittable: Layout;
+
+  widget: Widget;
 
   @ViewChild(WidgetHostDirective, { static: true }) widgetHost: WidgetHostDirective;
 
@@ -56,8 +56,20 @@ export class PaneComponent implements OnInit {
       this.selection.selectSplit({ splitID: this.splittable.splits[0].id });
   }
 
+  executeCommand(command: WidgetCommand): void {
+    eval(`this.widget.${command.command}`);
+  }
+
   isCloseEnabled(): boolean {
     return this.splittable.splits?.length > 1;
+  }
+
+  isCommandEnabled(command: WidgetCommand): boolean {
+    if (command.if)
+      return eval(`this.widget.${command.if}`);
+    else if (command.unless)
+      return !eval(`this.widget.${command.unless}`);
+    else return true;
   }
 
   isSelected(): boolean {
@@ -70,10 +82,9 @@ export class PaneComponent implements OnInit {
       this.widgetHost.vcRef.clear();
       // @see https://stackoverflow.com/questions/40528592
       const cFactory = this.resolver.resolveComponentFactory(widgets['ProcessesComponent']);
-      this.cRef = this.widgetHost.vcRef.createComponent(cFactory);
+      this.widget = this.widgetHost.vcRef.createComponent(cFactory).instance;
       // populate the widget with our input
-      const widget: Widget = this.cRef.instance;
-      widget.splitID = this.split.id;      
+      this.widget.splitID = this.split.id;      
     }
   }
 

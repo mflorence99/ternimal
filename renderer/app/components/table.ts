@@ -96,7 +96,7 @@ export class TableComponent implements AfterContentInit {
         const newColumn = this.ths[this.sortedColumn];
         this.setHeaderText(newColumn, newColumn.getAttribute('_text') + '\u00a0' + ((this.sortDir === 1) ? this.params.table.sortUpArrow : this.params.table.sortDownArrow));
         // clear the selection
-        this.rowSelect(event, true);
+        this.rowUnselect();
         // publish the sort
         const columnSort: ColumnSort = {
           sortDir: this.sortDir,
@@ -128,34 +128,35 @@ export class TableComponent implements AfterContentInit {
     this.syncCells();
   }
 
-  rowSelect(event: MouseEvent, forceClear = false, forceShift = false): void {
+  rowSelect(event: MouseEvent, forceShift = false): void {
     const tr = this.findRow(event);
-    if (forceClear || (tr && (event.buttons === 1))) {
+    if (tr) {
       const oldSelected = new Set<string>(this.selectedRows);
       let newSelected = new Set<string>();
-      if (!forceClear) {
+      // NOTE: right-click does not affect selection if row already selected
+      if ((event.buttons === 1) || ((event.buttons === 2) && !oldSelected.has(tr.id))) {
         // SHIFT KEY DOWN
         if (event.shiftKey || forceShift) {
           oldSelected.forEach(id => newSelected.add(id));
           if (newSelected.size === 0)
             newSelected.add(tr.id);
           else newSelected = new Set<string>(this.rowSelectXtndImpl(tr.id, [...newSelected]));
-          // CTRL KEY DOWN
+        // CTRL KEY DOWN
         } else if (event.ctrlKey || event.metaKey) {
           oldSelected.forEach(id => newSelected.add(id));
           newSelected.has(tr.id) ? newSelected.delete(tr.id) : newSelected.add(tr.id);
         // CLEAN SELECT
         } else newSelected.add(tr.id);
+        // unselect those in the old not also in the new
+        let diff = new Set<string>([...oldSelected].filter(id => !newSelected.has(id)));
+        diff.forEach(id => this.unapplyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
+        // select all those in the new not also in the old
+        diff = new Set<string>([...newSelected].filter(id => !oldSelected.has(id)));
+        diff.forEach(id => this.applyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
+        // publish the selection
+        this.selectedRows = [...newSelected];
+        this.selectedRows$.next(this.selectedRows);
       }
-      // unselect those in the old not also in the new
-      let diff = new Set<string>([...oldSelected].filter(id => !newSelected.has(id)));
-      diff.forEach(id => this.unapplyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
-      // select all those in the new not also in the old
-      diff = new Set<string>([...newSelected].filter(id => !oldSelected.has(id)));
-      diff.forEach(id => this.applyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
-      // publish the selection
-      this.selectedRows = [...newSelected];
-      this.selectedRows$.next(this.selectedRows);
     }
   }
 
@@ -166,7 +167,13 @@ export class TableComponent implements AfterContentInit {
 
   rowSelectXtnd(event: MouseEvent): void {
     if (event.buttons === 1)
-      this.rowSelect(event, false, true);
+      this.rowSelect(event, /* forceShift= */ true);
+  }
+
+  rowUnselect(): void {
+    this.selectedRows.forEach(id => this.unapplyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
+    this.selectedRows = [];
+    this.selectedRows$.next(this.selectedRows);
   }
 
   // private methods
@@ -194,14 +201,9 @@ export class TableComponent implements AfterContentInit {
   }
 
   private findRow(event: MouseEvent): HTMLElement {
-    const td = event.target as HTMLElement;
-    let tr = null;
+    const cell = event.target as HTMLElement;
     // NOTE: row must have ID
-    if ((td.tagName === 'TD') 
-      && (td.parentElement?.tagName === 'TR')
-      && td.parentElement.id)
-      tr = td.parentElement;
-    return tr;
+    return cell.closest('tr[id]');
   }
 
   private handleActions$(): void {

@@ -6,6 +6,7 @@ import { SortState } from '../state/sort';
 import { TableComponent } from '../components/table';
 import { Utils } from '../services/utils';
 import { Widget } from './widget';
+import { WidgetCommand } from './widget';
 
 import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
@@ -30,6 +31,31 @@ import { takeUntil } from 'rxjs/operators';
 export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
 
   columnSort: ColumnSort;
+
+  commands: WidgetCommand[] = [
+    {
+      command: 'run(false)',
+      icon: ['far', 'pause-circle'],
+      if: 'running',
+      tooltip: 'Pause'
+    },
+    {
+      command: 'run(true)',
+      icon: ['far', 'play-circle'],
+      tooltip: 'Run',
+      unless: 'running'
+    }
+  ];
+
+  menuItems: WidgetCommand[] = [
+    {
+      command: 'kill()',
+      icon: ['far', 'pause-circle'],
+      tooltip: 'Kill...'
+    }
+  ];
+
+  running = true;
 
   @Input() splitID: string;
 
@@ -65,6 +91,10 @@ export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
     this.stats = this.sortStats(this.processes.snapshot);
   }
 
+  run(running: boolean): void {
+    this.running = running;
+  }
+
   trackByPID(_, process): string {
     return String(process.pid);
   }
@@ -74,6 +104,7 @@ export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
   private handleActions$(): void {
     this.actions$
       .pipe(
+        filter(() => this.running),
         filter(({ action, status }) => {
           return this.utils.hasProperty(action, 'ProcessesState.update')
             && (status === 'SUCCESSFUL');

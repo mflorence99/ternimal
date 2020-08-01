@@ -1,8 +1,7 @@
 :host {
-  --pane-cy-footer: 1.5rem;
+  --pane-cy-footer: 2rem;
 
   display: block;
-  font-size: 0.85rem;
   height: 100%;
 }
 
@@ -13,6 +12,7 @@ section {
 
   .content {
     bottom: var(--pane-cy-footer);
+    font-size: 0.85rem;
     height: calc(100% - var(--pane-cy-footer));
     overflow: hidden;
     position: absolute;
@@ -47,6 +47,10 @@ section {
 
     .placeholder {
       flex-grow: 1;
+    }
+
+    .spacer {
+      margin-right: 0.5rem;
     }
 
     .tool {

@@ -2,8 +2,6 @@
   (click)="select()"
   [contextMenu]="contextMenu">
 
-  <!-- TODO: temporary -->
-
   <div
     class="content">
     <ng-template ternimalWidgetHost></ng-template>
@@ -21,21 +19,42 @@
       class="placeholder">
     </div>
 
-    <fa-icon
-      (click)="splitRight()"
-      [icon]="['fas', 'grip-vertical']"
-      *ngIf="isSelected()"
-      class="tool"
-      matTooltip="Split right">
-    </fa-icon>
+    <ng-container
+      *ngIf="isSelected()">
 
-    <fa-icon
-      (click)="splitDown()"
-      [icon]="['fas', 'grip-horizontal']"
-      *ngIf="isSelected()"
-      class="tool"
-      matTooltip="Split down">
-    </fa-icon>
+      <ng-container
+        *ngFor="let command of widget?.commands || []">
+
+        <fa-icon
+          (click)="executeCommand(command)"
+          [icon]="command.icon"
+          [matTooltip]="command.tooltip"
+          *ngIf="isCommandEnabled(command)"
+          class="tool">
+        </fa-icon>
+
+      </ng-container>
+
+      <div
+        *ngIf="widget?.commands?.length > 0"
+        class="spacer">
+      </div>
+
+      <fa-icon
+        (click)="splitRight()"
+        [icon]="['fas', 'grip-vertical']"
+        class="tool"
+        matTooltip="Split right">
+      </fa-icon>
+
+      <fa-icon
+        (click)="splitDown()"
+        [icon]="['fas', 'grip-horizontal']"
+        class="tool"
+        matTooltip="Split down">
+      </fa-icon>
+
+    </ng-container>
 
       <fa-icon
       (click)="closePane()"
@@ -49,9 +68,24 @@
 
 </section>
 
-<!-- TODO: temporary -->
-
 <context-menu>
+
+  <ng-container
+    *ngFor="let menuItem of widget?.menuItems || []">
+
+    <ng-template
+      contextMenuItem
+      (execute)="executeCommand(menuItem)">
+      <div>{{ menuItem.tooltip }}</div>
+    </ng-template>
+
+    <ng-template
+      *ngIf="widget?.menuItems?.length > 0"
+      contextMenuItem
+      divider="true">
+    </ng-template>
+
+  </ng-container>
 
   <ng-template
     contextMenuItem

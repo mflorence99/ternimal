@@ -32,11 +32,11 @@
         vertical-align: top;
 
         &.hover {
-          background-color: rgba(var(--rgb-grey-200), 0.25);
+          background-color: rgba(var(--rgb-blue-grey-600), 0.25);
         }
 
         &.selected {
-          background-color: rgba(var(--rgb-blue-grey-600), 0.25);
+          background-color: rgba(var(--rgb-grey-200), 0.25);
         }
 
         &.hover.selected {
@@ -48,7 +48,7 @@
       tr {
 
         &:hover {
-          background-color: var(--mat-grey-800);
+          background-color: rgba(var(--rgb-blue-grey-600), 0.25);
         }
 
       }
@@ -75,7 +75,7 @@
         }
 
         &.hover .column {
-          background-color: rgba(var(--rgb-grey-200), 0.25);
+          background-color: rgba(var(--rgb-blue-grey-600), 0.25);
         }
 
         &.horizontal .text {
