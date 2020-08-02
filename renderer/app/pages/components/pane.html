@@ -16,6 +16,25 @@
     </fa-icon>
 
     <div
+      class="spacer">
+    </div>
+
+    <ng-container
+      *ngIf="isSelected()">
+
+      <fa-icon
+        (click)="launch(widget)"
+        [fixedWidth]="true"
+        [icon]="widget.launch.icon"
+        [matTooltip]="widget.launch.description"
+        [ngStyle]="{color: isLaunched(widget)? tabs.tab.color : 'inherit'}"
+        *ngFor="let widget of widgets"
+        class="tool">
+      </fa-icon>
+
+    </ng-container>
+
+    <div
       class="placeholder">
     </div>
 
@@ -27,6 +46,7 @@
 
         <fa-icon
           (click)="executeCommand(command)"
+          [fixedWidth]="true"
           [icon]="command.icon"
           [matTooltip]="command.tooltip"
           *ngIf="isCommandEnabled(command)"
@@ -42,6 +62,7 @@
 
       <fa-icon
         (click)="splitRight()"
+        [fixedWidth]="true"
         [icon]="['fas', 'grip-vertical']"
         class="tool"
         matTooltip="Split right">
@@ -49,6 +70,7 @@
 
       <fa-icon
         (click)="splitDown()"
+        [fixedWidth]="true"
         [icon]="['fas', 'grip-horizontal']"
         class="tool"
         matTooltip="Split down">
@@ -58,6 +80,7 @@
 
       <fa-icon
       (click)="closePane()"
+      [fixedWidth]="true"
       [icon]="['fas', 'times']"
       *ngIf="isCloseEnabled()"
       class="tool"
@@ -75,7 +98,8 @@
 
     <ng-template
       contextMenuItem
-      (execute)="executeCommand(menuItem)">
+      (execute)="executeCommand(menuItem)"
+      [enabled]="isCommandEnabled.bind(this, menuItem)">
       <div>{{ menuItem.tooltip }}</div>
     </ng-template>
 

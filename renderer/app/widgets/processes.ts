@@ -1,5 +1,9 @@
+import { Channels } from '../common/channels';
 import { ColumnSort } from '../state/sort';
+import { ConfirmDialogComponent } from '../components/confirm-dialog';
+import { ConfirmDialogModel } from '../components/confirm-dialog';
 import { DestroyService } from '../services/destroy';
+import { Params } from '../services/params';
 import { ProcessesState } from '../state/processes';
 import { ProcessStats } from '../state/processes';
 import { SortState } from '../state/sort';
@@ -7,12 +11,16 @@ import { TableComponent } from '../components/table';
 import { Utils } from '../services/utils';
 import { Widget } from './widget';
 import { WidgetCommand } from './widget';
+import { WidgetLaunch } from './widget';
 
 import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ElectronService } from 'ngx-electron';
 import { Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
@@ -47,15 +55,23 @@ export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
     }
   ];
 
+  launch: WidgetLaunch = {
+    description: 'top+',
+    icon: ['fas', 'sitemap'],
+    implementation: 'ProcessesComponent'
+  };
+
   menuItems: WidgetCommand[] = [
     {
-      command: 'kill()',
+      command: 'confirmKill()',
       icon: ['far', 'pause-circle'],
+      if: 'selectedRows.length',
       tooltip: 'Kill...'
     }
   ];
 
   running = true;
+  selectedRows: string[] = [];
 
   @Input() splitID: string;
 
@@ -65,34 +81,50 @@ export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
 
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
+              private dialog: MatDialog,
+              public electron: ElectronService,
+              private params: Params,
               public processes: ProcessesState,
+              private snackBar: MatSnackBar,
               public sort: SortState,
               private utils: Utils) { }
 
+  confirmKill(): void {
+    const message = 'Are you sure you want to proceed? All selected processes will be killed, which may result in system instability.';
+    const title = 'Confirm Kill Processes';
+    this.dialog.open(ConfirmDialogComponent, {
+      data: new ConfirmDialogModel(title, message)
+    }).afterClosed().subscribe(result => {
+      if (result)
+        this.kill();
+    });
+  }
+
+  kill(): void {
+    // NOTE: the row ID is the PID
+    const pids = this.selectedRows;
+    this.electron.ipcRenderer.send(Channels.processListKill, pids);
+    const message = `Killed process${pids.length === 1 ? '' : 'es'} ${pids.join(', ')}`;
+    this.snackBar.open(message, null, { duration: this.params.snackBarDuration });
+  }
+
   ngAfterViewInit(): void {
+    this.handleActions$();
+    this.handleSelection$();
+    this.handleSort$();
     this.processes.startPolling();
-    this.table.sortedColumn$
-      .pipe(
-        // @see https://blog.angular-university.io/angular-debugging/
-        delay(0),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(columnSort => {
-        this.columnSort = columnSort;
-        this.sort.update({ splitID: this.splitID, columnSort });
-        // resort that stats
-        this.stats = this.sortStats(this.processes.snapshot);
-      });
   }
 
   ngOnInit(): void {
-    this.handleActions$();
     this.columnSort = this.sort.columnSort(this.splitID);
     this.stats = this.sortStats(this.processes.snapshot);
   }
 
   run(running: boolean): void {
     this.running = running;
+    this.snackBar.open('Process list display', (running ? 'Running' : 'Paused'), {
+      duration: this.params.snackBarDuration
+    });
   }
 
   trackByPID(_, process): string {
@@ -111,7 +143,30 @@ export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => {
+      .subscribe(() => this.stats = this.sortStats(this.processes.snapshot));
+  }
+
+  private handleSelection$(): void {
+    this.table.selectedRows$
+      .pipe(
+        // @see https://blog.angular-university.io/angular-debugging/
+        delay(0),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(selectedRows => this.selectedRows = selectedRows);
+  }
+
+  private handleSort$(): void {
+    this.table.sortedColumn$
+      .pipe(
+        // @see https://blog.angular-university.io/angular-debugging/
+        delay(0),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(columnSort => {
+        this.columnSort = columnSort;
+        this.sort.update({ splitID: this.splitID, columnSort });
+        // resort that stats
         this.stats = this.sortStats(this.processes.snapshot);
       });
   }

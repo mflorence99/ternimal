@@ -4,11 +4,16 @@ import { ProcessList } from './common/process-list';
 
 import * as electron from 'electron';
 import * as os from 'os';
+import * as process from 'process';
 
 const pidUsage = require('pidusage');
 const psList = require('ps-list');
 
 const { ipcMain } = electron;
+
+ipcMain.on(Channels.processListKill, (event: any, pids: number[]) => {
+  pids.forEach(pid => process.kill(pid, 'SIGTERM'));
+});
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 ipcMain.on(Channels.processListRequest, async(event: any) => {

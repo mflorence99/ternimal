@@ -1,14 +1,14 @@
 import { BarrelModule } from '../barrel';
 import { ComponentsModule as CommonComponentsModule } from '../components/module';
 import { PipesModule } from '../pipes/module';
-import { PlaceholderComponent } from './placeholder';
 import { ProcessesComponent } from './processes';
+import { TerminalComponent } from './terminal';
 
 import { NgModule } from '@angular/core';
 
 const COMPONENTS = [
-  PlaceholderComponent,
-  ProcessesComponent
+  ProcessesComponent,
+  TerminalComponent
 ];
 
 const MODULES = [

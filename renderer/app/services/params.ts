@@ -7,11 +7,6 @@ export class Params {
 
   static uuid: string = UUID.UUID();
 
-  conFirmTabRemoval = {
-    message: 'Are you sure you want to proceed? This operation cannot be undone and all sessions will be terminated.',
-    title: 'Confirm Tab Removal'
-  };
-
   led = {
     gap: 3,
     width: 3
@@ -23,10 +18,13 @@ export class Params {
   };
 
   rgb = {
+    blue: '--google-blue-500',
     green: '--google-green-500',
     red: '--google-red-500',
     yellow: '--google-yellow-500'
   };
+
+  snackBarDuration = 2000;
 
   systemInfoPollInterval = 1000;
 

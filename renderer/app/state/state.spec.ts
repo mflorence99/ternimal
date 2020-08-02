@@ -1,4 +1,5 @@
 import { LayoutState } from './layout';
+import { PanesState } from './panes';
 import { ProcessesState } from './processes';
 import { SelectionState } from './selection';
 import { SortState } from './sort';
@@ -14,6 +15,7 @@ import { TestBed } from '@angular/core/testing';
 
 export interface Bundle {
   layout?: LayoutState;
+  panes?: PanesState;
   processes?: ProcessesState;
   selection?: SelectionState;
   sort?: SortState;
@@ -33,6 +35,7 @@ export function prepare(): Bundle {
   });
 
   bundle.layout = TestBed.inject(LayoutState);
+  bundle.panes = TestBed.inject(PanesState);
   bundle.processes = TestBed.inject(ProcessesState);
   bundle.selection = TestBed.inject(SelectionState);
   bundle.sort = TestBed.inject(SortState);

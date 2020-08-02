@@ -13,6 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
@@ -34,6 +35,7 @@ const MODULES = [
   MatInputModule,
   MatRippleModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatTooltipModule, 
   MomentModule,
   NgxResizeObserverModule,

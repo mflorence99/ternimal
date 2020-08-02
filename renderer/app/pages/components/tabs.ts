@@ -2,6 +2,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog';
 import { ConfirmDialogModel } from '../../components/confirm-dialog';
 import { DestroyService } from '../../services/destroy';
 import { LayoutState } from '../../state/layout';
+import { PanesState } from '../../state/panes';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { SortState } from '../../state/sort';
@@ -46,6 +47,7 @@ export class TabsComponent {
               private destroy$: DestroyService,
               private dialog: MatDialog,
               public layout: LayoutState,
+              public panes: PanesState,
               private params: Params,
               public selection: SelectionState,
               public sort: SortState,
@@ -56,8 +58,10 @@ export class TabsComponent {
   }
 
   confirmRemove(event: MouseEvent, tab: Tab): void {
+    const message = 'Are you sure you want to proceed? This operation cannot be undone and all sessions will be terminated.';
+    const title = 'Confirm Tab Removal';
     this.dialog.open(ConfirmDialogComponent, {
-      data: new ConfirmDialogModel(this.params.conFirmTabRemoval.title, this.params.conFirmTabRemoval.message)
+      data: new ConfirmDialogModel(title, message)
     }).afterClosed().subscribe(result => {
       if (result)
         this.remove(tab);
@@ -104,8 +108,10 @@ export class TabsComponent {
     this.tabs.removeTab({ tab });
     this.layout.removeLayout({ 
       layoutID: tab.layoutID,
-      // TODO
-      visitor: split => this.sort.remove({ splitID: split.id })
+      visitor: split => {
+        this.panes.remove({ splitID: split.id });
+        this.sort.remove({ splitID: split.id });
+      }
     });
     // if the tab we're removing is currently selected, select another
     if (tab.layoutID === this.selection.layoutID) {
