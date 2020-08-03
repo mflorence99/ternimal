@@ -1,17 +1,17 @@
-import { Channels } from '../common/channels';
-import { ColumnSort } from '../state/sort';
-import { ConfirmDialogComponent } from '../components/confirm-dialog';
-import { ConfirmDialogModel } from '../components/confirm-dialog';
-import { DestroyService } from '../services/destroy';
-import { Params } from '../services/params';
-import { ProcessesState } from '../state/processes';
-import { ProcessStats } from '../state/processes';
-import { SortState } from '../state/sort';
-import { TableComponent } from '../components/table';
-import { Utils } from '../services/utils';
-import { Widget } from './widget';
-import { WidgetCommand } from './widget';
-import { WidgetLaunch } from './widget';
+import { Channels } from '../../common/channels';
+import { ColumnSort } from '../../state/sort';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog';
+import { ConfirmDialogModel } from '../../components/confirm-dialog';
+import { DestroyService } from '../../services/destroy';
+import { Params } from '../../services/params';
+import { ProcessesState } from '../../state/processes';
+import { ProcessStats } from '../../state/processes';
+import { SortState } from '../../state/sort';
+import { TableComponent } from '../../components/table';
+import { Utils } from '../../services/utils';
+import { Widget } from '../widget';
+import { WidgetCommand } from '../widget';
+import { WidgetLaunch } from '../widget';
 
 import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
@@ -31,12 +31,12 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
   providers: [DestroyService],
-  selector: 'ternimal-processes',
-  templateUrl: 'processes.html',
-  styleUrls: ['processes.scss']
+  selector: 'ternimal-processes-root',
+  templateUrl: 'root.html',
+  styleUrls: ['root.scss']
 })
 
-export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
+export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
 
   columnSort: ColumnSort;
 
@@ -58,20 +58,19 @@ export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
   launch: WidgetLaunch = {
     description: 'top+',
     icon: ['fas', 'sitemap'],
-    implementation: 'ProcessesComponent'
+    implementation: 'ProcessListComponent'
   };
 
   menuItems: WidgetCommand[] = [
     {
       command: 'confirmKill()',
       icon: ['far', 'pause-circle'],
-      if: 'selectedRows.length',
+      if: 'table.selectedRows.length',
       tooltip: 'Kill...'
     }
   ];
 
   running = true;
-  selectedRows: string[] = [];
 
   @Input() splitID: string;
 
@@ -102,7 +101,7 @@ export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
 
   kill(): void {
     // NOTE: the row ID is the PID
-    const pids = this.selectedRows;
+    const pids = this.table.selectedRows;
     this.electron.ipcRenderer.send(Channels.processListKill, pids);
     const message = `Killed process${pids.length === 1 ? '' : 'es'} ${pids.join(', ')}`;
     this.snackBar.open(message, null, { duration: this.params.snackBarDuration });
@@ -110,7 +109,6 @@ export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
 
   ngAfterViewInit(): void {
     this.handleActions$();
-    this.handleSelection$();
     this.handleSort$();
     this.processes.startPolling();
   }
@@ -144,16 +142,6 @@ export class ProcessesComponent implements AfterViewInit, OnInit, Widget {
         takeUntil(this.destroy$)
       )
       .subscribe(() => this.stats = this.sortStats(this.processes.snapshot));
-  }
-
-  private handleSelection$(): void {
-    this.table.selectedRows$
-      .pipe(
-        // @see https://blog.angular-university.io/angular-debugging/
-        delay(0),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(selectedRows => this.selectedRows = selectedRows);
   }
 
   private handleSort$(): void {

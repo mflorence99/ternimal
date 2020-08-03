@@ -13,7 +13,7 @@
   <button
     (click)="ternimal.toggleTabPrefs()"
     mat-icon-button
-    matTooltip="{{ tabs.tab.label }} setup">
+    matTooltip="{{ ternimal.tabPrefsShowing? 'Hide' : 'Show' }} {{ tabs.tab.label }} setup">
     <fa-icon
       [icon]="['fas', 'cog']"
       size="lg">

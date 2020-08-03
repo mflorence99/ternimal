@@ -26,8 +26,9 @@ ipcMain.on(Channels.processListRequest, async(event: any) => {
   const totalmem = os.totalmem();
   const userInfo = os.userInfo();
   const processList: ProcessList = ps
-    .map(item => {
-      const stat = statsByPID[item.pid];
+    .map(item => [item, statsByPID[item.pid]])
+    .filter(([_, stat]) => !!stat)
+    .map(([item, stat]) => {
       return {
         cmd: item.cmd,
         cpu: Math.max(item.cpu, stat.cpu),

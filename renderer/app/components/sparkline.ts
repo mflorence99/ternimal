@@ -1,11 +1,11 @@
 import { Params } from '../services/params';
 import { Utils } from '../services/utils';
 
-import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { Input } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 import Chart from 'chart.js';
@@ -22,7 +22,7 @@ interface Sparkline {
   styleUrls: ['sparkline.scss']
 })
 
-export class SparklineComponent implements AfterViewInit {
+export class SparklineComponent implements OnInit {
 
   /* eslint-disable @typescript-eslint/member-ordering */
 
@@ -33,23 +33,7 @@ export class SparklineComponent implements AfterViewInit {
   }
   set sparkline(data: Sparkline) {
     this._sparkline = data;
-    if (this.chart) {
-      this.chart.data.labels = this.sparkline.labels;
-      const green = new Array(this.sparkline.data.length).fill(null);
-      const yellow = new Array(this.sparkline.data.length).fill(null);
-      const red = new Array(this.sparkline.data.length).fill(null);
-      this.sparkline.data.forEach((value, ix) => {
-        if (value > 66)
-          red[ix] = value;
-        else if (value > 33)
-          yellow[ix] = value;
-        else green[ix] = value;
-      });
-      this.chart.data.datasets[0].data = green;
-      this.chart.data.datasets[1].data = yellow;
-      this.chart.data.datasets[2].data = red;
-      this.chart.update();
-    }
+    this.updateChart();
   }
 
   @ViewChild('canvas', { static: true }) canvas: ElementRef;
@@ -61,7 +45,7 @@ export class SparklineComponent implements AfterViewInit {
               private params: Params,
               private utils: Utils) { }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     const canvas = this.canvas.nativeElement;
     canvas.height = this.wrapper.nativeElement.offsetHeight;
     canvas.width = this.wrapper.nativeElement.offsetWidth;
@@ -119,7 +103,30 @@ export class SparklineComponent implements AfterViewInit {
         }
       }
     });
+    // set the initial data
+    this.updateChart();
+  }
 
+  // private methods
+
+  private updateChart(): void {
+    if (this.chart && this.sparkline) {
+      this.chart.data.labels = this.sparkline.labels;
+      const green = new Array(this.sparkline.data.length).fill(NaN);
+      const yellow = new Array(this.sparkline.data.length).fill(NaN);
+      const red = new Array(this.sparkline.data.length).fill(NaN);
+      this.sparkline.data.forEach((value, ix) => {
+        if (value > 66)
+          red[ix] = value;
+        else if (value > 33)
+          yellow[ix] = value;
+        else green[ix] = value;
+      });
+      this.chart.data.datasets[0].data = green;
+      this.chart.data.datasets[1].data = yellow;
+      this.chart.data.datasets[2].data = red;
+      this.chart.update();
+    }
   }
 
 }

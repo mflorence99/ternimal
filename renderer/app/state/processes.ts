@@ -101,7 +101,7 @@ export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> impl
       // initialize the timeline
       if (!timeline) {
         timeline = {
-          data: new Array(numPoints).fill(null),
+          data: new Array(numPoints).fill(NaN),
           labels: new Array(numPoints).fill(null)
         };
         timelines[ps.pid] = timeline;

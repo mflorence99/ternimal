@@ -29,6 +29,7 @@ export class TableComponent implements AfterContentInit {
 
   scrollLeft: 0;
 
+  selectedRows: string[] = [];
   selectedRows$ = new Subject<string[]>();
   sortedColumn$ = new Subject<ColumnSort>();
 
@@ -42,7 +43,6 @@ export class TableComponent implements AfterContentInit {
   private hoverColumn = -1;
   private rowIDs: string[] = null;
   private rowIndexByID: Record<string, number> = null;
-  private selectedRows: string[] = [];
   private ths: HTMLElement[];
 
   constructor(private actions$: Actions,
@@ -94,7 +94,7 @@ export class TableComponent implements AfterContentInit {
         } else this.sortDir *= -1;
         // set the column text to indicate the sort direction
         const newColumn = this.ths[this.sortedColumn];
-        this.setHeaderText(newColumn, newColumn.getAttribute('_text') + '\u00a0' + ((this.sortDir === 1) ? this.params.table.sortUpArrow : this.params.table.sortDownArrow));
+        this.setHeaderText(newColumn, newColumn.getAttribute('_text') + ' ' + ((this.sortDir === 1) ? this.params.table.sortUpArrow : this.params.table.sortDownArrow));
         // clear the selection
         this.rowUnselect();
         // publish the sort
@@ -220,7 +220,7 @@ export class TableComponent implements AfterContentInit {
       th.setAttribute('_text', th.innerText);
       let text = th.innerText;
       if (ix === this.sortedColumn)
-        text += (this.sortDir === 1) ? `\u00a0${this.params.table.sortUpArrow}` : `\u00a0${this.params.table.sortDownArrow}`;
+        text += ' ' + ((this.sortDir === 1) ? this.params.table.sortUpArrow : this.params.table.sortDownArrow);
       th.innerHTML = `
         <div class="column" _ix="${ix}">
           <div class="text" _ix="${ix}">

@@ -6,6 +6,7 @@
 ternimal-table {
 
   td {
+    padding: 0 0.5rem;
     white-space: nowrap;
   }
 
@@ -14,12 +15,11 @@ ternimal-table {
     max-width: 20rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .ctime,
   .cpu,
-  .mem,
+  .memory,
   .pid,
   .ppid {
     text-align: right;
@@ -27,14 +27,19 @@ ternimal-table {
 
   .cpu,
   .memory {
+    padding: 0 0.25rem 0 0;
+    width: 6.25rem;
+
     > div {
       align-items: center;
       display: grid;
-      grid-gap: 0.5rem;
-      grid-template-columns: auto 3rem;
+      grid-gap: 0.25rem;
+      grid-template-columns: 3rem 2.5rem;
       height: 100%;
       justify-content: center;
+      line-height: 0;
     }
+
   }
 
   ternimal-sparkline {

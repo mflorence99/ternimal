@@ -1,6 +1,6 @@
-import { FileSystemComponent } from './file-system';
+import { FileSystemComponent } from './root';
 
-import { prepare } from './widget.spec';
+import { prepare } from '../widget.spec';
 
 import { TestBed } from '@angular/core/testing';
 

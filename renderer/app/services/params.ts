@@ -31,7 +31,7 @@ export class Params {
   table = {
     sortDownArrow: '\u2B9F',
     sortUpArrow: '\u2B9D',
-    verticalThreshold: 100
+    verticalThreshold: 80
   };
 
   tabsMoveInterval = 250;

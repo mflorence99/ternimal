@@ -1,6 +1,6 @@
-import { TerminalComponent } from './terminal';
+import { TerminalComponent } from './root';
 
-import { prepare } from './widget.spec';
+import { prepare } from '../widget.spec';
 
 import { TestBed } from '@angular/core/testing';
 

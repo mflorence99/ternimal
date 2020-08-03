@@ -1,4 +1,6 @@
+import { ComponentsModule } from './components/module';
 import { IconsModule } from './icons';
+import { PipesModule } from './pipes/module';
 
 import { AngularSplitModule } from 'angular-split';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,6 +26,7 @@ const MODULES = [
   AngularSplitModule,
   BrowserAnimationsModule,
   BrowserModule,
+  ComponentsModule,
   ContextMenuModule,
   DragDropModule,
   FontAwesomeModule,
@@ -39,6 +42,7 @@ const MODULES = [
   MatTooltipModule, 
   MomentModule,
   NgxResizeObserverModule,
+  PipesModule,
   ReactiveFormsModule
 ];
 

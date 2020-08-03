@@ -1,31 +1,22 @@
 import { BarrelModule } from '../barrel';
 import { ComponentsModule as CommonComponentsModule } from '../components/module';
+import { FileSystemModule } from './file-system/module';
 import { PipesModule } from '../pipes/module';
-import { ProcessesComponent } from './processes';
-import { TerminalComponent } from './terminal';
+import { ProcessesModule } from './processes/module';
+import { TerminalModule } from './terminal/module';
 
 import { NgModule } from '@angular/core';
-
-const COMPONENTS = [
-  ProcessesComponent,
-  TerminalComponent
-];
 
 const MODULES = [
   BarrelModule,
   CommonComponentsModule,
-  PipesModule
+  FileSystemModule,
+  PipesModule,
+  ProcessesModule,
+  TerminalModule
 ];
 
 @NgModule({
-
-  declarations: [
-    ...COMPONENTS
-  ],
-
-  exports: [
-    ...COMPONENTS
-  ],
 
   imports: [
     ...MODULES
