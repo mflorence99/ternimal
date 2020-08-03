@@ -12,6 +12,10 @@ export class Params {
     width: 3
   };
 
+  log = {
+    colorize: (color): string => `background-color: ${color}; color: white; font-weight: bold; padding: 2px 4px`
+  };
+
   processList = {
     maxTimeline: 5 * 60 * 1000,
     pollInterval: 5000
@@ -29,6 +33,10 @@ export class Params {
   systemInfoPollInterval = 1000;
 
   table = {
+    intersection: {
+      rootMargin: '24px',
+      threshold: 0
+    },
     sortDownArrow: '\u2B9F',
     sortUpArrow: '\u2B9D',
     verticalThreshold: 80

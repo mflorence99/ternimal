@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { Input } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ViewChild } from '@angular/core';
 
@@ -22,15 +23,16 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['table.scss']
 })
 
-export class TableComponent implements AfterContentInit {
+export class TableComponent implements AfterContentInit, OnDestroy {
 
   @ViewChild('body', { static: true }) body: ElementRef;
   @ViewChild('header', { static: true }) header: ElementRef;
 
+
   scrollLeft: 0;
 
-  selectedRows: string[] = [];
-  selectedRows$ = new Subject<string[]>();
+  selectedRowIDs: string[] = [];
+  selectedRowIDs$ = new Subject<string[]>();
   sortedColumn$ = new Subject<ColumnSort>();
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -41,12 +43,16 @@ export class TableComponent implements AfterContentInit {
   visibility = 'hidden';
 
   private hoverColumn = -1;
+  private hydratedRowIDs = new Set<string>();
+  private intersectionObserver: IntersectionObserver;
+  private observedRowIDs = new Set<string>();
   private rowIDs: string[] = null;
   private rowIndexByID: Record<string, number> = null;
   private ths: HTMLElement[];
 
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
+              private host: ElementRef,
               private params: Params) { 
     this.handleActions$();            
   }
@@ -101,7 +107,7 @@ export class TableComponent implements AfterContentInit {
         const columnSort: ColumnSort = {
           sortDir: this.sortDir,
           sortedColumn: this.sortedColumn,
-          sortedID: newColumn.getAttribute('id')
+          sortedID: newColumn.id
         };
         this.sortedColumn$.next(columnSort);
       }
@@ -119,19 +125,30 @@ export class TableComponent implements AfterContentInit {
     }
   }
 
+  isHydrated(id: any): boolean {
+    return this.hydratedRowIDs.has(String(id));
+  }
+
   ngAfterContentInit(): void {
+    this.observeIntersection();
+    this.observeRows();
     this.mungeHeaders();
     this.syncCells();
   }
 
+  ngOnDestroy(): void {
+    this.intersectionObserver.disconnect();
+  }
+
   resize(): void {
+    this.observeRows();
     this.syncCells();
   }
 
   rowSelect(event: MouseEvent, forceShift = false): void {
     const tr = this.findRow(event);
     if (tr) {
-      const oldSelected = new Set<string>(this.selectedRows);
+      const oldSelected = new Set<string>(this.selectedRowIDs);
       let newSelected = new Set<string>();
       // NOTE: right-click does not affect selection if row already selected
       if ((event.buttons === 1) || ((event.buttons === 2) && !oldSelected.has(tr.id))) {
@@ -154,8 +171,8 @@ export class TableComponent implements AfterContentInit {
         diff = new Set<string>([...newSelected].filter(id => !oldSelected.has(id)));
         diff.forEach(id => this.applyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
         // publish the selection
-        this.selectedRows = [...newSelected];
-        this.selectedRows$.next(this.selectedRows);
+        this.selectedRowIDs = [...newSelected];
+        this.selectedRowIDs$.next(this.selectedRowIDs);
       }
     }
   }
@@ -171,9 +188,9 @@ export class TableComponent implements AfterContentInit {
   }
 
   rowUnselect(): void {
-    this.selectedRows.forEach(id => this.unapplyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
-    this.selectedRows = [];
-    this.selectedRows$.next(this.selectedRows);
+    this.selectedRowIDs.forEach(id => this.unapplyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
+    this.selectedRowIDs = [];
+    this.selectedRowIDs$.next(this.selectedRowIDs);
   }
 
   // private methods
@@ -210,7 +227,14 @@ export class TableComponent implements AfterContentInit {
     this.actions$
       .pipe(takeUntil(this.destroy$))
       // NOTE: update column heads after ANY potential state change
-      .subscribe(() => this.syncCells());
+      .subscribe(() => {
+        this.observeRows();
+        this.syncCells();
+      });
+  }
+
+  private hasClass(element: HTMLElement, clazz: string): boolean {
+    return element.classList.contains(clazz);
   }
 
   private mungeHeaders(): void {
@@ -230,6 +254,53 @@ export class TableComponent implements AfterContentInit {
     });
   }
 
+  private observeIntersection(): void {
+    const cb = this.observeIntersectionImpl.bind(this);
+    this.intersectionObserver = new IntersectionObserver(cb, {
+      root: this.findElement(this.host.nativeElement, '.body-wrapper'),
+      rootMargin: this.params.table.intersection.rootMargin,
+      threshold: this.params.table.intersection.threshold
+    });
+  }
+
+  private observeIntersectionImpl(entries: IntersectionObserverEntry[]): void {
+    entries.forEach(entry => {
+      const tr = entry.target as HTMLElement;
+      const isNow = entry.isIntersecting;
+      const was = this.hasClass(tr, 'hydrated');
+      if (was !== isNow) {
+        // log when hydration state changes
+        if (isNow)
+          console.log('%cHydrate', this.params.log.colorize('#1b5e20'), tr.id);
+        else console.log('%cDehydrate', this.params.log.colorize('#b71c1c'), tr.id);
+        // make sure hydrated rows are  marked
+        if (was) {
+          this.removeClass(tr, 'hydrated');
+          this.hydratedRowIDs.delete(tr.id);
+        }
+        if (isNow) {
+          this.addClass(tr, 'hydrated');
+          this.hydratedRowIDs.add(tr.id);
+        }
+      }
+    });
+    // NOTE: need to resync the cells because the row that gave the headers
+    // their widths may have been dehydrated
+    this.syncCells();
+  }
+
+  private observeRows(): void {
+    // NOTE garbage collection is supposed to unobserve rows that disappear
+    // @see https://stackoverflow.com/questions/51106261/
+    const newObservedRowIDs = new Set<string>();
+    this.apply(this.body.nativeElement, 'tr[id]', tr => {
+      newObservedRowIDs.add(tr.id);
+      if (!this.observedRowIDs.has(tr.id)) 
+        this.intersectionObserver.observe(tr);
+    });
+    this.observedRowIDs = newObservedRowIDs;
+  }
+
   private removeClass(element: HTMLElement, clazz: string): void {
     element.classList.remove(clazz);
   }
@@ -241,7 +312,7 @@ export class TableComponent implements AfterContentInit {
   private rowSelectXtndImpl(id: string, selectedIDs: string[]): string[] {
     // cache the translation of ids to rows until mouseup
     if (this.rowIDs == null) {
-      this.rowIDs = this.findElements(this.body.nativeElement, 'tr').map(tr => tr.id);
+      this.rowIDs = this.findElements(this.body.nativeElement, 'tr[id]').map(tr => tr.id);
       this.rowIndexByID = this.rowIDs.reduce((acc, id, ix) => {
         acc[id] = ix;
         return acc;
@@ -269,22 +340,25 @@ export class TableComponent implements AfterContentInit {
   }
 
   private syncCells(): void {
-    const tds = this.apply(this.body.nativeElement, 'tr:first-child td', (td, ix) => {
-      const th = this.ths[ix];
-      const rect = td.getBoundingClientRect();
-      th.style.minWidth = `${rect.width}px`;
-      th.style.width = `${rect.width}px`;
-      // NOTE: only replace the direction class if necessary
-      const oldDir = th.getAttribute('_dir');
-      const newDir = rect.width > this.params.table.verticalThreshold ? 'horizontal' : 'vertical';
-      if (oldDir !== newDir) {
-        this.replaceClass(th, oldDir, newDir);
-        th.setAttribute('_dir', newDir);
-      }
-    });
-    // NOTE: visible now that content has been rendered
-    if (tds.length > 0)
-      this.visibility = 'visible';
+    const tr = this.findElement(this.body.nativeElement, 'tr.hydrated[id]');
+    if (tr) {
+      const tds = this.apply(tr, 'td', (td, ix) => {
+        const th = this.ths[ix];
+        const rect = td.getBoundingClientRect();
+        th.style.minWidth = `${rect.width}px`;
+        th.style.width = `${rect.width}px`;
+        // NOTE: only replace the direction class if necessary
+        const oldDir = th.getAttribute('_dir');
+        const newDir = rect.width > this.params.table.verticalThreshold ? 'horizontal' : 'vertical';
+        if (oldDir !== newDir) {
+          this.replaceClass(th, oldDir, newDir);
+          th.setAttribute('_dir', newDir);
+        }
+      });
+      // NOTE: visible now that content has been rendered
+      if (tds.length > 0)
+        this.visibility = 'visible';
+    }
   }
 
   private unapplyClass(root: HTMLElement, selector: string, clazz: string): void {

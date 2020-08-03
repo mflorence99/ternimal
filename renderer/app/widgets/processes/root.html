@@ -20,38 +20,56 @@
       *ngFor="let stat of stats; trackBy: trackByPID"
       [id]="stat.pid">
 
-      <td class="pid">{{ stat.pid }}</td>
-      <td class="ppid">{{ stat.ppid }}</td>
-      <td class="uid">{{ stat.uid }}</td>
-      <td class="name">{{ stat.name }}</td>
+      <ng-container
+        *ngIf="table.isHydrated(stat.pid); else dehydrated">
 
-      <td 
-        class="cpu">
-        <div>
-          <ternimal-sparkline
-            [sparkline]="stat.cpuTimeline">
-          </ternimal-sparkline>
-          {{ stat.cpu / 100 | percent:'0.1-1' }}
-        </div>
-      </td>
+        <td class="pid">{{ stat.pid }}</td>
+        <td class="ppid">{{ stat.ppid }}</td>
+        <td class="uid">{{ stat.uid }}</td>
+        <td class="name">{{ stat.name }}</td>
 
-      <td 
-        class="memory">
-        <div>
-          <ternimal-sparkline
-            [sparkline]="stat.memoryTimeline">
-          </ternimal-sparkline>
-          {{ stat.memory / 100 | percent:'0.1-1' }}
-        </div>
-      </td>
+        <td 
+          class="cpu">
+          <div>
+            <ternimal-sparkline
+              [sparkline]="stat.cpuTimeline"
+              class="sparkline">
+            </ternimal-sparkline>
+            {{ stat.cpu / 100 | percent:'0.1-1' }}
+          </div>
+        </td>
 
-      <td class="ctime">{{ stat.ctime | amUtc | amDateFormat:'HH:mm:ss' }}</td>
+        <td 
+          class="memory">
+          <div>
+            <ternimal-sparkline
+              [sparkline]="stat.memoryTimeline"
+              class="sparkline">
+            </ternimal-sparkline>
+            {{ stat.memory / 100 | percent:'0.1-1' }}
+          </div>
+        </td>
 
-      <td 
-        [matTooltip]="stat.cmd"
-        class="cmd">
-        {{ stat.cmd }}
-      </td>
+        <td class="ctime">{{ stat.ctime | amUtc | amDateFormat:'HH:mm:ss' }}</td>
+
+        <td 
+          [matTooltip]="stat.cmd"
+          class="cmd">
+          {{ stat.cmd }}
+        </td>
+
+      </ng-container>
+
+      <ng-template #dehydrated>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </ng-template>
 
     </tr>
   </tbody>

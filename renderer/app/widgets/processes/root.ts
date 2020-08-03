@@ -65,7 +65,7 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
     {
       command: 'confirmKill()',
       icon: ['far', 'pause-circle'],
-      if: 'table.selectedRows.length',
+      if: 'table.selectedRowIDs.length',
       tooltip: 'Kill...'
     }
   ];
@@ -101,7 +101,7 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
 
   kill(): void {
     // NOTE: the row ID is the PID
-    const pids = this.table.selectedRows;
+    const pids = this.table.selectedRowIDs;
     this.electron.ipcRenderer.send(Channels.processListKill, pids);
     const message = `Killed process${pids.length === 1 ? '' : 'es'} ${pids.join(', ')}`;
     this.snackBar.open(message, null, { duration: this.params.snackBarDuration });

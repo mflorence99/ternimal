@@ -62,11 +62,11 @@
 
       th {
         border-bottom: 1px solid var(--mat-grey-500);
-        cursor: pointer;
         font-weight: normal;
         height: var(--table-cy-header);
 
         &[sortable] {
+          cursor: pointer;
           font-weight: bold;
         }
 
