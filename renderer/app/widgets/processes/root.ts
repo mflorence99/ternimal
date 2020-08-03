@@ -4,8 +4,8 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog';
 import { ConfirmDialogModel } from '../../components/confirm-dialog';
 import { DestroyService } from '../../services/destroy';
 import { Params } from '../../services/params';
-import { ProcessesState } from '../../state/processes';
-import { ProcessStats } from '../../state/processes';
+import { ProcessListState } from '../../state/processes/process-list';
+import { ProcessStats } from '../../state/processes/process-list';
 import { SortState } from '../../state/sort';
 import { TableComponent } from '../../components/table';
 import { Utils } from '../../services/utils';
@@ -83,7 +83,7 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
               private dialog: MatDialog,
               public electron: ElectronService,
               private params: Params,
-              public processes: ProcessesState,
+              public processList: ProcessListState,
               private snackBar: MatSnackBar,
               public sort: SortState,
               private utils: Utils) { }
@@ -110,12 +110,12 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
   ngAfterViewInit(): void {
     this.handleActions$();
     this.handleSort$();
-    this.processes.startPolling();
+    this.processList.startPolling();
   }
 
   ngOnInit(): void {
     this.columnSort = this.sort.columnSort(this.splitID);
-    this.stats = this.sortStats(this.processes.snapshot);
+    this.stats = this.sortStats(this.processList.snapshot);
   }
 
   run(running: boolean): void {
@@ -136,12 +136,12 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
       .pipe(
         filter(() => this.running),
         filter(({ action, status }) => {
-          return this.utils.hasProperty(action, 'ProcessesState.update')
+          return this.utils.hasProperty(action, 'ProcessListState.update')
             && (status === 'SUCCESSFUL');
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.stats = this.sortStats(this.processes.snapshot));
+      .subscribe(() => this.stats = this.sortStats(this.processList.snapshot));
   }
 
   private handleSort$(): void {
@@ -155,7 +155,7 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
         this.columnSort = columnSort;
         this.sort.update({ splitID: this.splitID, columnSort });
         // resort that stats
-        this.stats = this.sortStats(this.processes.snapshot);
+        this.stats = this.sortStats(this.processList.snapshot);
       });
   }
 

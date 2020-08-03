@@ -1,8 +1,8 @@
-import { Channels } from '../common/channels';
-import { Params } from '../services/params';
-import { ProcessDescriptor } from '../common/process-list';
-import { ProcessList } from '../common/process-list';
-import { Utils } from '../services/utils';
+import { Channels } from '../../common/channels';
+import { Params } from '../../services/params';
+import { ProcessDescriptor } from '../../common/process-list';
+import { ProcessList } from '../../common/process-list';
+import { Utils } from '../../services/utils';
 
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { ElectronService } from 'ngx-electron';
@@ -38,16 +38,16 @@ export interface ProcessStats {
   uid: string;
 }
 
-export type ProcessesStateModel = ProcessStats[];
+export type ProcessListStateModel = ProcessStats[];
 
 @Injectable({ providedIn: 'root' })
 @StateRepository()
-@State<ProcessesStateModel>({
-  name: 'processes',
+@State<ProcessListStateModel>({
+  name: 'processList',
   defaults: [ ]
 })
 
-export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> implements NgxsOnInit {
+export class ProcessListState extends NgxsDataRepository<ProcessListStateModel> implements NgxsOnInit {
 
   private accrueCPU;
   private accrueMemory;
@@ -64,7 +64,7 @@ export class ProcessesState extends NgxsDataRepository<ProcessesStateModel> impl
   // actions
 
   @DataAction({ insideZone: true })
-  update(@Payload('ProcessesState.update') { processList }: DataActionParams): void {
+  update(@Payload('ProcessListState.update') { processList }: DataActionParams): void {
     const processes = processList.map((ps: ProcessDescriptor): ProcessStats => {
       return {
         ...ps,

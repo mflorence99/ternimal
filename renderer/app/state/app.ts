@@ -2,8 +2,8 @@ import { LayoutState } from './layout';
 import { LayoutStateModel } from './layout';
 import { PanesState } from './panes';
 import { PanesStateModel } from './panes';
-import { ProcessesState } from './processes';
-import { ProcessesStateModel } from './processes';
+import { ProcessListState } from './processes/process-list';
+import { ProcessListStateModel } from './processes/process-list';
 import { SelectionState } from './selection';
 import { SelectionStateModel } from './selection';
 import { SortState } from './sort';
@@ -16,7 +16,7 @@ import { TernimalStateModel } from './ternimal';
 export interface AppState {
   layout: LayoutStateModel;
   panes: PanesStateModel;
-  processes: ProcessesStateModel;
+  processList: ProcessListStateModel;
   selection: SelectionStateModel;
   sort: SortStateModel;
   tabs: TabsStateModel;
@@ -26,7 +26,7 @@ export interface AppState {
 export const states = [
   LayoutState,
   PanesState,
-  ProcessesState,
+  ProcessListState,
   SelectionState,
   SortState,
   TabsState,
