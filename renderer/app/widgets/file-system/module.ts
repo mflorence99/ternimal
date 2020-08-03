@@ -1,7 +1,6 @@
 import { BarrelModule } from '../../barrel';
 import { ComponentsModule as CommonComponentsModule } from '../../components/module';
 import { FileSystemComponent } from './root';
-import { PipesModule } from '../../pipes/module';
 
 import { NgModule } from '@angular/core';
 
@@ -11,8 +10,7 @@ const COMPONENTS = [
 
 const MODULES = [
   BarrelModule,
-  CommonComponentsModule,
-  PipesModule
+  CommonComponentsModule
 ];
 
 @NgModule({

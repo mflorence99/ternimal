@@ -1,6 +1,5 @@
 import { BarrelModule } from '../barrel';
 import { ComponentsModule } from './module';
-import { PipesModule } from '../pipes/module';
 
 import { states } from '../state/app';
 
@@ -18,8 +17,7 @@ export function prepare(): void {
       BarrelModule,
       ComponentsModule,
       NgxsModule.forRoot(states),
-      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
-      PipesModule
+      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN])
     ],
     providers: [
       // TODO: need some real objects here

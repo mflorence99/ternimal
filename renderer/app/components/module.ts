@@ -1,7 +1,6 @@
 import { BarrelModule } from '../barrel';
 import { ConfirmDialogComponent } from './confirm-dialog';
 import { EqGaugeComponent } from './eq-gauge';
-import { PipesModule } from '../pipes/module';
 import { SparklineComponent } from './sparkline';
 import { TableComponent } from './table';
 
@@ -25,8 +24,7 @@ const COMPONENTS = [
   ],
 
   imports: [
-    BarrelModule,
-    PipesModule
+    BarrelModule
   ]
 
 })

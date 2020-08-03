@@ -3,7 +3,6 @@ import { ComponentsModule as CommonComponentsModule } from '../../components/mod
 import { DirectivesModule } from '../directives/module';
 import { HeaderComponent } from './header';
 import { PaneComponent } from './pane';
-import { PipesModule } from '../../pipes/module';
 import { SplittableComponent } from './splittable';
 import { SystemInfoComponent } from './system-info';
 import { TabPrefsComponent } from './tab-prefs';
@@ -37,7 +36,6 @@ const COMPONENTS = [
     BarrelModule,
     CommonComponentsModule,
     DirectivesModule,
-    PipesModule,
     WidgetsModule
   ]
 

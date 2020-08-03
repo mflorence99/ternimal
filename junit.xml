@@ -1,9 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" time="5.866">
-  <testsuite name="Widgets tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:42:16" time="5.189" tests="2">
-    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.048">
+<testsuites name="jest tests" tests="96" failures="0" time="24.261">
+  <testsuite name="Widgets tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:54:54" time="1.235" tests="2">
+    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.043">
     </testcase>
-    <testcase classname="ProcessListComponent Component is created" name="ProcessListComponent Component is created" time="0.103">
+    <testcase classname="ProcessListComponent Component is created" name="ProcessListComponent Component is created" time="0.087">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:54:55" time="4.077" tests="5">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.125">
+    </testcase>
+    <testcase classname="ToolbarComponent Component is created" name="ToolbarComponent Component is created" time="0.122">
+    </testcase>
+    <testcase classname="ToolbarComponent devtools" name="ToolbarComponent devtools" time="0.063">
+    </testcase>
+    <testcase classname="ToolbarComponent newLayout" name="ToolbarComponent newLayout" time="0.055">
+    </testcase>
+    <testcase classname="ToolbarComponent reload" name="ToolbarComponent reload" time="0.046">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:54:59" time="0.84" tests="5">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.154">
+    </testcase>
+    <testcase classname="TabsComponent Component is created" name="TabsComponent Component is created" time="0.071">
+    </testcase>
+    <testcase classname="TabsComponent isInMore" name="TabsComponent isInMore" time="0.033">
+    </testcase>
+    <testcase classname="TabsComponent remove" name="TabsComponent remove" time="0.029">
+    </testcase>
+    <testcase classname="TabsComponent select" name="TabsComponent select" time="0.024">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:00" time="0.656" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.108">
+    </testcase>
+    <testcase classname="SystemInfoComponent Component is created" name="SystemInfoComponent Component is created" time="0.069">
+    </testcase>
+  </testsuite>
+  <testsuite name="Widgets tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:01" time="0.55" tests="2">
+    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.054">
+    </testcase>
+    <testcase classname="TerminalComponent Component is created" name="TerminalComponent Component is created" time="0.051">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:01" time="0.7" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.122">
+    </testcase>
+    <testcase classname="TabPrefsComponent Component is created" name="TabPrefsComponent Component is created" time="0.12">
+    </testcase>
+  </testsuite>
+  <testsuite name="RootComponent" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:02" time="0.729" tests="1">
+    <testcase classname="RootComponent App is created" name="RootComponent App is created" time="0.267">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:03" time="0.397" tests="7">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.003">
+    </testcase>
+    <testcase classname="TabsState newTab/removeTab" name="TabsState newTab/removeTab" time="0.034">
+    </testcase>
+    <testcase classname="TabsState moveTab - left" name="TabsState moveTab - left" time="0.007">
+    </testcase>
+    <testcase classname="TabsState moveTab - right" name="TabsState moveTab - right" time="0.005">
+    </testcase>
+    <testcase classname="TabsState updateTab" name="TabsState updateTab" time="0.007">
+    </testcase>
+    <testcase classname="TabsState tab accessor" name="TabsState tab accessor" time="0.004">
+    </testcase>
+    <testcase classname="TabsState tabIndex accessor" name="TabsState tabIndex accessor" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:03" time="0.684" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.119">
+    </testcase>
+    <testcase classname="HeaderComponent Component is created" name="HeaderComponent Component is created" time="0.107">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:04" time="0.659" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.112">
+    </testcase>
+    <testcase classname="PaneComponent Component is created" name="PaneComponent Component is created" time="0.077">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:05" time="0.673" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.114">
+    </testcase>
+    <testcase classname="SplittableComponent Component is created" name="SplittableComponent Component is created" time="0.078">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:05" time="0.637" tests="4">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.042">
+    </testcase>
+    <testcase classname="EqGaugeComponent Component is created" name="EqGaugeComponent Component is created" time="0.06">
+    </testcase>
+    <testcase classname="EqGaugeComponent count is calculated correctly" name="EqGaugeComponent count is calculated correctly" time="0.031">
+    </testcase>
+    <testcase classname="EqGaugeComponent color is calculated correctly" name="EqGaugeComponent color is calculated correctly" time="0.029">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:06" time="0.481" tests="1">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.043">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:06" time="0.543" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.038">
+    </testcase>
+    <testcase classname="SparklineComponent Component is created" name="SparklineComponent Component is created" time="0.077">
+    </testcase>
+  </testsuite>
+  <testsuite name="Widgets tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:07" time="0.526" tests="2">
+    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.041">
+    </testcase>
+    <testcase classname="FileSystemComponent Component is created" name="FileSystemComponent Component is created" time="0.047">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:08" time="0.579" tests="1">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.115">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:08" time="0.563" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.038">
+    </testcase>
+    <testcase classname="TableComponent Component is created" name="TableComponent Component is created" time="0.102">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:09" time="0.676" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.051">
+    </testcase>
+    <testcase classname="ConfirmDialogComponent Component is created" name="ConfirmDialogComponent Component is created" time="0.078">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:10" time="0.872" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="process-list processListRequest" name="process-list processListRequest" time="0.577">
+    </testcase>
+  </testsuite>
+  <testsuite name="Widgets tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:10" time="0.519" tests="1">
+    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.056">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:11" time="0.41" tests="7">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="LayoutState makeSplit/closeSplit - vertical" name="LayoutState makeSplit/closeSplit - vertical" time="0.033">
+    </testcase>
+    <testcase classname="LayoutState makeSplit/closeSplit - horizontal" name="LayoutState makeSplit/closeSplit - horizontal" time="0.015">
+    </testcase>
+    <testcase classname="LayoutState updateSplit" name="LayoutState updateSplit" time="0.008">
+    </testcase>
+    <testcase classname="LayoutState newLayout/removeLayout" name="LayoutState newLayout/removeLayout" time="0.011">
+    </testcase>
+    <testcase classname="LayoutState findSplitByID" name="LayoutState findSplitByID" time="0.004">
+    </testcase>
+    <testcase classname="LayoutState visitSplits" name="LayoutState visitSplits" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:11" time="0.357" tests="4">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="TernimalState Ternimal can be enabled and disabled" name="TernimalState Ternimal can be enabled and disabled" time="0.031">
+    </testcase>
+    <testcase classname="TernimalState Tab prefs can be shown/hidden" name="TernimalState Tab prefs can be shown/hidden" time="0.006">
+    </testcase>
+    <testcase classname="TernimalState Ternimal can compute a locally unique number" name="TernimalState Ternimal can compute a locally unique number" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:12" time="0.347" tests="2">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="ProcessesState dummy" name="ProcessesState dummy" time="0.033">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:12" time="0.358" tests="3">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.003">
+    </testcase>
+    <testcase classname="SelectionState selectLayout" name="SelectionState selectLayout" time="0.035">
+    </testcase>
+    <testcase classname="SelectionState selectSplit" name="SelectionState selectSplit" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="StorageService" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:12" time="0.345" tests="5">
+    <testcase classname="StorageService clear" name="StorageService clear" time="0.017">
+    </testcase>
+    <testcase classname="StorageService getItem" name="StorageService getItem" time="0.003">
+    </testcase>
+    <testcase classname="StorageService key" name="StorageService key" time="0.013">
+    </testcase>
+    <testcase classname="StorageService removeItem" name="StorageService removeItem" time="0.003">
+    </testcase>
+    <testcase classname="StorageService setItem" name="StorageService setItem" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Utils" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:13" time="0.319" tests="4">
+    <testcase classname="Utils Object can be deep copied" name="Utils Object can be deep copied" time="0.027">
+    </testcase>
+    <testcase classname="Utils hasProperty can test for a string" name="Utils hasProperty can test for a string" time="0.003">
+    </testcase>
+    <testcase classname="Utils hasProperty can test for a regexp" name="Utils hasProperty can test for a regexp" time="0.003">
+    </testcase>
+    <testcase classname="Utils nextTick works asynchronously" name="Utils nextTick works asynchronously" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:13" time="0.332" tests="4">
+    <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.004">
+    </testcase>
+    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0.001">
+    </testcase>
+    <testcase classname="ternimal ready (getBounds)" name="ternimal ready (getBounds)" time="0.002">
+    </testcase>
+    <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:14" time="0.34" tests="1">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="system-info" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:14" time="0.324" tests="1">
+    <testcase classname="system-info systemInfo" name="system-info systemInfo" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="channels" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:14" time="0.296" tests="1">
+    <testcase classname="channels enums" name="channels enums" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:15" time="0.329" tests="1">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="local-storage" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:15" time="0.311" tests="6">
+    <testcase classname="local-storage smoke test" name="local-storage smoke test" time="0.003">
+    </testcase>
+    <testcase classname="local-storage clear" name="local-storage clear" time="0">
+    </testcase>
+    <testcase classname="local-storage getItem" name="local-storage getItem" time="0.001">
+    </testcase>
+    <testcase classname="local-storage key" name="local-storage key" time="0">
+    </testcase>
+    <testcase classname="local-storage removeItem" name="local-storage removeItem" time="0.001">
+    </testcase>
+    <testcase classname="local-storage setItem" name="local-storage setItem" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="RangePipe" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:15" time="0.3" tests="2">
+    <testcase classname="RangePipe creates array without offset" name="RangePipe creates array without offset" time="0.003">
+    </testcase>
+    <testcase classname="RangePipe creates array with offset" name="RangePipe creates array with offset" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="toolbar" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:15" time="0.305" tests="2">
+    <testcase classname="toolbar openDevTools" name="toolbar openDevTools" time="0.003">
+    </testcase>
+    <testcase classname="toolbar reload" name="toolbar reload" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="DestroyService" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:16" time="0.305" tests="1">
+    <testcase classname="DestroyService destroy$ will complete a stream" name="DestroyService destroy$ will complete a stream" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="operators" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:16" time="0.289" tests="1">
+    <testcase classname="operators scratch" name="operators scratch" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Params" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:16" time="0.303" tests="1">
+    <testcase classname="Params uuid" name="Params uuid" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-03T10:55:17" time="0.31" tests="1">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.002">
     </testcase>
   </testsuite>
 </testsuites>

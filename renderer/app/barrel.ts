@@ -1,4 +1,3 @@
-import { ComponentsModule } from './components/module';
 import { IconsModule } from './icons';
 import { PipesModule } from './pipes/module';
 
@@ -26,7 +25,6 @@ const MODULES = [
   AngularSplitModule,
   BrowserAnimationsModule,
   BrowserModule,
-  ComponentsModule,
   ContextMenuModule,
   DragDropModule,
   FontAwesomeModule,

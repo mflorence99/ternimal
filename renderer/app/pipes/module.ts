@@ -1,4 +1,3 @@
-import { BarrelModule } from '../barrel';
 import { RangePipe } from './range';
 
 import { NgModule } from '@angular/core';
@@ -15,10 +14,6 @@ const PIPES = [
 
   exports: [
     ...PIPES
-  ],
-
-  imports: [
-    BarrelModule
   ]
 
 })

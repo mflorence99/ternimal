@@ -1,6 +1,5 @@
 import { BarrelModule } from '../barrel';
 import { ComponentsModule as CommonComponentsModule } from '../components/module';
-import { PipesModule } from '../pipes/module';
 
 import { states } from '../state/app';
 
@@ -17,8 +16,7 @@ export function prepare(): void {
       BarrelModule,
       CommonComponentsModule,
       NgxsModule.forRoot(states),
-      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
-      PipesModule
+      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN])
     ]
   }).compileComponents();
 

@@ -2,7 +2,6 @@ import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from './module';
 import { ComponentsModule as CommonComponentsModule } from '../../components/module';
 import { DirectivesModule } from '../directives/module';
-import { PipesModule } from '../../pipes/module';
 
 import { states } from '../../state/app';
 
@@ -30,8 +29,7 @@ export function prepare(): void {
       ComponentsModule,
       DirectivesModule,
       NgxsModule.forRoot(states),
-      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
-      PipesModule
+      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN])
     ],
     providers: [
       ContextMenuService,
