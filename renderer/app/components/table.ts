@@ -28,6 +28,8 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   @ViewChild('body', { static: true }) body: ElementRef;
   @ViewChild('header', { static: true }) header: ElementRef;
 
+  @Input() hydrate: boolean;
+  @Input() hydrateTrace: boolean;
 
   scrollLeft: 0;
 
@@ -126,7 +128,7 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   }
 
   isHydrated(id: any): boolean {
-    return this.hydratedRowIDs.has(String(id));
+    return !this.hydrate || this.hydratedRowIDs.has(String(id));
   }
 
   ngAfterContentInit(): void {
@@ -137,7 +139,7 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.intersectionObserver.disconnect();
+    this.intersectionObserver?.disconnect();
   }
 
   resize(): void {
@@ -255,12 +257,14 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   }
 
   private observeIntersection(): void {
-    const cb = this.observeIntersectionImpl.bind(this);
-    this.intersectionObserver = new IntersectionObserver(cb, {
-      root: this.findElement(this.host.nativeElement, '.body-wrapper'),
-      rootMargin: this.params.table.intersection.rootMargin,
-      threshold: this.params.table.intersection.threshold
-    });
+    if (this.hydrate) {
+      const cb = this.observeIntersectionImpl.bind(this);
+      this.intersectionObserver = new IntersectionObserver(cb, {
+        root: this.findElement(this.host.nativeElement, '.body-wrapper'),
+        rootMargin: this.params.table.intersection.rootMargin,
+        threshold: this.params.table.intersection.threshold
+      });
+    }
   }
 
   private observeIntersectionImpl(entries: IntersectionObserverEntry[]): void {
@@ -270,9 +274,11 @@ export class TableComponent implements AfterContentInit, OnDestroy {
       const was = this.hasClass(tr, 'hydrated');
       if (was !== isNow) {
         // log when hydration state changes
-        if (isNow)
-          console.log('%cHydrate', this.params.log.colorize('#1b5e20'), tr.id);
-        else console.log('%cDehydrate', this.params.log.colorize('#b71c1c'), tr.id);
+        if (this.hydrateTrace) {
+          if (isNow)
+            console.log('%cHydrate', this.params.log.colorize('#1b5e20'), tr.id);
+          else console.log('%cDehydrate', this.params.log.colorize('#b71c1c'), tr.id);
+        }
         // make sure hydrated rows are  marked
         if (was) {
           this.removeClass(tr, 'hydrated');
@@ -290,15 +296,17 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   }
 
   private observeRows(): void {
-    // NOTE garbage collection is supposed to unobserve rows that disappear
-    // @see https://stackoverflow.com/questions/51106261/
-    const newObservedRowIDs = new Set<string>();
-    this.apply(this.body.nativeElement, 'tr[id]', tr => {
-      newObservedRowIDs.add(tr.id);
-      if (!this.observedRowIDs.has(tr.id)) 
-        this.intersectionObserver.observe(tr);
-    });
-    this.observedRowIDs = newObservedRowIDs;
+    if (this.hydrate) {
+      // NOTE garbage collection is supposed to unobserve rows that disappear
+      // @see https://stackoverflow.com/questions/51106261/
+      const newObservedRowIDs = new Set<string>();
+      this.apply(this.body.nativeElement, 'tr[id]', tr => {
+        newObservedRowIDs.add(tr.id);
+        if (!this.observedRowIDs.has(tr.id)) 
+          this.intersectionObserver.observe(tr);
+      });
+      this.observedRowIDs = newObservedRowIDs;
+    }
   }
 
   private removeClass(element: HTMLElement, clazz: string): void {
@@ -340,7 +348,7 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   }
 
   private syncCells(): void {
-    const tr = this.findElement(this.body.nativeElement, 'tr.hydrated[id]');
+    const tr = this.findElement(this.body.nativeElement, this.hydrate ? 'tr.hydrated[id]' : 'tr[id]');
     if (tr) {
       const tds = this.apply(tr, 'td', (td, ix) => {
         const th = this.ths[ix];
