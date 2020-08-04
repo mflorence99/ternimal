@@ -4,6 +4,7 @@ import { Utils } from '../../services/utils';
 import { scratch } from '../operators';
 
 import { Actions } from '@ngxs/store';
+import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
@@ -15,6 +16,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { filter } from 'rxjs/operators';
 import { patch } from '@ngxs/store/operators';
 
+export type Attribute = 'name' | 'size' | 'mtime' | 'btime' | 'atime' | 'mode' | 'user' | 'group';
 export type DateFmt = 'ago' | 'shortDate' | 'mediumDate' | 'longDate' | 'fullDate';
 export type QuantityFmt = 'abbrev' | 'bytes' | 'number';
 export type SortOrder = 'alpha' | 'first' | 'last';
@@ -26,15 +28,23 @@ interface DataActionParams {
   splitID?: string;
 }
 
+export interface Dictionary {
+  isDate?: boolean;
+  isQuantity?: boolean;
+  isString?: boolean;
+  name: Attribute;
+  showIcon?: boolean;
+  showMono?: boolean;
+  tag: string;
+}
+
 export interface FileSystemPrefs {
   dateFormat: DateFmt;
   quantityFormat: QuantityFmt;
-  showGridLines: boolean;
   showHiddenFiles: boolean;
-  showOnlyWritableFiles: boolean;
   sortDirectories: SortOrder;
   timeFormat: TimeFmt;
-  visibility: Record<string, boolean>;
+  visibility: Record<Attribute, boolean>;
 }
 
 export interface FileSystemPrefsStateModel {
@@ -67,19 +77,23 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
     return {
       dateFormat: 'mediumDate',
       quantityFormat: 'bytes',
-      showGridLines: true,
       showHiddenFiles: false,
-      showOnlyWritableFiles: false,
       sortDirectories: 'first',
       timeFormat: 'none',
       visibility: {
+        atime: false,
+        btime: false,
+        group: false,
         mode: true,
         mtime: true,
         name: true,
-        size: true
+        size: true,
+        user: false
       }
     };
   }
+
+  // actions
 
   @DataAction({ insideZone: true })
   remove(@Payload('FileSystemPrefsState.remove') { layoutID, splitID }: DataActionParams): void {
@@ -97,6 +111,25 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
       this.ctx.setState(patch({ byLayoutID: patch({ [layoutID]: prefs }) }));
     else if (!layoutID && splitID)
       this.ctx.setState(patch({ bySplitID: patch({ [splitID]: prefs }) }));
+  }
+
+  // accessors
+
+  @Computed() get dictionary(): Dictionary[] {
+    return [
+      { name: 'name', tag: 'Name', isString: true, showIcon: true },
+      { name: 'size', tag: 'Size', isQuantity: true },
+      { name: 'mtime', tag: 'Modified', isDate: true },
+      { name: 'btime', tag: 'Created', isDate: true },
+      { name: 'atime', tag: 'Accessed', isDate: true },
+      { name: 'mode', tag: 'Mode', isString: true, showMono: true },
+      { name: 'user', tag: 'User', isString: true },
+      { name: 'group', tag: 'Group', isString: true }
+    ];
+  }
+
+  @Computed() get global(): FileSystemPrefs {
+    return this.snapshot.global;
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */

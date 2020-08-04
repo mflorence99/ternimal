@@ -10,8 +10,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -32,8 +36,12 @@ const MODULES = [
   IconsModule,
   MatButtonModule,
   MatButtonToggleModule,
+  MatCheckboxModule,
   MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
   MatInputModule,
+  MatRadioModule,
   MatRippleModule,
   MatSidenavModule,
   MatSnackBarModule,

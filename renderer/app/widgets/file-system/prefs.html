@@ -21,4 +21,187 @@
 
   </header>
 
+  <form
+    [formGroup]="prefsForm"
+    novalidate>
+
+    <mat-accordion
+      formGroupName="prefs">
+
+      <mat-expansion-panel
+        [expanded]="true">
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Content
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div 
+          class="group">
+
+          <mat-checkbox
+            formControlName="showHiddenFiles">
+            Show hidden files
+          </mat-checkbox>
+
+          <mat-divider></mat-divider>
+
+          <ng-container
+            formGroupName="visibility">
+
+            <mat-checkbox
+              [formControlName]="dict.name"
+              *ngFor="let dict of prefs.dictionary">
+              Show {{ dict.tag }}
+            </mat-checkbox>
+
+          </ng-container>
+
+          <mat-error
+            *ngIf="!atLeastOne">
+            At least one field must be selected
+          </mat-error>
+
+        </div>
+
+      </mat-expansion-panel>
+
+      <mat-expansion-panel
+        [expanded]="false">
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Sort Options
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-radio-group
+          class="group"
+          formControlName="sortDirectories">
+
+          <div class="drawer-label">
+            How to Sort Directories
+          </div>
+
+          <mat-radio-button value="alpha">
+            Alphabetically with files
+          </mat-radio-button>
+          <mat-radio-button value="first">
+            Before all files
+          </mat-radio-button>
+          <mat-radio-button value="last">
+            After all files
+          </mat-radio-button>
+
+        </mat-radio-group>
+
+      </mat-expansion-panel>
+
+      <mat-expansion-panel
+        [expanded]="false">
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Formatting Options
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="group outer">
+
+          <mat-radio-group
+            class="group"
+            formControlName="quantityFormat">
+
+            <div class="drawer-label">
+              How to Show Size
+            </div>
+
+            <mat-radio-button value="number">
+              {{ size | ternimalNumeral:'0,0' }}
+            </mat-radio-button>
+            <mat-radio-button value="abbrev">
+              {{ size | ternimalNumeral:'0a' }}
+            </mat-radio-button>
+            <mat-radio-button value="bytes">
+              {{ size | ternimalNumeral:'0b' }}
+            </mat-radio-button>
+
+          </mat-radio-group>
+
+        </div>
+
+      </mat-expansion-panel>
+
+      <mat-expansion-panel
+        [expanded]="false">
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Date and Time
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="group outer">
+
+          <mat-radio-group
+            class="group"
+            formControlName="dateFormat">
+
+            <div class="drawer-label">
+              Select Date Format
+            </div>
+
+            <mat-radio-button value="ago">
+              an hour ago
+            </mat-radio-button>
+            <mat-radio-button value="shortDate">
+              {{ today | date:'shortDate' }}
+            </mat-radio-button>
+            <mat-radio-button value="mediumDate">
+              {{ today | date:'mediumDate' }}
+            </mat-radio-button>
+            <mat-radio-button value="longDate">
+              {{ today | date:'longDate' }}
+            </mat-radio-button>
+            <mat-radio-button value="fullDate">
+              {{ today | date:'fullDate' }}
+            </mat-radio-button>
+
+          </mat-radio-group>
+
+          <mat-radio-group
+            class="group"
+            formControlName="timeFormat">
+
+            <div class="drawer-label">
+              Select Time Format
+            </div>
+
+            <mat-radio-button value="none">
+              Don't show time
+            </mat-radio-button>
+            <mat-radio-button value="shortTime">
+              {{ today | date:'shortTime' }}
+            </mat-radio-button>
+            <mat-radio-button value="mediumTime">
+              {{ today | date:'mediumTime' }}
+            </mat-radio-button>
+            <mat-radio-button value="longTime">
+              {{ today | date:'longTime' }}
+            </mat-radio-button>
+            <mat-radio-button value="fullTime">
+              {{ today | date:'fullTime' }}
+            </mat-radio-button>
+
+          </mat-radio-group>
+
+        </div>
+
+      </mat-expansion-panel>
+
+    </mat-accordion>
+
+  </form>
+
 </section>

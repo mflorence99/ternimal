@@ -7,6 +7,28 @@ section {
   height: 100%;
   overflow: hidden;
 
+  form {
+    align-content: start;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 1fr;
+    height: calc(100% - var(--ternimal-cy-header));
+    overflow-y: auto;
+    padding: 1rem;
+
+    .group {
+      display: grid;
+      grid-gap: 0.5rem;
+      grid-template-columns: auto;
+
+      &.outer {
+        grid-gap: 1rem;
+      }
+
+    }
+
+  }
+
   header {
     align-items: center;
     display: grid;
