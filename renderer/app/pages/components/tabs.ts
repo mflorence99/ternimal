@@ -76,8 +76,8 @@ export class TabsComponent {
       // NOTE: attempt to animate this
       zip(timer(0, this.params.tabsMoveInterval), from(event.item.data))
         .pipe(take(event.item.data.length))
-        .subscribe(([ix, tab]) => this.tabs.moveTab({ tab, ix: event.currentIndex + ix }));
-    } else this.tabs.moveTab({ tab: event.item.data, ix: event.currentIndex });
+        .subscribe(([ix, tab]) => this.tabs.move({ tab, ix: event.currentIndex + ix }));
+    } else this.tabs.move({ tab: event.item.data, ix: event.currentIndex });
   }
 
   handleResize(resize: ResizeObserverEntry): void {
@@ -105,8 +105,8 @@ export class TabsComponent {
 
   remove(tab: Tab): void {
     const ix = this.tabs.findTabIndexByID(tab.layoutID);
-    this.tabs.removeTab({ tab });
-    this.layout.removeLayout({ 
+    this.tabs.remove({ tab });
+    this.layout.remove({ 
       layoutID: tab.layoutID,
       visitor: split => {
         this.panes.remove({ splitID: split.id });

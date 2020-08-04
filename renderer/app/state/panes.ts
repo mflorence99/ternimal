@@ -13,7 +13,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { patch } from '@ngxs/store/operators';
 
 interface DataActionParams {
-  panePrefs?: PanePrefs;
+  prefs?: PanePrefs;
   splitID?: string;
 }
 
@@ -47,13 +47,13 @@ export class PanesState extends NgxsDataRepository<PanesStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  update(@Payload('PanesState.update') { splitID, panePrefs }: DataActionParams): void {
-    this.ctx.setState(patch({ [splitID]: panePrefs }));
+  update(@Payload('PanesState.update') { splitID, prefs }: DataActionParams): void {
+    this.ctx.setState(patch({ [splitID]: prefs }));
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */
 
-  panePrefs(splitID: string): PanePrefs {
+  prefs(splitID: string): PanePrefs {
     return this.snapshot[splitID] ?? PanesState.defaultPrefs();
   }
 

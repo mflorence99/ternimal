@@ -93,7 +93,7 @@
       [icon]="['fas', 'times']"
       *ngIf="isCloseEnabled()"
       class="tool"
-      matTooltip="Close this pane">
+      matTooltip="Close this panel">
     </fa-icon>
 
   </footer>
@@ -153,7 +153,7 @@
     contextMenuItem
     (execute)="closePane()"
     [enabled]="isCloseEnabled.bind(this)">
-    <div>Close pane</div>
+    <div>Close this panel</div>
   </ng-template>
 
 </context-menu>

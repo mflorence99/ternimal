@@ -131,7 +131,7 @@ export type SplitVisitorFn = (split: Layout) => void;
   }
 
   @DataAction({ insideZone: true })
-  removeLayout(@Payload('LayoutState.removeLayout') { layoutID, visitor }: DataActionParams): void {
+  remove(@Payload('LayoutState.remove') { layoutID, visitor }: DataActionParams): void {
     const layout = this.snapshot[layoutID];
     if (layout) {
       // visit every layout we're deleting

@@ -58,7 +58,7 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  moveTab(@Payload('TabsState.moveTab') { tab, ix }: DataActionParams): void {
+  move(@Payload('TabsState.move') { tab, ix }: DataActionParams): void {
     const iy = this.findTabIndexByID(tab.layoutID);
     if ((ix !== iy) && (iy !== -1)) {
       this.ctx.setState(insertItem(tab, (ix > iy) ? ix + 1 : ix));
@@ -72,14 +72,14 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  removeTab(@Payload('TabsState.removeTab') { tab }: DataActionParams): void {
+  remove(@Payload('TabsState.remove') { tab }: DataActionParams): void {
     const ix = this.findTabIndexByID(tab.layoutID);
     if (ix !== -1)
       this.ctx.setState(removeItem(ix));
   }
 
   @DataAction({ insideZone: true })
-  updateTab(@Payload('TabsState.updateTab') { tab }: DataActionParams): void {
+  updateTab(@Payload('TabsState.update') { tab }: DataActionParams): void {
     const ix = this.findTabIndexByID(tab.layoutID);
     if (ix !== -1)
       this.ctx.setState(updateItem(ix, tab));

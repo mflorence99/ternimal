@@ -81,8 +81,8 @@ export class PaneComponent implements OnInit {
   }
 
   isLaunched(widget: Widget): boolean {
-    const panePrefs = this.panes.panePrefs(this.split.id);
-    return widget.launch.implementation === panePrefs.widget;
+    const prefs = this.panes.prefs(this.split.id);
+    return widget.launch.implementation === prefs.widget;
   }
 
   isSelected(): boolean {
@@ -91,14 +91,14 @@ export class PaneComponent implements OnInit {
 
   launch(widget: Widget): void {
     this.launchImpl(widget.launch.implementation);
-    this.panes.update({ splitID: this.split.id, panePrefs: {
+    this.panes.update({ splitID: this.split.id, prefs: {
       widget: widget.launch.implementation
     }});
   }
 
   ngOnInit(): void {
-    const panePrefs = this.panes.panePrefs(this.split.id);
-    this.launchImpl(panePrefs.widget);
+    const prefs = this.panes.prefs(this.split.id);
+    this.launchImpl(prefs.widget);
   }
 
   select(): void {

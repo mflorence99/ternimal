@@ -1,6 +1,7 @@
+import { FileSystemPrefsState } from './file-system/prefs';
 import { LayoutState } from './layout';
 import { PanesState } from './panes';
-import { ProcessListState } from './processes/process-list';
+import { ProcessListState } from './processes/list';
 import { SelectionState } from './selection';
 import { SortState } from './sort';
 import { TabsState } from './tabs';
@@ -14,6 +15,7 @@ import { NgxsModule } from '@ngxs/store';
 import { TestBed } from '@angular/core/testing';
 
 export interface Bundle {
+  fileSystemPrefs?: FileSystemPrefsState;
   layout?: LayoutState;
   panes?: PanesState;
   processList?: ProcessListState;
@@ -34,6 +36,7 @@ export function prepare(): Bundle {
     ]
   });
 
+  bundle.fileSystemPrefs = TestBed.inject(FileSystemPrefsState);
   bundle.layout = TestBed.inject(LayoutState);
   bundle.panes = TestBed.inject(PanesState);
   bundle.processList = TestBed.inject(ProcessListState);

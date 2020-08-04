@@ -5,6 +5,7 @@ import { PanesState } from '../../state/panes';
 import { SelectionState } from '../../state/selection';
 import { Widget } from '../../widgets/widget';
 import { WidgetHostDirective } from '../directives/widget-host';
+import { WidgetPrefs } from '../../widgets/widget-prefs';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -30,12 +31,13 @@ export class WidgetPrefsComponent implements OnInit {
               public selection: SelectionState) { }
 
   ngOnInit(): void {
-    const panePrefs = this.panes.panePrefs(this.selection.splitID);
+    const panePrefs = this.panes.prefs(this.selection.splitID);
     const widget = WidgetPrefsComponent.allWidgets.find(widget => widget.launch.implementation === panePrefs.widget);
     this.widgetHost.vcRef.clear();
     // @see https://stackoverflow.com/questions/40528592
     const cFactory = this.resolver.resolveComponentFactory(prefs[widget.prefs.implementation]);
-    this.widgetHost.vcRef.createComponent(cFactory);
+    const widgetPrefs = this.widgetHost.vcRef.createComponent(cFactory).instance as WidgetPrefs;
+    widgetPrefs.widget = widget;
   }
 
 }

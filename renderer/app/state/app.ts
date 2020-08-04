@@ -1,9 +1,11 @@
+import { FileSystemPrefsState } from './file-system/prefs';
+import { FileSystemPrefsStateModel } from './file-system/prefs';
 import { LayoutState } from './layout';
 import { LayoutStateModel } from './layout';
 import { PanesState } from './panes';
 import { PanesStateModel } from './panes';
-import { ProcessListState } from './processes/process-list';
-import { ProcessListStateModel } from './processes/process-list';
+import { ProcessListState } from './processes/list';
+import { ProcessListStateModel } from './processes/list';
 import { SelectionState } from './selection';
 import { SelectionStateModel } from './selection';
 import { SortState } from './sort';
@@ -14,6 +16,7 @@ import { TernimalState } from './ternimal';
 import { TernimalStateModel } from './ternimal';
 
 export interface AppState {
+  fileSystemPrefs: FileSystemPrefsStateModel;
   layout: LayoutStateModel;
   panes: PanesStateModel;
   processList: ProcessListStateModel;
@@ -24,6 +27,7 @@ export interface AppState {
 }
 
 export const states = [
+  FileSystemPrefsState,
   LayoutState,
   PanesState,
   ProcessListState,

@@ -35,6 +35,18 @@ export class Utils {
     });
   }
 
+  merge(...objs: any[]): any {
+    return objs
+      .filter(obj => !!obj)
+      .reduce((acc, obj) => {
+        for (const key in obj) {
+          if (obj[key] != null)
+            acc[key] = obj[key];
+        }
+        return acc;
+      }, { });
+  }
+
   nextTick(fn: Function): void {
     setTimeout(fn, 0);
   }

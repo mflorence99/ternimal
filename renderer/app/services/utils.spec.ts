@@ -28,6 +28,13 @@ describe('Utils', () => {
     expect(utils.hasProperty(obj, /^[A-Z]*$/)).toBe(false);
   });
 
+  test('Objects can be shallow merged, respecting null values', () => {
+    const obj1 = { a: 1, b: null, c: 'c' };
+    const obj2 = { a: null, b: true, c: 2 };
+    const target = { a: 1, b: true, c: 2 };
+    expect(utils.merge(obj1, obj2)).toEqual(target);
+  });
+
   test('nextTick works asynchronously', done => {
     const num = 42;
     utils.nextTick(() => {
