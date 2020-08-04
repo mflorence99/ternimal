@@ -11,9 +11,9 @@
   </button>
 
   <button
-    (click)="ternimal.toggleTabPrefs()"
+    (click)="ternimal.showTabPrefs()"
     mat-icon-button
-    matTooltip="{{ ternimal.tabPrefsShowing? 'Hide' : 'Show' }} {{ tabs.tab.label }} setup">
+    matTooltip="{{ tabs.tab.label }} setup">
     <fa-icon
       [icon]="['fas', 'cog']"
       size="lg">

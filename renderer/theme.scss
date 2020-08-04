@@ -100,6 +100,9 @@ html {
   justify-content: flex-end;
   margin-bottom: 0 !important;
 }
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(var(--rgb-grey-850), 0.5);
+}
 
 .mat-expansion-panel {
   background-color: var(--mat-grey-850);

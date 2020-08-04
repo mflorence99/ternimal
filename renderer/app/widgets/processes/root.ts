@@ -43,14 +43,14 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
   commands: WidgetCommand[] = [
     {
       command: 'run(false)',
+      description: 'Pause',
       icon: ['far', 'pause-circle'],
-      if: 'running',
-      tooltip: 'Pause'
+      if: 'running'
     },
     {
       command: 'run(true)',
+      description: 'Run',
       icon: ['far', 'play-circle'],
-      tooltip: 'Run',
       unless: 'running'
     }
   ];
@@ -64,9 +64,9 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
   menuItems: WidgetCommand[] = [
     {
       command: 'confirmKill()',
+      description: 'Kill...',
       icon: ['far', 'pause-circle'],
-      if: 'table.selectedRowIDs.length',
-      tooltip: 'Kill...'
+      if: 'table.selectedRowIDs.length'
     }
   ];
 

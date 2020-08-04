@@ -42,21 +42,30 @@
       *ngIf="isSelected()">
 
       <ng-container
-        *ngFor="let command of widget?.commands || []">
+        *ngFor="let command of widget.commands || []">
 
         <fa-icon
           (click)="executeCommand(command)"
           [fixedWidth]="true"
           [icon]="command.icon"
-          [matTooltip]="command.tooltip"
+          [matTooltip]="command.description"
           *ngIf="isCommandEnabled(command)"
           class="tool">
         </fa-icon>
 
       </ng-container>
 
+      <fa-icon
+        (click)="ternimal.showWidgetPrefs()"
+        [fixedWidth]="true"
+        [icon]="['fas', 'cog']"
+        [matTooltip]="widget.prefs.description"
+        *ngIf="widget.prefs"
+        class="tool">
+      </fa-icon>
+
       <div
-        *ngIf="widget?.commands?.length > 0"
+        *ngIf="(widget.commands?.length > 0) || widget.prefs"
         class="spacer">
       </div>
 
@@ -94,17 +103,17 @@
 <context-menu>
 
   <ng-container
-    *ngFor="let menuItem of widget?.menuItems || []">
+    *ngFor="let menuItem of widget.menuItems || []">
 
     <ng-template
       contextMenuItem
       (execute)="executeCommand(menuItem)"
       [enabled]="isCommandEnabled.bind(this, menuItem)">
-      <div>{{ menuItem.tooltip }}</div>
+      <div>{{ menuItem.description }}</div>
     </ng-template>
 
     <ng-template
-      *ngIf="widget?.menuItems?.length > 0"
+      *ngIf="widget.menuItems?.length > 0"
       contextMenuItem
       divider="true">
     </ng-template>

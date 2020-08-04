@@ -28,7 +28,7 @@ export type PanesStateModel = Record<string, PanePrefs>;
 @StateRepository()
 @State<PanesStateModel>({
   name: 'panes',
-  defaults: {}
+  defaults: { }
 })
 
 export class PanesState extends NgxsDataRepository<PanesStateModel> {

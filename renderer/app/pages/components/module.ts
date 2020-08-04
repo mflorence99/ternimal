@@ -8,6 +8,7 @@ import { SystemInfoComponent } from './system-info';
 import { TabPrefsComponent } from './tab-prefs';
 import { TabsComponent } from './tabs';
 import { ToolbarComponent } from './toolbar';
+import { WidgetPrefsComponent } from './widget-prefs';
 import { WidgetsModule } from '../../widgets/module';
 
 import { NgModule } from '@angular/core';
@@ -19,7 +20,8 @@ const COMPONENTS = [
   SystemInfoComponent,
   TabPrefsComponent,
   TabsComponent,
-  ToolbarComponent
+  ToolbarComponent,
+  WidgetPrefsComponent
 ];
 
 @NgModule({

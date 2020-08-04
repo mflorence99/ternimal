@@ -2,13 +2,27 @@
     class="container">
 
     <mat-sidenav 
+      (closed)="ternimal.hideTabPrefs()"
       [opened]="ternimal.tabPrefsShowing"
       class="sidenav"
-      mode="side"
+      mode="over"
       position="end">
 
       <ternimal-tab-prefs>
       </ternimal-tab-prefs>
+      
+    </mat-sidenav>
+
+    <mat-sidenav 
+      (closed)="ternimal.hideWidgetPrefs()"
+      [opened]="ternimal.widgetPrefsShowing"
+      class="sidenav"
+      mode="over"
+      position="start">
+
+      <ternimal-widget-prefs
+        *ngIf="ternimal.widgetPrefsShowing">
+      </ternimal-widget-prefs>
       
     </mat-sidenav>
 

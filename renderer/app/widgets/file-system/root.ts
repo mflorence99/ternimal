@@ -1,5 +1,6 @@
 import { Widget } from '../widget';
 import { WidgetLaunch } from '../widget';
+import { WidgetPrefs } from '../widget';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -15,9 +16,14 @@ import { Input } from '@angular/core';
 export class FileSystemComponent implements Widget {
 
   launch: WidgetLaunch = {
-    description: 'FileSystem',
+    description: 'File System',
     icon: ['fas', 'database'],
     implementation: 'FileSystemComponent'
+  };
+
+  prefs: WidgetPrefs = {
+    description: 'File System setup',
+    implementation: 'FileSystemPrefsComponent'
   };
 
   @Input() splitID: string;

@@ -19,6 +19,7 @@ interface DataActionParams {
 export interface TernimalStateModel {
   enabled: boolean;
   showTabPrefs: boolean;
+  showWidgetPrefs: boolean;
   unique: Record<string, number>;
 }
 
@@ -30,6 +31,7 @@ export interface TernimalStateModel {
   defaults: {
     enabled: true,
     showTabPrefs: false,
+    showWidgetPrefs: false,
     unique: { }
   }
 })
@@ -49,14 +51,30 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   }
 
   @DataAction({ insideZone: true })
+  hideWidgetPrefs(): void {
+    this.ctx.setState(patch({ showWidgetPrefs: false }));
+  }
+
+  @DataAction({ insideZone: true })
   showTabPrefs(): void {
     this.ctx.setState(patch({ showTabPrefs: true }));
+  }
+
+  @DataAction({ insideZone: true })
+  showWidgetPrefs(): void {
+    this.ctx.setState(patch({ showWidgetPrefs: true }));
   }
 
   @DataAction({ insideZone: true })
   toggleTabPrefs(): void {
     const showTabPrefs = this.ctx.getState().showTabPrefs;
     this.ctx.setState(patch({ showTabPrefs: !showTabPrefs }));
+  }
+
+  @DataAction({ insideZone: true })
+  toggleWidgetPrefs(): void {
+    const showWidgetPrefs = this.ctx.getState().showWidgetPrefs;
+    this.ctx.setState(patch({ showWidgetPrefs: !showWidgetPrefs }));
   }
 
   @DataAction({ insideZone: true })
@@ -73,6 +91,10 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
 
   @Computed() get tabPrefsShowing(): boolean {
     return this.snapshot.showTabPrefs;
+  }
+
+  @Computed() get widgetPrefsShowing(): boolean {
+    return this.snapshot.showWidgetPrefs;
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */

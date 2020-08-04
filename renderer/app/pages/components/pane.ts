@@ -1,4 +1,4 @@
-import * as widgets from '../../widgets';
+import * as widgets from '../../widgets/all-widgets';
 
 import { Layout } from '../../state/layout';
 import { LayoutState } from '../../state/layout';
@@ -6,6 +6,7 @@ import { PanesState } from '../../state/panes';
 import { SelectionState } from '../../state/selection';
 import { SortState } from '../../state/sort';
 import { TabsState } from '../../state/tabs';
+import { TernimalState } from '../../state/ternimal';
 import { Widget } from '../../widgets/widget';
 import { WidgetCommand } from '../../widgets/widget';
 import { WidgetHostDirective } from '../directives/widget-host';
@@ -46,7 +47,8 @@ export class PaneComponent implements OnInit {
               public tabs: TabsState,
               private resolver: ComponentFactoryResolver,
               public selection: SelectionState,
-              public sort: SortState) { }
+              public sort: SortState,
+              public ternimal: TernimalState) { }
 
   closePane(): void {
     this.layout.closeSplit({ 
