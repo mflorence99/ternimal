@@ -1,3 +1,4 @@
+import { SelectionState } from '../../state/selection';
 import { StorageService } from '../../services/storage';
 import { Utils } from '../../services/utils';
 
@@ -21,10 +22,12 @@ export type DateFmt = 'ago' | 'shortDate' | 'mediumDate' | 'longDate' | 'fullDat
 export type QuantityFmt = 'abbrev' | 'bytes' | 'number';
 export type SortOrder = 'alpha' | 'first' | 'last';
 export type TimeFmt = 'none' | 'shortTime' | 'mediumTime' | 'longTime' | 'fullTime';
+export type Scope = 'global' | 'byLayoutID' | 'bySplitID';
 
 interface DataActionParams {
   layoutID?: string;
   prefs?: FileSystemPrefs;
+  scope?: Scope;
   splitID?: string;
 }
 
@@ -51,6 +54,7 @@ export interface FileSystemPrefsStateModel {
   byLayoutID: Record<string, FileSystemPrefs>;
   bySplitID: Record<string, FileSystemPrefs>;
   global: FileSystemPrefs;
+  scope: Scope;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -61,13 +65,15 @@ export interface FileSystemPrefsStateModel {
   defaults: {
     byLayoutID: { },
     bySplitID: { },
-    global: FileSystemPrefsState.defaultPrefs()
+    global: FileSystemPrefsState.defaultPrefs(),
+    scope: 'global'
   }
 })
 
 export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStateModel> {
 
   constructor(private actions$: Actions,
+              private selection: SelectionState,
               private utils: Utils) {
     super();
     this.handleActions$();
@@ -93,6 +99,26 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
     };
   }
 
+  static emptyPrefs(): FileSystemPrefs {
+    return {
+      dateFormat: null,
+      quantityFormat: null,
+      showHiddenFiles: null,
+      sortDirectories: null,
+      timeFormat: null,
+      visibility: {
+        atime: null,
+        btime: null,
+        group: null,
+        mode: null,
+        mtime: null,
+        name: null,
+        size: null,
+        user: null
+      }
+    };
+  }
+
   // actions
 
   @DataAction({ insideZone: true })
@@ -101,6 +127,11 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
       this.ctx.setState(patch({ byLayoutID: scratch(layoutID) }));
     else if (!layoutID && splitID)
       this.ctx.setState(patch({ bySplitID: scratch(splitID) }));
+  }
+
+  @DataAction({ insideZone: true })
+  rescope(@Payload('FileSystemPrefsState.rescope') { scope}: DataActionParams): void {
+    this.ctx.setState(patch({ scope }));
   }
 
   @DataAction({ insideZone: true })
@@ -128,8 +159,20 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
     ];
   }
 
+  @Computed() get byLayoutID(): FileSystemPrefs {
+    return this.snapshot.byLayoutID[this.selection.layoutID] ?? FileSystemPrefsState.emptyPrefs();
+  }
+
+  @Computed() get bySplitID(): FileSystemPrefs {
+    return this.snapshot.bySplitID[this.selection.splitID] ?? FileSystemPrefsState.emptyPrefs();
+  }
+
   @Computed() get global(): FileSystemPrefs {
     return this.snapshot.global;
+  }
+
+  @Computed() get scope(): Scope {
+    return this.snapshot.scope;
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */

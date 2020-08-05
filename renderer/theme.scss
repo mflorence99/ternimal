@@ -112,7 +112,6 @@ html {
 .mat-expansion-panel-header-title {
   align-items: center;
   justify-content: space-between;
-  text-transform: uppercase;
 }
 
 .mat-radio-label {
@@ -129,7 +128,6 @@ html {
   min-width: 10rem;
 
   ul {
-    list-style-type: none;
     margin: 0;
     padding: 0;
 
@@ -187,4 +185,9 @@ html {
 
   }
 
+}
+
+ol, 
+ul {
+  list-style-type: none;
 }

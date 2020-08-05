@@ -79,7 +79,7 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  updateTab(@Payload('TabsState.update') { tab }: DataActionParams): void {
+  update(@Payload('TabsState.update') { tab }: DataActionParams): void {
     const ix = this.findTabIndexByID(tab.layoutID);
     if (ix !== -1)
       this.ctx.setState(updateItem(ix, tab));

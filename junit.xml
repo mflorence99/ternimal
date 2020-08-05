@@ -1,15 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="5" failures="0" time="3.915">
-  <testsuite name="Utils" errors="0" failures="0" skipped="0" timestamp="2020-08-04T17:32:55" time="3.323" tests="5">
-    <testcase classname="Utils Object can be deep copied" name="Utils Object can be deep copied" time="0.014">
+<testsuites name="jest tests" tests="4" failures="1" time="6.927">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-08-05T10:24:42" time="5.049" tests="2">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="Utils hasProperty can test for a string" name="Utils hasProperty can test for a string" time="0.003">
+    <testcase classname="FileSystemPrefsState dummy" name="FileSystemPrefsState dummy" time="0.035">
     </testcase>
-    <testcase classname="Utils hasProperty can test for a regexp" name="Utils hasProperty can test for a regexp" time="0.002">
+  </testsuite>
+  <testsuite name="Widgets tests helpers" errors="0" failures="1" skipped="0" timestamp="2020-08-05T10:24:42" time="6.029" tests="2">
+    <testcase classname="Widgets tests helpers Dummy test" name="Widgets tests helpers Dummy test" time="0.046">
     </testcase>
-    <testcase classname="Utils Objects can be shallow merged, respecting null values" name="Utils Objects can be shallow merged, respecting null values" time="0.002">
-    </testcase>
-    <testcase classname="Utils nextTick works asynchronously" name="Utils nextTick works asynchronously" time="0.003">
+    <testcase classname="FileSystemPrefsComponent Component is created" name="FileSystemPrefsComponent Component is created" time="0.417">
+      <failure>Error: The pipe &apos;ternimalNumeral&apos; could not be found!
+    at getPipeDef (/home/mflo/mflorence99/packages/core/src/render3/pipe.ts:79:9)
+    at ɵɵpipe (/home/mflo/mflorence99/packages/core/src/render3/pipe.ts:40:15)
+    at FileSystemPrefsComponent_Template (ng:///FileSystemPrefsComponent.js:166:9)
+    at executeTemplate (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:554:5)
+    at renderView (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:346:7)
+    at renderComponent (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:1737:3)
+    at renderChildComponents (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:149:5)
+    at renderView (/home/mflo/mflorence99/packages/core/src/render3/instructions/shared.ts:375:7)
+    at ComponentFactory.create (/home/mflo/mflorence99/packages/core/src/render3/component_ref.ts:218:7)
+    at initComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:354:28)
+    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
+    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:117:43)
+    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
+    at Object.onInvoke (/home/mflo/mflorence99/packages/core/src/zone/ng_zone.ts:326:29)
+    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
+    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
+    at NgZone.run (/home/mflo/mflorence99/packages/core/src/zone/ng_zone.ts:180:50)
+    at TestBedRender3.createComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:357:37)
+    at Function.TestBedRender3.createComponent (/home/mflo/mflorence99/packages/core/testing/src/r3_test_bed.ts:182:33)
+    at /home/mflo/mflorence99/ternimal/renderer/app/widgets/file-system/prefs.spec.ts:14:29
+    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:386:30)
+    at ProxyZoneSpec.onInvoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/proxy.js:117:43)
+    at ZoneDelegate.invoke (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:385:36)
+    at Zone.run (/home/mflo/mflorence99/ternimal/node_modules/zone.js/dist/zone.js:143:47)
+    at Object.wrappedFunc (/home/mflo/mflorence99/ternimal/node_modules/jest-preset-angular/build/zone-patch/index.js:49:30)
+    at Object.asyncJestTest (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:47:12
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:30:19)
+    at /home/mflo/mflorence99/ternimal/node_modules/jest-jasmine2/build/queueRunner.js:77:41
+    at runNextTicks (internal/process/task_queues.js:62:5)
+    at listOnTimeout (internal/timers.js:518:9)
+    at processTimers (internal/timers.js:492:7)</failure>
     </testcase>
   </testsuite>
 </testsuites>

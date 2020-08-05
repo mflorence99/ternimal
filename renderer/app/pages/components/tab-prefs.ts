@@ -102,7 +102,7 @@ export class TabPrefsComponent implements OnInit {
     this.tabPrefsForm.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(tabPrefsForm => {
-        this.tabs.updateTab({ tab: { 
+        this.tabs.update({ tab: { 
           ...tabPrefsForm, 
           icon: tabPrefsForm.icon.split(' '),
           layoutID: this.selection.layoutID } });

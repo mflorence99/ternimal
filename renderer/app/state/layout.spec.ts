@@ -65,12 +65,12 @@ describe('LayoutState', () => {
     expect(layout.splits[1].size).toBe(75);
   });
 
-  test('newLayout/removeLayout', () => {
+  test('newLayout/remove', () => {
     expect(bundle.layout.snapshot['x']).toBeFalsy();
     bundle.layout.newLayout({ layoutID : 'x' });
     expect(bundle.layout.snapshot['x']).toBeTruthy();
     const fn = jest.fn();
-    bundle.layout.removeLayout({ layoutID: 'x', visitor: fn });
+    bundle.layout.remove({ layoutID: 'x', visitor: fn });
     expect(bundle.layout.snapshot['x']).toBeFalsy();
     expect(fn).toHaveBeenCalled();
   });

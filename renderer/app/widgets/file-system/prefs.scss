@@ -16,13 +16,37 @@ section {
     overflow-y: auto;
     padding: 1rem;
 
+    .label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 300;
+      line-height: 1.25;
+    }
+
     .group {
       display: grid;
       grid-gap: 0.5rem;
       grid-template-columns: auto;
 
       &.outer {
-        grid-gap: 1rem;
+        grid-gap: 1.5rem;
+      }
+
+    }
+
+    .tabs {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .tab {
+        border-bottom: 1px solid transparent;
+        cursor: pointer;
+
+        &.selected {
+          border-bottom-color: var(--text-color);
+        }
+
       }
 
     }

@@ -14,16 +14,16 @@ describe('TabsState', () => {
     bundle.tabs.setState(TabsState.defaultTabs());
   });
 
-  test('newTab/removeTab', () => {
+  test('newTab/remove', () => {
     expect(bundle.tabs.snapshot.length).toBe(1);
     const tab: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'a' };
     bundle.tabs.newTab({ tab });
     expect(bundle.tabs.snapshot.length).toBe(2);
-    bundle.tabs.removeTab({ tab });
+    bundle.tabs.remove({ tab });
     expect(bundle.tabs.snapshot.length).toBe(1);
   });
 
-  test('moveTab - left', () => {
+  test('move - left', () => {
     const b: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'b' };
     const c: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'c' };
     bundle.tabs.newTab({ tab: b });
@@ -31,13 +31,13 @@ describe('TabsState', () => {
     expect(bundle.tabs.snapshot.length).toBe(3);
     expect(bundle.tabs.snapshot[1].layoutID).toBe('b');
     expect(bundle.tabs.snapshot[2].layoutID).toBe('c');
-    bundle.tabs.moveTab({ tab: c, ix: 1 });
+    bundle.tabs.move({ tab: c, ix: 1 });
     expect(bundle.tabs.snapshot.length).toBe(3);
     expect(bundle.tabs.snapshot[1].layoutID).toBe('c');
     expect(bundle.tabs.snapshot[2].layoutID).toBe('b');
   });
 
-  test('moveTab - right', () => {
+  test('move - right', () => {
     const b: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'b' };
     const c: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'c' };
     bundle.tabs.newTab({ tab: b });
@@ -45,20 +45,20 @@ describe('TabsState', () => {
     expect(bundle.tabs.snapshot.length).toBe(3);
     expect(bundle.tabs.snapshot[1].layoutID).toBe('b');
     expect(bundle.tabs.snapshot[2].layoutID).toBe('c');
-    bundle.tabs.moveTab({ tab: b, ix: 3 });
+    bundle.tabs.move({ tab: b, ix: 3 });
     expect(bundle.tabs.snapshot.length).toBe(3);
     expect(bundle.tabs.snapshot[1].layoutID).toBe('c');
     expect(bundle.tabs.snapshot[2].layoutID).toBe('b');
   });
 
-  test('updateTab', () => {
+  test('update', () => {
     const tab: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'a' };
     bundle.tabs.newTab({ tab });
     expect(bundle.tabs.snapshot.length).toBe(2);
     expect(bundle.tabs.snapshot[1].color).toBe('c');
     expect(bundle.tabs.snapshot[1].icon).toEqual(['i', 'j']);
     expect(bundle.tabs.snapshot[1].label).toBe('l');
-    bundle.tabs.updateTab({ tab: { color: 'd', icon: ['p', 'q'], label: 'k', layoutID: 'a' } });
+    bundle.tabs.update({ tab: { color: 'd', icon: ['p', 'q'], label: 'k', layoutID: 'a' } });
     expect(bundle.tabs.snapshot.length).toBe(2);
     expect(bundle.tabs.snapshot[1].color).toBe('d');
     expect(bundle.tabs.snapshot[1].icon).toEqual(['p', 'q']);

@@ -25,6 +25,35 @@
     [formGroup]="prefsForm"
     novalidate>
 
+    <ul
+      class="tabs">
+
+      <li
+        (click)="rescope('global')"
+        [ngClass]="{selected: prefs.scope === 'global'}"
+        class="tab"
+        matRipple>
+        Global
+      </li>
+
+      <li
+        (click)="rescope('byLayoutID')"
+        [ngClass]="{selected: prefs.scope === 'byLayoutID'}"
+        class="tab"
+        matRipple>
+        {{ tabs.tab.label }}
+      </li>
+
+      <li
+        (click)="rescope('bySplitID')"
+        [ngClass]="{selected: prefs.scope === 'bySplitID'}"
+        class="tab"
+        matRipple>
+        This panel
+      </li>
+
+    </ul>
+
     <mat-accordion
       formGroupName="prefs">
 
@@ -41,13 +70,21 @@
           class="group">
 
           <mat-checkbox
+            *ngIf="prefs.scope === 'global'"
             formControlName="showHiddenFiles">
             Show hidden files
           </mat-checkbox>
 
+          <ternimal-tristate
+            *ngIf="prefs.scope !== 'global'"
+            formControlName="showHiddenFiles">
+            Show hidden files
+          </ternimal-tristate>
+
           <mat-divider></mat-divider>
 
           <ng-container
+            *ngIf="prefs.scope === 'global'"
             formGroupName="visibility">
 
             <mat-checkbox
@@ -55,6 +92,18 @@
               *ngFor="let dict of prefs.dictionary">
               Show {{ dict.tag }}
             </mat-checkbox>
+
+          </ng-container>
+
+          <ng-container
+            *ngIf="prefs.scope !== 'global'"
+            formGroupName="visibility">
+
+            <ternimal-tristate
+              [formControlName]="dict.name"
+              *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
+              Show {{ dict.tag }}
+            </ternimal-tristate>
 
           </ng-container>
 
@@ -80,10 +129,15 @@
           class="group"
           formControlName="sortDirectories">
 
-          <div class="drawer-label">
+          <label class="label">
             How to Sort Directories
-          </div>
+          </label>
 
+          <mat-radio-button 
+            [value]="null"
+            *ngIf="prefs.scope !== 'global'">
+            Default
+          </mat-radio-button>
           <mat-radio-button value="alpha">
             Alphabetically with files
           </mat-radio-button>
@@ -107,29 +161,30 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="group outer">
+        <mat-radio-group
+          class="group"
+          formControlName="quantityFormat">
 
-          <mat-radio-group
-            class="group"
-            formControlName="quantityFormat">
+          <label class="label">
+            How to Show Size
+          </label>
 
-            <div class="drawer-label">
-              How to Show Size
-            </div>
+          <mat-radio-button 
+            [value]="null"
+            *ngIf="prefs.scope !== 'global'">
+            Default
+          </mat-radio-button>
+          <mat-radio-button value="number">
+            {{ size | ternimalNumeral:'0,0' }}
+          </mat-radio-button>
+          <mat-radio-button value="abbrev">
+            {{ size | ternimalNumeral:'0a' }}
+          </mat-radio-button>
+          <mat-radio-button value="bytes">
+            {{ size | ternimalNumeral:'0b' }}
+          </mat-radio-button>
 
-            <mat-radio-button value="number">
-              {{ size | ternimalNumeral:'0,0' }}
-            </mat-radio-button>
-            <mat-radio-button value="abbrev">
-              {{ size | ternimalNumeral:'0a' }}
-            </mat-radio-button>
-            <mat-radio-button value="bytes">
-              {{ size | ternimalNumeral:'0b' }}
-            </mat-radio-button>
-
-          </mat-radio-group>
-
-        </div>
+        </mat-radio-group>
 
       </mat-expansion-panel>
 
@@ -148,10 +203,15 @@
             class="group"
             formControlName="dateFormat">
 
-            <div class="drawer-label">
+            <label class="label">
               Select Date Format
-            </div>
+            </label>
 
+            <mat-radio-button 
+              [value]="null"
+              *ngIf="prefs.scope !== 'global'">
+              Default
+            </mat-radio-button>
             <mat-radio-button value="ago">
               an hour ago
             </mat-radio-button>
@@ -174,10 +234,15 @@
             class="group"
             formControlName="timeFormat">
 
-            <div class="drawer-label">
+            <label class="label">
               Select Time Format
-            </div>
+            </label>
 
+            <mat-radio-button 
+              [value]="null"
+              *ngIf="prefs.scope !== 'global'">
+              Default
+            </mat-radio-button>
             <mat-radio-button value="none">
               Don't show time
             </mat-radio-button>

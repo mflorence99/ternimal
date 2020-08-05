@@ -10,7 +10,6 @@ nav {
   flex-direction: row;
   height: 100%;
   justify-content: flex-start;
-  list-style-type: none;
 
   .closer,
   .mover {
@@ -44,7 +43,7 @@ nav {
     padding-top: 1rem;
 
     &.selected {
-      border-bottom: 2px solid var(--accent-color);
+      border-bottom-color: var(--accent-color);
     }
 
     .closer {

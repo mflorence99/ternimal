@@ -3,6 +3,7 @@ import { ConfirmDialogComponent } from './confirm-dialog';
 import { EqGaugeComponent } from './eq-gauge';
 import { SparklineComponent } from './sparkline';
 import { TableComponent } from './table';
+import { TriStateComponent } from './tristate';
 
 import { NgModule } from '@angular/core';
 
@@ -10,7 +11,8 @@ const COMPONENTS = [
   ConfirmDialogComponent,
   EqGaugeComponent,
   SparklineComponent,
-  TableComponent
+  TableComponent,
+  TriStateComponent
 ];
 
 @NgModule({
