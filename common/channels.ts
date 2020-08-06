@@ -1,4 +1,9 @@
 export enum Channels { 
+
+  fsLoadPathRequest = 'file-system.loadPathRequest',
+  fsLoadPathSuccess = 'file-system.loadPathSuccess',
+  fsLoadPathFailure = 'file-system.loadPathFailure',
+  fsWatcherFailure = 'file-system.watcherFailure',
   
   localStorageClear = 'local-storage.clear',
   localStorageGetItem = 'local-storage.getItem',

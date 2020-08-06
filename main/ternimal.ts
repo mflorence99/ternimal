@@ -1,3 +1,4 @@
+import './file-system';
 import './process-list';
 import './system-info';
 import './toolbar';

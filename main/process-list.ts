@@ -16,7 +16,7 @@ ipcMain.on(Channels.processListKill, (event: any, pids: number[]) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-ipcMain.on(Channels.processListRequest, async(event: any) => {
+ipcMain.on(Channels.processListRequest, async() => {
   const processes = await psList();
   const ps = processes
     .filter(item => item.cpu > 0);
@@ -45,5 +45,7 @@ ipcMain.on(Channels.processListRequest, async(event: any) => {
     })
     // NOTE: filter again because ps's cpu number isn't valid on Windows
     .filter(item => item.cpu > 0);
-  event.reply(Channels.processListResponse, processList);
+  // response is ready
+  const theWindow = globalThis.theWindow;
+  theWindow?.webContents.send(Channels.processListResponse, processList);
 });

@@ -26,6 +26,11 @@ export class SystemInfoComponent {
               public electron: ElectronService,
               private params: Params) { 
     this.pollSystemInfo$();
+    // TODO: temporary
+    this.electron.ipcRenderer.on(Channels.fsLoadPathFailure, (_, root) => console.error(root));
+    this.electron.ipcRenderer.on(Channels.fsWatcherFailure, (_, ulimit) => console.error(ulimit));
+    this.electron.ipcRenderer.on(Channels.fsLoadPathSuccess, (_, root, desc) => console.log(root, desc));
+    this.electron.ipcRenderer.send(Channels.fsLoadPathRequest, '/home/mflo');
   }
 
   // private methods

@@ -66,7 +66,6 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
           const layoutID = (this.prefs.scope === 'byLayoutID') ? this.selection.layoutID : null;
           const splitID = (this.prefs.scope === 'bySplitID') ? this.selection.splitID : null;
           this.prefs.update({ prefs: prefsForm.prefs, layoutID, splitID });
-          console.log(prefsForm.prefs.visibility);
         } else this.atLeastOne = false;
       });
   }
