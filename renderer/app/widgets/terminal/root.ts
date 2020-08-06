@@ -14,12 +14,12 @@ import { Input } from '@angular/core';
 
 export class TerminalComponent implements Widget {
 
-  launch: WidgetLaunch = {
+  @Input() splitID: string;
+
+  widgetLaunch: WidgetLaunch = {
     description: 'Terminal',
     icon: ['fas', 'desktop'],
     implementation: 'TerminalComponent'
   };
-
-  @Input() splitID: string;
 
 }

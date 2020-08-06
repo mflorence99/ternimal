@@ -1,5 +1,5 @@
 import { Channels } from './common/channels';
-import { PathDescriptor } from './common/file-system';
+import { FileDescriptor } from './common/file-system';
 
 import { store } from './local-storage';
 
@@ -208,19 +208,15 @@ const loadPath = (_: any, root: string): void => {
   const theWindow = globalThis.theWindow;
   fs.readdir(root, (err, names) => {
     if (err) {
-      watcher.remove(root);
       theWindow?.webContents.send(Channels.fsLoadPathFailure, root);
+      watcher.remove(root);
     } else {
       const children = names.map(name => path.join(root, name));
       async.map(children, fs.lstat, (err, stats) => {
-        const descriptors = names.reduce((acc, name, ix) => {
-          const stat = stats[ix];
-          acc[name] = makeDescriptor(root, name, stat);
-          return acc;
-        }, { });
+        theWindow?.webContents.send(Channels.fsLoadPathSuccess, root, names.map((name, ix) => makeDescriptor(root, name, stats[ix])));
+        // NOTE: side-effect of makeDescriptor updates colorByExt
         store.set('file-system.colorByExt', colorByExt);
         watcher.add(root);
-        theWindow?.webContents.send(Channels.fsLoadPathSuccess, root, descriptors);
       });
     }
   });
@@ -243,7 +239,7 @@ const makeColor = (name: string, stat: fs.Stats): string => {
     return 'var(--mat-brown-400)';
 };
 
-const makeDescriptor = (root: string, name: string, stat: fs.Stats): PathDescriptor => {
+const makeDescriptor = (root: string, name: string, stat: fs.Stats): FileDescriptor => {
   const mode = Mode(stat);
   return {
     atime: new Date(stat.atime),

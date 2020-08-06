@@ -43,6 +43,7 @@ export interface Dictionary {
 
 export interface FileSystemPrefs {
   dateFormat: DateFmt;
+  initialPath: string;
   quantityFormat: QuantityFmt;
   showHiddenFiles: boolean;
   sortDirectories: SortOrder;
@@ -82,6 +83,7 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
   static defaultPrefs(): FileSystemPrefs {
     return {
       dateFormat: 'mediumDate',
+      initialPath: '/',
       quantityFormat: 'bytes',
       showHiddenFiles: false,
       sortDirectories: 'first',
@@ -100,23 +102,13 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
   }
 
   static emptyPrefs(): FileSystemPrefs {
-    return {
-      dateFormat: null,
-      quantityFormat: null,
-      showHiddenFiles: null,
-      sortDirectories: null,
-      timeFormat: null,
-      visibility: {
-        atime: null,
-        btime: null,
-        group: null,
-        mode: null,
-        mtime: null,
-        name: null,
-        size: null,
-        user: null
-      }
+    const nullify = (obj: any): any => {
+      Object.keys(obj).reduce((acc, key) => {
+        acc[key] = (typeof obj[key] === 'object') ? nullify(obj[key]) : null;
+        return acc;
+      }, { });
     };
+    return nullify(FileSystemPrefsState.defaultPrefs());
   }
 
   // actions
@@ -177,7 +169,7 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
 
   /* eslint-disable @typescript-eslint/member-ordering */
 
-  prefs(layoutID: string, splitID: string): FileSystemPrefs {
+  currentPrefs(layoutID: string, splitID: string): FileSystemPrefs {
     return this.utils.merge(
       this.snapshot.global,
       this.snapshot.byLayoutID[layoutID],

@@ -1,3 +1,4 @@
+import { FileSystemFilesState } from './file-system/files';
 import { FileSystemPrefsState } from './file-system/prefs';
 import { LayoutState } from './layout';
 import { PanesState } from './panes';
@@ -15,6 +16,7 @@ import { NgxsModule } from '@ngxs/store';
 import { TestBed } from '@angular/core/testing';
 
 export interface Bundle {
+  fileSystemFiles?: FileSystemFilesState;
   fileSystemPrefs?: FileSystemPrefsState;
   layout?: LayoutState;
   panes?: PanesState;
@@ -36,6 +38,7 @@ export function prepare(): Bundle {
     ]
   });
 
+  bundle.fileSystemFiles = TestBed.inject(FileSystemFilesState);
   bundle.fileSystemPrefs = TestBed.inject(FileSystemPrefsState);
   bundle.layout = TestBed.inject(LayoutState);
   bundle.panes = TestBed.inject(PanesState);

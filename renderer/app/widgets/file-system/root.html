@@ -1,0 +1,40 @@
+<ternimal-table>
+
+  <thead>
+    <tr>
+
+      <ng-container
+        *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
+
+        <th
+          *ngIf="currentPrefs.visibility[dict.name]"
+          [id]="dict.name">
+          {{ dict.tag }}
+        </th>
+
+      </ng-container>
+
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr
+      *ngFor="let desc of files.snapshot[currentPrefs.initialPath]; trackBy: trackByDesc"
+      [id]="desc.path">
+
+      <ng-container
+        *ngFor="let dict of prefs.dictionary">
+
+        <td
+          *ngIf="currentPrefs.visibility[dict.name]">
+          {{ desc[dict.name] }}
+        </td>
+
+      </ng-container>
+
+    </tr>
+
+  </tbody>
+
+</ternimal-table>

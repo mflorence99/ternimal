@@ -39,8 +39,15 @@ import { takeUntil } from 'rxjs/operators';
 export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
 
   columnSort: ColumnSort;
+  running = true;
 
-  commands: WidgetCommand[] = [
+  @Input() splitID: string;
+
+  stats: ProcessStats[];
+
+  @ViewChild(TableComponent, { static: true }) table: TableComponent;
+
+  widgetCommands: WidgetCommand[] = [
     {
       command: 'run(false)',
       description: 'Pause',
@@ -55,13 +62,13 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
     }
   ];
 
-  launch: WidgetLaunch = {
+  widgetLaunch: WidgetLaunch = {
     description: 'top+',
     icon: ['fas', 'sitemap'],
     implementation: 'ProcessListComponent'
   };
 
-  menuItems: WidgetCommand[] = [
+  widgetMenuItems: WidgetCommand[] = [
     {
       command: 'confirmKill()',
       description: 'Kill...',
@@ -69,14 +76,6 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
       if: 'table.selectedRowIDs.length'
     }
   ];
-
-  running = true;
-
-  @Input() splitID: string;
-
-  stats: ProcessStats[];
-
-  @ViewChild(TableComponent, { static: true }) table: TableComponent;
 
   constructor(private actions$: Actions,
               private destroy$: DestroyService,

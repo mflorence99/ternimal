@@ -25,8 +25,8 @@
       <fa-icon
         (click)="launch(widget)"
         [fixedWidth]="true"
-        [icon]="widget.launch.icon"
-        [matTooltip]="widget.launch.description"
+        [icon]="widget.widgetLaunch.icon"
+        [matTooltip]="widget.widgetLaunch.description"
         [ngStyle]="{color: isLaunched(widget)? tabs.tab.color : 'inherit'}"
         *ngFor="let widget of widgets"
         class="tool">
@@ -42,7 +42,7 @@
       *ngIf="isSelected()">
 
       <ng-container
-        *ngFor="let command of widget.commands || []">
+        *ngFor="let command of widget.widgetCommands || []">
 
         <fa-icon
           (click)="executeCommand(command)"
@@ -59,13 +59,13 @@
         (click)="ternimal.showWidgetPrefs()"
         [fixedWidth]="true"
         [icon]="['fas', 'cog']"
-        [matTooltip]="widget.prefs.description"
-        *ngIf="widget.prefs"
+        [matTooltip]="widget.widgetPrefs.description"
+        *ngIf="widget.widgetPrefs"
         class="tool">
       </fa-icon>
 
       <div
-        *ngIf="(widget.commands?.length > 0) || widget.prefs"
+        *ngIf="(widget.widgetCommands?.length > 0) || widget.widgetPrefs"
         class="spacer">
       </div>
 
@@ -103,7 +103,7 @@
 <context-menu>
 
   <ng-container
-    *ngFor="let menuItem of widget.menuItems || []">
+    *ngFor="let menuItem of widget.widgetMenuItems || []">
 
     <ng-template
       contextMenuItem
@@ -113,7 +113,7 @@
     </ng-template>
 
     <ng-template
-      *ngIf="widget.menuItems?.length > 0"
+      *ngIf="widget.widgetMenuItems?.length > 0"
       contextMenuItem
       divider="true">
     </ng-template>

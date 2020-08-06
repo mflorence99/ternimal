@@ -12,7 +12,7 @@ describe('toolbar', () => {
   let theWindow;
 
   beforeEach(() => {
-    theWindow = new BrowserWindow({ });
+    theWindow = new BrowserWindow({});
     globalThis.theWindow = theWindow;
   });
 

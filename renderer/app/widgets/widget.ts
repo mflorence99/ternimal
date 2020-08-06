@@ -1,9 +1,9 @@
 export interface Widget {
-  commands?: WidgetCommand[];
-  launch: WidgetLaunch;
-  menuItems?: WidgetCommand[];
-  prefs?: WidgetPrefs;
   splitID: string;
+  widgetCommands?: WidgetCommand[];
+  widgetLaunch: WidgetLaunch;
+  widgetMenuItems?: WidgetCommand[];
+  widgetPrefs?: WidgetPrefs;
 }
 
 export interface WidgetCommand {

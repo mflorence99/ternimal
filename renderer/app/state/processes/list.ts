@@ -128,9 +128,10 @@ export class ProcessListState extends NgxsDataRepository<ProcessListStateModel> 
   }
 
   private rcvProcessList$(): void {
-    this.electron.ipcRenderer.on(Channels.processListResponse, (_, processList: ProcessList) => {
-      this.update({ processList });
-    });
+    this.electron.ipcRenderer
+      .on(Channels.processListResponse, (_, processList: ProcessList) => {
+        this.update({ processList });
+      });
   }
 
 }

@@ -32,10 +32,10 @@ export class WidgetPrefsComponent implements OnInit {
 
   ngOnInit(): void {
     const panePrefs = this.panes.prefs(this.selection.splitID);
-    const widget = WidgetPrefsComponent.allWidgets.find(widget => widget.launch.implementation === panePrefs.widget);
+    const widget = WidgetPrefsComponent.allWidgets.find(widget => widget.widgetLaunch.implementation === panePrefs.widget);
     this.widgetHost.vcRef.clear();
     // @see https://stackoverflow.com/questions/40528592
-    const cFactory = this.resolver.resolveComponentFactory(prefs[widget.prefs.implementation]);
+    const cFactory = this.resolver.resolveComponentFactory(prefs[widget.widgetPrefs.implementation]);
     const widgetPrefs = this.widgetHost.vcRef.createComponent(cFactory).instance as WidgetPrefs;
     widgetPrefs.widget = widget;
   }

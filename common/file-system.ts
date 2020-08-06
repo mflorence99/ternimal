@@ -1,4 +1,4 @@
-export interface PathDescriptor {
+export interface FileDescriptor {
   atime: Date;
   btime: Date;
   color: string;
