@@ -10,6 +10,10 @@ ternimal-table {
     vertical-align: middle;
     white-space: nowrap;
 
+    &.group {
+      text-align: right;
+    }
+
     &.mode {
       font-family: 'B612 mono', monospace;
       font-size: 0.75rem;

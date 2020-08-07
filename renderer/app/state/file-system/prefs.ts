@@ -147,7 +147,7 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
       { name: 'atime', tag: 'Accessed' },
       { name: 'mode', tag: 'Mode' },
       { name: 'user', tag: 'User' },
-      { name: 'group', tag: 'Group' }
+      { name: 'group', tag: 'GID' }
     ];
   }
 

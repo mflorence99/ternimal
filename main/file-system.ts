@@ -258,7 +258,8 @@ const makeDescriptor = (root: string, name: string, stat: fs.Stats): FileDescrip
     name: name,
     path: path.join(root, name),
     size: stat.isFile() ? stat.size : 0,
-    user: (stat.uid === userInfo.uid) ? userInfo.username : String(stat.uid)
+    user: (stat.uid === userInfo.uid) ? userInfo.username : 
+      ((stat.uid === 0) ? 'root' : String(stat.uid))
   };
 };
 

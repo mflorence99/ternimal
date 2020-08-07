@@ -44,6 +44,7 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
       prefs: this.formBuilder.group({
         dateFormat: null,
         quantityFormat: null,
+        root: null,
         showHiddenFiles: null,
         sortDirectories: null,
         timeFormat: null,
@@ -89,6 +90,7 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
       prefs: {
         dateFormat: prefs.dateFormat,
         quantityFormat: prefs.quantityFormat,
+        root: prefs.root,
         showHiddenFiles: prefs.showHiddenFiles,
         sortDirectories: prefs.sortDirectories,
         timeFormat: prefs.timeFormat,

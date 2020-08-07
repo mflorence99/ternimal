@@ -76,7 +76,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     // TODO: temporary
     this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
     this.files.loadPaths([this.effectivePrefs.root, ...this.paths.snapshot[this.splitID] ?? []]);
-    this.descs = [];
+    this.descs = [...this.files.snapshot[this.effectivePrefs.root] ?? []];
   }
 
   trackByDesc(_, desc: FileDescriptor): string {
@@ -94,13 +94,17 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       .pipe(
         filter(({ action, status }) => {
           return (action['FileSystemFilesState.loadPath']
+            || action['FileSystemPrefsState.update']
             || (action['SortState.update']?.splitID === this.splitID))
             && (status === 'SUCCESSFUL');
         }),
         takeUntil(this.destroy$)
       )
       // TODO: temporary
-      .subscribe(() => this.descs = [...this.files.snapshot[this.effectivePrefs.root]]);
+      .subscribe(() => {
+        this.descs = [...this.files.snapshot[this.effectivePrefs.root]] ?? [];
+        console.log(this.descs);
+      });
   }
 
   private handleLoading$(): void {
