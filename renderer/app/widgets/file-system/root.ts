@@ -1,8 +1,10 @@
+import { ColumnSort } from '../../state/sort';
 import { Dictionary } from '../../state/file-system/prefs';
 import { FileDescriptor } from '../../common/file-system';
 import { FileSystemFilesState } from '../../state/file-system/files';
 import { FileSystemPrefs } from '../../state/file-system/prefs';
 import { FileSystemPrefsState } from '../../state/file-system/prefs';
+import { SortState } from '../../state/sort';
 import { TabsState } from '../../state/tabs';
 import { Widget } from '../widget';
 import { WidgetLaunch } from '../widget';
@@ -22,7 +24,8 @@ import { OnInit } from '@angular/core';
 
 export class FileSystemComponent implements OnInit, Widget {
 
-  currentPrefs: FileSystemPrefs;
+  columnSort: ColumnSort;
+  effectivePrefs: FileSystemPrefs;
 
   @Input() splitID: string;
 
@@ -39,12 +42,14 @@ export class FileSystemComponent implements OnInit, Widget {
 
   constructor(public files: FileSystemFilesState,
               public prefs: FileSystemPrefsState,
+              public sort: SortState,
               public tabs: TabsState) { }
 
   ngOnInit(): void {
-    this.currentPrefs = this.prefs.currentPrefs(this.tabs.tab.layoutID, this.splitID);
-    // TODO:
-    this.files.loadPaths([this.currentPrefs.initialPath]);
+    // TODO: temporary
+    this.columnSort = this.sort.columnSort(this.splitID);
+    this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
+    this.files.loadPaths([this.effectivePrefs.root]);
   }
 
   trackByDesc(_, desc: FileDescriptor): string {

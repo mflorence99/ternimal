@@ -40,8 +40,10 @@ export class Utils {
       .filter(obj => !!obj)
       .reduce((acc, obj) => {
         for (const key in obj) {
-          if (obj[key] != null)
-            acc[key] = obj[key];
+          if (obj[key] != null) {
+            acc[key] = (typeof obj[key] === 'object') ? 
+              this.merge(acc[key], obj[key]) : obj[key];
+          }
         }
         return acc;
       }, { });
