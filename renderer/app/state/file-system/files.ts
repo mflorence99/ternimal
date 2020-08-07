@@ -11,6 +11,7 @@ import { NgxsOnInit } from '@ngxs/store';
 import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
+import { Subject } from 'rxjs';
 
 import { patch } from '@ngxs/store/operators';
 
@@ -32,6 +33,8 @@ export interface FileSystemFilesStateModel {
 
 export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStateModel> implements NgxsOnInit {
 
+  loading$ = new Subject<Record<string, boolean>>();
+
   constructor(private electron: ElectronService) { 
     super();
   }
@@ -51,8 +54,15 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
   /* eslint-disable @typescript-eslint/member-ordering */
 
   loadPaths(paths: string[]): void {
-    paths.forEach(path => 
-      this.electron.ipcRenderer.send(Channels.fsLoadPathRequest, path));
+    paths.forEach(path => {
+      if (!this.snapshot[path]) {
+        this.loading$.next(paths.reduce((acc, path) => {
+          acc[path] = true;
+          return acc;
+        }, { }));
+        this.electron.ipcRenderer.send(Channels.fsLoadPathRequest, path);
+      }
+    });
   }
 
   ngxsOnInit(): void {
@@ -65,10 +75,12 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
     this.electron.ipcRenderer
       .on(Channels.fsLoadPathSuccess, (_, path: string, descs: FileDescriptor[]) => {
         this.loadPath({ path, descs });
+        this.loading$.next({ [path]: false });
       });
     this.electron.ipcRenderer
       .on(Channels.fsLoadPathFailure, (_, path: string) => {
         this.unloadPath({ path });
+        this.loading$.next({ [path]: false });
       });
     // TODO: what about fsWatcherFailure ???
   }

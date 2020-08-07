@@ -2,6 +2,7 @@ import { DestroyService } from '../../services/destroy';
 import { Dictionary } from '../../state/file-system/prefs';
 import { FileDescriptor } from '../../common/file-system';
 import { FileSystemFilesState } from '../../state/file-system/files';
+import { FileSystemPathsState } from '../../state/file-system/paths';
 import { FileSystemPrefs } from '../../state/file-system/prefs';
 import { FileSystemPrefsState } from '../../state/file-system/prefs';
 import { SortState } from '../../state/sort';
@@ -32,6 +33,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
 
   descs: FileDescriptor[];
   effectivePrefs: FileSystemPrefs;
+  loading: Record<string, boolean> = { };
 
   @Input() splitID: string;
 
@@ -51,18 +53,29 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
               public files: FileSystemFilesState,
+              public paths: FileSystemPathsState,
               public prefs: FileSystemPrefsState,
               public sort: SortState,
               public tabs: TabsState) { }
 
+  loadPath(path: string): void {
+    if (!this.loading[path]) {
+      if (!this.paths.isOpen(this.splitID, path)) {
+        this.files.loadPaths([path]);
+        this.paths.open({ splitID: this.splitID, path });
+      } else this.paths.close({ splitID: this.splitID, path });
+    }
+  }
+
   ngAfterViewInit(): void {
     this.handleActions$();
+    this.handleLoading$();
   }
 
   ngOnInit(): void {
     // TODO: temporary
     this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
-    this.files.loadPaths([this.effectivePrefs.root]);
+    this.files.loadPaths([this.effectivePrefs.root, ...this.paths.snapshot[this.splitID] ?? []]);
     this.descs = [];
   }
 
@@ -88,6 +101,12 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       )
       // TODO: temporary
       .subscribe(() => this.descs = [...this.files.snapshot[this.effectivePrefs.root]]);
+  }
+
+  private handleLoading$(): void {
+    this.files.loading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(loading => Object.assign(this.loading, loading));
   }
 
 }

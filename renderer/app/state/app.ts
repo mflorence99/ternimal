@@ -1,5 +1,7 @@
 import { FileSystemFilesState } from './file-system/files';
 import { FileSystemFilesStateModel } from './file-system/files';
+import { FileSystemPathsState } from './file-system/paths';
+import { FileSystemPathsStateModel } from './file-system/paths';
 import { FileSystemPrefsState } from './file-system/prefs';
 import { FileSystemPrefsStateModel } from './file-system/prefs';
 import { LayoutState } from './layout';
@@ -19,6 +21,7 @@ import { TernimalStateModel } from './ternimal';
 
 export interface AppState {
   fileSystemFiles: FileSystemFilesStateModel;
+  fileSystemPaths: FileSystemPathsStateModel;
   fileSystemPrefs: FileSystemPrefsStateModel;
   layout: LayoutStateModel;
   panes: PanesStateModel;
@@ -31,6 +34,7 @@ export interface AppState {
 
 export const states = [
   FileSystemFilesState,
+  FileSystemPathsState,
   FileSystemPrefsState,
   LayoutState,
   PanesState,

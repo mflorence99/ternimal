@@ -77,6 +77,15 @@
             *ngIf="['name'].includes(dict.name)">
 
             <fa-icon
+              (click)="loadPath(desc.path)"
+              [fixedWidth]="true"
+              [icon]="loading[desc.path]? ['far', 'clock'] : ['fas', 'caret-right']"
+              [ngStyle]="{cursor: loading[desc.path]? 'progress' : 'pointer', visibility: desc.isDirectory? 'visible' : 'hidden'}"
+              [pulse]="loading[desc.path]"
+              [rotate]="paths.isOpen(splitID, desc.path)? 90 : 0">
+            </fa-icon>
+
+            <fa-icon
               [fixedWidth]="true"
               [icon]="['fas', 'folder']"
               [ngStyle]="{color: desc.color}"
@@ -100,7 +109,7 @@
             *ngIf="['size'].includes(dict.name)">
 
             <ng-container 
-              *ngIf="desc[dict.name] !== 0; else noSize">
+              *ngIf="desc.isFile; else noSize">
 
               <ng-container
                 *ngIf="effectivePrefs.quantityFormat === 'abbrev'">

@@ -10,9 +10,10 @@ describe('FileSystemPrefsState', () => {
   beforeEach(() => {
     bundle = prepare();
     bundle.fileSystemPrefs.setState({
-      byLayoutID: {},
-      bySplitID: {},
-      global: FileSystemPrefsState.defaultPrefs()
+      byLayoutID: { },
+      bySplitID: { },
+      global: FileSystemPrefsState.defaultPrefs(),
+      scope: 'global'
     });
   });
 
