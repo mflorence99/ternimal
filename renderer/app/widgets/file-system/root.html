@@ -1,8 +1,8 @@
 <ternimal-table
   [hydrate]="false"
   [hydrateTrace]="true"
-  [sortDir]="columnSort.sortDir"
-  [sortedColumn]="columnSort.sortedColumn">
+  [splitID]="splitID"
+  [tableID]="tableID">
 
   <thead>
     <tr>
@@ -22,23 +22,21 @@
     </tr>
   </thead>
 
-  <!-- TODO: temporary -->
-
   <tbody>
 
     <tr
-      *ngFor="let desc of files.snapshot[effectivePrefs.root]; trackBy: trackByDesc"
+      *ngFor="let desc of descs; trackBy: trackByDesc"
       [id]="desc.path">
 
       <ng-container
-        *ngFor="let dict of prefs.dictionary">
+        *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
 
         <td
-          [ngClass]="{icon: dict.showIcon, mono: dict.showMono, quantity: dict.isQuantity}"
+          [ngClass]="dict.name"
           *ngIf="effectivePrefs.visibility[dict.name]">
 
           <ng-container
-            *ngIf="dict.isDate">
+            *ngIf="['atime', 'btime', 'mtime'].includes(dict.name)">
 
             <ng-container
               *ngIf="effectivePrefs.dateFormat === 'ago'">
@@ -69,33 +67,62 @@
           </ng-container>
 
           <ng-container
-            *ngIf="dict.isQuantity && desc[dict.name]">
-
-            <ng-container
-              *ngIf="effectivePrefs.quantityFormat === 'abbrev'">
-              {{ desc[dict.name] | ternimalNumeral:'0a' }}
-            </ng-container>
-
-            <ng-container
-              *ngIf="effectivePrefs.quantityFormat === 'bytes'">
-              {{ desc[dict.name] | ternimalNumeral:'0b' }}
-            </ng-container>
-
-            <ng-container
-              *ngIf="effectivePrefs.quantityFormat === 'number'">
-              {{ desc[dict.name] | ternimalNumeral:'0,0' }}
-            </ng-container>
-
-          </ng-container>
-
-          <ng-container
-            *ngIf="dict.isQuantity && !desc[dict.name]">
-            &ndash;
-          </ng-container>
-
-          <ng-container
-            *ngIf="dict.isString">
+            *ngIf="['mode'].includes(dict.name)">
             {{ desc[dict.name] }}
+          </ng-container>
+
+          <!-- TODO: temporary -->
+
+          <ng-container
+            *ngIf="['name'].includes(dict.name)">
+
+            <fa-icon
+              [fixedWidth]="true"
+              [icon]="['fas', 'folder']"
+              [ngStyle]="{color: desc.color}"
+              *ngIf="desc.isDirectory"
+              size="sm">
+            </fa-icon>
+
+            <fa-icon
+              [fixedWidth]="true"
+              [icon]="desc.icon"
+              [ngStyle]="{color: desc.color}"
+              *ngIf="!desc.isDirectory"
+              size="sm">
+            </fa-icon>
+
+            {{ desc[dict.name] }} 
+
+          </ng-container>
+
+          <ng-container
+            *ngIf="['size'].includes(dict.name)">
+
+            <ng-container 
+              *ngIf="desc[dict.name] !== 0; else noSize">
+
+              <ng-container
+                *ngIf="effectivePrefs.quantityFormat === 'abbrev'">
+                {{ desc[dict.name] | ternimalNumeral:'0a' }}
+              </ng-container>
+
+              <ng-container
+                *ngIf="effectivePrefs.quantityFormat === 'bytes'">
+                {{ desc[dict.name] | ternimalNumeral:'0b' }}
+              </ng-container>
+
+              <ng-container
+                *ngIf="effectivePrefs.quantityFormat === 'number'">
+                {{ desc[dict.name] | ternimalNumeral:'0,0' }}
+              </ng-container>
+
+            </ng-container>
+
+            <ng-template #noSize>
+              &ndash;
+            </ng-template>
+
           </ng-container>
 
         </td>

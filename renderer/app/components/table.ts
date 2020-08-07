@@ -1,6 +1,7 @@
 import { ColumnSort } from '../state/sort';
 import { DestroyService } from '../services/destroy';
 import { Params } from '../services/params';
+import { SortState } from '../state/sort';
 
 import { Actions } from '@ngxs/store';
 import { AfterContentInit } from '@angular/core';
@@ -10,7 +11,6 @@ import { ElementRef } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { Input } from '@angular/core';
 import { OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
 import { ViewChild } from '@angular/core';
 
 import { takeUntil } from 'rxjs/operators';
@@ -34,12 +34,12 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   scrollLeft: 0;
 
   selectedRowIDs: string[] = [];
-  selectedRowIDs$ = new Subject<string[]>();
-  sortedColumn$ = new Subject<ColumnSort>();
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  @Input() sortDir: number;
-  @Input() sortedColumn: number;
+  sortDir: number;
+  sortedColumn: number;
+
+  @Input() splitID: string;
+  @Input() tableID: string;
 
   // NOTE: hidden until view rendered
   visibility = 'hidden';
@@ -55,7 +55,8 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
               private host: ElementRef,
-              private params: Params) { 
+              private params: Params,
+              public sort: SortState) { 
     this.handleActions$();            
   }
 
@@ -111,7 +112,7 @@ export class TableComponent implements AfterContentInit, OnDestroy {
           sortedColumn: this.sortedColumn,
           sortedID: newColumn.id
         };
-        this.sortedColumn$.next(columnSort);
+        this.sort.update({ splitID: this.splitID, tableID: this.tableID, columnSort });
       }
     }
   }
@@ -132,6 +133,9 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   }
 
   ngAfterContentInit(): void {
+    const columnSort = this.sort.columnSort(this.splitID, this.tableID);
+    this.sortDir = columnSort.sortDir;
+    this.sortedColumn = columnSort.sortedColumn;
     this.observeIntersection();
     this.observeRows();
     this.mungeHeaders();
@@ -174,7 +178,6 @@ export class TableComponent implements AfterContentInit, OnDestroy {
         diff.forEach(id => this.applyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
         // publish the selection
         this.selectedRowIDs = [...newSelected];
-        this.selectedRowIDs$.next(this.selectedRowIDs);
       }
     }
   }
@@ -192,7 +195,6 @@ export class TableComponent implements AfterContentInit, OnDestroy {
   rowUnselect(): void {
     this.selectedRowIDs.forEach(id => this.unapplyClass(this.body.nativeElement, `tr[id="${id}"] td`, 'selected'));
     this.selectedRowIDs = [];
-    this.selectedRowIDs$.next(this.selectedRowIDs);
   }
 
   // private methods

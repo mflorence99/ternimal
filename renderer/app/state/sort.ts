@@ -21,9 +21,10 @@ export interface ColumnSort {
 interface DataActionParams {
   columnSort?: ColumnSort;
   splitID?: string;
+  tableID?: string;
 }
 
-export type SortStateModel = Record<string, ColumnSort>;
+export type SortStateModel = Record<string, Record<string, ColumnSort>>;
 
 @Injectable({ providedIn: 'root' })
 @Persistence({ path: 'sort', useClass: StorageService })
@@ -51,14 +52,16 @@ export class SortState extends NgxsDataRepository<SortStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  update(@Payload('SortState.update') { splitID, columnSort }: DataActionParams): void {
-    this.ctx.setState(patch({ [splitID]: columnSort }));
+  update(@Payload('SortState.update') { splitID, tableID, columnSort }: DataActionParams): void {
+    if (!this.ctx.getState()[splitID])
+      this.ctx.setState(patch({ [splitID]: { } }));
+    this.ctx.setState(patch({ [splitID]: patch({ [tableID]: columnSort }) }));
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */
 
-  columnSort(splitID: string): ColumnSort {
-    return this.snapshot[splitID] ?? SortState.defaultSort();
+  columnSort(splitID: string, tableID: string): ColumnSort {
+    return this.snapshot[splitID]?.[tableID] ?? SortState.defaultSort();
   }
 
 }

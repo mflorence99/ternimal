@@ -10,16 +10,16 @@ ternimal-table {
     vertical-align: middle;
     white-space: nowrap;
 
-    &.icon {
-      width: 100%;
-    }
-
-    &.mono {
+    &.mode {
       font-family: 'B612 mono', monospace;
       font-size: 0.75rem;
     }
 
-    &.quantity {
+    &.name {
+      width: 100%;
+    }
+
+    &.size {
       text-align: right;
     }
 

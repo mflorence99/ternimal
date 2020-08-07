@@ -140,14 +140,14 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
 
   @Computed() get dictionary(): Dictionary[] {
     return [
-      { name: 'name', tag: 'Name', isString: true, showIcon: true },
-      { name: 'size', tag: 'Size', isQuantity: true },
-      { name: 'mtime', tag: 'Modified', isDate: true },
-      { name: 'btime', tag: 'Created', isDate: true },
-      { name: 'atime', tag: 'Accessed', isDate: true },
-      { name: 'mode', tag: 'Mode', isString: true, showMono: true },
-      { name: 'user', tag: 'User', isString: true },
-      { name: 'group', tag: 'Group', isString: true }
+      { name: 'name', tag: 'Name' },
+      { name: 'size', tag: 'Size' },
+      { name: 'mtime', tag: 'Modified' },
+      { name: 'btime', tag: 'Created' },
+      { name: 'atime', tag: 'Accessed' },
+      { name: 'mode', tag: 'Mode' },
+      { name: 'user', tag: 'User' },
+      { name: 'group', tag: 'Group' }
     ];
   }
 

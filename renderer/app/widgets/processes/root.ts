@@ -1,5 +1,4 @@
 import { Channels } from '../../common/channels';
-import { ColumnSort } from '../../state/sort';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog';
 import { ConfirmDialogModel } from '../../components/confirm-dialog';
 import { DestroyService } from '../../services/destroy';
@@ -24,7 +23,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
-import { delay } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
@@ -38,7 +36,6 @@ import { takeUntil } from 'rxjs/operators';
 
 export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
 
-  columnSort: ColumnSort;
   running = true;
 
   @Input() splitID: string;
@@ -46,6 +43,8 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
   stats: ProcessStats[];
 
   @ViewChild(TableComponent, { static: true }) table: TableComponent;
+
+  tableID = 'process-list';
 
   widgetCommands: WidgetCommand[] = [
     {
@@ -108,12 +107,10 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
 
   ngAfterViewInit(): void {
     this.handleActions$();
-    this.handleSort$();
     this.processList.startPolling();
   }
 
   ngOnInit(): void {
-    this.columnSort = this.sort.columnSort(this.splitID);
     this.stats = this.sortStats(this.processList.snapshot);
   }
 
@@ -135,7 +132,8 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
       .pipe(
         filter(() => this.running),
         filter(({ action, status }) => {
-          return this.utils.hasProperty(action, 'ProcessListState.update')
+          return (action['ProcessListState.update'] 
+            || (action['SortState.update']?.splitID === this.splitID))
             && (status === 'SUCCESSFUL');
         }),
         takeUntil(this.destroy$)
@@ -143,33 +141,19 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
       .subscribe(() => this.stats = this.sortStats(this.processList.snapshot));
   }
 
-  private handleSort$(): void {
-    this.table.sortedColumn$
-      .pipe(
-        // @see https://blog.angular-university.io/angular-debugging/
-        delay(0),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(columnSort => {
-        this.columnSort = columnSort;
-        this.sort.update({ splitID: this.splitID, columnSort });
-        // resort that stats
-        this.stats = this.sortStats(this.processList.snapshot);
-      });
-  }
-
   private sortStats(stats: ProcessStats[]): ProcessStats[] {
-    if (this.columnSort.sortDir === 0)
+    const columnSort = this.sort.columnSort(this.splitID, this.tableID);
+    if (columnSort.sortDir === 0)
       return stats;
     else return stats
       .slice(0)
       .sort((p, q): number => {
-        const nm = this.columnSort.sortedID;
+        const nm = columnSort.sortedID;
         let order = 0;
         if (['name', 'uid'].includes(nm))
           order = p[nm].toLowerCase().localeCompare(q[nm].toLowerCase());
         else order = p[nm] - q[nm];
-        return order * this.columnSort.sortDir;
+        return order * columnSort.sortDir;
       });
   }
 
