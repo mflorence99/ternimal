@@ -126,16 +126,18 @@ export type SplitVisitorFn = (split: Layout) => void;
   }
 
   @DataAction({ insideZone: true })
-  newLayout(@Payload('LayoutState.newLayout') { layoutID }: DataActionParams): void {
+  newLayout(@Payload('LayoutState.newLayout') { layoutID, visitor }: DataActionParams): void {
     this.ctx.setState(patch({ [layoutID]: LayoutState.defaultLayout() }));
+    const layout = this.ctx.getState()[layoutID];
+    this.visitSplits(layout, split => visitor?.(split));
   }
 
   @DataAction({ insideZone: true })
   remove(@Payload('LayoutState.remove') { layoutID, visitor }: DataActionParams): void {
-    const layout = this.snapshot[layoutID];
+    const layout = this.ctx.getState()[layoutID];
     if (layout) {
       // visit every layout we're deleting
-      this.visitSplits(layout, splat => visitor?.(splat));
+      this.visitSplits(layout, split => visitor?.(split));
       this.ctx.setState(scratch(layoutID));
     }
   }

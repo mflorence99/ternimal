@@ -1,8 +1,9 @@
-import * as prefs from '../../widgets/all-prefs';
+import * as sidebars from '../../widgets/all-sidebars';
 import * as widgets from '../../widgets/all-widgets';
 
 import { PanesState } from '../../state/panes';
 import { SelectionState } from '../../state/selection';
+import { TernimalState } from '../../state/ternimal';
 import { Widget } from '../../widgets/widget';
 import { WidgetHostDirective } from '../directives/widget-host';
 import { WidgetPrefs } from '../../widgets/widget-prefs';
@@ -15,12 +16,12 @@ import { ViewChild } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
-  selector: 'ternimal-widget-prefs',
-  templateUrl: 'widget-prefs.html',
-  styleUrls: ['widget-prefs.scss']
+  selector: 'ternimal-widget-sidebar',
+  templateUrl: 'widget-sidebar.html',
+  styleUrls: ['widget-sidebar.scss']
 })
 
-export class WidgetPrefsComponent implements OnInit {
+export class WidgetSidebarComponent implements OnInit {
 
   static allWidgets: Widget[] = Object.keys(widgets).map(nm => new widgets[nm]);
 
@@ -28,14 +29,15 @@ export class WidgetPrefsComponent implements OnInit {
 
   constructor(public panes: PanesState,
               private resolver: ComponentFactoryResolver,
-              public selection: SelectionState) { }
+              public selection: SelectionState,
+              public ternimal: TernimalState) { }
 
   ngOnInit(): void {
     const panePrefs = this.panes.prefs(this.selection.splitID);
-    const widget = WidgetPrefsComponent.allWidgets.find(widget => widget.widgetLaunch.implementation === panePrefs.widget);
+    const widget = WidgetSidebarComponent.allWidgets.find(widget => widget.widgetLaunch.implementation === panePrefs.widget);
     this.widgetHost.vcRef.clear();
     // @see https://stackoverflow.com/questions/40528592
-    const cFactory = this.resolver.resolveComponentFactory(prefs[widget.widgetPrefs.implementation]);
+    const cFactory = this.resolver.resolveComponentFactory(sidebars[this.ternimal.widgetSidebarImpl]);
     const widgetPrefs = this.widgetHost.vcRef.createComponent(cFactory).instance as WidgetPrefs;
     widgetPrefs.widget = widget;
   }

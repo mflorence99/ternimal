@@ -19,8 +19,9 @@ interface DataActionParams {
 export interface TernimalStateModel {
   enabled: boolean;
   showTabPrefs: boolean;
-  showWidgetPrefs: boolean;
+  showWidgetSidebar: boolean;
   unique: Record<string, number>;
+  widgetSidebarImpl: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -31,8 +32,9 @@ export interface TernimalStateModel {
   defaults: {
     enabled: true,
     showTabPrefs: false,
-    showWidgetPrefs: false,
-    unique: { }
+    showWidgetSidebar: false,
+    unique: { },
+    widgetSidebarImpl: null
   }
 })
 
@@ -51,8 +53,8 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  hideWidgetPrefs(): void {
-    this.ctx.setState(patch({ showWidgetPrefs: false }));
+  hideWidgetSidebar(): void {
+    this.ctx.setState(patch({ showWidgetSidebar: false }));
   }
 
   @DataAction({ insideZone: true })
@@ -61,20 +63,8 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  showWidgetPrefs(): void {
-    this.ctx.setState(patch({ showWidgetPrefs: true }));
-  }
-
-  @DataAction({ insideZone: true })
-  toggleTabPrefs(): void {
-    const showTabPrefs = this.ctx.getState().showTabPrefs;
-    this.ctx.setState(patch({ showTabPrefs: !showTabPrefs }));
-  }
-
-  @DataAction({ insideZone: true })
-  toggleWidgetPrefs(): void {
-    const showWidgetPrefs = this.ctx.getState().showWidgetPrefs;
-    this.ctx.setState(patch({ showWidgetPrefs: !showWidgetPrefs }));
+  showWidgetSidebar(@Payload('showWidgetSidebar') { context }: DataActionParams): void {
+    this.ctx.setState(patch({ showWidgetSidebar: true, widgetSidebarImpl: context }));
   }
 
   @DataAction({ insideZone: true })
@@ -93,8 +83,12 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
     return this.snapshot.showTabPrefs;
   }
 
-  @Computed() get widgetPrefsShowing(): boolean {
-    return this.snapshot.showWidgetPrefs;
+  @Computed() get widgetSidebarShowing(): boolean {
+    return this.snapshot.showWidgetSidebar;
+  }
+
+  @Computed() get widgetSidebarImpl(): string {
+    return this.snapshot.widgetSidebarImpl;
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */

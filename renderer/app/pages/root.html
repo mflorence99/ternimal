@@ -14,15 +14,15 @@
     </mat-sidenav>
 
     <mat-sidenav 
-      (closed)="ternimal.hideWidgetPrefs()"
-      [opened]="ternimal.widgetPrefsShowing"
+      (closed)="ternimal.hideWidgetSidebar()"
+      [opened]="ternimal.widgetSidebarShowing"
       class="sidenav"
       mode="over"
       position="start">
 
-      <ternimal-widget-prefs
-        *ngIf="ternimal.widgetPrefsShowing">
-      </ternimal-widget-prefs>
+      <ternimal-widget-sidebar
+        *ngIf="ternimal.widgetSidebarShowing">
+      </ternimal-widget-sidebar>
       
     </mat-sidenav>
 

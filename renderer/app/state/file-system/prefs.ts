@@ -33,11 +33,8 @@ interface DataActionParams {
 
 export interface Dictionary {
   isDate?: boolean;
-  isQuantity?: boolean;
-  isString?: boolean;
+  isNumber?: boolean;
   name: Attribute;
-  showIcon?: boolean;
-  showMono?: boolean;
   tag: string;
 }
 
@@ -141,13 +138,13 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
   @Computed() get dictionary(): Dictionary[] {
     return [
       { name: 'name', tag: 'Name' },
-      { name: 'size', tag: 'Size' },
-      { name: 'mtime', tag: 'Modified' },
-      { name: 'btime', tag: 'Created' },
-      { name: 'atime', tag: 'Accessed' },
+      { name: 'size', tag: 'Size', isNumber: true },
+      { name: 'mtime', tag: 'Modified', isDate: true },
+      { name: 'btime', tag: 'Created', isDate: true },
+      { name: 'atime', tag: 'Accessed', isDate: true },
       { name: 'mode', tag: 'Mode' },
       { name: 'user', tag: 'User' },
-      { name: 'group', tag: 'GID' }
+      { name: 'group', tag: 'GID', isNumber: true }
     ];
   }
 

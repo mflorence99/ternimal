@@ -16,8 +16,6 @@ describe('TernimalState', () => {
 
   test('Tab prefs can be shown/hidden', () => {
     expect(bundle.ternimal.tabPrefsShowing).toBe(false);
-    bundle.ternimal.toggleTabPrefs();
-    expect(bundle.ternimal.tabPrefsShowing).toBe(true);
     bundle.ternimal.hideTabPrefs();
     expect(bundle.ternimal.tabPrefsShowing).toBe(false);
     bundle.ternimal.showTabPrefs();

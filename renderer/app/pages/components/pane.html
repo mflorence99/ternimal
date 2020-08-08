@@ -57,7 +57,7 @@
       </ng-container>
 
       <fa-icon
-        (click)="ternimal.showWidgetPrefs()"
+        (click)="ternimal.showWidgetSidebar({ context: widget.widgetPrefs.implementation })"
         [fixedWidth]="true"
         [icon]="['fas', 'cog']"
         [matTooltip]="widget.widgetPrefs.description"

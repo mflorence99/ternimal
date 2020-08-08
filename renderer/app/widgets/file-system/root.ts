@@ -6,6 +6,7 @@ import { FileSystemPathsState } from '../../state/file-system/paths';
 import { FileSystemPrefs } from '../../state/file-system/prefs';
 import { FileSystemPrefsState } from '../../state/file-system/prefs';
 import { SortState } from '../../state/sort';
+import { TableComponent } from '../../components/table';
 import { TabsState } from '../../state/tabs';
 import { Widget } from '../widget';
 import { WidgetLaunch } from '../widget';
@@ -17,6 +18,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { ViewChild } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
@@ -36,6 +38,8 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   loading: Record<string, boolean> = { };
 
   @Input() splitID: string;
+
+  @ViewChild(TableComponent, { static: true }) table: TableComponent;
 
   tableID = 'file-system';
 
@@ -58,6 +62,13 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
               public sort: SortState,
               public tabs: TabsState) { }
 
+  level(desc: FileDescriptor): number {
+    const ix = this.effectivePrefs.root.length;
+    const parts = desc.path.substring(ix).split('/');
+    // NOTE: a non-directory has one more part that we don't want to indent extra for
+    return parts.length - 1 - (desc.isDirectory ? 0 : 1);
+  }
+
   loadPath(path: string): void {
     if (!this.loading[path]) {
       if (!this.paths.isOpen(this.splitID, path)) {
@@ -73,10 +84,9 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   }
 
   ngOnInit(): void {
-    // TODO: temporary
     this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
     this.files.loadPaths([this.effectivePrefs.root, ...this.paths.snapshot[this.splitID] ?? []]);
-    this.descs = [...this.files.snapshot[this.effectivePrefs.root] ?? []];
+    this.descs = this.assemble([...this.files.snapshot[this.effectivePrefs.root] ?? []]);
   }
 
   trackByDesc(_, desc: FileDescriptor): string {
@@ -89,21 +99,39 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
 
   // private methods
 
+  private assemble(descs: FileDescriptor[]): FileDescriptor[] {
+    const showHidden = this.effectivePrefs.showHiddenFiles;
+    const filtered = showHidden ? descs : descs.filter(desc => !desc.name.startsWith('.'));
+    let assembled = this.sortEm(filtered);
+    const paths = this.paths.snapshot[this.splitID] ?? [];
+    for (let ix = 0; ix < assembled.length; ix++) {
+      const desc = assembled[ix];
+      if (desc.isDirectory && paths.includes(desc.path)) {
+        const inner = this.assemble(this.files.snapshot[desc.path] ?? []);
+        // NOTE: this supposedly slower: assembled.splice(ix + 1, 0, ...inner);
+        assembled = assembled.slice(0, ix + 1).concat(inner).concat(assembled.slice(ix + 1));
+        ix += inner.length;
+      }
+    }
+    return assembled;
+  }
+
   private handleActions$(): void {
     this.actions$
       .pipe(
         filter(({ action, status }) => {
           return (action['FileSystemFilesState.loadPath']
+            || action['FileSystemPathsState.close']
+            || action['FileSystemPathsState.open']
             || action['FileSystemPrefsState.update']
             || (action['SortState.update']?.splitID === this.splitID))
             && (status === 'SUCCESSFUL');
         }),
         takeUntil(this.destroy$)
       )
-      // TODO: temporary
       .subscribe(() => {
         this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
-        this.descs = [...this.files.snapshot[this.effectivePrefs.root]] ?? [];
+        this.descs = this.assemble([...this.files.snapshot[this.effectivePrefs.root] ?? []]);
       });
   }
 
@@ -111,6 +139,32 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     this.files.loading$
       .pipe(takeUntil(this.destroy$))
       .subscribe(loading => Object.assign(this.loading, loading));
+  }
+
+  private sortEm(descs: FileDescriptor[]): FileDescriptor[] {
+    if (['first', 'last'].includes(this.effectivePrefs.sortDirectories)) {
+      const directories = descs.filter(desc => desc.isDirectory);
+      const files = descs.filter(desc => !desc.isDirectory);
+      if (this.effectivePrefs.sortDirectories === 'first')
+        descs = this.sortEmImpl(directories)
+          .concat(this.sortEmImpl(files));
+      else if (this.effectivePrefs.sortDirectories === 'last')
+        descs = this.sortEmImpl(files)
+          .concat(this.sortEmImpl(directories));
+    } else this.sortEmImpl(descs);
+    return descs;
+  }
+
+  private sortEmImpl(descs: FileDescriptor[]): FileDescriptor[] {
+    const columnSort = this.sort.columnSort(this.splitID, this.tableID);
+    const dict = this.prefs.dictionary.find(dict => dict.name === columnSort.sortedID);
+    return descs.sort((a: any, b: any) => {
+      if (dict.isDate)
+        return (a[dict.name].getTime() - b[dict.name].getTime()) * columnSort.sortDir;
+      else if (dict.isNumber)
+        return (a[dict.name] - b[dict.name]) * columnSort.sortDir;
+      else return a[dict.name].toLowerCase().localeCompare(b[dict.name].toLowerCase()) * columnSort.sortDir;
+    });
   }
 
 }

@@ -43,9 +43,11 @@ export class ToolbarComponent {
       label: `New Tab ${this.ternimal.unique('tab')}`,
       layoutID: layoutID
     };
-    this.layout.newLayout({ layoutID });
     this.tabs.newTab({ tab });
-    this.selection.selectLayout({ layoutID });
+    this.layout.newLayout({ layoutID, visitor: split => {
+      this.selection.selectLayout({ layoutID });
+      this.selection.selectSplit({ splitID: split.id });
+    } });
     this.ternimal.showTabPrefs();
   }
 
