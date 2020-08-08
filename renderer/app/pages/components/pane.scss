@@ -39,6 +39,10 @@ section {
     &.selected {
       opacity: 1;
 
+      .launch.tool.launched {
+        opacity: 1;
+      }
+
       .tool {
         opacity: 0.6;
       }

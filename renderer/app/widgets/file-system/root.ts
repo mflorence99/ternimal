@@ -102,8 +102,8 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       )
       // TODO: temporary
       .subscribe(() => {
+        this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
         this.descs = [...this.files.snapshot[this.effectivePrefs.root]] ?? [];
-        console.log(this.descs);
       });
   }
 

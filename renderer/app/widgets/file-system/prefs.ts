@@ -10,10 +10,12 @@ import { WidgetPrefs } from '../widget-prefs';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 
+import { map } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -25,8 +27,6 @@ import { takeUntil } from 'rxjs/operators';
 })
 
 export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
-
-  atLeastOne = true;
 
   prefsForm: FormGroup;
 
@@ -49,7 +49,7 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
         sortDirectories: null,
         timeFormat: null,
         visibility: this.formBuilder.group(this.prefs.dictionary.reduce((acc, dict) => {
-          acc[dict.name] = null;
+          acc[dict.name] = new FormControl({ value: null, disabled: dict.name === 'name' });
           return acc;
         }, { }))
       })
@@ -59,15 +59,15 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
   ngOnInit(): void {
     this.populate();
     this.prefsForm.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(prefsForm => {
-        this.atLeastOne = true;
-        const someVisibility = Object.values(prefsForm.prefs.visibility).some(vis => !!vis);
-        if ((this.prefs.scope !== 'global') || someVisibility) {
-          const layoutID = (this.prefs.scope === 'byLayoutID') ? this.selection.layoutID : null;
-          const splitID = (this.prefs.scope === 'bySplitID') ? this.selection.splitID : null;
-          this.prefs.update({ prefs: prefsForm.prefs, layoutID, splitID });
-        } else this.atLeastOne = false;
+      .pipe(
+        // NOTE: name is always visible
+        map(prefsForm => ({ ...prefsForm.prefs, visibility: { ...prefsForm.prefs.visibility, name: true }})),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(prefs => {
+        const layoutID = (this.prefs.scope === 'byLayoutID') ? this.selection.layoutID : null;
+        const splitID = (this.prefs.scope === 'bySplitID') ? this.selection.splitID : null;
+        this.prefs.update({ prefs: prefs, layoutID, splitID });
       });
   }
 

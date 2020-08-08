@@ -107,11 +107,6 @@
 
           </ng-container>
 
-          <mat-error
-            *ngIf="!atLeastOne">
-            At least one field must be selected
-          </mat-error>
-
         </div>
 
       </mat-expansion-panel>
@@ -135,7 +130,8 @@
 
           <mat-radio-button 
             [value]="null"
-            *ngIf="prefs.scope !== 'global'">
+            *ngIf="prefs.scope !== 'global'"
+            color="warn">
             Default
           </mat-radio-button>
           <mat-radio-button value="alpha">
@@ -171,7 +167,8 @@
 
           <mat-radio-button 
             [value]="null"
-            *ngIf="prefs.scope !== 'global'">
+            *ngIf="prefs.scope !== 'global'"
+            color="warn">
             Default
           </mat-radio-button>
           <mat-radio-button value="number">
@@ -209,7 +206,8 @@
 
             <mat-radio-button 
               [value]="null"
-              *ngIf="prefs.scope !== 'global'">
+              *ngIf="prefs.scope !== 'global'"
+              color="warn">
               Default
             </mat-radio-button>
             <mat-radio-button value="ago">
@@ -240,7 +238,8 @@
 
             <mat-radio-button 
               [value]="null"
-              *ngIf="prefs.scope !== 'global'">
+              *ngIf="prefs.scope !== 'global'"
+              color="warn">
               Default
             </mat-radio-button>
             <mat-radio-button value="none">

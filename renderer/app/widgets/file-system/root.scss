@@ -10,6 +10,12 @@ ternimal-table {
     vertical-align: middle;
     white-space: nowrap;
 
+    &.atime,
+    &.btime,
+    &.mtime {
+      min-width: 7rem;
+    }
+
     &.group {
       text-align: right;
     }

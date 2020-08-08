@@ -27,9 +27,10 @@
         [fixedWidth]="true"
         [icon]="widget.widgetLaunch.icon"
         [matTooltip]="widget.widgetLaunch.description"
+        [ngClass]="{launched: isLaunched(widget)}"
         [ngStyle]="{color: isLaunched(widget)? tabs.tab.color : 'inherit'}"
         *ngFor="let widget of widgets"
-        class="tool">
+        class="launch tool">
       </fa-icon>
 
     </ng-container>
@@ -50,7 +51,7 @@
           [icon]="command.icon"
           [matTooltip]="command.description"
           *ngIf="isCommandEnabled(command)"
-          class="tool">
+          class="command tool">
         </fa-icon>
 
       </ng-container>
@@ -61,7 +62,7 @@
         [icon]="['fas', 'cog']"
         [matTooltip]="widget.widgetPrefs.description"
         *ngIf="widget.widgetPrefs"
-        class="tool">
+        class="prefs tool">
       </fa-icon>
 
       <div
@@ -73,7 +74,7 @@
         (click)="splitRight()"
         [fixedWidth]="true"
         [icon]="['fas', 'grip-vertical']"
-        class="tool"
+        class="pane tool"
         matTooltip="Split right">
       </fa-icon>
 
@@ -81,7 +82,7 @@
         (click)="splitDown()"
         [fixedWidth]="true"
         [icon]="['fas', 'grip-horizontal']"
-        class="tool"
+        class="pane tool"
         matTooltip="Split down">
       </fa-icon>
 
@@ -92,7 +93,7 @@
       [fixedWidth]="true"
       [icon]="['fas', 'times']"
       *ngIf="isCloseEnabled()"
-      class="tool"
+      class="pane tool"
       matTooltip="Close this panel">
     </fa-icon>
 

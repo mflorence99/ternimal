@@ -2,6 +2,7 @@ import { ColumnSort } from '../state/sort';
 import { DestroyService } from '../services/destroy';
 import { Params } from '../services/params';
 import { SortState } from '../state/sort';
+import { Utils } from '../services/utils';
 
 import { Actions } from '@ngxs/store';
 import { AfterContentInit } from '@angular/core';
@@ -56,7 +57,8 @@ export class TableComponent implements AfterContentInit, OnDestroy {
               private destroy$: DestroyService,
               private host: ElementRef,
               private params: Params,
-              public sort: SortState) { 
+              public sort: SortState,
+              private utils: Utils) { 
     this.handleActions$();            
   }
 
@@ -232,8 +234,11 @@ export class TableComponent implements AfterContentInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       // NOTE: update column heads after ANY potential state change
       .subscribe(() => {
-        this.observeRows();
-        this.syncCells();
+        this.utils.nextTick(() => {
+          this.observeRows();
+          this.mungeHeaders();
+          this.syncCells();
+        });
       });
   }
 
@@ -243,18 +248,20 @@ export class TableComponent implements AfterContentInit, OnDestroy {
 
   private mungeHeaders(): void {
     this.ths = this.apply(this.header.nativeElement, 'tr:first-child th', (th, ix) => {
-      this.addClass(th, 'horizontal');
-      th.setAttribute('_dir', 'horizontal');
-      th.setAttribute('_text', th.innerText);
-      let text = th.innerText;
-      if (ix === this.sortedColumn)
-        text += ' ' + ((this.sortDir === 1) ? this.params.table.sortUpArrow : this.params.table.sortDownArrow);
-      th.innerHTML = `
-        <div class="column" _ix="${ix}">
-          <div class="text" _ix="${ix}">
-            ${text}
-          </div
-        </div>`;
+      if (!th.getAttribute('_dir')) {
+        this.addClass(th, 'horizontal');
+        th.setAttribute('_dir', 'horizontal');
+        th.setAttribute('_text', th.innerText);
+        let text = th.innerText;
+        if (ix === this.sortedColumn)
+          text += ' ' + ((this.sortDir === 1) ? this.params.table.sortUpArrow : this.params.table.sortDownArrow);
+        th.innerHTML = `
+          <div class="column" _ix="${ix}">
+            <div class="text" _ix="${ix}">
+              ${text}
+            </div
+          </div>`;
+      }
     });
   }
 

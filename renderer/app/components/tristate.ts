@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { Input } from '@angular/core';
 import { MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
 import { MatCheckboxDefaultOptions } from '@angular/material/checkbox';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -24,7 +23,7 @@ import { forwardRef } from '@angular/core';
 })
 export class TriStateComponent implements ControlValueAccessor {
 
-  @Input() disabled: boolean;
+  disabled: boolean;
   
   value: any;
   
@@ -44,6 +43,10 @@ export class TriStateComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: Function): void {
     this.onTouched = fn;
+  }
+
+  setDisabledState(disabled: boolean): void {
+    this.disabled = disabled;
   }
 
   writeValue(value: boolean): void {
