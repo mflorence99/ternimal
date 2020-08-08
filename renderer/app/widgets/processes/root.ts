@@ -71,7 +71,6 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
     {
       command: 'confirmKill()',
       description: 'Kill...',
-      icon: ['far', 'pause-circle'],
       if: 'table.selectedRowIDs.length'
     }
   ];

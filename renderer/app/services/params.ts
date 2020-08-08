@@ -16,6 +16,9 @@ export class Params {
     colorize: (color): string => `background-color: ${color}; color: white; font-weight: bold; padding: 2px 4px`
   };
 
+  // TODO: Windows??
+  pathSeparator = '/';
+
   processList = {
     maxTimeline: 5 * 60 * 1000,
     pollInterval: 5000

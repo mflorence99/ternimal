@@ -5,10 +5,13 @@ import { FileSystemFilesState } from '../../state/file-system/files';
 import { FileSystemPathsState } from '../../state/file-system/paths';
 import { FileSystemPrefs } from '../../state/file-system/prefs';
 import { FileSystemPrefsState } from '../../state/file-system/prefs';
+import { Params } from '../../services/params';
 import { SortState } from '../../state/sort';
 import { TableComponent } from '../../components/table';
 import { TabsState } from '../../state/tabs';
+import { TernimalState } from '../../state/ternimal';
 import { Widget } from '../widget';
+import { WidgetCommand } from '../widget';
 import { WidgetLaunch } from '../widget';
 import { WidgetPrefs } from '../widget';
 
@@ -49,6 +52,14 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     implementation: 'FileSystemComponent'
   };
 
+  widgetMenuItems: WidgetCommand[] = [
+    {
+      command: 'props()',
+      description: 'Properties...',
+      if: 'table.selectedRowIDs.length'
+    }
+  ];
+
   widgetPrefs: WidgetPrefs = {
     description: 'File System setup',
     implementation: 'FileSystemPrefsComponent'
@@ -57,14 +68,16 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
               public files: FileSystemFilesState,
+              private params: Params,
               public paths: FileSystemPathsState,
               public prefs: FileSystemPrefsState,
               public sort: SortState,
-              public tabs: TabsState) { }
+              public tabs: TabsState,
+              public ternimal: TernimalState) { }
 
   level(desc: FileDescriptor): number {
     const ix = this.effectivePrefs.root.length;
-    const parts = desc.path.substring(ix).split('/');
+    const parts = desc.path.substring(ix).split(this.params.pathSeparator);
     // NOTE: a non-directory has one more part that we don't want to indent extra for
     return parts.length - 1 - (desc.isDirectory ? 0 : 1);
   }
@@ -87,6 +100,10 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
     this.files.loadPaths([this.effectivePrefs.root, ...this.paths.snapshot[this.splitID] ?? []]);
     this.descs = this.assemble([...this.files.snapshot[this.effectivePrefs.root] ?? []]);
+  }
+
+  props(): void {
+    this.ternimal.showWidgetSidebar({ implementation: 'FileSystemPropsComponent', context: this.files.descsForPaths(this.table.selectedRowIDs) });
   }
 
   trackByDesc(_, desc: FileDescriptor): string {

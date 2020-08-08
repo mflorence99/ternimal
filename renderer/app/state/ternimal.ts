@@ -12,8 +12,9 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { patch } from '@ngxs/store/operators';
 
 interface DataActionParams {
-  context?: string;
+  context?: any;
   enabled?: boolean;
+  implementation?: string;
 }
 
 export interface TernimalStateModel {
@@ -21,6 +22,7 @@ export interface TernimalStateModel {
   showTabPrefs: boolean;
   showWidgetSidebar: boolean;
   unique: Record<string, number>;
+  widgetSidebarCtx: any;
   widgetSidebarImpl: string;
 }
 
@@ -34,6 +36,7 @@ export interface TernimalStateModel {
     showTabPrefs: false,
     showWidgetSidebar: false,
     unique: { },
+    widgetSidebarCtx: null,
     widgetSidebarImpl: null
   }
 })
@@ -63,8 +66,8 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  showWidgetSidebar(@Payload('showWidgetSidebar') { context }: DataActionParams): void {
-    this.ctx.setState(patch({ showWidgetSidebar: true, widgetSidebarImpl: context }));
+  showWidgetSidebar(@Payload('showWidgetSidebar') { implementation, context }: DataActionParams): void {
+    this.ctx.setState(patch({ showWidgetSidebar: true, widgetSidebarCtx: context, widgetSidebarImpl: implementation }));
   }
 
   @DataAction({ insideZone: true })
@@ -85,6 +88,10 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
 
   @Computed() get widgetSidebarShowing(): boolean {
     return this.snapshot.showWidgetSidebar;
+  }
+
+  @Computed() get widgetSidebarCtx(): any {
+    return this.snapshot.widgetSidebarCtx;
   }
 
   @Computed() get widgetSidebarImpl(): string {

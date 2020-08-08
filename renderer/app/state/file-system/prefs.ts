@@ -81,6 +81,7 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
     return {
       dateFormat: 'mediumDate',
       quantityFormat: 'bytes',
+      // TODO: Windows ??
       root: '/',
       showHiddenFiles: false,
       sortDirectories: 'first',

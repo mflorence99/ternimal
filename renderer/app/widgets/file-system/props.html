@@ -1,0 +1,38 @@
+<section>
+
+  <header>
+
+    <div 
+      class="icon">
+
+      <fa-icon
+        [classes]="['fa-icon-shadow']"
+        [fixedWidth]="true"
+        [icon]="desc.icon"
+        [ngStyle]="{color: desc.color}"
+        size=lg>
+      </fa-icon>
+
+    </div>
+
+    <h3>
+      {{ desc.name | ternimalBreakable }}
+    </h3>
+
+  </header>
+
+  <form
+    [formGroup]="propsForm"
+    novalidate>
+
+    <mat-form-field>
+      <input
+        formControlName="name"
+        matInput
+        placeholder="File or directory name"
+        type="text">
+    </mat-form-field>
+
+  </form>
+
+</section>

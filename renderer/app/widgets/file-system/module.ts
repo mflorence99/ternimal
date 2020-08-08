@@ -2,12 +2,14 @@ import { BarrelModule } from '../../barrel';
 import { ComponentsModule as CommonComponentsModule } from '../../components/module';
 import { FileSystemComponent } from './root';
 import { FileSystemPrefsComponent } from './prefs';
+import { FileSystemPropsComponent } from './props';
 
 import { NgModule } from '@angular/core';
 
 const COMPONENTS = [
   FileSystemComponent,
-  FileSystemPrefsComponent
+  FileSystemPrefsComponent,
+  FileSystemPropsComponent
 ];
 
 const MODULES = [

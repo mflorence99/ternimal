@@ -1,5 +1,6 @@
 import { Channels } from '../../common/channels';
 import { FileDescriptor } from '../../common/file-system';
+import { Params } from '../../services/params';
 
 import { scratch } from '../operators';
 
@@ -35,7 +36,8 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
 
   loading$ = new Subject<Record<string, boolean>>();
 
-  constructor(private electron: ElectronService) { 
+  constructor(private electron: ElectronService,
+              private params: Params) { 
     super();
   }
 
@@ -52,6 +54,27 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */
+
+  descsForPaths(paths: string[]): FileDescriptor[] {
+    const result = [];
+    const descsByPath: Record<string, FileDescriptor> = { };
+    paths.forEach(path => {
+      if (descsByPath[path])
+        result.push(descsByPath[path]);
+      else {
+        const ix = path.lastIndexOf(this.params.pathSeparator);
+        let root = path.substring(0, ix);
+        if (!root)
+          // TODO: Windows ??
+          root = this.params.pathSeparator;
+        const descs = this.snapshot[root] ?? [];
+        descs.forEach(desc => descsByPath[desc.path] = desc); 
+        if (descsByPath[path])
+          result.push(descsByPath[path]);
+      }
+    });
+    return result;
+  }
 
   loadPaths(paths: string[]): void {
     paths.forEach(path => {

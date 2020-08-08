@@ -41,18 +41,16 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
               public tabs: TabsState,
               private selection: SelectionState) { 
     this.prefsForm = this.formBuilder.group({
-      prefs: this.formBuilder.group({
-        dateFormat: null,
-        quantityFormat: null,
-        root: null,
-        showHiddenFiles: null,
-        sortDirectories: null,
-        timeFormat: null,
-        visibility: this.formBuilder.group(this.prefs.dictionary.reduce((acc, dict) => {
-          acc[dict.name] = new FormControl({ value: null, disabled: dict.name === 'name' });
-          return acc;
-        }, { }))
-      })
+      dateFormat: null,
+      quantityFormat: null,
+      root: null,
+      showHiddenFiles: null,
+      sortDirectories: null,
+      timeFormat: null,
+      visibility: this.formBuilder.group(this.prefs.dictionary.reduce((acc, dict) => {
+        acc[dict.name] = new FormControl({ value: null, disabled: dict.name === 'name' });
+        return acc;
+      }, { }))
     });
   }
 
@@ -61,13 +59,13 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
     this.prefsForm.valueChanges
       .pipe(
         // NOTE: name is always visible
-        map(prefsForm => ({ ...prefsForm.prefs, visibility: { ...prefsForm.prefs.visibility, name: true }})),
+        map(prefsForm => ({ ...prefsForm, visibility: { ...prefsForm.visibility, name: true }})),
         takeUntil(this.destroy$)
       )
-      .subscribe(prefs => {
+      .subscribe(prefsForm => {
         const layoutID = (this.prefs.scope === 'byLayoutID') ? this.selection.layoutID : null;
         const splitID = (this.prefs.scope === 'bySplitID') ? this.selection.splitID : null;
-        this.prefs.update({ prefs: prefs, layoutID, splitID });
+        this.prefs.update({ prefs: prefsForm, layoutID, splitID });
       });
   }
 
@@ -87,18 +85,16 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
   private populate(): void {
     const prefs = this.prefs[this.prefs.scope];
     this.prefsForm.patchValue({
-      prefs: {
-        dateFormat: prefs.dateFormat,
-        quantityFormat: prefs.quantityFormat,
-        root: prefs.root,
-        showHiddenFiles: prefs.showHiddenFiles,
-        sortDirectories: prefs.sortDirectories,
-        timeFormat: prefs.timeFormat,
-        visibility: this.prefs.dictionary.reduce((acc, dict) => {
-          acc[dict.name] = prefs.visibility[dict.name];
-          return acc;
-        }, { })
-      }
+      dateFormat: prefs.dateFormat,
+      quantityFormat: prefs.quantityFormat,
+      root: prefs.root,
+      showHiddenFiles: prefs.showHiddenFiles,
+      sortDirectories: prefs.sortDirectories,
+      timeFormat: prefs.timeFormat,
+      visibility: this.prefs.dictionary.reduce((acc, dict) => {
+        acc[dict.name] = prefs.visibility[dict.name];
+        return acc;
+      }, { })
     }, { emitEvent: false });
   }
 

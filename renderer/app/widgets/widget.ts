@@ -9,7 +9,7 @@ export interface Widget {
 export interface WidgetCommand {
   command: string;
   description?: string;
-  icon: string[];
+  icon?: string[];
   if?: string;
   unless?: string;
 }
