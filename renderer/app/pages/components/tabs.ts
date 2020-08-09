@@ -109,6 +109,7 @@ export class TabsComponent {
     this.layout.remove({ 
       layoutID: tab.layoutID,
       visitor: split => {
+        // TODO: keep in sync with close in pane.ts
         this.panes.remove({ splitID: split.id });
         this.sort.remove({ splitID: split.id });
       }

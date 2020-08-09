@@ -67,12 +67,12 @@ describe('TabsState', () => {
   });
 
   test('tab accessor', () => {
-    bundle.selection.selectLayout({ layoutID: Params.uuid });
-    expect(bundle.tabs.tab.layoutID).toBe(Params.uuid);
+    bundle.selection.selectLayout({ layoutID: Params.initialLayoutID });
+    expect(bundle.tabs.tab.layoutID).toBe(Params.initialLayoutID);
   });
 
   test('tabIndex accessor', () => {
-    bundle.selection.selectLayout({ layoutID: Params.uuid });
+    bundle.selection.selectLayout({ layoutID: Params.initialLayoutID });
     expect(bundle.tabs.tabIndex).toBe(0);
   });
 

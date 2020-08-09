@@ -34,8 +34,8 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
 
   static defaultSelection(): SelectionStateModel {
     return {
-      layoutID: Params.uuid,
-      splitIDByLayoutID: { }
+      layoutID: Params.initialLayoutID,
+      splitIDByLayoutID: { [Params.initialLayoutID]: Params.initialSplitID }
     };
   }
 

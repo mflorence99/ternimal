@@ -50,7 +50,7 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
         color: 'var(--mat-grey-100)',
         icon: ['fas', 'laptop'],
         label: 'My Ternimal',
-        layoutID: Params.uuid
+        layoutID: Params.initialLayoutID
       }
     ];
   }

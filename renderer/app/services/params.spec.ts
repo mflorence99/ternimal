@@ -12,8 +12,8 @@ describe('Params', () => {
   });
 
   test('uuid', () => {
-    const uuid1 = Params.uuid;
-    const uuid2 = Params.uuid;
+    const uuid1 = Params.initialLayoutID;
+    const uuid2 = Params.initialLayoutID;
     expect(uuid1).toEqual(uuid2);
   });
 

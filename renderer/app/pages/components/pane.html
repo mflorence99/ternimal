@@ -89,7 +89,7 @@
     </ng-container>
 
       <fa-icon
-      (click)="closePane()"
+      (click)="close()"
       [fixedWidth]="true"
       [icon]="['fas', 'times']"
       *ngIf="isCloseEnabled()"
@@ -152,7 +152,7 @@
 
   <ng-template
     contextMenuItem
-    (execute)="closePane()"
+    (execute)="close()"
     [enabled]="isCloseEnabled.bind(this)">
     <div>Close this panel</div>
   </ng-template>

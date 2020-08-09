@@ -47,7 +47,7 @@ export type SplitVisitorFn = (split: Layout) => void;
 @State<LayoutStateModel>({
   name: 'layout',
   defaults: {
-    [Params.uuid]: LayoutState.defaultLayout()
+    [Params.initialLayoutID]: LayoutState.defaultLayout()
   }
 }) export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
 
@@ -64,7 +64,7 @@ export type SplitVisitorFn = (split: Layout) => void;
       size: 100,
       splits: [
         {
-          id: UUID.UUID(),
+          id: Params.initialSplitID,
           size: 100
         }
       ]
@@ -98,7 +98,7 @@ export type SplitVisitorFn = (split: Layout) => void;
   }
 
   @DataAction({ insideZone: true })
-  makeSplit(@Payload('LayoutState.makeSplit') { splitID, ix, direction, before }: DataActionParams): void {
+  makeSplit(@Payload('LayoutState.makeSplit') { splitID, ix, direction, before, visitor }: DataActionParams): void {
     const model = this.utils.deepCopy(this.ctx.getState());
     const split = this.findSplitByID(splitID, model);
     if (split) {
@@ -121,6 +121,8 @@ export type SplitVisitorFn = (split: Layout) => void;
           splat.splits = [{ id: UUID.UUID(), size: 50 }, { id: splatID, size: 50 }];
         else splat.splits = [{ id: splatID, size: 50 }, { id: UUID.UUID(), size: 50 }];
       }
+      // visit every split we're adjusting
+      this.visitSplits(split, split => visitor?.(split));
       this.ctx.setState(model);
     }
   }

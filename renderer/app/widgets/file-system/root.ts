@@ -174,7 +174,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
 
   private sortEmImpl(descs: FileDescriptor[]): FileDescriptor[] {
     const columnSort = this.sort.columnSort(this.splitID, this.tableID);
-    const dict = this.prefs.dictionary.find(dict => dict.name === columnSort.sortedID);
+    const dict = this.prefs.dictionary.find(dict => dict.name === (columnSort.sortedID ?? 'name'));
     return descs.sort((a: any, b: any) => {
       if (dict.isDate)
         return (a[dict.name].getTime() - b[dict.name].getTime()) * columnSort.sortDir;

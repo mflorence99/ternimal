@@ -50,11 +50,12 @@ export class PaneComponent implements OnInit {
               public sort: SortState,
               public ternimal: TernimalState) { }
 
-  closePane(): void {
+  close(): void {
     this.layout.closeSplit({ 
       splitID: this.splittable.id, 
       ix: this.index,
       visitor: split => {
+        // TODO: keep in sync with remove in tabs.ts
         this.panes.remove({ splitID: split.id });
         this.sort.remove({ splitID: split.id });
       }
@@ -107,19 +108,19 @@ export class PaneComponent implements OnInit {
   }
 
   splitDown(): void {
-    this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'vertical', before: false });
+    this.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'vertical', before: false });
   }
 
   splitLeft(): void {
-    this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'horizontal', before: true });
+    this.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'horizontal', before: true });
   }
 
   splitRight(): void {
-    this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'horizontal', before: false });
+    this.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'horizontal', before: false });
   }
 
   splitUp(): void {
-    this.layout.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'vertical', before: true });
+    this.makeSplit({ splitID: this.splittable.id, ix: this.index, direction: 'vertical', before: true });
   }
 
   // private methods
@@ -131,6 +132,15 @@ export class PaneComponent implements OnInit {
     this.widget = this.widgetHost.vcRef.createComponent(cFactory).instance as Widget;
     // populate the widget with our input
     this.widget.splitID = this.split.id;      
+  }
+
+  private makeSplit(params: any) : void {
+    const prefs = this.panes.prefs(this.split.id);
+    // make new pane just like this one
+    this.layout.makeSplit({ ...params, visitor: split => {
+      if (!this.panes.snapshot[split.id])
+        this.panes.update({ splitID: split.id, prefs });
+    } });
   }
 
 }

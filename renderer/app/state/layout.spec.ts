@@ -10,11 +10,11 @@ describe('LayoutState', () => {
 
   beforeEach(() => {
     bundle = prepare();
-    bundle.layout.setState({ [Params.uuid]: LayoutState.defaultLayout() });
+    bundle.layout.setState({ [Params.initialLayoutID]: LayoutState.defaultLayout() });
   });
 
   test('makeSplit/closeSplit - vertical', () => {
-    const splitID = bundle.layout.snapshot[Params.uuid].id;
+    const splitID = bundle.layout.snapshot[Params.initialLayoutID].id;
     let layout = bundle.layout.findSplitByID(splitID);
     expect(layout.splits.length).toBe(1);
     bundle.layout.makeSplit({ splitID, ix: 0, direction: 'vertical', before: true });
@@ -31,7 +31,7 @@ describe('LayoutState', () => {
   });
 
   test('makeSplit/closeSplit - horizontal', () => {
-    const splitID = bundle.layout.snapshot[Params.uuid].id;
+    const splitID = bundle.layout.snapshot[Params.initialLayoutID].id;
     let layout = bundle.layout.findSplitByID(splitID);
     expect(layout.splits.length).toBe(1);
     bundle.layout.makeSplit({ splitID, ix: 0, direction: 'horizontal', before: false });
@@ -51,7 +51,7 @@ describe('LayoutState', () => {
   });
 
   test('updateSplit', () => {
-    const splitID = bundle.layout.snapshot[Params.uuid].id;
+    const splitID = bundle.layout.snapshot[Params.initialLayoutID].id;
     let layout = bundle.layout.findSplitByID(splitID);
     expect(layout.splits.length).toBe(1);
     bundle.layout.makeSplit({ splitID, ix: 0, direction: 'vertical', before: true });
@@ -76,14 +76,14 @@ describe('LayoutState', () => {
   });
 
   test('findSplitByID', () => {
-    const id = bundle.layout.snapshot[Params.uuid].splits[0].id;
+    const id = bundle.layout.snapshot[Params.initialLayoutID].splits[0].id;
     expect(bundle.layout.findSplitByID(id)).toBeTruthy();
     expect(bundle.layout.findSplitByID('0')).toBeFalsy();
   });
 
   test('visitSplits', () => {
     const fn = jest.fn();
-    bundle.layout.visitSplits(bundle.layout.snapshot[Params.uuid], fn);
+    bundle.layout.visitSplits(bundle.layout.snapshot[Params.initialLayoutID], fn);
     expect(fn).toHaveBeenCalled();
   });
 

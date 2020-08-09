@@ -38,8 +38,8 @@ export class SortState extends NgxsDataRepository<SortStateModel> {
 
   static defaultSort(): ColumnSort {
     return {
-      sortDir: 0,
-      sortedColumn: -1,
+      sortDir: 1,
+      sortedColumn: 0,
       sortedID: null
     };
   }

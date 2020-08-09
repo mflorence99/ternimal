@@ -5,7 +5,8 @@ import { UUID } from 'angular2-uuid';
 @Injectable({ providedIn: 'root' })
 export class Params {
 
-  static uuid: string = UUID.UUID();
+  static initialLayoutID: string = UUID.UUID();
+  static initialSplitID: string = UUID.UUID();
 
   led = {
     gap: 3,
