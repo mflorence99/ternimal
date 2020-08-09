@@ -36,8 +36,7 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
 
   loading$ = new Subject<Record<string, boolean>>();
 
-  constructor(private electron: ElectronService,
-              private params: Params) { 
+  constructor(private electron: ElectronService) { 
     super();
   }
 
@@ -62,11 +61,13 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
       if (descsByPath[path])
         result.push(descsByPath[path]);
       else {
-        const ix = path.lastIndexOf(this.params.pathSeparator);
+        const ix = path.lastIndexOf(Params.pathSeparator);
         let root = path.substring(0, ix);
-        if (!root)
-          // TODO: Windows ??
-          root = this.params.pathSeparator;
+        // TODO: Windows ??
+        if (root.length === 0)
+          root = Params.rootDir;
+        else if (root.length === 1)
+          root = Params.homeDir;
         const descs = this.snapshot[root] ?? [];
         descs.forEach(desc => descsByPath[desc.path] = desc); 
         if (descsByPath[path])

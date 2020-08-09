@@ -1,3 +1,4 @@
+import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { StorageService } from '../../services/storage';
 import { Utils } from '../../services/utils';
@@ -26,7 +27,7 @@ export type Scope = 'global' | 'byLayoutID' | 'bySplitID';
 
 interface DataActionParams {
   layoutID?: string;
-  prefs?: FileSystemPrefs;
+  prefs?: Partial<FileSystemPrefs>;
   scope?: Scope;
   splitID?: string;
 }
@@ -81,8 +82,7 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
     return {
       dateFormat: 'mediumDate',
       quantityFormat: 'bytes',
-      // TODO: Windows ??
-      root: '/',
+      root: Params.homeDir,
       showHiddenFiles: false,
       sortDirectories: 'first',
       timeFormat: 'none',
@@ -126,12 +126,13 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
 
   @DataAction({ insideZone: true })
   update(@Payload('FileSystemPrefsState.update') { layoutID, splitID, prefs }: DataActionParams): void {
+    // NOTE: prefs may be Partial
     if (!layoutID && !splitID)
       this.ctx.setState(patch({global: prefs }));
     else if (layoutID && !splitID)
-      this.ctx.setState(patch({ byLayoutID: patch({ [layoutID]: prefs }) }));
+      this.ctx.setState(patch({ byLayoutID: patch({ [layoutID]: prefs  }) }));
     else if (!layoutID && splitID)
-      this.ctx.setState(patch({ bySplitID: patch({ [splitID]: prefs }) }));
+      this.ctx.setState(patch({ bySplitID: patch({ [splitID]: prefs  }) }));
   }
 
   // accessors

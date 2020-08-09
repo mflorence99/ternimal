@@ -93,7 +93,7 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
       sortDirectories: prefs.sortDirectories,
       timeFormat: prefs.timeFormat,
       visibility: this.prefs.dictionary.reduce((acc, dict) => {
-        acc[dict.name] = prefs.visibility[dict.name];
+        acc[dict.name] = prefs.visibility?.[dict.name];
         return acc;
       }, { })
     }, { emitEvent: false });

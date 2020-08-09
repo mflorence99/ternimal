@@ -104,17 +104,21 @@
 <context-menu>
 
   <ng-container
-    *ngFor="let menuItem of widget.widgetMenuItems || []">
+    *ngFor="let group of widget.widgetMenuItems || []">
+
+    <ng-container
+      *ngFor="let menuItem of group">
+
+      <ng-template
+        contextMenuItem
+        (execute)="executeCommand(menuItem)"
+        [enabled]="isCommandEnabled.bind(this, menuItem)">
+        <div>{{ menuItem.description }}</div>
+      </ng-template>
+
+    </ng-container>
 
     <ng-template
-      contextMenuItem
-      (execute)="executeCommand(menuItem)"
-      [enabled]="isCommandEnabled.bind(this, menuItem)">
-      <div>{{ menuItem.description }}</div>
-    </ng-template>
-
-    <ng-template
-      *ngIf="widget.widgetMenuItems?.length > 0"
       contextMenuItem
       divider="true">
     </ng-template>

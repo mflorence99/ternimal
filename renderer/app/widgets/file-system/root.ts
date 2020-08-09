@@ -52,12 +52,35 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     implementation: 'FileSystemComponent'
   };
 
-  widgetMenuItems: WidgetCommand[] = [
-    {
-      command: 'props()',
-      description: 'Properties...',
-      if: 'table.selectedRowIDs.length'
-    }
+  widgetMenuItems: WidgetCommand[][] = [
+    [
+      {
+        command: 'gotoRoot()',
+        description: 'Go to /',
+        unless: 'atRoot()'
+      },
+      {
+        command: 'gotoParent()',
+        description: 'Go to parent',
+        unless: 'atRoot()'
+      },
+      {
+        command: 'gotoHome()',
+        description: 'Go to $HOME',
+        unless: 'atHome()'
+      },
+      {
+        command: 'gotoHere()',
+        description: 'Go to here'
+      }
+    ],
+    [
+      {
+        command: 'props()',
+        description: 'Properties...',
+        if: 'table.selectedRowIDs.length'
+      }
+    ]
   ];
 
   widgetPrefs: WidgetPrefs = {
@@ -68,16 +91,50 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
               public files: FileSystemFilesState,
-              private params: Params,
               public paths: FileSystemPathsState,
               public prefs: FileSystemPrefsState,
               public sort: SortState,
               public tabs: TabsState,
               public ternimal: TernimalState) { }
 
+  atHome(): boolean {
+    return this.effectivePrefs.root === Params.homeDir;
+  }
+
+  atRoot(): boolean {
+    return this.effectivePrefs.root === Params.rootDir;
+  }
+
+  gotoHere(): void {
+    this.goto(this.table.selectedRowIDs[0]);
+  }
+
+  gotoHome(): void {
+    this.goto(Params.homeDir);
+  }
+
+  gotoParent(): void {
+    const path = this.effectivePrefs.root;
+    const ix = path.lastIndexOf(Params.pathSeparator);
+    let parent = path.substring(0, ix);
+    // TODO: Windows ??
+    if (parent.length === 0)
+      parent = Params.rootDir;
+    else if (parent.length === 1)
+      parent = '/home';
+    this.goto(parent);
+  }
+
+  gotoRoot(): void {
+    this.goto(Params.rootDir);
+  }
+
   level(desc: FileDescriptor): number {
-    const ix = this.effectivePrefs.root.length;
-    const parts = desc.path.substring(ix).split(this.params.pathSeparator);
+    let root = this.effectivePrefs.root;
+    if (!root.endsWith(Params.pathSeparator))
+      root += Params.pathSeparator;
+    const ix = root.length;
+    const parts = desc.path.substring(ix).split(Params.pathSeparator);
     // NOTE: a non-directory has one more part that we don't want to indent extra for
     return parts.length - 1 - (desc.isDirectory ? 0 : 1);
   }
@@ -131,6 +188,12 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       }
     }
     return assembled;
+  }
+
+  private goto(path: string): void {
+    this.files.loadPaths([path]);
+    this.paths.open({ splitID: this.splitID, path });
+    this.prefs.update({ splitID: this.splitID, prefs: { root: path } });
   }
 
   private handleActions$(): void {

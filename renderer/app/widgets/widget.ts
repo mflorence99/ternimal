@@ -2,7 +2,7 @@ export interface Widget {
   splitID: string;
   widgetCommands?: WidgetCommand[];
   widgetLaunch: WidgetLaunch;
-  widgetMenuItems?: WidgetCommand[];
+  widgetMenuItems?: WidgetCommand[][];
   widgetPrefs?: WidgetPrefs;
 }
 

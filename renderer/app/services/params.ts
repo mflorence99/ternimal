@@ -5,8 +5,12 @@ import { UUID } from 'angular2-uuid';
 @Injectable({ providedIn: 'root' })
 export class Params {
 
+  // TODO: Windows??
+  static homeDir = '~/';
   static initialLayoutID: string = UUID.UUID();
   static initialSplitID: string = UUID.UUID();
+  static pathSeparator = '/';
+  static rootDir = '/';
 
   led = {
     gap: 3,
@@ -16,9 +20,6 @@ export class Params {
   log = {
     colorize: (color): string => `background-color: ${color}; color: white; font-weight: bold; padding: 2px 4px`
   };
-
-  // TODO: Windows??
-  pathSeparator = '/';
 
   processList = {
     maxTimeline: 5 * 60 * 1000,

@@ -67,12 +67,14 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
     implementation: 'ProcessListComponent'
   };
 
-  widgetMenuItems: WidgetCommand[] = [
-    {
-      command: 'confirmKill()',
-      description: 'Kill...',
-      if: 'table.selectedRowIDs.length'
-    }
+  widgetMenuItems: WidgetCommand[][] = [
+    [
+      {
+        command: 'confirmKill()',
+        description: 'Kill...',
+        if: 'table.selectedRowIDs.length'
+      }
+    ]
   ];
 
   constructor(private actions$: Actions,

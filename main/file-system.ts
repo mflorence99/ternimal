@@ -206,12 +206,13 @@ const isWritable = (mode, uid: number, gid: number): boolean => {
 
 const loadPath = (_: any, root: string): void => {
   const theWindow = globalThis.theWindow;
-  fs.readdir(root, (err, names) => {
+  const realRoot = root.replace(/^~\//, `/home/${userInfo.username}/`);
+  fs.readdir(realRoot, (err, names) => {
     if (err) {
       theWindow?.webContents.send(Channels.fsLoadPathFailure, root);
       watcher.remove(root);
     } else {
-      const children = names.map(name => path.join(root, name));
+      const children = names.map(name => path.join(realRoot, name));
       async.map(children, fs.lstat, (err, stats) => {
         theWindow?.webContents.send(Channels.fsLoadPathSuccess, root, names.map((name, ix) => makeDescriptor(root, name, stats[ix])));
         // NOTE: side-effect of makeDescriptor updates colorByExt
