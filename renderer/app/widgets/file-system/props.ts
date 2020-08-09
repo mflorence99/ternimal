@@ -24,6 +24,13 @@ import { takeUntil } from 'rxjs/operators';
 export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
 
   desc: FileDescriptor;
+  descs: FileDescriptor[];
+  flags = ['r', 'w', 'x'];
+  perms = [
+    ['u', 'Owner'],
+    ['g', 'Group'],
+    ['o', 'Others']
+  ];
   propsForm: FormGroup;
 
   @Input() widget: Widget;
@@ -31,10 +38,24 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
   constructor(private destroy$: DestroyService,
               private formBuilder: FormBuilder,
               public ternimal: TernimalState) {
-    // TODO: only showing props for one 
     this.desc = this.ternimal.widgetSidebarCtx[0];
+    this.descs = this.ternimal.widgetSidebarCtx;
     this.propsForm = this.formBuilder.group({
-      name: null
+      u: this.formBuilder.group({
+        r: null,
+        w: null,
+        x: null
+      }),
+      g: this.formBuilder.group({
+        r: null,
+        w: null,
+        x: null
+      }),
+      o: this.formBuilder.group({
+        r: null,
+        w: null,
+        x: null
+      }),
     });
   }
 
@@ -49,7 +70,21 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
 
   private populate(): void {
     this.propsForm.patchValue({
-      name: this.desc.name
+      u: {
+        r: this.descs.every(desc => desc.mode[1] === 'r') || null,
+        w: this.descs.every(desc => desc.mode[2] === 'w') || null,
+        x: this.descs.every(desc => desc.mode[3] === 'x') || null
+      },
+      g: {
+        r: this.descs.every(desc => desc.mode[4] === 'r') || null,
+        w: this.descs.every(desc => desc.mode[5] === 'w') || null,
+        x: this.descs.every(desc => desc.mode[6] === 'x') || null
+      },
+      o: {
+        r: this.descs.every(desc => desc.mode[7] === 'r') || null,
+        w: this.descs.every(desc => desc.mode[8] === 'w') || null,
+        x: this.descs.every(desc => desc.mode[9] === 'x') || null
+      }
     }, { emitEvent: false });
   }
 

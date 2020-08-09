@@ -15,23 +15,127 @@
 
     </div>
 
-    <h3>
-      {{ desc.name | ternimalBreakable }}
-    </h3>
+    <div
+      class="name">
+
+      <h3>
+        {{ desc.name | ternimalBreakable }}
+      </h3>
+
+      <p 
+        *ngIf="descs.length > 1">
+        + {{ descs.length - 1 }} others
+      </p>
+
+    </div>
 
   </header>
 
   <form
     [formGroup]="propsForm"
-    novalidate>
+    novalidate
+    spellcheck="false">
 
-    <mat-form-field>
-      <input
-        formControlName="name"
-        matInput
-        placeholder="File or directory name"
-        type="text">
-    </mat-form-field>
+    <div
+      class="permissions">
+
+      <div>&nbsp;</div>
+      <div><b>+R</b></div>
+      <div><b>+W</b></div>
+      <div><b>+X</b></div>
+
+      <ng-container
+        *ngIf="descs.length === 1">
+
+        <ng-container
+          [formGroupName]="perm[0]"
+          *ngFor="let perm of perms">
+
+        <div class="tag">{{ perm[1] }}</div>
+
+          <mat-checkbox
+            [formControlName]="flag"
+            *ngFor="let flag of flags">
+          </mat-checkbox>
+
+        </ng-container>
+
+      </ng-container>
+
+      <ng-container
+        *ngIf="descs.length > 1">
+
+        <ng-container
+          [formGroupName]="perm[0]"
+          *ngFor="let perm of perms">
+
+        <div class="tag">{{ perm[1] }}</div>
+
+          <ternimal-tristate
+            [formControlName]="flag"
+            *ngFor="let flag of flags">
+          </ternimal-tristate>
+
+        </ng-container>
+
+      </ng-container>
+
+    </div>
+
+    <table
+      *ngIf="descs.length === 1"
+      class="info">
+
+      <tr>
+        <td>Size</td>
+        <td class="size">
+          {{ desc.size| ternimalNumeral:'0,0' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Modified</td>
+        <td class="mtime">
+          {{ desc.mtime | date:'short' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Created</td>
+        <td class="btime">
+          {{ desc.btime | date:'short' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Accessed</td>
+        <td class="atime">
+          {{ desc.atime | date:'short' }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Mode</td>
+        <td class="mode">
+          {{ desc.mode }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>User</td>
+        <td class="user">
+          {{ desc.user }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Group</td>
+        <td class="group">
+          {{ desc.group }}
+        </td>
+      </tr>
+
+    </table>
 
   </form>
 

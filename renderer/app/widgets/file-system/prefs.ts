@@ -59,7 +59,8 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
     this.prefsForm.valueChanges
       .pipe(
         // NOTE: name is always visible
-        map(prefsForm => ({ ...prefsForm, visibility: { ...prefsForm.visibility, name: true }})),
+        map(prefsForm => ({ ...prefsForm, 
+          visibility: { ...prefsForm.visibility, name: true }})),
         takeUntil(this.destroy$)
       )
       .subscribe(prefsForm => {
