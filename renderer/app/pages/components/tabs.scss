@@ -20,7 +20,6 @@ nav {
   .tab {
     align-items: center;
     background-color: rgba(var(--rgb-blue-grey-850, 0.1));
-    border-bottom: 2px solid transparent;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     cursor: pointer;
@@ -42,10 +41,6 @@ nav {
     padding-bottom: 1rem;
     padding-top: 1rem;
 
-    &.selected {
-      border-bottom-color: var(--accent-color);
-    }
-
     .closer {
       margin-right: 0.5rem;
     }
@@ -62,10 +57,6 @@ nav {
   }
 
   .tab {
-
-    &.selected {
-      border-bottom: 2px solid var(--primary-color);
-    }
 
     &.singleton {
       justify-content: center;

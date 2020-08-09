@@ -5,6 +5,7 @@ import { LayoutState } from '../../state/layout';
 import { PanesState } from '../../state/panes';
 import { SelectionState } from '../../state/selection';
 import { SortState } from '../../state/sort';
+import { StatusState } from '../../state/status';
 import { TabsState } from '../../state/tabs';
 import { TernimalState } from '../../state/ternimal';
 import { Widget } from '../../widgets/widget';
@@ -48,6 +49,7 @@ export class PaneComponent implements OnInit {
               private resolver: ComponentFactoryResolver,
               public selection: SelectionState,
               public sort: SortState,
+              public status: StatusState,
               public ternimal: TernimalState) { }
 
   close(): void {
@@ -58,6 +60,7 @@ export class PaneComponent implements OnInit {
         // TODO: keep in sync with remove in tabs.ts
         this.panes.remove({ splitID: split.id });
         this.sort.remove({ splitID: split.id });
+        this.status.remove({ splitID: split.id });
       }
     });
     // if the split we're removing is currently selected, try to select another

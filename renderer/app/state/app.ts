@@ -14,6 +14,8 @@ import { SelectionState } from './selection';
 import { SelectionStateModel } from './selection';
 import { SortState } from './sort';
 import { SortStateModel } from './sort';
+import { StatusState } from './status';
+import { StatusStateModel } from './status';
 import { TabsState } from './tabs';
 import { TabsStateModel } from './tabs';
 import { TernimalState } from './ternimal';
@@ -28,6 +30,7 @@ export interface AppState {
   processList: ProcessListStateModel;
   selection: SelectionStateModel;
   sort: SortStateModel;
+  status: StatusStateModel;
   tabs: TabsStateModel;
   ternimal: TernimalStateModel;
 }
@@ -41,6 +44,7 @@ export const states = [
   ProcessListState,
   SelectionState,
   SortState,
+  StatusState,
   TabsState,
   TernimalState
 ];

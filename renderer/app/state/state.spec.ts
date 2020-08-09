@@ -6,6 +6,7 @@ import { PanesState } from './panes';
 import { ProcessListState } from './processes/list';
 import { SelectionState } from './selection';
 import { SortState } from './sort';
+import { StatusState } from './status';
 import { TabsState } from './tabs';
 import { TernimalState } from './ternimal';
 
@@ -25,6 +26,7 @@ export interface Bundle {
   processList?: ProcessListState;
   selection?: SelectionState;
   sort?: SortState;
+  status?: StatusState;
   tabs?: TabsState;
   ternimal?: TernimalState;
 }
@@ -48,6 +50,7 @@ export function prepare(): Bundle {
   bundle.processList = TestBed.inject(ProcessListState);
   bundle.selection = TestBed.inject(SelectionState);
   bundle.sort = TestBed.inject(SortState);
+  bundle.status = TestBed.inject(StatusState);
   bundle.tabs = TestBed.inject(TabsState);
   bundle.ternimal = TestBed.inject(TernimalState);
 

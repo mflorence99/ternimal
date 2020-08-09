@@ -7,6 +7,7 @@ import { FileSystemPrefs } from '../../state/file-system/prefs';
 import { FileSystemPrefsState } from '../../state/file-system/prefs';
 import { Params } from '../../services/params';
 import { SortState } from '../../state/sort';
+import { StatusState } from '../../state/status';
 import { TableComponent } from '../../components/table';
 import { TabsState } from '../../state/tabs';
 import { TernimalState } from '../../state/ternimal';
@@ -94,6 +95,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
               public paths: FileSystemPathsState,
               public prefs: FileSystemPrefsState,
               public sort: SortState,
+              public status: StatusState,
               public tabs: TabsState,
               public ternimal: TernimalState) { }
 
@@ -154,9 +156,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   }
 
   ngOnInit(): void {
-    this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
-    this.files.loadPaths([this.effectivePrefs.root, ...this.paths.snapshot[this.splitID] ?? []]);
-    this.descs = this.assemble([...this.files.snapshot[this.effectivePrefs.root] ?? []]);
+    this.loadEm(this.paths.snapshot[this.splitID] ?? []);
   }
 
   props(): void {
@@ -209,16 +209,24 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => {
-        this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
-        this.descs = this.assemble([...this.files.snapshot[this.effectivePrefs.root] ?? []]);
-      });
+      .subscribe(() => this.loadEm());
   }
 
   private handleLoading$(): void {
     this.files.loading$
       .pipe(takeUntil(this.destroy$))
       .subscribe(loading => Object.assign(this.loading, loading));
+  }
+
+  private loadEm(paths?: string[]): void {
+    this.effectivePrefs = this.prefs.effectivePrefs(this.tabs.tab.layoutID, this.splitID);
+    if (paths)
+      // NOTE: always the root as well
+      // TODO: no paths above this root??
+      this.files.loadPaths([this.effectivePrefs.root, ...paths]);
+    this.descs = this.assemble([...this.files.snapshot[this.effectivePrefs.root] ?? []]);
+    // refresh CWD
+    this.status.update({ splitID: this.splitID, status: { cwd: this.effectivePrefs.root } });
   }
 
   private sortEm(descs: FileDescriptor[]): FileDescriptor[] {

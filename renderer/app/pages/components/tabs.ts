@@ -6,6 +6,7 @@ import { PanesState } from '../../state/panes';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { SortState } from '../../state/sort';
+import { StatusState } from '../../state/status';
 import { Tab } from '../../state/tabs';
 import { TabsState } from '../../state/tabs';
 import { TernimalState } from '../../state/ternimal';
@@ -51,6 +52,7 @@ export class TabsComponent {
               private params: Params,
               public selection: SelectionState,
               public sort: SortState,
+              public status: StatusState,
               public tabs: TabsState,
               public ternimal: TernimalState,
               private utils: Utils) { 
@@ -112,6 +114,7 @@ export class TabsComponent {
         // TODO: keep in sync with close in pane.ts
         this.panes.remove({ splitID: split.id });
         this.sort.remove({ splitID: split.id });
+        this.status.remove({ splitID: split.id });
       }
     });
     // if the tab we're removing is currently selected, select another
