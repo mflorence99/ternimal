@@ -69,6 +69,9 @@ export class FileSystemPathsState extends NgxsDataRepository<FileSystemPathsStat
 
   // private methods
 
+  // NOTE: why do this here, rather than in te coordinated remove in 
+  // Tabs and PanesComponent? Because neither of those high-level components
+  // "know" anything about the file-system widget 
   private handleActions$(): void {
     this.actions$
       .pipe(

@@ -58,6 +58,8 @@ export class PaneComponent implements OnInit {
       ix: this.index,
       visitor: split => {
         // TODO: keep in sync with remove in tabs.ts
+        // NOTE: why not listen for an action change? Because none of these
+        // states is primary -- there's no "split" state to remove
         this.panes.remove({ splitID: split.id });
         this.sort.remove({ splitID: split.id });
         this.status.remove({ splitID: split.id });

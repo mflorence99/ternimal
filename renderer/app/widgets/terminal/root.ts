@@ -1,5 +1,6 @@
 import { Widget } from '../widget';
 import { WidgetLaunch } from '../widget';
+import { WidgetStatus } from '../widget';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -20,6 +21,10 @@ export class TerminalComponent implements Widget {
     description: 'Terminal',
     icon: ['fas', 'laptop-code'],
     implementation: 'TerminalComponent'
+  };
+
+  widgetStatus: WidgetStatus = {
+    showCWD: true
   };
 
 }

@@ -87,14 +87,14 @@
                 (click)="loadPath(desc.path)"
                 [fixedWidth]="true"
                 [icon]="loading[desc.path]? ['far', 'clock'] : ['fas', 'caret-right']"
-                [ngStyle]="{cursor: loading[desc.path]? 'progress' : 'pointer', visibility: desc.isDirectory && (files.snapshot[desc.path]?.length !== 0)? 'visible' : 'hidden'}"
+                [ngStyle]="{cursor: loading[desc.path]? 'progress' : 'pointer', visibility: desc.isDirectory && !isEmpty(desc.path)? 'visible' : 'hidden'}"
                 [pulse]="loading[desc.path]"
                 [rotate]="paths.isOpen(splitID, desc.path)? 90 : 0">
               </fa-icon>
 
               <fa-icon
                 [fixedWidth]="true"
-                [icon]="(files.snapshot[desc.path]?.length === 0)? ['far', 'folder'] : (paths.isOpen(splitID, desc.path)? ['fas', 'folder-open'] : ['fas', 'folder'])"
+                [icon]="isEmpty(desc.path)? ['far', 'folder'] : (paths.isOpen(splitID, desc.path)? ['fas', 'folder-open'] : ['fas', 'folder'])"
                 [ngStyle]="{color: desc.color}"
                 *ngIf="desc.isDirectory"
                 size="sm">

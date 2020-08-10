@@ -209,7 +209,9 @@ const loadPath = (_: any, root: string): void => {
   const realRoot = root.replace(/^~\//, `/home/${userInfo.username}/`);
   fs.readdir(realRoot, (err, names) => {
     if (err) {
-      theWindow?.webContents.send(Channels.fsLoadPathFailure, root);
+      if (err.code === 'EACCES')
+        theWindow?.webContents.send(Channels.fsLoadPathSuccess, root, []);
+      else theWindow?.webContents.send(Channels.fsLoadPathFailure, root);
       watcher.remove(root);
     } else {
       const children = names.map(name => path.join(realRoot, name));

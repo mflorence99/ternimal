@@ -28,7 +28,6 @@ section {
     justify-content: space-between;
     opacity: 0.33;
     padding: 0 0.5rem;
-    overflow: hidden;
     position: absolute;
     transition: opacity 0.25s ease-in-out;
     width: 100%;
@@ -58,15 +57,27 @@ section {
       display: flex;
       flex-direction: row;
       flex-grow: 1;
+      min-width: 0;
 
       > * {
         margin-left: 0.5rem;
       }
 
       .cwd {
+        direction: rtl;
         font-family: 'B612 mono', monospace;
         font-size: 0.75rem;
+        overflow: hidden;
+        // @see https://stackoverflow.com/questions/218065
+        // NOTE: but ellipsis shows below, not left
+        // text-overflow: ellipsis;
         white-space: nowrap;
+
+        .cwd-text {
+          direction: ltr;
+          display: inline-block;
+        }
+
       }
 
     }

@@ -15,6 +15,7 @@ import { Widget } from '../widget';
 import { WidgetCommand } from '../widget';
 import { WidgetLaunch } from '../widget';
 import { WidgetPrefs } from '../widget';
+import { WidgetStatus } from '../widget';
 
 import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
@@ -90,6 +91,10 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     implementation: 'FileSystemPrefsComponent'
   };
 
+  widgetStatus: WidgetStatus = {
+    showCWD: true
+  };
+
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
               public files: FileSystemFilesState,
@@ -130,6 +135,17 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
 
   gotoRoot(): void {
     this.goto(Params.rootDir);
+  }
+
+  isEmpty(path: string): boolean {
+    const descs = this.files.snapshot[path];
+    if (!descs)
+      return false;
+    else if (descs.length === 0)
+      return true;
+    else if (!this.effectivePrefs.showHiddenFiles)
+      // TODO: Windows ??
+      return descs.every(desc => desc.name.startsWith('.'));
   }
 
   level(desc: FileDescriptor): number {
@@ -176,6 +192,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
 
   private assemble(descs: FileDescriptor[]): FileDescriptor[] {
     const showHidden = this.effectivePrefs.showHiddenFiles;
+    // TODO: Windows ??
     const filtered = showHidden ? descs : descs.filter(desc => !desc.name.startsWith('.'));
     let assembled = this.sortEm(filtered);
     const paths = this.paths.snapshot[this.splitID] ?? [];
@@ -230,7 +247,6 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       // TODO: no paths above this root??
       this.files.loadPaths([this.effectivePrefs.root, ...paths]);
     this.descs = this.assemble([...this.files.snapshot[this.effectivePrefs.root] ?? []]);
-    console.log(`loadEm ${this.splitID}`);
   }
 
   private sortEm(descs: FileDescriptor[]): FileDescriptor[] {

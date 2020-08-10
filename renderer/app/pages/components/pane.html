@@ -40,9 +40,11 @@
       class="statusbar">
 
       <div
-        *ngIf="status.cwd"
+        *ngIf="widget.widgetStatus?.showCWD"
         class="cwd">
-        {{ status.cwd }}&thinsp;<fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
+        <span class="cwd-text">
+          {{ status.cwd }}&thinsp;<fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
+        </span>
       </div>
 
     </div>

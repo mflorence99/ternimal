@@ -4,6 +4,7 @@ export interface Widget {
   widgetLaunch: WidgetLaunch;
   widgetMenuItems?: WidgetCommand[][];
   widgetPrefs?: WidgetPrefs;
+  widgetStatus?: WidgetStatus;
 }
 
 export interface WidgetCommand {
@@ -23,4 +24,8 @@ export interface WidgetLaunch {
 export interface WidgetPrefs {
   description: string;
   implementation: string;
+}
+
+export interface WidgetStatus {
+  showCWD: boolean;
 }
