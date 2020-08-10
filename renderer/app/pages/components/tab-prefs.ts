@@ -11,6 +11,7 @@ import { FormGroup } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 
+import { debounceTime } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
@@ -118,6 +119,7 @@ export class TabPrefsComponent implements OnInit {
           return this.utils.hasProperty(action, 'SelectionState.selectLayout')
             && (status === 'SUCCESSFUL');
         }),
+        debounceTime(0),
         takeUntil(this.destroy$)
       )
       .subscribe(_ => {

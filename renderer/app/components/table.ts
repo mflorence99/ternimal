@@ -14,6 +14,7 @@ import { Input } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
+import { debounceTime } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -231,7 +232,10 @@ export class TableComponent implements AfterContentInit, OnDestroy {
 
   private handleActions$(): void {
     this.actions$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        debounceTime(0),
+        takeUntil(this.destroy$)
+      )
       // NOTE: update column heads after ANY potential state change
       .subscribe(() => {
         this.utils.nextTick(() => {

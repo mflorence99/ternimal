@@ -24,6 +24,7 @@ import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
+import { debounceTime } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
@@ -205,11 +206,12 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
           return (action['FileSystemFilesState.loadPath']
             || (action['FileSystemPathsState.close']?.splitID === this.splitID)
             || (action['FileSystemPathsState.open']?.splitID === this.splitID)
-            || (action['FileSystemPrefsState.update']?.splitID == null)
+            || (action['FileSystemPrefsState.update'] && !action['FileSystemPrefsState.update'].splitID)
             || (action['FileSystemPrefsState.update']?.splitID === this.splitID)
             || (action['SortState.update']?.splitID === this.splitID))
             && (status === 'SUCCESSFUL');
         }),
+        debounceTime(0),
         takeUntil(this.destroy$)
       )
       .subscribe(() => this.loadEm());
@@ -228,6 +230,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       // TODO: no paths above this root??
       this.files.loadPaths([this.effectivePrefs.root, ...paths]);
     this.descs = this.assemble([...this.files.snapshot[this.effectivePrefs.root] ?? []]);
+    console.log(`loadEm ${this.splitID}`);
   }
 
   private sortEm(descs: FileDescriptor[]): FileDescriptor[] {

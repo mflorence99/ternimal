@@ -19,6 +19,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ResizeObserverEntry } from 'ngx-resize-observer';
 
+import { debounceTime } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -138,6 +139,7 @@ export class TabsComponent {
           return this.utils.hasProperty(action, /^TabsState\./)
             && (status === 'SUCCESSFUL');
         }),
+        debounceTime(0),
         takeUntil(this.destroy$)
       )
       .subscribe(() => this.whichTabs());
