@@ -25,6 +25,10 @@ $custom-theme: mat-dark-theme($custom-primary, $custom-accent, $custom-warn);
   --disabled-color: var(--mat-grey-500);
   --background-color: var(--mat-grey-900);
 
+  --ternimal-gutter: 5px;
+  --ternimal-cy-header: 5rem;
+  --ternimal-cx-tabs: 14rem;
+
 }
 
 * {
@@ -187,7 +191,7 @@ html {
 
 }
 
-ol, 
+ol,
 ul {
   list-style-type: none;
 }

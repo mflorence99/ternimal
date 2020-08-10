@@ -19,7 +19,7 @@ nav {
   .more,
   .tab {
     align-items: center;
-    background-color: rgba(var(--rgb-blue-grey-850, 0.1));
+    background-color: rgba(var(--rgb-blue-grey-800, 0.1));
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     cursor: pointer;
@@ -28,7 +28,7 @@ nav {
     justify-content: space-between;
     opacity: 0.6;
     padding: 0.5rem 1rem;
-    width: 14rem;
+    width: var(--ternimal-cx-tabs);
 
     &.selected {
       opacity: 1;
@@ -39,7 +39,7 @@ nav {
   .more {
     // TODO: hack to align with real tabs
     padding-bottom: 1rem;
-    padding-top: 1rem;
+    padding-top: 0.75rem;
 
     .closer {
       margin-right: 0.5rem;

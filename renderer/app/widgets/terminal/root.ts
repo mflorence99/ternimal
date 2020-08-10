@@ -18,7 +18,7 @@ export class TerminalComponent implements Widget {
 
   widgetLaunch: WidgetLaunch = {
     description: 'Terminal',
-    icon: ['fas', 'terminal'],
+    icon: ['fas', 'laptop-code'],
     implementation: 'TerminalComponent'
   };
 

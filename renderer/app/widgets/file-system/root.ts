@@ -194,16 +194,19 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     this.files.loadPaths([path]);
     this.paths.open({ splitID: this.splitID, path });
     this.prefs.update({ splitID: this.splitID, prefs: { root: path } });
+    this.status.update({ splitID: this.splitID, widgetID: this.widgetLaunch.implementation, status: { cwd: path } });
   }
 
   private handleActions$(): void {
     this.actions$
       .pipe(
         filter(({ action, status }) => {
+          // TODO: only paths this indtance is showing ??
           return (action['FileSystemFilesState.loadPath']
-            || action['FileSystemPathsState.close']
-            || action['FileSystemPathsState.open']
-            || action['FileSystemPrefsState.update']
+            || (action['FileSystemPathsState.close']?.splitID === this.splitID)
+            || (action['FileSystemPathsState.open']?.splitID === this.splitID)
+            || (action['FileSystemPrefsState.update']?.splitID == null)
+            || (action['FileSystemPrefsState.update']?.splitID === this.splitID)
             || (action['SortState.update']?.splitID === this.splitID))
             && (status === 'SUCCESSFUL');
         }),
@@ -225,8 +228,6 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       // TODO: no paths above this root??
       this.files.loadPaths([this.effectivePrefs.root, ...paths]);
     this.descs = this.assemble([...this.files.snapshot[this.effectivePrefs.root] ?? []]);
-    // refresh CWD
-    this.status.update({ splitID: this.splitID, status: { cwd: this.effectivePrefs.root } });
   }
 
   private sortEm(descs: FileDescriptor[]): FileDescriptor[] {

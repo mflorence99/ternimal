@@ -28,6 +28,7 @@ section {
     justify-content: space-between;
     opacity: 0.33;
     padding: 0 0.5rem;
+    overflow: hidden;
     position: absolute;
     transition: opacity 0.25s ease-in-out;
     width: 100%;
@@ -49,12 +50,25 @@ section {
 
     }
 
-    .placeholder {
-      flex-grow: 1;
-    }
-
     .spacer {
       margin-right: 0.5rem;
+    }
+
+    .statusbar {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+
+      > * {
+        margin-left: 0.5rem;
+      }
+
+      .cwd {
+        font-family: 'B612 mono', monospace;
+        font-size: 0.75rem;
+        white-space: nowrap;
+      }
+
     }
 
     .tool {

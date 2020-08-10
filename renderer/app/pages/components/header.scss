@@ -7,7 +7,8 @@ header {
   display: grid;
   grid-column-gap: 2rem;
   grid-template-columns: 1fr minmax(120px, 0.25fr) auto;
-  grid-template-rows: 1fr 5px;
+  // NOTE: have to hard-code 5 for as-split in HTML
+  grid-template-rows: 1fr var(--ternimal-gutter);
   height: 100%;
 }
 
@@ -19,10 +20,18 @@ header {
   grid-row: 2;
   height: 100%;
 
-  .sub-tab {
-    background-color: var(--primary-color);
+  .more-proxy,
+  .tab-proxy {
     height: 100%;
-    width: 14rem;
+    width: var(--ternimal-cx-tabs);
+  }
+
+  .more-proxy.selected {
+    background-color: var(--accent-color);
+  }
+
+  .tab-proxy.selected {
+    background-color: var(--primary-color);
   }
 
 }

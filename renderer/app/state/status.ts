@@ -1,3 +1,4 @@
+import { Params } from '../services/params';
 import { StorageService } from '../services/storage';
 
 import { scratch } from './operators';
@@ -15,6 +16,7 @@ import { patch } from '@ngxs/store/operators';
 interface DataActionParams {
   splitID?: string;
   status?: Status;
+  widgetID?: string;
 }
 
 export interface Status {
@@ -33,6 +35,12 @@ export type StatusStateModel = Record<string, Status>;
 
 export class StatusState extends NgxsDataRepository<StatusStateModel> {
 
+  static defaultStatus(): Status {
+    return {
+      cwd: Params.homeDir
+    };
+  }
+
   // actions
 
   @DataAction({ insideZone: true })
@@ -41,14 +49,16 @@ export class StatusState extends NgxsDataRepository<StatusStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  update(@Payload('StatusState.update') { splitID, status }: DataActionParams): void {
-    this.ctx.setState(patch({ [splitID]: status }));
+  update(@Payload('StatusState.update') { splitID, widgetID, status }: DataActionParams): void {
+    if (!this.ctx.getState()[splitID])
+      this.ctx.setState(patch({ [splitID]: {} }));
+    this.ctx.setState(patch({ [splitID]: patch({ [widgetID]: status }) }));
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */
 
-  status(splitID: string): Status {
-    return this.snapshot[splitID] ?? { };
+  status(splitID: string, widgetID: string): Status {
+    return this.snapshot[splitID]?.[widgetID] ?? StatusState.defaultStatus();
   }
 
 }

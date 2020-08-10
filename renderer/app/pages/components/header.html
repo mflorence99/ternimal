@@ -16,7 +16,15 @@
     class="border">
 
     <div
-      class="sub-tab">
+      [ngClass]="{selected: isTabsSelected(tab)}"
+      *ngFor="let tab of tabs.inTabs"
+      class="tab-proxy">
+    </div>
+
+    <div
+      [ngClass]="{selected: isMoreSelected()}"
+      *ngIf="tabs.inMore.length > 0"
+      class="more-proxy">
     </div>
 
   </div>

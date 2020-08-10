@@ -40,7 +40,6 @@ export class TabsComponent {
   inTabs: Tab[] = [];
 
   private containerWidth = 0;
-  private dragging = false;
   private moreWidth = 0;
   private tabWidth = 0;
 

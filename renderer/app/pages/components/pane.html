@@ -36,7 +36,15 @@
     </ng-container>
 
     <div
-      class="placeholder">
+      *ngIf="isSelected() && status.status(widget.splitID, widget.widgetLaunch.implementation) as status"
+      class="statusbar">
+
+      <div
+        *ngIf="status.cwd"
+        class="cwd">
+        {{ status.cwd }}&thinsp;<fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
+      </div>
+
     </div>
 
     <ng-container
