@@ -206,7 +206,6 @@ const isWritable = (mode, uid: number, gid: number): boolean => {
 
 const loadPath = (_: any, root: string): void => {
   const theWindow = globalThis.theWindow;
-  console.dir({ root });
   fs.readdir(root, (err, names) => {
     if (err) {
       if (err.code === 'EACCES')

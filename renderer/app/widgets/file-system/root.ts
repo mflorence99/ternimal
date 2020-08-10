@@ -74,7 +74,8 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       },
       {
         command: 'gotoHere()',
-        description: 'Go to here'
+        description: 'Go to here',
+        if: 'canGotoHere()'
       }
     ],
     [
@@ -111,6 +112,10 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
 
   atRoot(): boolean {
     return this.effectivePrefs.root === Params.rootDir;
+  }
+
+  canGotoHere(): boolean {
+    return !this.isEmpty(this.table.selectedRowIDs[0]);
   }
 
   gotoHere(): void {

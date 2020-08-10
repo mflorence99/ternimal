@@ -86,7 +86,8 @@
       *ngIf="descs.length === 1"
       class="info">
 
-      <tr>
+      <tr
+        *ngIf="!desc.isDirectory">
         <td>Size</td>
         <td class="size">
           {{ desc.size| ternimalNumeral:'0,0' }}

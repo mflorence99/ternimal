@@ -152,3 +152,39 @@
   </tbody>
 
 </ternimal-table>
+
+<aside
+  *ngIf="isEmpty(effectivePrefs.root)">
+
+  <div
+    *ngIf="loading[effectivePrefs.root]; else empty">
+
+    <fa-icon
+      [icon]="['fas', 'spinner']"
+      [pulse]="true"
+      size="6x">
+    </fa-icon>
+
+  </div>
+
+  <ng-template #empty>
+
+    <div>
+
+      <fa-icon
+        [icon]="['fas', 'info-circle']"
+        size="6x">
+      </fa-icon>
+
+      No accessible contents in:
+
+      <div
+        class="path">
+        {{ effectivePrefs.root | ternimalBreakable }}
+      </div>
+
+    </div>
+
+  </ng-template>
+  
+</aside>
