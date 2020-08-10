@@ -128,8 +128,6 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     // TODO: Windows ??
     if (parent.length === 0)
       parent = Params.rootDir;
-    else if (parent.length === 1)
-      parent = '/home';
     this.goto(parent);
   }
 

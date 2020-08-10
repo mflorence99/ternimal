@@ -42,9 +42,7 @@
       <div
         *ngIf="widget.widgetStatus?.showCWD"
         class="cwd">
-        <span class="cwd-text">
-          {{ status.cwd }}&thinsp;<fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
-        </span>
+          &#x202e;{{ status.cwd.split('').reverse().join('') }}&#x202d;
       </div>
 
     </div>

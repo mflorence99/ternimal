@@ -1,14 +1,19 @@
 
+import { Channels } from '../common/channels';
+
 import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';
+
+// NOTE: break the rules because we need this statically
+const { ipcRenderer } = window.require('electron');
 
 @Injectable({ providedIn: 'root' })
 export class Params {
 
-  // TODO: Windows??
-  static homeDir = '~/';
+  static homeDir = ipcRenderer.sendSync(Channels.fsHomeDir);
   static initialLayoutID: string = UUID.UUID();
   static initialSplitID: string = UUID.UUID();
+  // Windows ??
   static pathSeparator = '/';
   static rootDir = '/';
 

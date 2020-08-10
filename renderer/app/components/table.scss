@@ -27,11 +27,15 @@
 
       td {
         border-bottom: 1px dotted var(--mat-grey-500);
-        min-width: 3rem;
         vertical-align: top;
+
+        &:last-child {
+          min-width: 1.75rem;
+        }
 
         &:not(:last-child) {
           border-right: 1px dotted var(--mat-grey-500);
+          min-width: 3rem;
         }
 
         &.hover {

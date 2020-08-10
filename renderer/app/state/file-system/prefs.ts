@@ -127,12 +127,13 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
   @DataAction({ insideZone: true })
   update(@Payload('FileSystemPrefsState.update') { layoutID, splitID, prefs }: DataActionParams): void {
     // NOTE: prefs may be Partial
+    const effectivePrefs = { ...FileSystemPrefsState.emptyPrefs(), ...prefs };
     if (!layoutID && !splitID)
-      this.ctx.setState(patch({global: prefs }));
+      this.ctx.setState(patch({global: effectivePrefs }));
     else if (layoutID && !splitID)
-      this.ctx.setState(patch({ byLayoutID: patch({ [layoutID]: prefs  }) }));
+      this.ctx.setState(patch({ byLayoutID: patch({ [layoutID]: effectivePrefs  }) }));
     else if (!layoutID && splitID)
-      this.ctx.setState(patch({ bySplitID: patch({ [splitID]: prefs  }) }));
+      this.ctx.setState(patch({ bySplitID: patch({ [splitID]: effectivePrefs  }) }));
   }
 
   // accessors

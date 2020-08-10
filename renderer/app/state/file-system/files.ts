@@ -66,8 +66,6 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
         // TODO: Windows ??
         if (root.length === 0)
           root = Params.rootDir;
-        else if (root.length === 1)
-          root = Params.homeDir;
         const descs = this.snapshot[root] ?? [];
         descs.forEach(desc => descsByPath[desc.path] = desc); 
         if (descsByPath[path])

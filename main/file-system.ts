@@ -11,7 +11,7 @@ import * as Mode from 'stat-mode';
 import * as os from 'os';
 import * as path from 'path';
 
-const { ipcMain } = electron;
+const { app, ipcMain } = electron;
 
 const userInfo = os.userInfo();
 const watcher = filewatcher({ debounce: 250 });
@@ -206,15 +206,15 @@ const isWritable = (mode, uid: number, gid: number): boolean => {
 
 const loadPath = (_: any, root: string): void => {
   const theWindow = globalThis.theWindow;
-  const realRoot = root.replace(/^~\//, `/home/${userInfo.username}/`);
-  fs.readdir(realRoot, (err, names) => {
+  console.dir({ root });
+  fs.readdir(root, (err, names) => {
     if (err) {
       if (err.code === 'EACCES')
         theWindow?.webContents.send(Channels.fsLoadPathSuccess, root, []);
       else theWindow?.webContents.send(Channels.fsLoadPathFailure, root);
       watcher.remove(root);
     } else {
-      const children = names.map(name => path.join(realRoot, name));
+      const children = names.map(name => path.join(root, name));
       async.map(children, fs.lstat, (err, stats) => {
         theWindow?.webContents.send(Channels.fsLoadPathSuccess, root, names.map((name, ix) => makeDescriptor(root, name, stats[ix])));
         // NOTE: side-effect of makeDescriptor updates colorByExt
@@ -289,6 +289,10 @@ watcher.on('change', (root: string) => loadPath(null, root));
 watcher.on('fallback', (ulimit: number) => {
   const theWindow = globalThis.theWindow;
   theWindow?.webContents.send(Channels.fsWatcherFailure, ulimit);
+});
+
+ipcMain.on(Channels.fsHomeDir, (event: Event): void => {
+  event.returnValue = app.getPath('home') as any;
 });
 
 ipcMain.on(Channels.fsLoadPathRequest, loadPath);

@@ -41,42 +41,6 @@
             *ngIf="table.isHydrated(desc.path)">
 
             <ng-container
-              *ngIf="['atime', 'btime', 'mtime'].includes(dict.name)">
-
-              <ng-container
-                *ngIf="effectivePrefs.dateFormat === 'ago'">
-                {{ desc[dict.name] | amTimeAgo }}
-              </ng-container>
-
-              <ng-container
-                *ngIf="(effectivePrefs.dateFormat !== 'ago') && (effectivePrefs.timeFormat === 'none')">
-                {{ desc[dict.name] | date:effectivePrefs.dateFormat }}
-              </ng-container>
-
-              <div
-                *ngIf="(effectivePrefs.dateFormat !== 'ago') && (effectivePrefs.timeFormat !== 'none')"
-                class="datetime">
-
-                <div>
-                  {{ desc[dict.name] | date:effectivePrefs.dateFormat }}
-                </div>
-
-                <div>&nbsp;</div>
-
-                <div>
-                  {{ desc[dict.name] | date:effectivePrefs.timeFormat }}
-                </div>
-
-              </div>
-
-            </ng-container>
-
-            <ng-container
-              *ngIf="['group', 'mode', 'user'].includes(dict.name)">
-              {{ desc[dict.name] }}
-            </ng-container>
-
-            <ng-container
               *ngIf="['name'].includes(dict.name)">
 
               <span
@@ -139,6 +103,40 @@
                 &ndash;
               </ng-template>
 
+            </ng-container>
+
+            <ng-container
+              *ngIf="['mtime', 'btime', 'atime'].includes(dict.name)">
+
+              <ng-container
+                *ngIf="effectivePrefs.dateFormat === 'ago'">
+                {{ desc[dict.name] | amTimeAgo }}
+              </ng-container>
+
+              <ng-container
+                *ngIf="(effectivePrefs.dateFormat !== 'ago') && (effectivePrefs.timeFormat === 'none')">
+                {{ desc[dict.name] | date:effectivePrefs.dateFormat }}
+              </ng-container>
+
+              <div
+                *ngIf="(effectivePrefs.dateFormat !== 'ago') && (effectivePrefs.timeFormat !== 'none')"
+                class="datetime">
+
+                <div class="date">
+                  {{ desc[dict.name] | date:effectivePrefs.dateFormat }}
+                </div>
+
+                <div class="time">
+                  {{ desc[dict.name] | date:effectivePrefs.timeFormat }}
+                </div>
+
+              </div>
+
+            </ng-container>
+
+            <ng-container
+              *ngIf="['mode', 'user', 'group'].includes(dict.name)">
+              {{ desc[dict.name] }}
             </ng-container>
 
           </ng-container>

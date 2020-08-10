@@ -1,5 +1,6 @@
 export enum Channels { 
 
+  fsHomeDir = 'file-system.homeDir',
   fsLoadPathRequest = 'file-system.loadPathRequest',
   fsLoadPathSuccess = 'file-system.loadPathSuccess',
   fsLoadPathFailure = 'file-system.loadPathFailure',
