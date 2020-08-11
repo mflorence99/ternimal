@@ -1,4 +1,4 @@
-import './file-system';
+import './readdir';
 
 import * as electron from 'electron';
 

@@ -1,3 +1,4 @@
+import { Channels } from '../../common/channels';
 import { StorageService } from '../../services/storage';
 import { Utils } from '../../services/utils';
 
@@ -5,8 +6,10 @@ import { scratch } from '../operators';
 
 import { Actions } from '@ngxs/store';
 import { DataAction } from '@ngxs-labs/data/decorators';
+import { ElectronService } from 'ngx-electron';
 import { Injectable } from '@angular/core';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { NgxsOnInit } from '@ngxs/store';
 import { Payload } from '@ngxs-labs/data/decorators';
 import { Persistence } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
@@ -32,12 +35,12 @@ export type FileSystemPathsStateModel = Record<string, string[]>;
   defaults: { }
 })
 
-export class FileSystemPathsState extends NgxsDataRepository<FileSystemPathsStateModel> {
+export class FileSystemPathsState extends NgxsDataRepository<FileSystemPathsStateModel> implements NgxsOnInit {
 
   constructor(private actions$: Actions,
+              public electron: ElectronService,
               private utils: Utils) {
     super();
-    this.handleActions$();
   }
 
   // actions
@@ -67,6 +70,12 @@ export class FileSystemPathsState extends NgxsDataRepository<FileSystemPathsStat
     return this.snapshot[splitID]?.includes(path);
   }
 
+  ngxsOnInit(): void {
+    super.ngxsOnInit();
+    this.handleActions$();
+    this.rcvPath$();
+  }
+
   // private methods
 
   // NOTE: why do this here, rather than in te coordinated remove in 
@@ -83,6 +92,14 @@ export class FileSystemPathsState extends NgxsDataRepository<FileSystemPathsStat
       .subscribe(({ action }) => {
         const splitID = action['PanesState.remove'].splitID;
         this.remove({ splitID });
+      });
+  }
+
+  private rcvPath$(): void {
+    this.electron.ipcRenderer
+      .on(Channels.fsLoadPathFailure, (_, path: string) => {
+        const splitIDs = Object.keys(this.snapshot);
+        splitIDs.forEach(splitID => this.close({ splitID, path }));
       });
   }
 

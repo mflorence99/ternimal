@@ -36,7 +36,7 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
 
   loading$ = new Subject<Record<string, boolean>>();
 
-  constructor(private electron: ElectronService) { 
+  constructor(public electron: ElectronService) { 
     super();
   }
 
@@ -93,6 +93,7 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
   }
 
   // private methods
+  
   private rcvPath$(): void {
     this.electron.ipcRenderer
       .on(Channels.fsLoadPathSuccess, (_, path: string, descs: FileDescriptor[]) => {
@@ -104,7 +105,6 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
         this.unloadPath({ path });
         this.loading$.next({ [path]: false });
       });
-    // TODO: what about fsWatcherFailure ???
   }
 
 }

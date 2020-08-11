@@ -1,10 +1,11 @@
-export enum Channels { 
+export enum Channels {
+  
+  error = 'ternimal.error',
 
   fsHomeDir = 'file-system.homeDir',
   fsLoadPathRequest = 'file-system.loadPathRequest',
   fsLoadPathSuccess = 'file-system.loadPathSuccess',
   fsLoadPathFailure = 'file-system.loadPathFailure',
-  fsWatcherFailure = 'file-system.watcherFailure',
   
   localStorageClear = 'local-storage.clear',
   localStorageGetItem = 'local-storage.getItem',

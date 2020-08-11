@@ -25,11 +25,11 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
 
   desc: FileDescriptor;
   descs: FileDescriptor[];
-  flags = ['r', 'w', 'x'];
+  flags = ['read', 'write', 'execute'];
   perms = [
-    ['u', 'Owner'],
-    ['g', 'Group'],
-    ['o', 'Others']
+    ['owner', 'Owner'],
+    ['group', 'Group'],
+    ['others', 'Others']
   ];
   propsForm: FormGroup;
 
@@ -41,20 +41,20 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
     this.desc = this.ternimal.widgetSidebarCtx[0];
     this.descs = this.ternimal.widgetSidebarCtx;
     this.propsForm = this.formBuilder.group({
-      u: this.formBuilder.group({
-        r: null,
-        w: null,
-        x: null
+      owner: this.formBuilder.group({
+        read: null,
+        write: null,
+        execute: null
       }),
-      g: this.formBuilder.group({
-        r: null,
-        w: null,
-        x: null
+      group: this.formBuilder.group({
+        read: null,
+        write: null,
+        execute: null
       }),
-      o: this.formBuilder.group({
-        r: null,
-        w: null,
-        x: null
+      others: this.formBuilder.group({
+        read: null,
+        write: null,
+        execute: null
       }),
     });
   }
@@ -70,20 +70,20 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
 
   private populate(): void {
     this.propsForm.patchValue({
-      u: {
-        r: this.descs.every(desc => desc.mode[1] === 'r') || null,
-        w: this.descs.every(desc => desc.mode[2] === 'w') || null,
-        x: this.descs.every(desc => desc.mode[3] === 'x') || null
+      owner: {
+        read: this.descs.every(desc => desc.mode[1] === 'r') || null,
+        write: this.descs.every(desc => desc.mode[2] === 'w') || null,
+        execute: this.descs.every(desc => desc.mode[3] === 'x') || null
       },
-      g: {
-        r: this.descs.every(desc => desc.mode[4] === 'r') || null,
-        w: this.descs.every(desc => desc.mode[5] === 'w') || null,
-        x: this.descs.every(desc => desc.mode[6] === 'x') || null
+      group: {
+        read: this.descs.every(desc => desc.mode[4] === 'r') || null,
+        write: this.descs.every(desc => desc.mode[5] === 'w') || null,
+        execute: this.descs.every(desc => desc.mode[6] === 'x') || null
       },
-      o: {
-        r: this.descs.every(desc => desc.mode[7] === 'r') || null,
-        w: this.descs.every(desc => desc.mode[8] === 'w') || null,
-        x: this.descs.every(desc => desc.mode[9] === 'x') || null
+      others: {
+        read: this.descs.every(desc => desc.mode[7] === 'r') || null,
+        write: this.descs.every(desc => desc.mode[8] === 'w') || null,
+        execute: this.descs.every(desc => desc.mode[9] === 'x') || null
       }
     }, { emitEvent: false });
   }

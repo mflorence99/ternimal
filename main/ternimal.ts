@@ -1,4 +1,4 @@
-import './file-system';
+import './file-system/readdir';
 import './process-list';
 import './system-info';
 import './toolbar';

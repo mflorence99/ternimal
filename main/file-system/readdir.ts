@@ -1,7 +1,7 @@
-import { Channels } from './common/channels';
-import { FileDescriptor } from './common/file-system';
+import { Channels } from '../common/channels';
+import { FileDescriptor } from '../common/file-system';
 
-import { store } from './local-storage';
+import { store } from '../local-storage';
 
 import * as async from 'async';
 import * as electron from 'electron';
@@ -204,13 +204,13 @@ const isWritable = (mode, uid: number, gid: number): boolean => {
     || ((userInfo.gid === gid) && mode.group.write));
 };
 
-const loadPath = (_: any, root: string): void => {
+const loadPath = (root: string): void => {
   const theWindow = globalThis.theWindow;
   fs.readdir(root, (err, names) => {
     if (err) {
-      if (err.code === 'EACCES')
-        theWindow?.webContents.send(Channels.fsLoadPathSuccess, root, []);
-      else theWindow?.webContents.send(Channels.fsLoadPathFailure, root);
+      if (err.code === 'EACCES') 
+        theWindow?.webContents.send(Channels.error, err.message);
+      theWindow?.webContents.send(Channels.fsLoadPathFailure, root);
       watcher.remove(root);
     } else {
       const children = names.map(name => path.join(root, name));
@@ -283,17 +283,18 @@ const makeIcon = (name: string, stat: fs.Stats): string[] => {
   else return ['far', 'file'];
 };
 
-watcher.on('change', (root: string) => loadPath(null, root));
+watcher.on('change', (root: string) => loadPath(root));
 
 watcher.on('fallback', (ulimit: number) => {
   const theWindow = globalThis.theWindow;
-  theWindow?.webContents.send(Channels.fsWatcherFailure, ulimit);
+  const message = `Ran out of file handles after watching ${ulimit} files. Falling back to polling which uses more CPU. Run ulimit -n 10000 to increase the limit for open files`;
+  theWindow?.webContents.send(Channels.error, message);
 });
 
 ipcMain.on(Channels.fsHomeDir, (event: Event): void => {
   event.returnValue = app.getPath('home') as any;
 });
 
-ipcMain.on(Channels.fsLoadPathRequest, loadPath);
+ipcMain.on(Channels.fsLoadPathRequest, (_: Event, root: string): void => loadPath(root));
 
 

@@ -10,6 +10,7 @@ import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { NgxsOnInit } from '@ngxs/store';
 import { Payload } from '@ngxs-labs/data/decorators';
 import { Persistence } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
@@ -69,13 +70,12 @@ export interface FileSystemPrefsStateModel {
   }
 })
 
-export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStateModel> {
+export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStateModel> implements NgxsOnInit {
 
   constructor(private actions$: Actions,
               private selection: SelectionState,
               private utils: Utils) {
     super();
-    this.handleActions$();
   }
 
   static defaultPrefs(): FileSystemPrefs {
@@ -175,6 +175,11 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
       this.snapshot.byLayoutID[layoutID],
       this.snapshot.bySplitID[splitID],
     );
+  }
+
+  ngxsOnInit(): void {
+    super.ngxsOnInit();
+    this.handleActions$();
   }
 
   // private methods
