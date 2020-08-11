@@ -4,6 +4,7 @@
     "strictInjectionParameters": true
   },
   "exclude": [
+    "../common/**/chmod.ts",
     "../common/**/file-system.ts",
     "../common/**/process-list.ts",
     "../common/**/system-info.ts",

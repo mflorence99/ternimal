@@ -291,6 +291,6 @@ watcher.on('fallback', (ulimit: number) => {
   theWindow?.webContents.send(Channels.error, message);
 });
 
-ipcMain.on(Channels.fsLoadPathRequest, (_: Event, root: string): void => loadPath(root));
+ipcMain.on(Channels.fsLoadPathRequest, (_, root: string): void => loadPath(root));
 
 

@@ -5,7 +5,7 @@ import * as electron from 'electron';
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const { BrowserWindow } = electron;
 
-describe('paths', () => {
+describe('chmod', () => {
 
   let theWindow;
 

@@ -1,0 +1,1 @@
+../../common/chmod.ts

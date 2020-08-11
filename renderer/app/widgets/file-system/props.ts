@@ -1,3 +1,5 @@
+import { Channels } from '../../common/channels';
+import { Chmod } from '../../common/chmod';
 import { DestroyService } from '../../services/destroy';
 import { FileDescriptor } from '../../common/file-system';
 import { TernimalState } from '../../state/ternimal';
@@ -6,6 +8,7 @@ import { WidgetPrefs } from '../widget-prefs';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ElectronService } from 'ngx-electron';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
@@ -36,6 +39,7 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
   @Input() widget: Widget;
 
   constructor(private destroy$: DestroyService,
+              public electron: ElectronService,
               private formBuilder: FormBuilder,
               public ternimal: TernimalState) {
     this.desc = this.ternimal.widgetSidebarCtx[0];
@@ -63,7 +67,9 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
     this.populate();
     this.propsForm.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(console.log);
+      .subscribe((chmod: Chmod) => {
+        this.electron.ipcRenderer.send(Channels.fsChmod, this.descs, chmod);
+      });
   }
 
   // private methods
@@ -85,7 +91,7 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
         write: this.descs.every(desc => desc.mode[8] === 'w') || null,
         execute: this.descs.every(desc => desc.mode[9] === 'x') || null
       }
-    }, { emitEvent: false });
+    } as Chmod, { emitEvent: false });
   }
 
 }

@@ -2,6 +2,7 @@ export enum Channels {
   
   error = 'ternimal.error',
 
+  fsChmod = 'file-system.chmod',
   fsHomeDir = 'file-system.homeDir',
   fsLoadPathRequest = 'file-system.loadPathRequest',
   fsLoadPathSuccess = 'file-system.loadPathSuccess',
