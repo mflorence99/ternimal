@@ -6,7 +6,9 @@ export enum Channels {
   fsLoadPathRequest = 'file-system.loadPathRequest',
   fsLoadPathSuccess = 'file-system.loadPathSuccess',
   fsLoadPathFailure = 'file-system.loadPathFailure',
-  
+  fsPathSeparator= 'file-system.pathSeparator',
+  fsRootDir = 'file-system.rootDir',
+
   localStorageClear = 'local-storage.clear',
   localStorageGetItem = 'local-storage.getItem',
   localStorageKey = 'local-storage.key',

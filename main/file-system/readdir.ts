@@ -11,7 +11,7 @@ import * as Mode from 'stat-mode';
 import * as os from 'os';
 import * as path from 'path';
 
-const { app, ipcMain } = electron;
+const { ipcMain } = electron;
 
 const userInfo = os.userInfo();
 const watcher = filewatcher({ debounce: 250 });
@@ -289,10 +289,6 @@ watcher.on('fallback', (ulimit: number) => {
   const theWindow = globalThis.theWindow;
   const message = `Ran out of file handles after watching ${ulimit} files. Falling back to polling which uses more CPU. Run ulimit -n 10000 to increase the limit for open files`;
   theWindow?.webContents.send(Channels.error, message);
-});
-
-ipcMain.on(Channels.fsHomeDir, (event: Event): void => {
-  event.returnValue = app.getPath('home') as any;
 });
 
 ipcMain.on(Channels.fsLoadPathRequest, (_: Event, root: string): void => loadPath(root));

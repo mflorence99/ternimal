@@ -13,9 +13,8 @@ export class Params {
   static homeDir = ipcRenderer.sendSync(Channels.fsHomeDir);
   static initialLayoutID: string = UUID.UUID();
   static initialSplitID: string = UUID.UUID();
-  // Windows ??
-  static pathSeparator = '/';
-  static rootDir = '/';
+  static pathSeparator = ipcRenderer.sendSync(Channels.fsPathSeparator);
+  static rootDir = ipcRenderer.sendSync(Channels.fsRootDir);
 
   led = {
     gap: 3,

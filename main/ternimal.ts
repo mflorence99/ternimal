@@ -1,3 +1,4 @@
+import './file-system/paths';
 import './file-system/readdir';
 import './process-list';
 import './system-info';
