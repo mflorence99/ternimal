@@ -2,6 +2,7 @@ import { Channels } from '../../common/channels';
 import { DestroyService } from '../../services/destroy';
 import { Dictionary } from '../../state/file-system/prefs';
 import { FileDescriptor } from '../../common/file-system';
+import { FileSystemClipboardState } from '../../state/file-system/clipboard';
 import { FileSystemFilesState } from '../../state/file-system/files';
 import { FileSystemPathsState } from '../../state/file-system/paths';
 import { FileSystemPrefs } from '../../state/file-system/prefs';
@@ -86,6 +87,33 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
         description: 'Properties...',
         if: 'table.selectedRowIDs.length'
       }
+    ],
+    [
+      {
+        command: 'cutToClipboard()',
+        description: 'Cut',
+        if: 'table.selectedRowIDs.length'
+      },
+      {
+        command: 'copyToClipboard()',
+        description: 'Copy',
+        if: 'table.selectedRowIDs.length'
+      },
+      {
+        command: 'copyPath()',
+        description: 'Copy path',
+        if: 'table.selectedRowIDs.length === 1'
+      },
+      {
+        command: 'pasteFromClipboard()',
+        description: 'Paste',
+        if: 'clipboard.paths.length'
+      },
+      {
+        command: 'clearClipboard()',
+        description: 'Clear clipboard',
+        if: 'clipboard.paths.length'
+      }
     ]
   ];
 
@@ -100,9 +128,11 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   };
 
   constructor(private actions$: Actions,
+              public clipboard: FileSystemClipboardState,
               private destroy$: DestroyService,
               public electron: ElectronService,
               public files: FileSystemFilesState,
+              public params: Params,
               public paths: FileSystemPathsState,
               public prefs: FileSystemPrefsState,
               public sort: SortState,
@@ -119,7 +149,23 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   }
 
   canGotoHere(): boolean {
-    return !this.isEmpty(this.table.selectedRowIDs[0]);
+    return (this.table.selectedRowIDs.length === 1) && !this.isEmpty(this.table.selectedRowIDs[0]);
+  }
+
+  clearClipboard(): void {
+    this.clipboard.update({ op: 'clear', paths: [] });
+  }
+
+  copyPath(): void {
+    this.electron.ipcRenderer.send(Channels.nativeClipboardWrite, this.table.selectedRowIDs[0]);
+  }
+
+  copyToClipboard(): void {
+    this.clipboard.update({ op: 'copy', paths: this.table.selectedRowIDs });
+  }
+
+  cutToClipboard(): void {
+    this.clipboard.update({ op: 'cut', paths: this.table.selectedRowIDs });
   }
 
   goto(path: string): void {
@@ -143,6 +189,14 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
 
   gotoRoot(): void {
     this.goto(Params.rootDir);
+  }
+
+  isClipped(path: string): boolean {
+    return this.clipboard.paths.includes(path);
+  }
+
+  isCut(path: string): boolean {
+    return this.isClipped(path) && (this.clipboard.op === 'cut');
   }
 
   isEmpty(path: string): boolean {
@@ -182,6 +236,10 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
 
   ngOnInit(): void {
     this.loadEm(this.paths.snapshot[this.splitID] ?? []);
+  }
+
+  pasteFromClipboard(): void {
+    console.log('%cPaste', this.params.log.colorize('#004d40'), this.clipboard.paths);
   }
 
   props(): void {

@@ -49,3 +49,4 @@ ipcMain.on(Channels.processListRequest, async() => {
   const theWindow = globalThis.theWindow;
   theWindow?.webContents.send(Channels.processListResponse, processList);
 });
+

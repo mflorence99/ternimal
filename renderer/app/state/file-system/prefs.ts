@@ -120,7 +120,7 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
   }
 
   @DataAction({ insideZone: true })
-  rescope(@Payload('FileSystemPrefsState.rescope') { scope}: DataActionParams): void {
+  rescope(@Payload('FileSystemPrefsState.rescope') { scope }: DataActionParams): void {
     this.ctx.setState(patch({ scope }));
   }
 

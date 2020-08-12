@@ -3,6 +3,13 @@
   [contextMenu]="contextMenu"
   [ngClass]="{selected: isSelected()}">
 
+  <fa-icon
+    [icon]="tabs.tab.icon"
+    [ngStyle]="{color: tabs.tab.color, 'z-index': widget.widgetCaps?.isOpaque? 1 : -1}"
+    class="badge"
+    size="6x">
+  </fa-icon>
+
   <div
     class="content">
     <ng-template ternimalWidgetHost></ng-template>
@@ -10,7 +17,7 @@
 
   <footer
     class="footer">
-
+<!-- 
     <fa-icon
       [icon]="tabs.tab.icon"
       [ngStyle]="{color: tabs.tab.color}">
@@ -18,7 +25,7 @@
 
     <div
       class="spacer">
-    </div>
+    </div> -->
 
     <fa-icon
       (click)="launch(widget)"
@@ -33,6 +40,8 @@
 
     <div
       class="statusbar">
+
+      <!-- NOTE: all this reversing so that the ellipsis and truncation appear on the "left!" -->
 
       <div
         *ngIf="widget.widgetStatus?.showCWD"

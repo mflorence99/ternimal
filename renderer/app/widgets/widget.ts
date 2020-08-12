@@ -1,10 +1,15 @@
 export interface Widget {
   splitID: string;
+  widgetCaps?: WidgetCaps;
   widgetCommands?: WidgetCommand[];
   widgetLaunch: WidgetLaunch;
   widgetMenuItems?: WidgetCommand[][];
   widgetPrefs?: WidgetPrefs;
   widgetStatus?: WidgetStatus;
+}
+
+export interface WidgetCaps {
+  isOpaque?: boolean;
 }
 
 export interface WidgetCommand {

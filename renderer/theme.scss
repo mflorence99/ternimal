@@ -43,7 +43,7 @@ $custom-theme: mat-dark-theme($custom-primary, $custom-accent, $custom-warn);
 }
 
 ::-webkit-scrollbar-track {
-  background-color: var(--mat-grey-800);
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -57,7 +57,13 @@ $custom-theme: mat-dark-theme($custom-primary, $custom-accent, $custom-warn);
 
 a {
   color: var(--accent-color);
-  text-decoration: underline;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
 }
 
 .as-split-gutter {
@@ -129,7 +135,9 @@ html {
 
 .ngx-contextmenu.dropdown {
   background-color: var(--mat-grey-800);
+  font-size: 0.9rem;
   min-width: 10rem;
+  padding: 0.5rem 0;
 
   ul {
     margin: 0;
@@ -164,7 +172,7 @@ html {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 0.25rem 1rem;
+        padding: 0 1rem;
         text-decoration: none;
 
         &:hover {

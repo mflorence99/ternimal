@@ -1,6 +1,7 @@
 import './file-system/chmod';
 import './file-system/paths';
 import './file-system/readdir';
+import './native';
 import './process-list';
 import './system-info';
 import './toolbar';

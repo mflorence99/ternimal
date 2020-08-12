@@ -1,3 +1,5 @@
+import { FileSystemClipboardState } from './file-system/clipboard';
+import { FileSystemClipboardStateModel } from './file-system/clipboard';
 import { FileSystemFilesState } from './file-system/files';
 import { FileSystemFilesStateModel } from './file-system/files';
 import { FileSystemPathsState } from './file-system/paths';
@@ -22,6 +24,7 @@ import { TernimalState } from './ternimal';
 import { TernimalStateModel } from './ternimal';
 
 export interface AppState {
+  fileSystemClipboard: FileSystemClipboardStateModel;
   fileSystemFiles: FileSystemFilesStateModel;
   fileSystemPaths: FileSystemPathsStateModel;
   fileSystemPrefs: FileSystemPrefsStateModel;
@@ -36,6 +39,7 @@ export interface AppState {
 }
 
 export const states = [
+  FileSystemClipboardState,
   FileSystemFilesState,
   FileSystemPathsState,
   FileSystemPrefsState,

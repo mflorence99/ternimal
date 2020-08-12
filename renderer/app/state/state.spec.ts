@@ -1,3 +1,4 @@
+import { FileSystemClipboardState } from './file-system/clipboard';
 import { FileSystemFilesState } from './file-system/files';
 import { FileSystemPathsState } from './file-system/paths';
 import { FileSystemPrefsState } from './file-system/prefs';
@@ -18,6 +19,7 @@ import { NgxsModule } from '@ngxs/store';
 import { TestBed } from '@angular/core/testing';
 
 export interface Bundle {
+  fileSystemClipboard?: FileSystemClipboardState;
   fileSystemFiles?: FileSystemFilesState;
   fileSystemPaths?: FileSystemPathsState;
   fileSystemPrefs?: FileSystemPrefsState;
@@ -42,6 +44,7 @@ export function prepare(): Bundle {
     ]
   });
 
+  bundle.fileSystemClipboard = TestBed.inject(FileSystemClipboardState);
   bundle.fileSystemFiles = TestBed.inject(FileSystemFilesState);
   bundle.fileSystemPaths = TestBed.inject(FileSystemPathsState);
   bundle.fileSystemPrefs = TestBed.inject(FileSystemPrefsState);

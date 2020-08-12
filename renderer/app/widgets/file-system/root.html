@@ -56,21 +56,33 @@
                 [rotate]="paths.isOpen(splitID, desc.path)? 90 : 0">
               </fa-icon>
 
-              <fa-icon
-                [fixedWidth]="true"
-                [icon]="isEmpty(desc.path)? ['far', 'folder'] : (paths.isOpen(splitID, desc.path)? ['fas', 'folder-open'] : ['fas', 'folder'])"
-                [ngStyle]="{color: desc.color}"
-                *ngIf="desc.isDirectory"
-                size="sm">
-              </fa-icon>
+              <ng-container>
 
-              <fa-icon
-                [fixedWidth]="true"
-                [icon]="desc.icon"
-                [ngStyle]="{color: desc.color}"
-                *ngIf="!desc.isDirectory"
-                size="sm">
-              </fa-icon>
+                <fa-icon
+                  [fixedWidth]="true"
+                  [icon]="['fas', isCut(desc.path)? 'cut' : 'clipboard']"
+                  [ngStyle]="{color: 'var(--text-color)'}"
+                  *ngIf="isClipped(desc.path)"
+                  size="sm">
+                </fa-icon>
+
+                <fa-icon
+                  [fixedWidth]="true"
+                  [icon]="isEmpty(desc.path)? ['far', 'folder'] : (paths.isOpen(splitID, desc.path)? ['fas', 'folder-open'] : ['fas', 'folder'])"
+                  [ngStyle]="{color: desc.color}"
+                  *ngIf="!isClipped(desc.path) && desc.isDirectory"
+                  size="sm">
+                </fa-icon>
+
+                <fa-icon
+                  [fixedWidth]="true"
+                  [icon]="desc.icon"
+                  [ngStyle]="{color: desc.color}"
+                  *ngIf="!isClipped(desc.path) && !desc.isDirectory"
+                  size="sm">
+                </fa-icon>
+
+              </ng-container>
 
               {{ desc[dict.name] }} 
 

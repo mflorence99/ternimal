@@ -78,7 +78,11 @@ export class PaneComponent implements OnInit {
   cwdGoto(path: string): void {
     const parts = this.cwdParts();
     const ix = parts.findIndex(part => part === path);
-    eval(`this.widget.${this.widget.widgetStatus.gotoCWD}('${parts.slice(0, ix + 1).join('')}')`);
+    // NOTE: we are already at the end!
+    if (ix < parts.length) {
+      path = parts.slice(0, ix + 1).join('');
+      eval(`this.widget.${this.widget.widgetStatus.gotoCWD}('${path}')`);
+    }
   }
 
   cwdParts(): string[] {
