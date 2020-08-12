@@ -10,6 +10,10 @@ ipcMain.on(Channels.fsHomeDir, (event: Event): void => {
   event.returnValue = app.getPath('home') as any;
 });
 
+ipcMain.on(Channels.fsParentDir, (event: Event, nm: string): void => {
+  event.returnValue = path.dirname(nm) as any;
+});
+
 ipcMain.on(Channels.fsPathSeparator, (event: Event): void => {
   event.returnValue = path.sep as any;
 });

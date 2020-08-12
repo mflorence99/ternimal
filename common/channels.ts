@@ -7,6 +7,7 @@ export enum Channels {
   fsLoadPathRequest = 'file-system.loadPathRequest',
   fsLoadPathSuccess = 'file-system.loadPathSuccess',
   fsLoadPathFailure = 'file-system.loadPathFailure',
+  fsParentDir = 'file-system.parentDir',
   fsPathSeparator= 'file-system.pathSeparator',
   fsRootDir = 'file-system.rootDir',
 

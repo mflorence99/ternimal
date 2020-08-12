@@ -1,6 +1,7 @@
 <section
   (click)="select()"
-  [contextMenu]="contextMenu">
+  [contextMenu]="contextMenu"
+  [ngClass]="{selected: isSelected()}">
 
   <div
     class="content">
@@ -8,7 +9,7 @@
   </div>
 
   <footer
-    [ngClass]="{selected: isSelected()}">
+    class="footer">
 
     <fa-icon
       [icon]="tabs.tab.icon"
@@ -19,90 +20,64 @@
       class="spacer">
     </div>
 
-    <ng-container
-      *ngIf="isSelected()">
-
-      <fa-icon
-        (click)="launch(widget)"
-        [fixedWidth]="true"
-        [icon]="widget.widgetLaunch.icon"
-        [matTooltip]="widget.widgetLaunch.description"
-        [ngClass]="{launched: isLaunched(widget)}"
-        [ngStyle]="{color: isLaunched(widget)? tabs.tab.color : 'inherit'}"
-        *ngFor="let widget of widgets"
-        class="launch tool">
-      </fa-icon>
-
-    </ng-container>
+    <fa-icon
+      (click)="launch(widget)"
+      [fixedWidth]="true"
+      [icon]="widget.widgetLaunch.icon"
+      [matTooltip]="widget.widgetLaunch.description"
+      [ngClass]="{launched: isLaunched(widget)}"
+      [ngStyle]="{color: isLaunched(widget)? tabs.tab.color : 'inherit'}"
+      *ngFor="let widget of widgets"
+      class="launch tool">
+    </fa-icon>
 
     <div
-      *ngIf="isSelected() && status.status(widget.splitID, widget.widgetLaunch.implementation) as status"
       class="statusbar">
 
       <div
         *ngIf="widget.widgetStatus?.showCWD"
         class="cwd">
-          &#x202e;{{ status.cwd.split('').reverse().join('') }}&#x202d;
+          &#x202e;
+
+          <ng-container
+            *ngIf="widget.widgetStatus?.gotoCWD; else rawCWD">
+
+              <span *ngFor="let path of cwdParts().reverse()">
+                &thinsp;<a (click)="cwdGoto(path)">{{ path.split('').reverse().join('') }}</a>
+              </span>
+
+          </ng-container>
+
+          <ng-template #rawCWD>
+            {{ cwd().split('').reverse().join('') }}
+          </ng-template>
+
+          &#x202d;
       </div>
 
     </div>
 
     <ng-container
-      *ngIf="isSelected()">
-
-      <ng-container
-        *ngFor="let command of widget.widgetCommands || []">
-
-        <fa-icon
-          (click)="executeCommand(command)"
-          [fixedWidth]="true"
-          [icon]="command.icon"
-          [matTooltip]="command.description"
-          *ngIf="isCommandEnabled(command)"
-          class="command tool">
-        </fa-icon>
-
-      </ng-container>
+      *ngFor="let command of widget.widgetCommands || []">
 
       <fa-icon
-        (click)="ternimal.showWidgetSidebar({ implementation: widget.widgetPrefs.implementation })"
+        (click)="executeCommand(command)"
         [fixedWidth]="true"
-        [icon]="['fas', 'cog']"
-        [matTooltip]="widget.widgetPrefs.description"
-        *ngIf="widget.widgetPrefs"
-        class="prefs tool">
-      </fa-icon>
-
-      <div
-        *ngIf="(widget.widgetCommands?.length > 0) || widget.widgetPrefs"
-        class="spacer">
-      </div>
-
-      <fa-icon
-        (click)="splitRight()"
-        [fixedWidth]="true"
-        [icon]="['fas', 'grip-vertical']"
-        class="pane tool"
-        matTooltip="Split right">
-      </fa-icon>
-
-      <fa-icon
-        (click)="splitDown()"
-        [fixedWidth]="true"
-        [icon]="['fas', 'grip-horizontal']"
-        class="pane tool"
-        matTooltip="Split down">
+        [icon]="command.icon"
+        [matTooltip]="command.description"
+        *ngIf="isCommandEnabled(command)"
+        class="command tool">
       </fa-icon>
 
     </ng-container>
 
-      <fa-icon
-      (click)="close()"
+    <fa-icon
+      (click)="ternimal.showWidgetSidebar({ implementation: widget.widgetPrefs.implementation })"
       [fixedWidth]="true"
-      [icon]="['fas', 'times']"
-      *ngIf="isCloseEnabled()"
-      class="pane tool"
-      matTooltip="Close this panel">
+      [icon]="['fas', 'cog']"
+      [matTooltip]="widget.widgetPrefs.description"
+      *ngIf="widget.widgetPrefs"
+      class="prefs tool">
     </fa-icon>
 
   </footer>

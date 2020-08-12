@@ -1,3 +1,4 @@
+import { Channels } from '../../common/channels';
 import { DestroyService } from '../../services/destroy';
 import { Dictionary } from '../../state/file-system/prefs';
 import { FileDescriptor } from '../../common/file-system';
@@ -21,6 +22,7 @@ import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ElectronService } from 'ngx-electron';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
@@ -59,7 +61,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     [
       {
         command: 'gotoRoot()',
-        description: 'Go to /',
+        description: `Go to ${Params.rootDir}`,
         unless: 'atRoot()'
       },
       {
@@ -69,7 +71,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       },
       {
         command: 'gotoHome()',
-        description: 'Go to $HOME',
+        description: `Go to ${Params.homeDir}`,
         unless: 'atHome()'
       },
       {
@@ -93,11 +95,13 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   };
 
   widgetStatus: WidgetStatus = {
+    gotoCWD: 'goto',
     showCWD: true
   };
 
   constructor(private actions$: Actions,
               private destroy$: DestroyService,
+              public electron: ElectronService,
               public files: FileSystemFilesState,
               public paths: FileSystemPathsState,
               public prefs: FileSystemPrefsState,
@@ -118,6 +122,13 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
     return !this.isEmpty(this.table.selectedRowIDs[0]);
   }
 
+  goto(path: string): void {
+    this.files.loadPaths([path]);
+    this.paths.open({ splitID: this.splitID, path });
+    this.prefs.update({ splitID: this.splitID, prefs: { root: path } });
+    this.status.update({ splitID: this.splitID, widgetID: this.widgetLaunch.implementation, status: { cwd: path } });
+  }
+
   gotoHere(): void {
     this.goto(this.table.selectedRowIDs[0]);
   }
@@ -127,13 +138,7 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
   }
 
   gotoParent(): void {
-    const path = this.effectivePrefs.root;
-    const ix = path.lastIndexOf(Params.pathSeparator);
-    let parent = path.substring(0, ix);
-    // TODO: Windows ??
-    if (parent.length === 0)
-      parent = Params.rootDir;
-    this.goto(parent);
+    this.goto(this.electron.ipcRenderer.sendSync(Channels.fsParentDir, this.effectivePrefs.root));
   }
 
   gotoRoot(): void {
@@ -209,13 +214,6 @@ export class FileSystemComponent implements AfterViewInit, OnInit, Widget {
       }
     }
     return assembled;
-  }
-
-  private goto(path: string): void {
-    this.files.loadPaths([path]);
-    this.paths.open({ splitID: this.splitID, path });
-    this.prefs.update({ splitID: this.splitID, prefs: { root: path } });
-    this.status.update({ splitID: this.splitID, widgetID: this.widgetLaunch.implementation, status: { cwd: path } });
   }
 
   private handleActions$(): void {

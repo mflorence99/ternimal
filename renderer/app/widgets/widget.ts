@@ -27,5 +27,6 @@ export interface WidgetPrefs {
 }
 
 export interface WidgetStatus {
+  gotoCWD?: string
   showCWD: boolean;
 }

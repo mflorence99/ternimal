@@ -77,21 +77,29 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
   private populate(): void {
     this.propsForm.patchValue({
       owner: {
-        read: this.descs.every(desc => desc.mode[1] === 'r') || null,
-        write: this.descs.every(desc => desc.mode[2] === 'w') || null,
-        execute: this.descs.every(desc => desc.mode[3] === 'x') || null
+        read: this.union(1, 'r'),
+        write: this.union(2, 'w'),
+        execute: this.union(3, 'x')
       },
       group: {
-        read: this.descs.every(desc => desc.mode[4] === 'r') || null,
-        write: this.descs.every(desc => desc.mode[5] === 'w') || null,
-        execute: this.descs.every(desc => desc.mode[6] === 'x') || null
+        read: this.union(4, 'r'),
+        write: this.union(5, 'w'),
+        execute: this.union(6, 'x')
       },
       others: {
-        read: this.descs.every(desc => desc.mode[7] === 'r') || null,
-        write: this.descs.every(desc => desc.mode[8] === 'w') || null,
-        execute: this.descs.every(desc => desc.mode[9] === 'x') || null
+        read: this.union(7, 'r'),
+        write: this.union(8, 'w'),
+        execute: this.union(9, 'x')
       }
     } as Chmod, { emitEvent: false });
+  }
+
+  private union(ix: number, f: string): boolean {
+    if (this.descs.every(desc => desc.mode[ix] === f))
+      return true;
+    else if (this.descs.every(desc => desc.mode[ix] === '-'))
+      return false;
+    else return null;
   }
 
 }

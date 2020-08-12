@@ -3,6 +3,7 @@ import * as widgets from '../../widgets/all-widgets';
 import { Layout } from '../../state/layout';
 import { LayoutState } from '../../state/layout';
 import { PanesState } from '../../state/panes';
+import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { SortState } from '../../state/sort';
 import { StatusState } from '../../state/status';
@@ -68,6 +69,23 @@ export class PaneComponent implements OnInit {
     // if the split we're removing is currently selected, try to select another
     if (this.isSelected()) 
       this.selection.selectSplit({ splitID: this.splittable.splits[0].id });
+  }
+
+  cwd(): string {
+    return this.status.status(this.widget.splitID, this.widget.widgetLaunch.implementation).cwd;
+  }
+
+  cwdGoto(path: string): void {
+    const parts = this.cwdParts();
+    const ix = parts.findIndex(part => part === path);
+    eval(`this.widget.${this.widget.widgetStatus.gotoCWD}('${parts.slice(0, ix + 1).join('')}')`);
+  }
+
+  cwdParts(): string[] {
+    return this.cwd()
+      .split(Params.pathSeparator)
+      .filter(part => !!part)
+      .map(part => `${Params.pathSeparator}${part}`);
   }
 
   executeCommand(command: WidgetCommand): void {

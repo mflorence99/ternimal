@@ -228,11 +228,10 @@ const makeColor = (name: string, stat: fs.Stats): string => {
   if (stat.isDirectory())
     return 'var(--mat-deep-orange-a100)';
   else if (stat.isFile()) {
-    const ix = name.lastIndexOf('.');
-    if (ix <= 0)
+    const ext = path.extname(name);
+    if (!ext)
       return 'var(--mat-blue-grey-400)';
     else {
-      const ext = name.substring(ix + 1).toLowerCase();
       const color = colorByExt[ext] ?? colors[Math.trunc(Math.random() * colors.length)];
       colorByExt[ext] = color;
       return color;
