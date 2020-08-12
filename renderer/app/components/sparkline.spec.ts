@@ -7,7 +7,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('SparklineComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -15,5 +14,4 @@ describe('SparklineComponent', () => {
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
-
 });

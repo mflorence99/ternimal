@@ -1,11 +1,10 @@
 class Store {
+  public store = {};
 
-  public store = { };
+  constructor(public options: any) {}
 
-  constructor(public options: any) { }
-  
   clear(): void {
-    this.store = { };
+    this.store = {};
   }
 
   delete(key): void {
@@ -21,11 +20,9 @@ class Store {
   }
 
   set(key, value?): void {
-    if (!value)
-      Object.assign(this.store, key);
+    if (!value) Object.assign(this.store, key);
     else this.store[key] = value;
   }
-
 }
 
 export = Store;

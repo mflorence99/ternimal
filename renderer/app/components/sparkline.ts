@@ -21,13 +21,11 @@ interface Sparkline {
   templateUrl: 'sparkline.html',
   styleUrls: ['sparkline.scss']
 })
-
 export class SparklineComponent implements OnInit {
-
   /* eslint-disable @typescript-eslint/member-ordering */
 
   chart: Chart;
-  @Input() 
+  @Input()
   get sparkline(): Sparkline {
     return this._sparkline;
   }
@@ -41,9 +39,11 @@ export class SparklineComponent implements OnInit {
 
   private _sparkline: Sparkline;
 
-  constructor(private host: ElementRef,
-              private params: Params,
-              private utils: Utils) { }
+  constructor(
+    private host: ElementRef,
+    private params: Params,
+    private utils: Utils
+  ) {}
 
   ngOnInit(): void {
     const canvas = this.canvas.nativeElement;
@@ -56,17 +56,37 @@ export class SparklineComponent implements OnInit {
         labels: [],
         datasets: [
           {
-            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.green, 0.25),
-            borderColor: this.utils.colorOf(this.host, this.params.rgb.green, 1),
+            backgroundColor: this.utils.colorOf(
+              this.host,
+              this.params.rgb.green,
+              0.25
+            ),
+            borderColor: this.utils.colorOf(
+              this.host,
+              this.params.rgb.green,
+              1
+            ),
             data: []
           },
           {
-            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.yellow, 0.25),
-            borderColor: this.utils.colorOf(this.host, this.params.rgb.yellow, 1),
+            backgroundColor: this.utils.colorOf(
+              this.host,
+              this.params.rgb.yellow,
+              0.25
+            ),
+            borderColor: this.utils.colorOf(
+              this.host,
+              this.params.rgb.yellow,
+              1
+            ),
             data: []
           },
           {
-            backgroundColor: this.utils.colorOf(this.host, this.params.rgb.red, 0.25),
+            backgroundColor: this.utils.colorOf(
+              this.host,
+              this.params.rgb.red,
+              0.25
+            ),
             borderColor: this.utils.colorOf(this.host, this.params.rgb.red, 1),
             data: []
           }
@@ -82,7 +102,7 @@ export class SparklineComponent implements OnInit {
             borderWidth: 1
           },
           point: {
-            radius: 0          
+            radius: 0
           }
         },
         tooltips: {
@@ -116,10 +136,8 @@ export class SparklineComponent implements OnInit {
       const yellow = new Array(this.sparkline.data.length).fill(NaN);
       const red = new Array(this.sparkline.data.length).fill(NaN);
       this.sparkline.data.forEach((value, ix) => {
-        if (value > 66)
-          red[ix] = value;
-        else if (value > 33)
-          yellow[ix] = value;
+        if (value > 66) red[ix] = value;
+        else if (value > 33) yellow[ix] = value;
         else green[ix] = value;
       });
       this.chart.data.datasets[0].data = green;
@@ -128,5 +146,4 @@ export class SparklineComponent implements OnInit {
       this.chart.update();
     }
   }
-
 }

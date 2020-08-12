@@ -7,7 +7,6 @@ import { TestBed } from '@angular/core/testing';
 // @see __mocks__/ngx-electron.ts
 
 describe('StorageService', () => {
-
   let storage: StorageService;
 
   beforeEach(() => {
@@ -65,5 +64,4 @@ describe('StorageService', () => {
     expect(key).toBe('xxx');
     expect(value).toBe('yyy');
   });
-
 });

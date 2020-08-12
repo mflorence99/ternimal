@@ -52,7 +52,7 @@ section {
     opacity: 0;
     padding: 0 0.5rem;
     position: absolute;
-    transition: height 0.25s ease-in-out;
+    transition: opacity 0.25s ease-in-out;
     width: 100%;
 
     > *:not(:first-child) {
@@ -84,7 +84,6 @@ section {
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-
     }
 
     .tool {
@@ -92,14 +91,10 @@ section {
       opacity: 0.6;
 
       &.launch {
-
         .launched {
           opacity: 1;
         }
-
       }
     }
-
   }
-
 }

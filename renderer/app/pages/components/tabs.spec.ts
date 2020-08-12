@@ -8,7 +8,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('TabsComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -35,7 +34,12 @@ describe('TabsComponent', () => {
   test('remove', () => {
     const fixture = TestBed.createComponent(TabsComponent);
     const component = fixture.componentInstance;
-    const tab: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'a' };
+    const tab: Tab = {
+      color: 'c',
+      icon: ['i', 'j'],
+      label: 'l',
+      layoutID: 'a'
+    };
     component.tabs.newTab({ tab });
     expect(component.tabs.snapshot.length).toBe(2);
     component.remove(tab);
@@ -45,9 +49,13 @@ describe('TabsComponent', () => {
   test('select', () => {
     const fixture = TestBed.createComponent(TabsComponent);
     const component = fixture.componentInstance;
-    const tab: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'a' };
+    const tab: Tab = {
+      color: 'c',
+      icon: ['i', 'j'],
+      label: 'l',
+      layoutID: 'a'
+    };
     component.select(tab);
     expect(component.selection.layoutID).toBe('a');
   });
-
 });

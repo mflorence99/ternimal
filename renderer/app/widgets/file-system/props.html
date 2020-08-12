@@ -1,93 +1,58 @@
 <section>
-
   <header>
-
-    <div 
-      class="icon">
-
+    <div class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
         [fixedWidth]="true"
         [icon]="desc.icon"
         [ngStyle]="{color: desc.color}"
-        size=lg>
+        size="lg"
+      >
       </fa-icon>
-
     </div>
 
-    <div
-      class="name">
-
+    <div class="name">
       <h3>
         {{ desc.name | ternimalBreakable:14 }}
       </h3>
 
-      <p 
-        *ngIf="descs.length > 1">
+      <p *ngIf="descs.length > 1">
         + {{ descs.length - 1 }} others
       </p>
-
     </div>
-
   </header>
 
-  <form
-    [formGroup]="propsForm"
-    novalidate
-    spellcheck="false">
-
-    <div
-      class="permissions">
-
+  <form [formGroup]="propsForm" novalidate spellcheck="false">
+    <div class="permissions">
       <div>&nbsp;</div>
       <div><b>+R</b></div>
       <div><b>+W</b></div>
       <div><b>+X</b></div>
 
-      <ng-container
-        *ngIf="descs.length === 1">
+      <ng-container *ngIf="descs.length === 1">
+        <ng-container [formGroupName]="perm[0]" *ngFor="let perm of perms">
+          <div class="tag">{{ perm[1] }}</div>
 
-        <ng-container
-          [formGroupName]="perm[0]"
-          *ngFor="let perm of perms">
-
-        <div class="tag">{{ perm[1] }}</div>
-
-          <mat-checkbox
-            [formControlName]="flag"
-            *ngFor="let flag of flags">
+          <mat-checkbox [formControlName]="flag" *ngFor="let flag of flags">
           </mat-checkbox>
-
         </ng-container>
-
       </ng-container>
 
-      <ng-container
-        *ngIf="descs.length > 1">
-
-        <ng-container
-          [formGroupName]="perm[0]"
-          *ngFor="let perm of perms">
-
-        <div class="tag">{{ perm[1] }}</div>
+      <ng-container *ngIf="descs.length > 1">
+        <ng-container [formGroupName]="perm[0]" *ngFor="let perm of perms">
+          <div class="tag">{{ perm[1] }}</div>
 
           <ternimal-tristate
             [formControlName]="flag"
-            *ngFor="let flag of flags">
+            *ngFor="let flag of flags"
+          >
           </ternimal-tristate>
-
         </ng-container>
-
       </ng-container>
-
     </div>
 
-    <table
-      *ngIf="descs.length === 1"
-      class="info">
-
-      <tr
-        *ngIf="!desc.isDirectory">
+    <table *ngIf="descs.length === 1" class="info">
+      <tr *ngIf="!desc.isDirectory">
         <td>Size</td>
         <td class="size">
           {{ desc.size| ternimalNumeral:'0,0' }}
@@ -135,9 +100,6 @@
           {{ desc.group }}
         </td>
       </tr>
-
     </table>
-
   </form>
-
 </section>

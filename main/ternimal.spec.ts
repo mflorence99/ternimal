@@ -7,7 +7,6 @@ import * as electron from 'electron';
 import * as path from 'path';
 
 describe('ternimal', () => {
-
   beforeEach(() => {
     const theWindow = globalThis.theWindow;
     theWindow?.loadURL.mockReset();
@@ -42,7 +41,12 @@ describe('ternimal', () => {
     const callbacks = electron['callbacks'];
     callbacks['ready']();
     callbacks['move']();
-    expect(store.get('theWindow.bounds')).toEqual({ x: 1, y: 2, width: 3, height: 4 });
+    expect(store.get('theWindow.bounds')).toEqual({
+      x: 1,
+      y: 2,
+      width: 3,
+      height: 4
+    });
   });
 
   test('window-all-closed', () => {
@@ -50,5 +54,4 @@ describe('ternimal', () => {
     callbacks['window-all-closed']();
     expect(electron.app.quit).toHaveBeenCalled();
   });
-
 });

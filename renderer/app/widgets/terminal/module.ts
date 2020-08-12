@@ -4,29 +4,15 @@ import { TerminalComponent } from './root';
 
 import { NgModule } from '@angular/core';
 
-const COMPONENTS = [
-  TerminalComponent
-];
+const COMPONENTS = [TerminalComponent];
 
-const MODULES = [
-  BarrelModule,
-  CommonComponentsModule
-];
+const MODULES = [BarrelModule, CommonComponentsModule];
 
 @NgModule({
+  declarations: [...COMPONENTS],
 
-  declarations: [
-    ...COMPONENTS
-  ],
+  exports: [...COMPONENTS],
 
-  exports: [
-    ...COMPONENTS
-  ],
-
-  imports: [
-    ...MODULES
-  ]
-
+  imports: [...MODULES]
 })
-
-export class TerminalModule { }
+export class TerminalModule {}

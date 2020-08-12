@@ -5,19 +5,25 @@ import { Params } from '../services/params';
 import { prepare } from './state.spec';
 
 describe('LayoutState', () => {
-
   let bundle: Bundle;
 
   beforeEach(() => {
     bundle = prepare();
-    bundle.layout.setState({ [Params.initialLayoutID]: LayoutState.defaultLayout() });
+    bundle.layout.setState({
+      [Params.initialLayoutID]: LayoutState.defaultLayout()
+    });
   });
 
   test('makeSplit/closeSplit - vertical', () => {
     const splitID = bundle.layout.snapshot[Params.initialLayoutID].id;
     let layout = bundle.layout.findSplitByID(splitID);
     expect(layout.splits.length).toBe(1);
-    bundle.layout.makeSplit({ splitID, ix: 0, direction: 'vertical', before: true });
+    bundle.layout.makeSplit({
+      splitID,
+      ix: 0,
+      direction: 'vertical',
+      before: true
+    });
     layout = bundle.layout.findSplitByID(splitID);
     expect(layout.splits.length).toBe(2);
     expect(layout.splits[0].size).toBe(50);
@@ -34,7 +40,12 @@ describe('LayoutState', () => {
     const splitID = bundle.layout.snapshot[Params.initialLayoutID].id;
     let layout = bundle.layout.findSplitByID(splitID);
     expect(layout.splits.length).toBe(1);
-    bundle.layout.makeSplit({ splitID, ix: 0, direction: 'horizontal', before: false });
+    bundle.layout.makeSplit({
+      splitID,
+      ix: 0,
+      direction: 'horizontal',
+      before: false
+    });
     layout = bundle.layout.findSplitByID(splitID);
     expect(layout.splits.length).toBe(1);
     expect(layout.splits[0].direction).toBe('horizontal');
@@ -54,7 +65,12 @@ describe('LayoutState', () => {
     const splitID = bundle.layout.snapshot[Params.initialLayoutID].id;
     let layout = bundle.layout.findSplitByID(splitID);
     expect(layout.splits.length).toBe(1);
-    bundle.layout.makeSplit({ splitID, ix: 0, direction: 'vertical', before: true });
+    bundle.layout.makeSplit({
+      splitID,
+      ix: 0,
+      direction: 'vertical',
+      before: true
+    });
     layout = bundle.layout.findSplitByID(splitID);
     expect(layout.splits.length).toBe(2);
     expect(layout.splits[0].size).toBe(50);
@@ -67,7 +83,7 @@ describe('LayoutState', () => {
 
   test('newLayout/remove', () => {
     expect(bundle.layout.snapshot['x']).toBeFalsy();
-    bundle.layout.newLayout({ layoutID : 'x' });
+    bundle.layout.newLayout({ layoutID: 'x' });
     expect(bundle.layout.snapshot['x']).toBeTruthy();
     const fn = jest.fn();
     bundle.layout.remove({ layoutID: 'x', visitor: fn });
@@ -83,8 +99,10 @@ describe('LayoutState', () => {
 
   test('visitSplits', () => {
     const fn = jest.fn();
-    bundle.layout.visitSplits(bundle.layout.snapshot[Params.initialLayoutID], fn);
+    bundle.layout.visitSplits(
+      bundle.layout.snapshot[Params.initialLayoutID],
+      fn
+    );
     expect(fn).toHaveBeenCalled();
   });
-
 });

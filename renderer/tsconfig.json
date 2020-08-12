@@ -12,11 +12,6 @@
     "**/*.spec.ts"
   ],
   "extends": "../tsconfig.json",
-  "files": [
-    "main.ts",
-    "polyfills.ts"
-  ],
-  "include": [
-    "../common/**/*.ts"
-  ]
+  "files": ["main.ts", "polyfills.ts"],
+  "include": ["../common/**/*.ts"]
 }

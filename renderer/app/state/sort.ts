@@ -31,11 +31,9 @@ export type SortStateModel = Record<string, Record<string, ColumnSort>>;
 @StateRepository()
 @State<SortStateModel>({
   name: 'sort',
-  defaults: { }
+  defaults: {}
 })
-
 export class SortState extends NgxsDataRepository<SortStateModel> {
-
   static defaultSort(): ColumnSort {
     return {
       sortDir: 1,
@@ -52,9 +50,12 @@ export class SortState extends NgxsDataRepository<SortStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  update(@Payload('SortState.update') { splitID, tableID, columnSort }: DataActionParams): void {
+  update(
+    @Payload('SortState.update')
+    { splitID, tableID, columnSort }: DataActionParams
+  ): void {
     if (!this.ctx.getState()[splitID])
-      this.ctx.setState(patch({ [splitID]: { } }));
+      this.ctx.setState(patch({ [splitID]: {} }));
     this.ctx.setState(patch({ [splitID]: patch({ [tableID]: columnSort }) }));
   }
 
@@ -63,5 +64,4 @@ export class SortState extends NgxsDataRepository<SortStateModel> {
   columnSort(splitID: string, tableID: string): ColumnSort {
     return this.snapshot[splitID]?.[tableID] ?? SortState.defaultSort();
   }
-
 }

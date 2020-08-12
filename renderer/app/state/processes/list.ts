@@ -16,7 +16,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { timer } from 'rxjs';
 
 interface DataActionParams {
-  processList: ProcessList
+  processList: ProcessList;
 }
 
 interface Timeline {
@@ -44,18 +44,19 @@ export type ProcessListStateModel = ProcessStats[];
 @StateRepository()
 @State<ProcessListStateModel>({
   name: 'processList',
-  defaults: [ ]
+  defaults: []
 })
-
-export class ProcessListState extends NgxsDataRepository<ProcessListStateModel> implements NgxsOnInit {
-
+export class ProcessListState extends NgxsDataRepository<ProcessListStateModel>
+  implements NgxsOnInit {
   private accrueCPU;
   private accrueMemory;
   private polling = false;
 
-  constructor(public electron: ElectronService,
-              private params: Params,
-              private utils: Utils) {  
+  constructor(
+    public electron: ElectronService,
+    private params: Params,
+    private utils: Utils
+  ) {
     super();
     this.accrueCPU = this.accrue('cpu');
     this.accrueMemory = this.accrue('memory');
@@ -64,21 +65,25 @@ export class ProcessListState extends NgxsDataRepository<ProcessListStateModel> 
   // actions
 
   @DataAction({ insideZone: true })
-  update(@Payload('ProcessListState.update') { processList }: DataActionParams): void {
-    const processes = processList.map((ps: ProcessDescriptor): ProcessStats => {
-      return {
-        ...ps,
-        cpuTimeline: this.accrueCPU(ps),
-        memoryTimeline: this.accrueMemory(ps)
-      };
-    });
+  update(
+    @Payload('ProcessListState.update') { processList }: DataActionParams
+  ): void {
+    const processes = processList.map(
+      (ps: ProcessDescriptor): ProcessStats => {
+        return {
+          ...ps,
+          cpuTimeline: this.accrueCPU(ps),
+          memoryTimeline: this.accrueMemory(ps)
+        };
+      }
+    );
     this.ctx.setState(processes);
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */
 
   ngxsOnInit(): void {
-    super.ngxsOnInit(); 
+    super.ngxsOnInit();
     this.rcvProcessList$();
   }
 
@@ -92,9 +97,11 @@ export class ProcessListState extends NgxsDataRepository<ProcessListStateModel> 
   // private methods
 
   private accrue(attr: string): Function {
-    const timelines: Record<string, Timeline> = { };
-    const indexes: Record<string, number> = { };
-    const numPoints = this.params.processList.maxTimeline / this.params.processList.pollInterval;
+    const timelines: Record<string, Timeline> = {};
+    const indexes: Record<string, number> = {};
+    const numPoints =
+      this.params.processList.maxTimeline /
+      this.params.processList.pollInterval;
     // perform actual accrual
     return (ps: ProcessDescriptor): Timeline => {
       let timeline = timelines[ps.pid];
@@ -121,17 +128,17 @@ export class ProcessListState extends NgxsDataRepository<ProcessListStateModel> 
   }
 
   private pollProcessList$(): void {
-    timer(0, this.params.processList.pollInterval)
-      .subscribe(() => {
-        this.electron.ipcRenderer.send(Channels.processListRequest);
-      });
+    timer(0, this.params.processList.pollInterval).subscribe(() => {
+      this.electron.ipcRenderer.send(Channels.processListRequest);
+    });
   }
 
   private rcvProcessList$(): void {
-    this.electron.ipcRenderer
-      .on(Channels.processListResponse, (_, processList: ProcessList) => {
+    this.electron.ipcRenderer.on(
+      Channels.processListResponse,
+      (_, processList: ProcessList) => {
         this.update({ processList });
-      });
+      }
+    );
   }
-
 }

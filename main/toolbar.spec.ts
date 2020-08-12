@@ -8,7 +8,6 @@ import * as electron from 'electron';
 const { BrowserWindow } = electron;
 
 describe('toolbar', () => {
-
   let theWindow;
 
   beforeEach(() => {
@@ -27,5 +26,4 @@ describe('toolbar', () => {
     callbacks[Channels.reload]();
     expect(theWindow.webContents.reload).toHaveBeenCalled();
   });
-
 });

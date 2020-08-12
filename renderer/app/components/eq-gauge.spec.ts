@@ -7,7 +7,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('EqGaugeComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -34,5 +33,4 @@ describe('EqGaugeComponent', () => {
     expect(component.color(10)).toBe(`var(${component.params.rgb.red})`);
     expect(component.color(12)).toBe('var(--mat-grey-800)');
   });
-
 });

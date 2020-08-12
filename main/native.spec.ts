@@ -6,12 +6,10 @@ import * as electron from 'electron';
 const { BrowserWindow } = electron;
 
 describe('native', () => {
-
   let theWindow;
 
   beforeEach(() => {
     theWindow = new BrowserWindow({});
     globalThis.theWindow = theWindow;
   });
-
 });

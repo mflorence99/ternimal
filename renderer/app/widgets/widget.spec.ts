@@ -10,7 +10,6 @@ import { NgxsModule } from '@ngxs/store';
 import { TestBed } from '@angular/core/testing';
 
 export function prepare(): void {
-
   TestBed.configureTestingModule({
     imports: [
       BarrelModule,
@@ -24,13 +23,10 @@ export function prepare(): void {
   (electron.ipcRenderer.on as any).mockReset();
   (electron.ipcRenderer.send as any).mockReset();
   (electron.ipcRenderer.sendSync as any).mockReset();
-
 }
 
 describe('Widgets tests helpers', () => {
-
   test('Dummy test', () => {
     expect(true).toBeTruthy();
   });
-
 });

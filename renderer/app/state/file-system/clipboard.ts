@@ -31,13 +31,15 @@ export interface FileSystemClipboardStateModel {
 @State<FileSystemClipboardStateModel>({
   name: 'fileSystemClipboard',
   defaults: FileSystemClipboardState.defaultState()
-}) 
-
-export class FileSystemClipboardState extends NgxsDataRepository<FileSystemClipboardStateModel> implements NgxsOnInit  {
-
-  constructor(private actions$: Actions,
-              public electron: ElectronService,
-              private utils: Utils) {
+})
+export class FileSystemClipboardState
+  extends NgxsDataRepository<FileSystemClipboardStateModel>
+  implements NgxsOnInit {
+  constructor(
+    private actions$: Actions,
+    public electron: ElectronService,
+    private utils: Utils
+  ) {
     super();
   }
 
@@ -51,7 +53,9 @@ export class FileSystemClipboardState extends NgxsDataRepository<FileSystemClipb
   // actions
 
   @DataAction({ insideZone: true })
-  update(@Payload('FileSystemClipboardState.update') { op, paths }: DataActionParams): void {
+  update(
+    @Payload('FileSystemClipboardState.update') { op, paths }: DataActionParams
+  ): void {
     this.ctx.setState({ op, paths });
   }
 
@@ -76,8 +80,10 @@ export class FileSystemClipboardState extends NgxsDataRepository<FileSystemClipb
     this.actions$
       .pipe(
         filter(({ action, status }) => {
-          return this.utils.hasProperty(action, /FileSystemFilesState/)
-            && (status === 'SUCCESSFUL');
+          return (
+            this.utils.hasProperty(action, /FileSystemFilesState/) &&
+            status === 'SUCCESSFUL'
+          );
         })
       )
       .subscribe(() => this.validate());
@@ -95,9 +101,8 @@ export class FileSystemClipboardState extends NgxsDataRepository<FileSystemClipb
     }, []);
     // if that changed, reset clipboard
     if (delta) {
-      const op = (paths.length > 0) ? state.op : 'clear';
+      const op = paths.length > 0 ? state.op : 'clear';
       this.update({ op, paths });
     }
   }
-
 }

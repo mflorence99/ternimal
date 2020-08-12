@@ -2,8 +2,8 @@
   (cdkDropListDropped)="drop($event)"
   (onResize)="handleResize($event)"
   cdkDropList
-  cdkDropListOrientation="horizontal">
-
+  cdkDropListOrientation="horizontal"
+>
   <li
     (click)="select(tab)"
     (onResize)="measureTab($event)"
@@ -13,26 +13,21 @@
     cdkDrag
     cdkDragLockAxis="x"
     class="tab"
-    matRipple>
+    matRipple
+  >
+    <div *cdkDragPreview></div>
 
-    <div 
-      *cdkDragPreview>
-    </div>
-
-    <div 
-      class="icon">
-
+    <div class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
         [fixedWidth]="true"
         [icon]="tab.icon"
-        [ngStyle]="{color: tab.color}">
+        [ngStyle]="{color: tab.color}"
+      >
       </fa-icon>
-
     </div>
 
-    <div
-      class="label">
+    <div class="label">
       {{ tab.label }}
     </div>
 
@@ -42,9 +37,9 @@
       *ngIf="tabs.snapshot.length > 1"
       class="closer"
       matTooltip="Remove this tab"
-      size="sm">
+      size="sm"
+    >
     </fa-icon>
-
   </li>
 
   <li
@@ -54,28 +49,29 @@
     *ngIf="inMore.length > 0"
     cdkDrag
     cdkDragLockAxis="x"
-    class="more">
-
-    <div 
-      *cdkDragPreview>
+    class="more"
+  >
+    <div *cdkDragPreview>
       More tabs...
     </div>
 
     <select
       (change)="select(inMore[$event.target.selectedIndex - 1])"
-      autoComplete="off"
-      tabIndex=0>
-
+      autocomplete="off"
+      tabindex="0"
+    >
       <option
         [attr.selected]="!isInMore(selection.layoutID)? true : null"
-        [value]="null">
+        [value]="null"
+      >
         More tabs...
       </option>
 
       <option
         [attr.selected]="(tab.layoutID === selection.layoutID)? true : null"
         [value]="tab.layoutID"
-        *ngFor="let tab of inMore">
+        *ngFor="let tab of inMore"
+      >
         {{ tab.label }}
       </option>
     </select>
@@ -86,7 +82,8 @@
       *ngIf="isInMore(selection.layoutID)"
       class="closer"
       matTooltip="Remove this tab"
-      size="sm">
+      size="sm"
+    >
     </fa-icon>
 
     <fa-icon
@@ -94,9 +91,8 @@
       cdkDragHandle
       class="mover"
       matTooltip="Move all these tabs"
-      size="sm">
+      size="sm"
+    >
     </fa-icon>
-
   </li>
-
 </nav>

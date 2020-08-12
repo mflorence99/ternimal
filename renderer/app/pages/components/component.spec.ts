@@ -21,7 +21,6 @@ export class MockElementRef extends ElementRef {
 }
 
 export function prepare(): void {
-
   TestBed.configureTestingModule({
     imports: [
       BarrelModule,
@@ -41,13 +40,10 @@ export function prepare(): void {
   (electron.ipcRenderer.on as any).mockReset();
   (electron.ipcRenderer.send as any).mockReset();
   (electron.ipcRenderer.sendSync as any).mockReset();
-
 }
 
 describe('Components tests helpers', () => {
-
   test('Dummy test', () => {
     expect(true).toBeTruthy();
   });
-
 });

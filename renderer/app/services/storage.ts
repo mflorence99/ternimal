@@ -5,10 +5,9 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class StorageService implements Storage {
-
   length = 0;
 
-  constructor(public electron: ElectronService) { }
+  constructor(public electron: ElectronService) {}
 
   // @see https://developer.mozilla.org/en-US/docs/Web/API/Storage
 
@@ -17,7 +16,10 @@ export class StorageService implements Storage {
   }
 
   getItem(key: string): any {
-    return this.electron.ipcRenderer.sendSync(Channels.localStorageGetItem, key);
+    return this.electron.ipcRenderer.sendSync(
+      Channels.localStorageGetItem,
+      key
+    );
   }
 
   key(n: number): string {
@@ -31,5 +33,4 @@ export class StorageService implements Storage {
   setItem(key: string, value: any): void {
     this.electron.ipcRenderer.send(Channels.localStorageSetItem, key, value);
   }
-
 }

@@ -15,11 +15,6 @@ const MODULES = [
 ];
 
 @NgModule({
-
-  imports: [
-    ...MODULES
-  ]
-  
+  imports: [...MODULES]
 })
-
-export class WidgetsModule { }
+export class WidgetsModule {}

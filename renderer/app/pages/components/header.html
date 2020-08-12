@@ -1,32 +1,21 @@
 <header>
+  <ternimal-tabs class="tabs"> </ternimal-tabs>
 
-  <ternimal-tabs
-    class="tabs">
-  </ternimal-tabs>
+  <ternimal-system-info class="system-info"> </ternimal-system-info>
 
-  <ternimal-system-info
-    class="system-info">
-  </ternimal-system-info>
+  <ternimal-toolbar class="toolbar"> </ternimal-toolbar>
 
-  <ternimal-toolbar
-    class="toolbar">
-  </ternimal-toolbar>
-
-  <div
-    class="border">
-
+  <div class="border">
     <div
       [ngClass]="{selected: isTabsSelected(tab)}"
       *ngFor="let tab of tabs.inTabs"
-      class="tab-proxy">
-    </div>
+      class="tab-proxy"
+    ></div>
 
     <div
       [ngClass]="{selected: isMoreSelected()}"
       *ngIf="tabs.inMore.length > 0"
-      class="more-proxy">
-    </div>
-
+      class="more-proxy"
+    ></div>
   </div>
-
 </header>

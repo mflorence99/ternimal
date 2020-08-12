@@ -1,39 +1,29 @@
 <section>
-
   <header>
-
-    <div 
-      class="icon">
-
+    <div class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
         [fixedWidth]="true"
         [icon]="widget.widgetLaunch.icon"
         [ngStyle]="{color: tabs.tab.color}"
-        size=lg>
+        size="lg"
+      >
       </fa-icon>
-
     </div>
 
     <h3>
       File System Setup
     </h3>
-
   </header>
 
-  <form
-    [formGroup]="prefsForm"
-    novalidate
-    spellcheck="false">
-
-    <ul
-      class="tabs">
-
+  <form [formGroup]="prefsForm" novalidate spellcheck="false">
+    <ul class="tabs">
       <li
         (click)="rescope('global')"
         [ngClass]="{selected: prefs.scope === 'global'}"
         class="tab"
-        matRipple>
+        matRipple
+      >
         Global
       </li>
 
@@ -41,7 +31,8 @@
         (click)="rescope('byLayoutID')"
         [ngClass]="{selected: prefs.scope === 'byLayoutID'}"
         class="tab"
-        matRipple>
+        matRipple
+      >
         {{ tabs.tab.label }}
       </li>
 
@@ -49,35 +40,32 @@
         (click)="rescope('bySplitID')"
         [ngClass]="{selected: prefs.scope === 'bySplitID'}"
         class="tab"
-        matRipple>
+        matRipple
+      >
         This panel
       </li>
-
     </ul>
 
     <mat-accordion>
-
-      <mat-expansion-panel
-        [expanded]="true">
-
+      <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Content
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div 
-          class="group">
-
+        <div class="group">
           <mat-checkbox
             *ngIf="prefs.scope === 'global'"
-            formControlName="showHiddenFiles">
+            formControlName="showHiddenFiles"
+          >
             Show hidden files
           </mat-checkbox>
 
           <ternimal-tristate
             *ngIf="prefs.scope !== 'global'"
-            formControlName="showHiddenFiles">
+            formControlName="showHiddenFiles"
+          >
             Show hidden files
           </ternimal-tristate>
 
@@ -85,53 +73,47 @@
 
           <ng-container
             *ngIf="prefs.scope === 'global'"
-            formGroupName="visibility">
-
+            formGroupName="visibility"
+          >
             <mat-checkbox
               [formControlName]="dict.name"
-              *ngFor="let dict of prefs.dictionary">
+              *ngFor="let dict of prefs.dictionary"
+            >
               Show {{ dict.tag }}
             </mat-checkbox>
-
           </ng-container>
 
           <ng-container
             *ngIf="prefs.scope !== 'global'"
-            formGroupName="visibility">
-
+            formGroupName="visibility"
+          >
             <ternimal-tristate
               [formControlName]="dict.name"
-              *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
+              *ngFor="let dict of prefs.dictionary; trackBy: trackByDict"
+            >
               Show {{ dict.tag }}
             </ternimal-tristate>
-
           </ng-container>
-
         </div>
-
       </mat-expansion-panel>
 
-      <mat-expansion-panel
-        [expanded]="false">
-
+      <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Sort Options
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <mat-radio-group
-          class="group"
-          formControlName="sortDirectories">
-
+        <mat-radio-group class="group" formControlName="sortDirectories">
           <label class="label">
             How to Sort Directories
           </label>
 
-          <mat-radio-button 
+          <mat-radio-button
             [value]="null"
             *ngIf="prefs.scope !== 'global'"
-            color="warn">
+            color="warn"
+          >
             Default
           </mat-radio-button>
           <mat-radio-button value="alpha">
@@ -143,32 +125,26 @@
           <mat-radio-button value="last">
             After all files
           </mat-radio-button>
-
         </mat-radio-group>
-
       </mat-expansion-panel>
 
-      <mat-expansion-panel
-        [expanded]="false">
-
+      <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Formatting Options
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <mat-radio-group
-          class="group"
-          formControlName="quantityFormat">
-
+        <mat-radio-group class="group" formControlName="quantityFormat">
           <label class="label">
             How to Show Size
           </label>
 
-          <mat-radio-button 
+          <mat-radio-button
             [value]="null"
             *ngIf="prefs.scope !== 'global'"
-            color="warn">
+            color="warn"
+          >
             Default
           </mat-radio-button>
           <mat-radio-button value="number">
@@ -180,14 +156,10 @@
           <mat-radio-button value="bytes">
             {{ size | ternimalNumeral:'0b' }}
           </mat-radio-button>
-
         </mat-radio-group>
-
       </mat-expansion-panel>
 
-      <mat-expansion-panel
-        [expanded]="false">
-
+      <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Date and Time
@@ -195,19 +167,16 @@
         </mat-expansion-panel-header>
 
         <div class="group outer">
-
-          <mat-radio-group
-            class="group"
-            formControlName="dateFormat">
-
+          <mat-radio-group class="group" formControlName="dateFormat">
             <label class="label">
               Select Date Format
             </label>
 
-            <mat-radio-button 
+            <mat-radio-button
               [value]="null"
               *ngIf="prefs.scope !== 'global'"
-              color="warn">
+              color="warn"
+            >
               Default
             </mat-radio-button>
             <mat-radio-button value="ago">
@@ -225,21 +194,18 @@
             <mat-radio-button value="fullDate">
               {{ today | date:'fullDate' }}
             </mat-radio-button>
-
           </mat-radio-group>
 
-          <mat-radio-group
-            class="group"
-            formControlName="timeFormat">
-
+          <mat-radio-group class="group" formControlName="timeFormat">
             <label class="label">
               Select Time Format
             </label>
 
-            <mat-radio-button 
+            <mat-radio-button
               [value]="null"
               *ngIf="prefs.scope !== 'global'"
-              color="warn">
+              color="warn"
+            >
               Default
             </mat-radio-button>
             <mat-radio-button value="none">
@@ -257,15 +223,9 @@
             <mat-radio-button value="fullTime">
               {{ today | date:'fullTime' }}
             </mat-radio-button>
-
           </mat-radio-group>
-
         </div>
-
       </mat-expansion-panel>
-
     </mat-accordion>
-
   </form>
-
 </section>

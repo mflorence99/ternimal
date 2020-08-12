@@ -1,13 +1,34 @@
 {
+  "name": "ternimal",
+  "version": "0.0.0",
+  "description": "CLI Swiss Army knife",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mflorence99/lintel.git"
+  },
   "author": "Mark Florence",
   "bugs": {
     "email": "mflo999@gmail.com",
     "url": "https://github.com/mflorence99/lintel/issues"
   },
-  "build": {
-    "appId": "ternimal"
+  "main": "./dist/main/ternimal.js",
+  "scripts": {
+    "build:main": "tsc -p main/tsconfig.json",
+    "build:renderer": "ng build",
+    "clean:caches": "jest --clearCache",
+    "clean:config": "rm -f ~/.config/ternimal/config.dev.json",
+    "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
+    "electron:main": "npm run build:main && DEV_MODE=1 electron . --ignore-gpu-blacklist",
+    "electron:renderer": "ng serve",
+    "lint": "eslint --fix 'bin/**/*.ts' 'common/**/*.ts' 'main/**/*.ts' 'renderer/app/**/*.ts' && stylelint --fix 'renderer/**/*.css' 'renderer/**/*.scss'",
+    "postinstall": "ngcc",
+    "prettier": "prettier --write .",
+    "test": "jest --runInBand --coverage && ts-node --dir bin coverage-icon.ts",
+    "test:only": "jest --coverage=false -- %1",
+    "test:watch": "jest --watch"
   },
-  "description": "CLI Swiss Army knife",
+  "dependencies": {},
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1000.3",
     "@angular/animations": "^10.0.4",
@@ -48,6 +69,7 @@
     "electron-store": "^6.0.0",
     "eslint": "^7.4.0",
     "eslint-config-mflorence99": "^1.1.1",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import-splitnsort": "^0.1.4",
     "eslint-plugin-jest": "^23.18.0",
     "filewatcher": "^3.0.1",
@@ -63,6 +85,8 @@
     "numeral": "^2.0.6",
     "os-utils": "0.0.14",
     "pidusage": "^2.0.21",
+    "prettier": "2.0.5",
+    "prettier-plugin-package": "^1.0.0",
     "ps-list": "^7.2.0",
     "rfdc": "^1.1.4",
     "rimraf": "^3.0.2",
@@ -86,27 +110,7 @@
     "xterm-addon-web-links": "^0.4.0",
     "zone.js": "^0.10.3"
   },
-  "license": "MIT",
-  "main": "./dist/main/ternimal.js",
-  "name": "ternimal",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mflorence99/lintel.git"
-  },
-  "scripts": {
-    "build:main": "tsc -p main/tsconfig.json",
-    "build:renderer": "ng build",
-    "clean:caches": "jest --clearCache",
-    "clean:config": "rm -f ~/.config/ternimal/config.dev.json",
-    "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
-    "electron:main": "npm run build:main && DEV_MODE=1 electron . --ignore-gpu-blacklist",
-    "electron:renderer": "ng serve",
-    "lint": "eslint --fix 'bin/**/*.ts' 'common/**/*.ts' 'main/**/*.ts' 'renderer/app/**/*.ts' && stylelint --fix 'renderer/**/*.css' 'renderer/**/*.scss'",
-    "postinstall": "ngcc",
-    "test": "jest --runInBand --coverage && ts-node --dir bin coverage-icon.ts",
-    "test:only": "jest --coverage=false -- %1",
-    "test:watch": "jest --watch"
-  },
-  "version": "0.0.0",
-  "dependencies": {}
+  "build": {
+    "appId": "ternimal"
+  }
 }

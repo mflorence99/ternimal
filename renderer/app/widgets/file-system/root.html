@@ -2,50 +2,31 @@
   [hydrate]="true"
   [hydrateTrace]="false"
   [splitID]="splitID"
-  [tableID]="tableID">
-
+  [tableID]="tableID"
+>
   <thead>
     <tr>
-
-      <ng-container
-        *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
-
+      <ng-container *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
         <th
           *ngIf="effectivePrefs.visibility[dict.name]"
           [id]="dict.name"
-          sortable>
+          sortable
+        >
           {{ dict.tag }}
         </th>
-
       </ng-container>
 
       <th></th>
-
     </tr>
   </thead>
 
   <tbody>
-
-    <tr
-      *ngFor="let desc of descs; trackBy: trackByDesc"
-      [id]="desc.path">
-
-      <ng-container
-        *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
-
-        <td
-          [ngClass]="dict.name"
-          *ngIf="effectivePrefs.visibility[dict.name]">
-
-          <ng-container
-            *ngIf="table.isHydrated(desc.path)">
-
-            <ng-container
-              *ngIf="['name'].includes(dict.name)">
-
-              <span
-                [ngStyle]="{'padding-left.rem': level(desc)}">
-              </span>
+    <tr *ngFor="let desc of descs; trackBy: trackByDesc" [id]="desc.path">
+      <ng-container *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
+        <td [ngClass]="dict.name" *ngIf="effectivePrefs.visibility[dict.name]">
+          <ng-container *ngIf="table.isHydrated(desc.path)">
+            <ng-container *ngIf="['name'].includes(dict.name)">
+              <span [ngStyle]="{'padding-left.rem': level(desc)}"> </span>
 
               <fa-icon
                 (click)="loadPath(desc.path)"
@@ -53,17 +34,18 @@
                 [icon]="loading[desc.path]? ['far', 'clock'] : ['fas', 'caret-right']"
                 [ngStyle]="{cursor: loading[desc.path]? 'progress' : 'pointer', visibility: desc.isDirectory && !isEmpty(desc.path)? 'visible' : 'hidden'}"
                 [pulse]="loading[desc.path]"
-                [rotate]="paths.isOpen(splitID, desc.path)? 90 : 0">
+                [rotate]="paths.isOpen(splitID, desc.path)? 90 : 0"
+              >
               </fa-icon>
 
               <ng-container>
-
                 <fa-icon
                   [fixedWidth]="true"
                   [icon]="['fas', isCut(desc.path)? 'cut' : 'clipboard']"
                   [ngStyle]="{color: 'var(--text-color)'}"
                   *ngIf="isClipped(desc.path)"
-                  size="sm">
+                  size="sm"
+                >
                 </fa-icon>
 
                 <fa-icon
@@ -71,7 +53,8 @@
                   [icon]="isEmpty(desc.path)? ['far', 'folder'] : (paths.isOpen(splitID, desc.path)? ['fas', 'folder-open'] : ['fas', 'folder'])"
                   [ngStyle]="{color: desc.color}"
                   *ngIf="!isClipped(desc.path) && desc.isDirectory"
-                  size="sm">
+                  size="sm"
+                >
                 </fa-icon>
 
                 <fa-icon
@@ -79,61 +62,55 @@
                   [icon]="desc.icon"
                   [ngStyle]="{color: desc.color}"
                   *ngIf="!isClipped(desc.path) && !desc.isDirectory"
-                  size="sm">
+                  size="sm"
+                >
                 </fa-icon>
-
               </ng-container>
 
-              {{ desc[dict.name] }} 
-
+              {{ desc[dict.name] }}
             </ng-container>
 
-            <ng-container
-              *ngIf="['size'].includes(dict.name)">
-
-              <ng-container 
-                *ngIf="desc.isFile; else noSize">
-
+            <ng-container *ngIf="['size'].includes(dict.name)">
+              <ng-container *ngIf="desc.isFile; else noSize">
                 <ng-container
-                  *ngIf="effectivePrefs.quantityFormat === 'abbrev'">
+                  *ngIf="effectivePrefs.quantityFormat === 'abbrev'"
+                >
                   {{ desc[dict.name] | ternimalNumeral:'0a' }}
                 </ng-container>
 
-                <ng-container
-                  *ngIf="effectivePrefs.quantityFormat === 'bytes'">
+                <ng-container *ngIf="effectivePrefs.quantityFormat === 'bytes'">
                   {{ desc[dict.name] | ternimalNumeral:'0b' }}
                 </ng-container>
 
                 <ng-container
-                  *ngIf="effectivePrefs.quantityFormat === 'number'">
+                  *ngIf="effectivePrefs.quantityFormat === 'number'"
+                >
                   {{ desc[dict.name] | ternimalNumeral:'0,0' }}
                 </ng-container>
-
               </ng-container>
 
               <ng-template #noSize>
                 &ndash;
               </ng-template>
-
             </ng-container>
 
             <ng-container
-              *ngIf="['mtime', 'btime', 'atime'].includes(dict.name)">
-
-              <ng-container
-                *ngIf="effectivePrefs.dateFormat === 'ago'">
+              *ngIf="['mtime', 'btime', 'atime'].includes(dict.name)"
+            >
+              <ng-container *ngIf="effectivePrefs.dateFormat === 'ago'">
                 {{ desc[dict.name] | amTimeAgo }}
               </ng-container>
 
               <ng-container
-                *ngIf="(effectivePrefs.dateFormat !== 'ago') && (effectivePrefs.timeFormat === 'none')">
+                *ngIf="(effectivePrefs.dateFormat !== 'ago') && (effectivePrefs.timeFormat === 'none')"
+              >
                 {{ desc[dict.name] | date:effectivePrefs.dateFormat }}
               </ng-container>
 
               <div
                 *ngIf="(effectivePrefs.dateFormat !== 'ago') && (effectivePrefs.timeFormat !== 'none')"
-                class="datetime">
-
+                class="datetime"
+              >
                 <div class="date">
                   {{ desc[dict.name] | date:effectivePrefs.dateFormat }}
                 </div>
@@ -141,62 +118,35 @@
                 <div class="time">
                   {{ desc[dict.name] | date:effectivePrefs.timeFormat }}
                 </div>
-
               </div>
-
             </ng-container>
 
-            <ng-container
-              *ngIf="['mode', 'user', 'group'].includes(dict.name)">
+            <ng-container *ngIf="['mode', 'user', 'group'].includes(dict.name)">
               {{ desc[dict.name] }}
             </ng-container>
-
           </ng-container>
-
         </td>
-
       </ng-container>
 
       <td></td>
-
     </tr>
-
   </tbody>
-
 </ternimal-table>
 
-<aside
-  *ngIf="isEmpty(effectivePrefs.root)">
-
-  <div
-    *ngIf="loading[effectivePrefs.root]; else empty">
-
-    <fa-icon
-      [icon]="['fas', 'spinner']"
-      [pulse]="true"
-      size="6x">
-    </fa-icon>
-
+<aside *ngIf="isEmpty(effectivePrefs.root)">
+  <div *ngIf="loading[effectivePrefs.root]; else empty">
+    <fa-icon [icon]="['fas', 'spinner']" [pulse]="true" size="6x"> </fa-icon>
   </div>
 
   <ng-template #empty>
-
     <div>
-
-      <fa-icon
-        [icon]="['fas', 'info-circle']"
-        size="6x">
-      </fa-icon>
+      <fa-icon [icon]="['fas', 'info-circle']" size="6x"> </fa-icon>
 
       No accessible contents in:
 
-      <div
-        class="path">
+      <div class="path">
         {{ effectivePrefs.root | ternimalBreakable }}
       </div>
-
     </div>
-
   </ng-template>
-  
 </aside>

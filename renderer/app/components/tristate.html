@@ -1,8 +1,9 @@
-<mat-checkbox 
-  (click)="next()" 
+<mat-checkbox
+  (click)="next()"
   [color]="(value === null) ? 'warn' : 'accent'"
-  [disabled]="disabled" 
-  [indeterminate]="value === null" 
-  [ngModel]="value">
+  [disabled]="disabled"
+  [indeterminate]="value === null"
+  [ngModel]="value"
+>
   <ng-content></ng-content>
 </mat-checkbox>

@@ -29,5 +29,7 @@ ipcMain.on(Channels.fsPathSeparator, (event: Event): void => {
 });
 
 ipcMain.on(Channels.fsRootDir, (event: Event): void => {
-  event.returnValue = ((os.platform() === 'win32') ? process.cwd().split(path.sep)[0] : '/') as any;
+  event.returnValue = (os.platform() === 'win32'
+    ? process.cwd().split(path.sep)[0]
+    : '/') as any;
 });

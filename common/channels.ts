@@ -1,5 +1,4 @@
 export enum Channels {
-  
   error = 'ternimal.error',
 
   fsChmod = 'file-system.chmod',
@@ -9,7 +8,7 @@ export enum Channels {
   fsLoadPathSuccess = 'file-system.loadPathSuccess',
   fsLoadPathFailure = 'file-system.loadPathFailure',
   fsParentDir = 'file-system.parentDir',
-  fsPathSeparator= 'file-system.pathSeparator',
+  fsPathSeparator = 'file-system.pathSeparator',
   fsRootDir = 'file-system.rootDir',
 
   localStorageClear = 'local-storage.clear',
@@ -28,5 +27,4 @@ export enum Channels {
 
   reload = 'toolbar.reload',
   systemInfo = 'ternimal.systemInfo'
-
 }

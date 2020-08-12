@@ -20,26 +20,33 @@ import { ViewChild } from '@angular/core';
   templateUrl: 'widget-sidebar.html',
   styleUrls: ['widget-sidebar.scss']
 })
-
 export class WidgetSidebarComponent implements OnInit {
+  static allWidgets: Widget[] = Object.keys(widgets).map(
+    (nm) => new widgets[nm]()
+  );
 
-  static allWidgets: Widget[] = Object.keys(widgets).map(nm => new widgets[nm]);
+  @ViewChild(WidgetHostDirective, { static: true })
+  widgetHost: WidgetHostDirective;
 
-  @ViewChild(WidgetHostDirective, { static: true }) widgetHost: WidgetHostDirective;
-
-  constructor(public panes: PanesState,
-              private resolver: ComponentFactoryResolver,
-              public selection: SelectionState,
-              public ternimal: TernimalState) { }
+  constructor(
+    public panes: PanesState,
+    private resolver: ComponentFactoryResolver,
+    public selection: SelectionState,
+    public ternimal: TernimalState
+  ) {}
 
   ngOnInit(): void {
     const panePrefs = this.panes.prefs(this.selection.splitID);
-    const widget = WidgetSidebarComponent.allWidgets.find(widget => widget.widgetLaunch.implementation === panePrefs.widget);
+    const widget = WidgetSidebarComponent.allWidgets.find(
+      (widget) => widget.widgetLaunch.implementation === panePrefs.widget
+    );
     this.widgetHost.vcRef.clear();
     // @see https://stackoverflow.com/questions/40528592
-    const cFactory = this.resolver.resolveComponentFactory(sidebars[this.ternimal.widgetSidebarImpl]);
-    const widgetPrefs = this.widgetHost.vcRef.createComponent(cFactory).instance as WidgetPrefs;
+    const cFactory = this.resolver.resolveComponentFactory(
+      sidebars[this.ternimal.widgetSidebarImpl]
+    );
+    const widgetPrefs = this.widgetHost.vcRef.createComponent(cFactory)
+      .instance as WidgetPrefs;
     widgetPrefs.widget = widget;
   }
-
 }

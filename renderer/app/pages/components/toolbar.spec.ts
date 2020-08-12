@@ -9,7 +9,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('ToolbarComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -45,5 +44,4 @@ describe('ToolbarComponent', () => {
     const channel = call[0];
     expect(channel).toEqual(Channels.reload);
   });
-
 });

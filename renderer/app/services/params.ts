@@ -1,4 +1,3 @@
-
 import { Channels } from '../common/channels';
 
 import { Injectable } from '@angular/core';
@@ -9,7 +8,6 @@ const { ipcRenderer } = window.require('electron');
 
 @Injectable({ providedIn: 'root' })
 export class Params {
-
   static homeDir = ipcRenderer.sendSync(Channels.fsHomeDir);
   static initialLayoutID: string = UUID.UUID();
   static initialSplitID: string = UUID.UUID();
@@ -22,7 +20,8 @@ export class Params {
   };
 
   log = {
-    colorize: (color): string => `background-color: ${color}; color: white; font-weight: bold; padding: 2px 4px`
+    colorize: (color): string =>
+      `background-color: ${color}; color: white; font-weight: bold; padding: 2px 4px`
   };
 
   processList = {
@@ -52,5 +51,4 @@ export class Params {
   };
 
   tabsMoveInterval = 250;
-  
 }

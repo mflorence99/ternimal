@@ -17,6 +17,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { OnInit } from '@angular/core';
 import { ResizeObserverEntry } from 'ngx-resize-observer';
 
 import { debounceTime } from 'rxjs/operators';
@@ -34,9 +35,7 @@ import { zip } from 'rxjs';
   templateUrl: 'tabs.html',
   styleUrls: ['tabs.scss']
 })
-
-export class TabsComponent {
-
+export class TabsComponent implements OnInit {
   inMore: Tab[] = [];
   inTabs: Tab[] = [];
 
@@ -44,30 +43,33 @@ export class TabsComponent {
   private moreWidth = 0;
   private tabWidth = 0;
 
-  constructor(private actions$: Actions,
-              private destroy$: DestroyService,
-              private dialog: MatDialog,
-              public layout: LayoutState,
-              public panes: PanesState,
-              private params: Params,
-              public selection: SelectionState,
-              public sort: SortState,
-              public status: StatusState,
-              public tabs: TabsState,
-              public ternimal: TernimalState,
-              private utils: Utils) { 
-    this.handleActions$();
-  }
+  constructor(
+    private actions$: Actions,
+    private destroy$: DestroyService,
+    private dialog: MatDialog,
+    public layout: LayoutState,
+    public panes: PanesState,
+    private params: Params,
+    public selection: SelectionState,
+    public sort: SortState,
+    public status: StatusState,
+    public tabs: TabsState,
+    public ternimal: TernimalState,
+    private utils: Utils
+  ) {}
 
   confirmRemove(event: MouseEvent, tab: Tab): void {
-    const message = 'Are you sure you want to proceed? This operation cannot be undone and all sessions will be terminated.';
+    const message =
+      'Are you sure you want to proceed? This operation cannot be undone and all sessions will be terminated.';
     const title = 'Confirm Tab Removal';
-    this.dialog.open(ConfirmDialogComponent, {
-      data: new ConfirmDialogModel(title, message)
-    }).afterClosed().subscribe(result => {
-      if (result)
-        this.remove(tab);
-    });
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: new ConfirmDialogModel(title, message)
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) this.remove(tab);
+      });
     // NOTE: don't select this tab
     event.preventDefault();
     event.stopPropagation();
@@ -78,7 +80,9 @@ export class TabsComponent {
       // NOTE: attempt to animate this
       zip(timer(0, this.params.tabsMoveInterval), from(event.item.data))
         .pipe(take(event.item.data.length))
-        .subscribe(([ix, tab]) => this.tabs.move({ tab, ix: event.currentIndex + ix }));
+        .subscribe(([ix, tab]) =>
+          this.tabs.move({ tab, ix: event.currentIndex + ix })
+        );
     } else this.tabs.move({ tab: event.item.data, ix: event.currentIndex });
   }
 
@@ -88,7 +92,7 @@ export class TabsComponent {
   }
 
   isInMore(layoutID: string): boolean {
-    return !!this.inMore.find(tab => layoutID === tab.layoutID);
+    return !!this.inMore.find((tab) => layoutID === tab.layoutID);
   }
 
   measureMore(resize: ResizeObserverEntry): void {
@@ -105,12 +109,16 @@ export class TabsComponent {
     }
   }
 
+  ngOnInit(): void {
+    this.handleActions$();
+  }
+
   remove(tab: Tab): void {
     const ix = this.tabs.findTabIndexByID(tab.layoutID);
     this.tabs.remove({ tab });
-    this.layout.remove({ 
+    this.layout.remove({
       layoutID: tab.layoutID,
-      visitor: split => {
+      visitor: (split) => {
         // TODO: keep in sync with close in pane.ts
         // NOTE: why not listen for an action change? Because none of these
         // states is primary -- there's no "split" state to remove
@@ -122,13 +130,15 @@ export class TabsComponent {
     // if the tab we're removing is currently selected, select another
     if (tab.layoutID === this.selection.layoutID) {
       const iy = Math.min(ix, this.tabs.snapshot.length - 1);
-      this.selection.selectLayout({ layoutID: this.tabs.snapshot[iy].layoutID });
+      this.selection.selectLayout({
+        layoutID: this.tabs.snapshot[iy].layoutID
+      });
       this.ternimal.hideTabPrefs();
     }
   }
 
   select(tab: Tab): void {
-    if (tab && (tab.layoutID !== this.selection.layoutID))
+    if (tab && tab.layoutID !== this.selection.layoutID)
       this.selection.selectLayout({ layoutID: tab.layoutID });
   }
 
@@ -138,8 +148,10 @@ export class TabsComponent {
     this.actions$
       .pipe(
         filter(({ action, status }) => {
-          return this.utils.hasProperty(action, /^TabsState\./)
-            && (status === 'SUCCESSFUL');
+          return (
+            this.utils.hasProperty(action, /^TabsState\./) &&
+            status === 'SUCCESSFUL'
+          );
         }),
         debounceTime(0),
         takeUntil(this.destroy$)
@@ -148,10 +160,15 @@ export class TabsComponent {
   }
 
   private whichTabs(): void {
-    const count = ((this.tabs.snapshot.length === 1) || (this.tabWidth === 0)) ? 1 :
-      Math.max(Math.trunc((this.containerWidth - this.moreWidth) / this.tabWidth) - 1, 0);
+    const count =
+      this.tabs.snapshot.length === 1 || this.tabWidth === 0
+        ? 1
+        : Math.max(
+            Math.trunc((this.containerWidth - this.moreWidth) / this.tabWidth) -
+              1,
+            0
+          );
     this.inMore = this.tabs.snapshot.slice(count);
     this.inTabs = this.tabs.snapshot.slice(0, count);
   }
-
 }

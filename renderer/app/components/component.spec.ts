@@ -11,7 +11,6 @@ import { NgxsModule } from '@ngxs/store';
 import { TestBed } from '@angular/core/testing';
 
 export function prepare(): void {
-
   TestBed.configureTestingModule({
     imports: [
       BarrelModule,
@@ -21,17 +20,14 @@ export function prepare(): void {
     ],
     providers: [
       // TODO: need some real objects here
-      { provide: MAT_DIALOG_DATA, useValue: { } },
-      { provide: MatDialogRef, useValue: { } }
+      { provide: MAT_DIALOG_DATA, useValue: {} },
+      { provide: MatDialogRef, useValue: {} }
     ]
   }).compileComponents();
-
 }
 
 describe('Components tests helpers', () => {
-
   test('Dummy test', () => {
     expect(true).toBeTruthy();
   });
-
 });

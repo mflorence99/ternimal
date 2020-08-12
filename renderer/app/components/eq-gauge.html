@@ -1,21 +1,15 @@
-<div 
-  class="tag">
+<div class="tag">
   {{ tag }}
 </div>
 
-<div
-  (onResize)="handleResize($event)"
-  class="gauge">
-
+<div (onResize)="handleResize($event)" class="gauge">
   <div
     [ngStyle]="{'background-color': color(ix), 'margin-right.px': params.led.gap, 'width.px': params.led.width}"
     *ngFor="let ix of count | ternimalRange"
-    class="led">
-  </div>
-
+    class="led"
+  ></div>
 </div>
 
-<div 
-  class="value">
+<div class="value">
   {{ value | percent }}
 </div>

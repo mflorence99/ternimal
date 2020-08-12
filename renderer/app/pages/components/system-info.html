@@ -1,15 +1,9 @@
 <aside>
-
-  <ternimal-eq-gauge
-    [value]="systemInfo?.cpuUsage || 0"
-    tag="CPU">
+  <ternimal-eq-gauge [value]="systemInfo?.cpuUsage || 0" tag="CPU">
   </ternimal-eq-gauge>
 
   <div class="spacer"></div>
 
-  <ternimal-eq-gauge
-    [value]="systemInfo?.memUsage || 0"
-    tag="Mem">
+  <ternimal-eq-gauge [value]="systemInfo?.memUsage || 0" tag="Mem">
   </ternimal-eq-gauge>
-
 </aside>

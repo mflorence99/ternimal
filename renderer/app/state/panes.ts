@@ -28,11 +28,9 @@ export type PanesStateModel = Record<string, PanePrefs>;
 @StateRepository()
 @State<PanesStateModel>({
   name: 'panes',
-  defaults: { }
+  defaults: {}
 })
-
 export class PanesState extends NgxsDataRepository<PanesStateModel> {
-
   static defaultPrefs(): PanePrefs {
     return {
       widget: 'TerminalComponent'
@@ -47,7 +45,9 @@ export class PanesState extends NgxsDataRepository<PanesStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  update(@Payload('PanesState.update') { splitID, prefs }: DataActionParams): void {
+  update(
+    @Payload('PanesState.update') { splitID, prefs }: DataActionParams
+  ): void {
     this.ctx.setState(patch({ [splitID]: prefs }));
   }
 
@@ -56,5 +56,4 @@ export class PanesState extends NgxsDataRepository<PanesStateModel> {
   prefs(splitID: string): PanePrefs {
     return this.snapshot[splitID] ?? PanesState.defaultPrefs();
   }
-
 }

@@ -31,7 +31,6 @@ section {
       &.outer {
         grid-gap: 1.5rem;
       }
-
     }
 
     .tabs {
@@ -46,11 +45,8 @@ section {
         &.selected {
           border-bottom-color: var(--text-color);
         }
-
       }
-
     }
-
   }
 
   header {
@@ -71,5 +67,4 @@ section {
       width: 3rem;
     }
   }
-
 }

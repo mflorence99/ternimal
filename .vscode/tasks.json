@@ -7,9 +7,7 @@
       "label": "build:main",
       "type": "npm",
       "script": "build:main",
-      "problemMatcher": [
-        "$tsc"
-      ]
+      "problemMatcher": ["$tsc"]
     }
   ]
 }

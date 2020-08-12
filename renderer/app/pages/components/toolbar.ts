@@ -19,17 +19,18 @@ import { ViewChild } from '@angular/core';
   templateUrl: 'toolbar.html',
   styleUrls: ['toolbar.scss']
 })
-
 export class ToolbarComponent {
+  @ViewChild(ContextMenuComponent, { static: true })
+  contextMenu: ContextMenuComponent;
 
-  @ViewChild(ContextMenuComponent, { static: true }) contextMenu: ContextMenuComponent;
-
-  constructor(private contextMenuService: ContextMenuService,
-              public electron: ElectronService,
-              public layout: LayoutState,
-              public selection: SelectionState,
-              public tabs: TabsState,
-              public ternimal: TernimalState) { }
+  constructor(
+    private contextMenuService: ContextMenuService,
+    public electron: ElectronService,
+    public layout: LayoutState,
+    public selection: SelectionState,
+    public tabs: TabsState,
+    public ternimal: TernimalState
+  ) {}
 
   devTools(): void {
     this.electron.ipcRenderer.send(Channels.openDevTools);
@@ -44,10 +45,13 @@ export class ToolbarComponent {
       layoutID: layoutID
     };
     this.tabs.newTab({ tab });
-    this.layout.newLayout({ layoutID, visitor: split => {
-      this.selection.selectLayout({ layoutID });
-      this.selection.selectSplit({ splitID: split.id });
-    } });
+    this.layout.newLayout({
+      layoutID,
+      visitor: (split) => {
+        this.selection.selectLayout({ layoutID });
+        this.selection.selectSplit({ splitID: split.id });
+      }
+    });
     this.ternimal.showTabPrefs();
   }
 
@@ -57,14 +61,13 @@ export class ToolbarComponent {
 
   showContextMenu(event: MouseEvent): void {
     // @see https://www.npmjs.com/package/ngx-contextmenu
-    this.contextMenuService.show.next({ 
-      contextMenu: this.contextMenu, 
-      event: event, 
-      item: null 
+    this.contextMenuService.show.next({
+      contextMenu: this.contextMenu,
+      event: event,
+      item: null
     });
     // NOTE: eat mouse click
     event.preventDefault();
     event.stopPropagation();
   }
-
 }

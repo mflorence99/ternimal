@@ -7,18 +7,16 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class DestroyService extends Observable<void> implements OnDestroy {
-
   private life$ = new Subject<void>();
 
   constructor() {
-    super(subscriber => this.life$.subscribe(subscriber));
+    super((subscriber) => this.life$.subscribe(subscriber));
   }
 
-  // NOTE: because this service is provided in each component that needs it, 
-  // it is destroyed when the component is destroyed 
+  // NOTE: because this service is provided in each component that needs it,
+  // it is destroyed when the component is destroyed
   ngOnDestroy(): void {
     this.life$.next();
     this.life$.complete();
   }
-
 }

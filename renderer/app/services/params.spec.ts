@@ -3,7 +3,6 @@ import { Params } from './params';
 import { TestBed } from '@angular/core/testing';
 
 describe('Params', () => {
-
   let params: Params;
 
   beforeEach(() => {
@@ -16,5 +15,4 @@ describe('Params', () => {
     const uuid2 = Params.initialLayoutID;
     expect(uuid1).toEqual(uuid2);
   });
-
 });

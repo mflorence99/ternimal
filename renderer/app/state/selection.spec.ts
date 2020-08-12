@@ -4,7 +4,6 @@ import { SelectionState } from './selection';
 import { prepare } from './state.spec';
 
 describe('SelectionState', () => {
-
   let bundle: Bundle;
 
   beforeEach(() => {
@@ -28,5 +27,4 @@ describe('SelectionState', () => {
     bundle.selection.selectLayout({ layoutID: 'q' });
     expect(bundle.selection.splitID).toBe('s');
   });
-
 });

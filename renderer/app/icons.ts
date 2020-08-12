@@ -9,14 +9,11 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 // @see https://stackoverflow.com/questions/55328832
 
 @NgModule({
-
   exports: [FontAwesomeModule],
   imports: [FontAwesomeModule]
-
-}) export class IconsModule {
-
+})
+export class IconsModule {
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fab, far, fas);
   }
-
 }

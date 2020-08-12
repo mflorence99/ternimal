@@ -6,6 +6,7 @@ import { SystemInfo } from '../../common/system-info';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
+import { OnInit } from '@angular/core';
 
 import { takeUntil } from 'rxjs/operators';
 import { timer } from 'rxjs';
@@ -17,14 +18,16 @@ import { timer } from 'rxjs';
   templateUrl: 'system-info.html',
   styleUrls: ['system-info.scss']
 })
-
-export class SystemInfoComponent {
-
+export class SystemInfoComponent implements OnInit {
   systemInfo: SystemInfo;
 
-  constructor(private destroy$: DestroyService,
-              public electron: ElectronService,
-              private params: Params) { 
+  constructor(
+    private destroy$: DestroyService,
+    public electron: ElectronService,
+    private params: Params
+  ) {}
+
+  ngOnInit(): void {
     this.pollSystemInfo$();
   }
 
@@ -34,8 +37,9 @@ export class SystemInfoComponent {
     timer(0, this.params.systemInfoPollInterval)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.systemInfo = this.electron.ipcRenderer.sendSync(Channels.systemInfo);
+        this.systemInfo = this.electron.ipcRenderer.sendSync(
+          Channels.systemInfo
+        );
       });
   }
-
 }

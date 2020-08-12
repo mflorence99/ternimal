@@ -6,7 +6,6 @@ import { TabsState } from './tabs';
 import { prepare } from './state.spec';
 
 describe('TabsState', () => {
-
   let bundle: Bundle;
 
   beforeEach(() => {
@@ -16,7 +15,12 @@ describe('TabsState', () => {
 
   test('newTab/remove', () => {
     expect(bundle.tabs.snapshot.length).toBe(1);
-    const tab: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'a' };
+    const tab: Tab = {
+      color: 'c',
+      icon: ['i', 'j'],
+      label: 'l',
+      layoutID: 'a'
+    };
     bundle.tabs.newTab({ tab });
     expect(bundle.tabs.snapshot.length).toBe(2);
     bundle.tabs.remove({ tab });
@@ -52,13 +56,20 @@ describe('TabsState', () => {
   });
 
   test('update', () => {
-    const tab: Tab = { color: 'c', icon: ['i', 'j'], label: 'l', layoutID: 'a' };
+    const tab: Tab = {
+      color: 'c',
+      icon: ['i', 'j'],
+      label: 'l',
+      layoutID: 'a'
+    };
     bundle.tabs.newTab({ tab });
     expect(bundle.tabs.snapshot.length).toBe(2);
     expect(bundle.tabs.snapshot[1].color).toBe('c');
     expect(bundle.tabs.snapshot[1].icon).toEqual(['i', 'j']);
     expect(bundle.tabs.snapshot[1].label).toBe('l');
-    bundle.tabs.update({ tab: { color: 'd', icon: ['p', 'q'], label: 'k', layoutID: 'a' } });
+    bundle.tabs.update({
+      tab: { color: 'd', icon: ['p', 'q'], label: 'k', layoutID: 'a' }
+    });
     expect(bundle.tabs.snapshot.length).toBe(2);
     expect(bundle.tabs.snapshot[1].color).toBe('d');
     expect(bundle.tabs.snapshot[1].icon).toEqual(['p', 'q']);
@@ -75,5 +86,4 @@ describe('TabsState', () => {
     bundle.selection.selectLayout({ layoutID: Params.initialLayoutID });
     expect(bundle.tabs.tabIndex).toBe(0);
   });
-
 });

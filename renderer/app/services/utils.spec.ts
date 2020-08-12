@@ -3,7 +3,6 @@ import { Utils } from './utils';
 import { TestBed } from '@angular/core/testing';
 
 describe('Utils', () => {
-
   let utils: Utils;
 
   beforeEach(() => {
@@ -35,12 +34,11 @@ describe('Utils', () => {
     expect(utils.merge(obj1, obj2)).toEqual(target);
   });
 
-  test('nextTick works asynchronously', done => {
+  test('nextTick works asynchronously', (done) => {
     const num = 42;
     utils.nextTick(() => {
       expect(num).toEqual(42);
       done();
     });
   });
-
 });

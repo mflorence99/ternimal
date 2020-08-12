@@ -32,27 +32,33 @@ export type FileSystemPathsStateModel = Record<string, string[]>;
 @StateRepository()
 @State<FileSystemPathsStateModel>({
   name: 'fileSystemPaths',
-  defaults: { }
+  defaults: {}
 })
-
-export class FileSystemPathsState extends NgxsDataRepository<FileSystemPathsStateModel> implements NgxsOnInit {
-
-  constructor(private actions$: Actions,
-              public electron: ElectronService,
-              private utils: Utils) {
+export class FileSystemPathsState
+  extends NgxsDataRepository<FileSystemPathsStateModel>
+  implements NgxsOnInit {
+  constructor(
+    private actions$: Actions,
+    public electron: ElectronService,
+    private utils: Utils
+  ) {
     super();
   }
 
   // actions
 
   @DataAction({ insideZone: true })
-  close(@Payload('FileSystemPathsState.close') { splitID, path }: DataActionParams): void {
+  close(
+    @Payload('FileSystemPathsState.close') { splitID, path }: DataActionParams
+  ): void {
     if (this.ctx.getState()[splitID])
-      this.ctx.setState(patch({ [splitID]: removeItem(nm => nm === path) }));
+      this.ctx.setState(patch({ [splitID]: removeItem((nm) => nm === path) }));
   }
 
   @DataAction({ insideZone: true })
-  open(@Payload('FileSystemPathsState.open') { splitID, path }: DataActionParams): void {
+  open(
+    @Payload('FileSystemPathsState.open') { splitID, path }: DataActionParams
+  ): void {
     if (!this.ctx.getState()[splitID])
       this.ctx.setState(patch({ [splitID]: [path] }));
     else if (!this.ctx.getState()[splitID].includes(path))
@@ -60,7 +66,9 @@ export class FileSystemPathsState extends NgxsDataRepository<FileSystemPathsStat
   }
 
   @DataAction({ insideZone: true })
-  remove(@Payload('FileSystemPathsState.remove') { splitID }: DataActionParams): void {
+  remove(
+    @Payload('FileSystemPathsState.remove') { splitID }: DataActionParams
+  ): void {
     this.ctx.setState(scratch(splitID));
   }
 
@@ -78,15 +86,17 @@ export class FileSystemPathsState extends NgxsDataRepository<FileSystemPathsStat
 
   // private methods
 
-  // NOTE: why do this here, rather than in te coordinated remove in 
+  // NOTE: why do this here, rather than in te coordinated remove in
   // Tabs and PanesComponent? Because neither of those high-level components
-  // "know" anything about the file-system widget 
+  // "know" anything about the file-system widget
   private handleActions$(): void {
     this.actions$
       .pipe(
         filter(({ action, status }) => {
-          return this.utils.hasProperty(action, 'PanesState.remove')
-            && (status === 'SUCCESSFUL');
+          return (
+            this.utils.hasProperty(action, 'PanesState.remove') &&
+            status === 'SUCCESSFUL'
+          );
         })
       )
       .subscribe(({ action }) => {
@@ -96,11 +106,12 @@ export class FileSystemPathsState extends NgxsDataRepository<FileSystemPathsStat
   }
 
   private rcvPath$(): void {
-    this.electron.ipcRenderer
-      .on(Channels.fsLoadPathFailure, (_, path: string) => {
+    this.electron.ipcRenderer.on(
+      Channels.fsLoadPathFailure,
+      (_, path: string) => {
         const splitIDs = Object.keys(this.snapshot);
-        splitIDs.forEach(splitID => this.close({ splitID, path }));
-      });
+        splitIDs.forEach((splitID) => this.close({ splitID, path }));
+      }
+    );
   }
-
 }

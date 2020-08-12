@@ -12,9 +12,7 @@ import { Input } from '@angular/core';
   template: '',
   styles: [':host { display: block; }']
 })
-
 export class TerminalComponent implements Widget {
-
   @Input() splitID: string;
 
   widgetLaunch: WidgetLaunch = {
@@ -26,5 +24,4 @@ export class TerminalComponent implements Widget {
   widgetStatus: WidgetStatus = {
     showCWD: true
   };
-
 }

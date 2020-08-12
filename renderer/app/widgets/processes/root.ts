@@ -13,7 +13,6 @@ import { WidgetCommand } from '../widget';
 import { WidgetLaunch } from '../widget';
 
 import { Actions } from '@ngxs/store';
-import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
@@ -34,9 +33,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'root.html',
   styleUrls: ['root.scss']
 })
-
-export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
-
+export class ProcessListComponent implements OnInit, Widget {
   running = true;
 
   @Input() splitID: string;
@@ -78,47 +75,53 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
     ]
   ];
 
-  constructor(private actions$: Actions,
-              private destroy$: DestroyService,
-              private dialog: MatDialog,
-              public electron: ElectronService,
-              private params: Params,
-              public processList: ProcessListState,
-              private snackBar: MatSnackBar,
-              public sort: SortState,
-              private utils: Utils) { }
+  constructor(
+    private actions$: Actions,
+    private destroy$: DestroyService,
+    private dialog: MatDialog,
+    public electron: ElectronService,
+    private params: Params,
+    public processList: ProcessListState,
+    private snackBar: MatSnackBar,
+    public sort: SortState,
+    private utils: Utils
+  ) {}
 
   confirmKill(): void {
-    const message = 'Are you sure you want to proceed? All selected processes will be killed, which may result in system instability.';
+    const message =
+      'Are you sure you want to proceed? All selected processes will be killed, which may result in system instability.';
     const title = 'Confirm Kill Processes';
-    this.dialog.open(ConfirmDialogComponent, {
-      data: new ConfirmDialogModel(title, message)
-    }).afterClosed().subscribe(result => {
-      if (result)
-        this.kill();
-    });
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: new ConfirmDialogModel(title, message)
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) this.kill();
+      });
   }
 
   kill(): void {
     // NOTE: the row ID is the PID
     const pids = this.table.selectedRowIDs;
     this.electron.ipcRenderer.send(Channels.processListKill, pids);
-    const message = `Killed process${pids.length === 1 ? '' : 'es'} ${pids.join(', ')}`;
-    this.snackBar.open(message, null, { duration: this.params.snackBarDuration });
-  }
-
-  ngAfterViewInit(): void {
-    this.handleActions$();
-    this.processList.startPolling();
+    const message = `Killed process${pids.length === 1 ? '' : 'es'} ${pids.join(
+      ', '
+    )}`;
+    this.snackBar.open(message, null, {
+      duration: this.params.snackBarDuration
+    });
   }
 
   ngOnInit(): void {
     this.stats = this.sortStats(this.processList.snapshot);
+    this.handleActions$();
+    this.processList.startPolling();
   }
 
   run(running: boolean): void {
     this.running = running;
-    this.snackBar.open('Process list display', (running ? 'Running' : 'Paused'), {
+    this.snackBar.open('Process list display', running ? 'Running' : 'Paused', {
       duration: this.params.snackBarDuration
     });
   }
@@ -134,23 +137,25 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
       .pipe(
         filter(() => this.running),
         filter(({ action, status }) => {
-          return (action['ProcessListState.update'] 
-            || (action['SortState.update']?.splitID === this.splitID))
-            && (status === 'SUCCESSFUL');
+          return (
+            (action['ProcessListState.update'] ||
+              action['SortState.update']?.splitID === this.splitID) &&
+            status === 'SUCCESSFUL'
+          );
         }),
         debounceTime(0),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.stats = this.sortStats(this.processList.snapshot));
+      .subscribe(
+        () => (this.stats = this.sortStats(this.processList.snapshot))
+      );
   }
 
   private sortStats(stats: ProcessStats[]): ProcessStats[] {
     const columnSort = this.sort.columnSort(this.splitID, this.tableID);
-    if (columnSort.sortDir === 0)
-      return stats;
-    else return stats
-      .slice(0)
-      .sort((p, q): number => {
+    if (columnSort.sortDir === 0) return stats;
+    else
+      return stats.slice(0).sort((p, q): number => {
         const nm = columnSort.sortedID;
         let order = 0;
         if (['name', 'uid'].includes(nm))
@@ -159,5 +164,4 @@ export class ProcessListComponent implements AfterViewInit, OnInit, Widget {
         return order * columnSort.sortDir;
       });
   }
-
 }

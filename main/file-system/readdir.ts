@@ -16,7 +16,7 @@ const { ipcMain } = electron;
 const userInfo = os.userInfo();
 const watcher = filewatcher({ debounce: 250 });
 
-const colorByExt = store.get('file-system.colorByExt', { });
+const colorByExt = store.get('file-system.colorByExt', {});
 
 const colors = [
   'var(--mat-amber-a100)',
@@ -34,7 +34,7 @@ const colors = [
   'var(--mat-purple-a100)',
   'var(--mat-red-a100)',
   'var(--mat-teal-a100)',
-  'var(--mat-yellow-a100)',
+  'var(--mat-yellow-a100)'
 ];
 
 const iconByExt = {
@@ -187,35 +187,45 @@ const iconByName = {
 };
 
 const isExecutable = (mode, uid: number, gid: number): boolean => {
-  return (mode.others.execute
-    || ((userInfo.uid === uid) && mode.owner.execute)
-    || ((userInfo.gid === gid) && mode.group.execute));
+  return (
+    mode.others.execute ||
+    (userInfo.uid === uid && mode.owner.execute) ||
+    (userInfo.gid === gid && mode.group.execute)
+  );
 };
 
 const isReadable = (mode, uid: number, gid: number): boolean => {
-  return (mode.others.read
-    || ((userInfo.uid === uid) && mode.owner.read)
-    || ((userInfo.gid === gid) && mode.group.read));
+  return (
+    mode.others.read ||
+    (userInfo.uid === uid && mode.owner.read) ||
+    (userInfo.gid === gid && mode.group.read)
+  );
 };
 
 const isWritable = (mode, uid: number, gid: number): boolean => {
-  return (mode.others.write
-    || ((userInfo.uid === uid) && mode.owner.write)
-    || ((userInfo.gid === gid) && mode.group.write));
+  return (
+    mode.others.write ||
+    (userInfo.uid === uid && mode.owner.write) ||
+    (userInfo.gid === gid && mode.group.write)
+  );
 };
 
 const loadPath = (root: string): void => {
   const theWindow = globalThis.theWindow;
   fs.readdir(root, (err, names) => {
     if (err) {
-      if (err.code === 'EACCES') 
+      if (err.code === 'EACCES')
         theWindow?.webContents.send(Channels.error, err.message);
       theWindow?.webContents.send(Channels.fsLoadPathFailure, root);
       watcher.remove(root);
     } else {
-      const children = names.map(name => path.join(root, name));
+      const children = names.map((name) => path.join(root, name));
       async.map(children, fs.lstat, (err, stats) => {
-        theWindow?.webContents.send(Channels.fsLoadPathSuccess, root, names.map((name, ix) => makeDescriptor(root, name, stats[ix])));
+        theWindow?.webContents.send(
+          Channels.fsLoadPathSuccess,
+          root,
+          names.map((name, ix) => makeDescriptor(root, name, stats[ix]))
+        );
         // NOTE: side-effect of makeDescriptor updates colorByExt
         store.set('file-system.colorByExt', colorByExt);
         watcher.add(root);
@@ -225,22 +235,24 @@ const loadPath = (root: string): void => {
 };
 
 const makeColor = (name: string, stat: fs.Stats): string => {
-  if (stat.isDirectory())
-    return 'var(--mat-deep-orange-a100)';
+  if (stat.isDirectory()) return 'var(--mat-deep-orange-a100)';
   else if (stat.isFile()) {
     const ext = path.extname(name);
-    if (!ext)
-      return 'var(--mat-blue-grey-400)';
+    if (!ext) return 'var(--mat-blue-grey-400)';
     else {
-      const color = colorByExt[ext] ?? colors[Math.trunc(Math.random() * colors.length)];
+      const color =
+        colorByExt[ext] ?? colors[Math.trunc(Math.random() * colors.length)];
       colorByExt[ext] = color;
       return color;
     }
-  }  else if (stat.isSymbolicLink())
-    return 'var(--mat-brown-400)';
+  } else if (stat.isSymbolicLink()) return 'var(--mat-brown-400)';
 };
 
-const makeDescriptor = (root: string, name: string, stat: fs.Stats): FileDescriptor => {
+const makeDescriptor = (
+  root: string,
+  name: string,
+  stat: fs.Stats
+): FileDescriptor => {
   const mode = Mode(stat);
   return {
     atime: new Date(stat.atime),
@@ -259,26 +271,27 @@ const makeDescriptor = (root: string, name: string, stat: fs.Stats): FileDescrip
     name: name,
     path: path.join(root, name),
     size: stat.isFile() ? stat.size : 0,
-    user: (stat.uid === userInfo.uid) ? userInfo.username : 
-      ((stat.uid === 0) ? 'root' : String(stat.uid))
+    user:
+      stat.uid === userInfo.uid
+        ? userInfo.username
+        : stat.uid === 0
+        ? 'root'
+        : String(stat.uid)
   };
 };
 
 const makeIcon = (name: string, stat: fs.Stats): string[] => {
-  if (stat.isDirectory())
-    return ['fas', 'folder'];
+  if (stat.isDirectory()) return ['fas', 'folder'];
   else if (stat.isFile()) {
     let icon = null;
     const ix = name.lastIndexOf('.');
-    if (ix <= 0)
-      icon = iconByName[name.toLowerCase()];
+    if (ix <= 0) icon = iconByName[name.toLowerCase()];
     else {
       const ext = name.substring(ix + 1).toLowerCase();
       icon = iconByExt[ext];
     }
     return icon ?? ['far', 'file'];
-  } else if (stat.isSymbolicLink())
-    return ['fas', 'external-link-alt'];
+  } else if (stat.isSymbolicLink()) return ['fas', 'external-link-alt'];
   else return ['far', 'file'];
 };
 
@@ -290,6 +303,6 @@ watcher.on('fallback', (ulimit: number) => {
   theWindow?.webContents.send(Channels.error, message);
 });
 
-ipcMain.on(Channels.fsLoadPathRequest, (_, root: string): void => loadPath(root));
-
-
+ipcMain.on(Channels.fsLoadPathRequest, (_, root: string): void =>
+  loadPath(root)
+);

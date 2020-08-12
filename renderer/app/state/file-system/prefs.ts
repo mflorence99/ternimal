@@ -19,11 +19,29 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { filter } from 'rxjs/operators';
 import { patch } from '@ngxs/store/operators';
 
-export type Attribute = 'name' | 'size' | 'mtime' | 'btime' | 'atime' | 'mode' | 'user' | 'group';
-export type DateFmt = 'ago' | 'shortDate' | 'mediumDate' | 'longDate' | 'fullDate';
+export type Attribute =
+  | 'name'
+  | 'size'
+  | 'mtime'
+  | 'btime'
+  | 'atime'
+  | 'mode'
+  | 'user'
+  | 'group';
+export type DateFmt =
+  | 'ago'
+  | 'shortDate'
+  | 'mediumDate'
+  | 'longDate'
+  | 'fullDate';
 export type QuantityFmt = 'abbrev' | 'bytes' | 'number';
 export type SortOrder = 'alpha' | 'first' | 'last';
-export type TimeFmt = 'none' | 'shortTime' | 'mediumTime' | 'longTime' | 'fullTime';
+export type TimeFmt =
+  | 'none'
+  | 'shortTime'
+  | 'mediumTime'
+  | 'longTime'
+  | 'fullTime';
 export type Scope = 'global' | 'byLayoutID' | 'bySplitID';
 
 interface DataActionParams {
@@ -63,18 +81,20 @@ export interface FileSystemPrefsStateModel {
 @State<FileSystemPrefsStateModel>({
   name: 'fileSystemPrefs',
   defaults: {
-    byLayoutID: { },
-    bySplitID: { },
+    byLayoutID: {},
+    bySplitID: {},
     global: FileSystemPrefsState.defaultPrefs(),
     scope: 'global'
   }
 })
-
-export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStateModel> implements NgxsOnInit {
-
-  constructor(private actions$: Actions,
-              private selection: SelectionState,
-              private utils: Utils) {
+export class FileSystemPrefsState
+  extends NgxsDataRepository<FileSystemPrefsStateModel>
+  implements NgxsOnInit {
+  constructor(
+    private actions$: Actions,
+    private selection: SelectionState,
+    private utils: Utils
+  ) {
     super();
   }
 
@@ -102,9 +122,9 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
   static emptyPrefs(): FileSystemPrefs {
     const nullify = (obj: any): any => {
       return Object.keys(obj).reduce((acc, key) => {
-        acc[key] = (typeof obj[key] === 'object') ? nullify(obj[key]) : null;
+        acc[key] = typeof obj[key] === 'object' ? nullify(obj[key]) : null;
         return acc;
-      }, { });
+      }, {});
     };
     return nullify(FileSystemPrefsState.defaultPrefs());
   }
@@ -112,7 +132,10 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
   // actions
 
   @DataAction({ insideZone: true })
-  remove(@Payload('FileSystemPrefsState.remove') { layoutID, splitID }: DataActionParams): void {
+  remove(
+    @Payload('FileSystemPrefsState.remove')
+    { layoutID, splitID }: DataActionParams
+  ): void {
     if (layoutID && !splitID)
       this.ctx.setState(patch({ byLayoutID: scratch(layoutID) }));
     else if (!layoutID && splitID)
@@ -120,20 +143,29 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
   }
 
   @DataAction({ insideZone: true })
-  rescope(@Payload('FileSystemPrefsState.rescope') { scope }: DataActionParams): void {
+  rescope(
+    @Payload('FileSystemPrefsState.rescope') { scope }: DataActionParams
+  ): void {
     this.ctx.setState(patch({ scope }));
   }
 
   @DataAction({ insideZone: true })
-  update(@Payload('FileSystemPrefsState.update') { layoutID, splitID, prefs }: DataActionParams): void {
+  update(
+    @Payload('FileSystemPrefsState.update')
+    { layoutID, splitID, prefs }: DataActionParams
+  ): void {
     // NOTE: prefs may be Partial
     const effectivePrefs = { ...FileSystemPrefsState.emptyPrefs(), ...prefs };
     if (!layoutID && !splitID)
-      this.ctx.setState(patch({global: effectivePrefs }));
+      this.ctx.setState(patch({ global: effectivePrefs }));
     else if (layoutID && !splitID)
-      this.ctx.setState(patch({ byLayoutID: patch({ [layoutID]: effectivePrefs  }) }));
+      this.ctx.setState(
+        patch({ byLayoutID: patch({ [layoutID]: effectivePrefs }) })
+      );
     else if (!layoutID && splitID)
-      this.ctx.setState(patch({ bySplitID: patch({ [splitID]: effectivePrefs  }) }));
+      this.ctx.setState(
+        patch({ bySplitID: patch({ [splitID]: effectivePrefs }) })
+      );
   }
 
   // accessors
@@ -152,11 +184,17 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
   }
 
   @Computed() get byLayoutID(): FileSystemPrefs {
-    return this.snapshot.byLayoutID[this.selection.layoutID] ?? FileSystemPrefsState.emptyPrefs();
+    return (
+      this.snapshot.byLayoutID[this.selection.layoutID] ??
+      FileSystemPrefsState.emptyPrefs()
+    );
   }
 
   @Computed() get bySplitID(): FileSystemPrefs {
-    return this.snapshot.bySplitID[this.selection.splitID] ?? FileSystemPrefsState.emptyPrefs();
+    return (
+      this.snapshot.bySplitID[this.selection.splitID] ??
+      FileSystemPrefsState.emptyPrefs()
+    );
   }
 
   @Computed() get global(): FileSystemPrefs {
@@ -173,7 +211,7 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
     return this.utils.merge(
       this.snapshot.global,
       this.snapshot.byLayoutID[layoutID],
-      this.snapshot.bySplitID[splitID],
+      this.snapshot.bySplitID[splitID]
     );
   }
 
@@ -184,22 +222,23 @@ export class FileSystemPrefsState extends NgxsDataRepository<FileSystemPrefsStat
 
   // private methods
 
-  // NOTE: why do this here, rather than in te coordinated remove in 
+  // NOTE: why do this here, rather than in te coordinated remove in
   // Tabs and PanesComponent? Because neither of those high-level components
-  // "know" anything about the file-system widget 
+  // "know" anything about the file-system widget
   private handleActions$(): void {
     this.actions$
       .pipe(
         filter(({ action, status }) => {
-          return this.utils.hasProperty(action, /(Layout|Panes)State.remove/)
-            && (status === 'SUCCESSFUL');
+          return (
+            this.utils.hasProperty(action, /(Layout|Panes)State.remove/) &&
+            status === 'SUCCESSFUL'
+          );
         })
       )
       .subscribe(({ action }) => {
         const layoutID = action['LayoutState.remove']?.layoutID;
         const splitID = action['PanesState.remove']?.splitID;
         this.remove({ layoutID, splitID });
-      }); 
+      });
   }
-
 }

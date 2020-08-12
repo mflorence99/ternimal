@@ -12,7 +12,7 @@ const systemInfo: SystemInfo = {
 };
 
 ipcMain.on(Channels.systemInfo, (event: Event): void => {
-  osutils.cpuUsage(usage => systemInfo.cpuUsage = usage);
+  osutils.cpuUsage((usage) => (systemInfo.cpuUsage = usage));
   systemInfo.memUsage = osutils.freemem() / osutils.totalmem();
   event.returnValue = systemInfo as any;
 });

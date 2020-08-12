@@ -33,7 +33,6 @@ nav {
     &.selected {
       opacity: 1;
     }
-
   }
 
   .more {
@@ -53,11 +52,9 @@ nav {
       font-size: 1rem;
       margin-right: 0.5rem;
     }
-
   }
 
   .tab {
-
     &.singleton {
       justify-content: center;
     }
@@ -84,7 +81,5 @@ nav {
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
   }
-
 }

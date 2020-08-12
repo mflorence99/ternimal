@@ -15,7 +15,6 @@
 }
 
 ::ng-deep {
-
   table {
     border-collapse: collapse;
 
@@ -24,7 +23,6 @@
     }
 
     tbody {
-
       td {
         border-bottom: 1px dotted var(--mat-grey-500);
         vertical-align: top;
@@ -49,21 +47,16 @@
         &.hover.selected {
           background-color: rgba(var(--rgb-blue-grey-500), 0.5);
         }
-
       }
 
       tr {
-
         &:hover {
           background-color: rgba(var(--rgb-blue-grey-600), 0.25);
         }
-
       }
-
     }
 
     thead {
-
       th {
         border-bottom: 1px solid var(--mat-grey-500);
         font-weight: normal;
@@ -105,13 +98,8 @@
             text-transform: uppercase;
             transition: transform 0.25s ease-in-out;
           }
-
         }
-
       }
-
     }
-
   }
-
 }

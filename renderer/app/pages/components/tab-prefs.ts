@@ -22,9 +22,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'tab-prefs.html',
   styleUrls: ['tab-prefs.scss']
 })
-
 export class TabPrefsComponent implements OnInit {
-
   colors = [
     'var(--mat-grey-100)',
     'var(--mat-grey-400)',
@@ -75,24 +73,24 @@ export class TabPrefsComponent implements OnInit {
     'fab windows'
   ];
 
-  splitIcons = this.icons.map(icon => icon.split(' '));
+  splitIcons = this.icons.map((icon) => icon.split(' '));
 
   tabPrefsForm: FormGroup;
 
-  constructor(private actions$: Actions,
-              private destroy$: DestroyService,
-              private formBuilder: FormBuilder,
-              public tabs: TabsState,
-              private selection: SelectionState,
-              private utils: Utils) { 
+  constructor(
+    private actions$: Actions,
+    private destroy$: DestroyService,
+    private formBuilder: FormBuilder,
+    public tabs: TabsState,
+    private selection: SelectionState,
+    private utils: Utils
+  ) {
     // initialize the form
     this.tabPrefsForm = this.formBuilder.group({
       color: [this.tabs.tab.color, Validators.required],
       icon: [this.tabs.tab.icon.join(' '), Validators.required],
       label: [this.tabs.tab.label, Validators.required]
     });
-    // handle changes in selection
-    this.handleActions$();
   }
 
   clear(nm: string): void {
@@ -100,13 +98,17 @@ export class TabPrefsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.handleActions$();
     this.tabPrefsForm.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(tabPrefsForm => {
-        this.tabs.update({ tab: { 
-          ...tabPrefsForm, 
-          icon: tabPrefsForm.icon.split(' '),
-          layoutID: this.selection.layoutID } });
+      .subscribe((tabPrefsForm) => {
+        this.tabs.update({
+          tab: {
+            ...tabPrefsForm,
+            icon: tabPrefsForm.icon.split(' '),
+            layoutID: this.selection.layoutID
+          }
+        });
       });
   }
 
@@ -116,19 +118,20 @@ export class TabPrefsComponent implements OnInit {
     this.actions$
       .pipe(
         filter(({ action, status }) => {
-          return this.utils.hasProperty(action, 'SelectionState.selectLayout')
-            && (status === 'SUCCESSFUL');
+          return (
+            this.utils.hasProperty(action, 'SelectionState.selectLayout') &&
+            status === 'SUCCESSFUL'
+          );
         }),
         debounceTime(0),
         takeUntil(this.destroy$)
       )
-      .subscribe(_ => {
-        this.tabPrefsForm.patchValue({ 
+      .subscribe((_) => {
+        this.tabPrefsForm.patchValue({
           color: this.tabs.tab.color,
           icon: this.tabs.tab.icon.join(' '),
           label: this.tabs.tab.label
         });
       });
   }
-
 }

@@ -4,22 +4,11 @@ import { RangePipe } from './range';
 
 import { NgModule } from '@angular/core';
 
-const PIPES = [
-  BreakablePipe,
-  NumeralPipe,
-  RangePipe
-];
+const PIPES = [BreakablePipe, NumeralPipe, RangePipe];
 
 @NgModule({
+  declarations: [...PIPES],
 
-  declarations: [
-    ...PIPES
-  ],
-
-  exports: [
-    ...PIPES
-  ]
-
+  exports: [...PIPES]
 })
-
-export class PipesModule { }
+export class PipesModule {}

@@ -13,26 +13,30 @@ import { forwardRef } from '@angular/core';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TriStateComponent),
-      multi: true,
+      multi: true
     },
-    { provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions },
+    {
+      provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
+      useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions
+    }
   ],
   selector: 'ternimal-tristate',
   templateUrl: 'tristate.html',
-  styleUrls: ['tristate.scss'],
+  styleUrls: ['tristate.scss']
 })
 export class TriStateComponent implements ControlValueAccessor {
-
   disabled: boolean;
-  
+
   value: any;
-  
+
   private onChange: Function;
   private onTouched: Function;
   private tape = [null, true, false];
 
   next(): void {
-    this.value = this.tape[(this.tape.indexOf(this.value) + 1) % this.tape.length];
+    this.value = this.tape[
+      (this.tape.indexOf(this.value) + 1) % this.tape.length
+    ];
     this.onChange(this.value);
     this.onTouched();
   }
@@ -52,5 +56,4 @@ export class TriStateComponent implements ControlValueAccessor {
   writeValue(value: boolean): void {
     this.value = value ?? this.tape[0];
   }
-
 }

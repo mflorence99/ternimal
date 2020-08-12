@@ -1,52 +1,34 @@
 <menu>
-
-  <button
-    (click)="newLayout()"
-    mat-icon-button
-    matTooltip="Add a new tab">
-    <fa-icon
-      [icon]="['fas', 'plus']"
-      size="lg">
-    </fa-icon>
+  <button (click)="newLayout()" mat-icon-button matTooltip="Add a new tab">
+    <fa-icon [icon]="['fas', 'plus']" size="lg"> </fa-icon>
   </button>
 
   <button
     (click)="ternimal.showTabPrefs()"
     mat-icon-button
-    matTooltip="{{ tabs.tab.label }} setup">
-    <fa-icon
-      [icon]="['fas', 'cog']"
-      size="lg">
-    </fa-icon>
+    matTooltip="{{ tabs.tab.label }} setup"
+  >
+    <fa-icon [icon]="['fas', 'cog']" size="lg"> </fa-icon>
   </button>
 
   <button
     (click)="showContextMenu($event)"
     [contextMenu]="contextMenu"
     mat-icon-button
-    matTooltip="More actions...">
-    <fa-icon
-      [icon]="['fas', 'ellipsis-h']"
-      size="lg">
-    </fa-icon>
+    matTooltip="More actions..."
+  >
+    <fa-icon [icon]="['fas', 'ellipsis-h']" size="lg"> </fa-icon>
   </button>
-
 </menu>
 
 <!-- More actions menu -->
 
 <context-menu>
-
-  <ng-template
-    contextMenuItem
-    (execute)="devTools()">
+  <ng-template contextMenuItem (execute)="devTools()">
     <div>Open dev tools</div>
   </ng-template>
 
-  <ng-template
-    contextMenuItem
-    (execute)="reload()">
+  <ng-template contextMenuItem (execute)="reload()">
     <div>Reload TERИIMAL</div>
   </ng-template>
-
 </context-menu>

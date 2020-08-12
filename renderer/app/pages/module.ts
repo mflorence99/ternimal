@@ -5,26 +5,13 @@ import { RootComponent } from './root';
 
 import { NgModule } from '@angular/core';
 
-const COMPONENTS = [
-  RootComponent
-];
+const COMPONENTS = [RootComponent];
 
-const MODULES = [
-  BarrelModule,
-  CommonComponentsModule,
-  ComponentsModule
-];
+const MODULES = [BarrelModule, CommonComponentsModule, ComponentsModule];
 
 @NgModule({
+  declarations: [...COMPONENTS],
 
-  declarations: [
-    ...COMPONENTS
-  ],
-
-  imports: [
-    ...MODULES
-  ]
-  
+  imports: [...MODULES]
 })
-
-export class PagesModule { }
+export class PagesModule {}

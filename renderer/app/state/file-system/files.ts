@@ -29,26 +29,30 @@ export interface FileSystemFilesStateModel {
 @StateRepository()
 @State<FileSystemFilesStateModel>({
   name: 'fileSystemFiles',
-  defaults: { }
+  defaults: {}
 })
-
-export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStateModel> implements NgxsOnInit {
-
+export class FileSystemFilesState
+  extends NgxsDataRepository<FileSystemFilesStateModel>
+  implements NgxsOnInit {
   loading$ = new Subject<Record<string, boolean>>();
 
-  constructor(public electron: ElectronService) { 
+  constructor(public electron: ElectronService) {
     super();
   }
 
   // actions
 
   @DataAction({ insideZone: true })
-  loadPath(@Payload('FileSystemFilesState.loadPath') { path, descs }: DataActionParams): void {
+  loadPath(
+    @Payload('FileSystemFilesState.loadPath') { path, descs }: DataActionParams
+  ): void {
     this.ctx.setState(patch({ [path]: descs }));
   }
 
   @DataAction({ insideZone: true })
-  unloadPath(@Payload('FileSystemFilesState.unloadPath') { path }: DataActionParams): void {
+  unloadPath(
+    @Payload('FileSystemFilesState.unloadPath') { path }: DataActionParams
+  ): void {
     this.ctx.setState(scratch(path));
   }
 
@@ -56,54 +60,56 @@ export class FileSystemFilesState extends NgxsDataRepository<FileSystemFilesStat
 
   descsForPaths(paths: string[]): FileDescriptor[] {
     const result = [];
-    const descsByPath: Record<string, FileDescriptor> = { };
-    paths.forEach(path => {
-      if (descsByPath[path])
-        result.push(descsByPath[path]);
+    const descsByPath: Record<string, FileDescriptor> = {};
+    paths.forEach((path) => {
+      if (descsByPath[path]) result.push(descsByPath[path]);
       else {
         const ix = path.lastIndexOf(Params.pathSeparator);
         let root = path.substring(0, ix);
-        if (root.length === 0)
-          root = Params.rootDir;
+        if (root.length === 0) root = Params.rootDir;
         const descs = this.snapshot[root] ?? [];
-        descs.forEach(desc => descsByPath[desc.path] = desc); 
-        if (descsByPath[path])
-          result.push(descsByPath[path]);
+        descs.forEach((desc) => (descsByPath[desc.path] = desc));
+        if (descsByPath[path]) result.push(descsByPath[path]);
       }
     });
     return result;
   }
 
   loadPaths(paths: string[]): void {
-    paths.forEach(path => {
+    paths.forEach((path) => {
       if (!this.snapshot[path]) {
-        this.loading$.next(paths.reduce((acc, path) => {
-          acc[path] = true;
-          return acc;
-        }, { }));
+        this.loading$.next(
+          paths.reduce((acc, path) => {
+            acc[path] = true;
+            return acc;
+          }, {})
+        );
         this.electron.ipcRenderer.send(Channels.fsLoadPathRequest, path);
       }
     });
   }
 
   ngxsOnInit(): void {
-    super.ngxsOnInit(); 
+    super.ngxsOnInit();
     this.rcvPath$();
   }
 
   // private methods
-  
+
   private rcvPath$(): void {
-    this.electron.ipcRenderer
-      .on(Channels.fsLoadPathSuccess, (_, path: string, descs: FileDescriptor[]) => {
+    this.electron.ipcRenderer.on(
+      Channels.fsLoadPathSuccess,
+      (_, path: string, descs: FileDescriptor[]) => {
         this.loadPath({ path, descs });
         this.loading$.next({ [path]: false });
-      });
-    this.electron.ipcRenderer
-      .on(Channels.fsLoadPathFailure, (_, path: string) => {
+      }
+    );
+    this.electron.ipcRenderer.on(
+      Channels.fsLoadPathFailure,
+      (_, path: string) => {
         this.unloadPath({ path });
         this.loading$.next({ [path]: false });
-      });
+      }
+    );
   }
-
 }

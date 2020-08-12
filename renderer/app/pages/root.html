@@ -1,43 +1,29 @@
-  <mat-sidenav-container
-    class="container">
+<mat-sidenav-container class="container">
+  <mat-sidenav
+    (closed)="ternimal.hideTabPrefs()"
+    [opened]="ternimal.tabPrefsShowing"
+    class="sidenav"
+    mode="over"
+    position="end"
+  >
+    <ternimal-tab-prefs> </ternimal-tab-prefs>
+  </mat-sidenav>
 
-    <mat-sidenav 
-      (closed)="ternimal.hideTabPrefs()"
-      [opened]="ternimal.tabPrefsShowing"
-      class="sidenav"
-      mode="over"
-      position="end">
+  <mat-sidenav
+    (closed)="ternimal.hideWidgetSidebar()"
+    [opened]="ternimal.widgetSidebarShowing"
+    class="sidenav"
+    mode="over"
+    position="start"
+  >
+    <ternimal-widget-sidebar *ngIf="ternimal.widgetSidebarShowing">
+    </ternimal-widget-sidebar>
+  </mat-sidenav>
 
-      <ternimal-tab-prefs>
-      </ternimal-tab-prefs>
-      
-    </mat-sidenav>
+  <mat-sidenav-content class="content">
+    <ternimal-header class="header"> </ternimal-header>
 
-    <mat-sidenav 
-      (closed)="ternimal.hideWidgetSidebar()"
-      [opened]="ternimal.widgetSidebarShowing"
-      class="sidenav"
-      mode="over"
-      position="start">
-
-      <ternimal-widget-sidebar
-        *ngIf="ternimal.widgetSidebarShowing">
-      </ternimal-widget-sidebar>
-      
-    </mat-sidenav>
-
-    <mat-sidenav-content
-      class="content">
-
-      <ternimal-header
-        class="header">
-      </ternimal-header>
-
-      <ternimal-splittable
-        [splittable]="layout.layout"
-        class="splittable">
-      </ternimal-splittable>
-
-    </mat-sidenav-content>
-
-  </mat-sidenav-container>
+    <ternimal-splittable [splittable]="layout.layout" class="splittable">
+    </ternimal-splittable>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -3,7 +3,6 @@ import { Bundle } from '../state.spec';
 import { prepare } from '../state.spec';
 
 describe('ProcessListState', () => {
-
   let bundle: Bundle;
 
   beforeEach(() => {
@@ -14,5 +13,4 @@ describe('ProcessListState', () => {
   test('dummy', () => {
     expect(true).toBe(true);
   });
-
 });

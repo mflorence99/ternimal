@@ -8,10 +8,7 @@
       "env": { "DEV_MODE": "1" },
       "preLaunchTask": "build:main",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
-      "runtimeArgs": [
-        "--nolazy",
-        "--ignore-gpu-blacklist"
-      ],
+      "runtimeArgs": ["--nolazy", "--ignore-gpu-blacklist"],
       "program": "${workspaceFolder}/dist/main/ternimal.js",
       "protocol": "inspector"
     },

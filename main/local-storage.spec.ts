@@ -8,7 +8,6 @@ import * as electron from 'electron';
 // @see __mocks__/electron-store.ts
 
 describe('local-storage', () => {
-
   const event = {
     returnValue: null
   };
@@ -64,5 +63,4 @@ describe('local-storage', () => {
     callbacks[Channels.localStorageSetItem](event, 'b', 2);
     expect(store.get('b')).toBe(2);
   });
-
 });

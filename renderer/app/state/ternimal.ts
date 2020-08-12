@@ -35,14 +35,12 @@ export interface TernimalStateModel {
     enabled: true,
     showTabPrefs: false,
     showWidgetSidebar: false,
-    unique: { },
+    unique: {},
     widgetSidebarCtx: null,
     widgetSidebarImpl: null
   }
 })
-
 export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
-
   // actions
 
   @DataAction({ insideZone: true })
@@ -66,8 +64,16 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  showWidgetSidebar(@Payload('showWidgetSidebar') { implementation, context }: DataActionParams): void {
-    this.ctx.setState(patch({ showWidgetSidebar: true, widgetSidebarCtx: context, widgetSidebarImpl: implementation }));
+  showWidgetSidebar(
+    @Payload('showWidgetSidebar') { implementation, context }: DataActionParams
+  ): void {
+    this.ctx.setState(
+      patch({
+        showWidgetSidebar: true,
+        widgetSidebarCtx: context,
+        widgetSidebarImpl: implementation
+      })
+    );
   }
 
   @DataAction({ insideZone: true })
@@ -104,5 +110,4 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
     this.updateUnique({ context });
     return this.snapshot.unique[context];
   }
-
 }

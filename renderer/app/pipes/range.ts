@@ -6,9 +6,7 @@ import { PipeTransform } from '@angular/core';
  */
 
 @Pipe({ name: 'ternimalRange' })
-
 export class RangePipe implements PipeTransform {
-
   transform(length: number, offset = 0): number[] {
     const array = [];
     for (let n = 0; n < length; ++n) {
@@ -16,5 +14,4 @@ export class RangePipe implements PipeTransform {
     }
     return array;
   }
-
 }

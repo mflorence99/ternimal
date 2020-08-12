@@ -8,7 +8,6 @@ import { waitableJestFn } from './main.spec';
 import * as electron from 'electron';
 
 describe('process-list', () => {
-
   let event;
 
   beforeEach(() => {
@@ -17,7 +16,7 @@ describe('process-list', () => {
     };
   });
 
-  test('processListRequest', async() => {
+  test('processListRequest', async () => {
     const callbacks = electron['callbacks'];
     callbacks[Channels.processListRequest](event);
     await event.reply.waitUntilComplete();
@@ -25,5 +24,4 @@ describe('process-list', () => {
     const processList: ProcessList = call[1];
     expect(processList.length).toBeGreaterThanOrEqual(1);
   });
-
 });

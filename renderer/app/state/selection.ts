@@ -29,9 +29,7 @@ export interface SelectionStateModel {
   name: 'selection',
   defaults: SelectionState.defaultSelection()
 })
-
 export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
-
   static defaultSelection(): SelectionStateModel {
     return {
       layoutID: Params.initialLayoutID,
@@ -42,13 +40,19 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  selectLayout(@Payload('SelectionState.selectLayout') { layoutID }: DataActionParams): void {
+  selectLayout(
+    @Payload('SelectionState.selectLayout') { layoutID }: DataActionParams
+  ): void {
     this.ctx.setState(patch({ layoutID }));
   }
 
   @DataAction({ insideZone: true })
-  selectSplit(@Payload('SelectionState.selectSplit') { splitID }: DataActionParams): void {
-    this.ctx.setState(patch({ splitIDByLayoutID: patch({ [this.layoutID]: splitID }) }));
+  selectSplit(
+    @Payload('SelectionState.selectSplit') { splitID }: DataActionParams
+  ): void {
+    this.ctx.setState(
+      patch({ splitIDByLayoutID: patch({ [this.layoutID]: splitID }) })
+    );
   }
 
   // accessors
@@ -60,5 +64,4 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
   @Computed() get splitID(): string {
     return this.snapshot.splitIDByLayoutID[this.snapshot.layoutID];
   }
-
 }

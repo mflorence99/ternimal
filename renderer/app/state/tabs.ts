@@ -18,7 +18,7 @@ import { updateItem } from '@ngxs/store/operators';
 
 interface DataActionParams {
   ix?: number;
-  tab: Tab
+  tab: Tab;
 }
 
 export interface Tab {
@@ -37,9 +37,7 @@ export type TabsStateModel = Tab[];
   name: 'tabs',
   defaults: TabsState.defaultTabs()
 })
-
 export class TabsState extends NgxsDataRepository<TabsStateModel> {
-
   constructor(private selection: SelectionState) {
     super();
   }
@@ -60,9 +58,9 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
   @DataAction({ insideZone: true })
   move(@Payload('TabsState.move') { tab, ix }: DataActionParams): void {
     const iy = this.findTabIndexByID(tab.layoutID);
-    if ((ix !== iy) && (iy !== -1)) {
-      this.ctx.setState(insertItem(tab, (ix > iy) ? ix + 1 : ix));
-      this.ctx.setState(removeItem((iy > ix) ? iy + 1 : iy));
+    if (ix !== iy && iy !== -1) {
+      this.ctx.setState(insertItem(tab, ix > iy ? ix + 1 : ix));
+      this.ctx.setState(removeItem(iy > ix ? iy + 1 : iy));
     }
   }
 
@@ -74,15 +72,13 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
   @DataAction({ insideZone: true })
   remove(@Payload('TabsState.remove') { tab }: DataActionParams): void {
     const ix = this.findTabIndexByID(tab.layoutID);
-    if (ix !== -1)
-      this.ctx.setState(removeItem(ix));
+    if (ix !== -1) this.ctx.setState(removeItem(ix));
   }
 
   @DataAction({ insideZone: true })
   update(@Payload('TabsState.update') { tab }: DataActionParams): void {
     const ix = this.findTabIndexByID(tab.layoutID);
-    if (ix !== -1)
-      this.ctx.setState(updateItem(ix, tab));
+    if (ix !== -1) this.ctx.setState(updateItem(ix, tab));
   }
 
   // accessors
@@ -98,11 +94,10 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
   /* eslint-disable @typescript-eslint/member-ordering */
 
   findTabByID(layoutID: string, model = this.snapshot): Tab {
-    return model.find(tab => tab.layoutID === layoutID);
+    return model.find((tab) => tab.layoutID === layoutID);
   }
 
   findTabIndexByID(layoutID: string, model = this.snapshot): number {
-    return model.findIndex(tab => tab.layoutID === layoutID);
+    return model.findIndex((tab) => tab.layoutID === layoutID);
   }
-
 }

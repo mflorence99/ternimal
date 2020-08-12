@@ -1,37 +1,20 @@
 <as-split
   [direction]="splittable.direction"
   [useTransition]="false"
-  gutterSize="5">
-
+  gutterSize="5"
+>
   <ng-container
-    *ngFor="let split of splittable.splits; let ix = index; trackBy: trackBySplitID">
-
-    <as-split-area
-      [order]="ix"
-      [size]="split.size">
-
-      <ng-container
-        *ngIf="split.splits; else notSplittable">
-
-        <ternimal-splittable
-          [splittable]="split">
-        </ternimal-splittable>
-
+    *ngFor="let split of splittable.splits; let ix = index; trackBy: trackBySplitID"
+  >
+    <as-split-area [order]="ix" [size]="split.size">
+      <ng-container *ngIf="split.splits; else notSplittable">
+        <ternimal-splittable [splittable]="split"> </ternimal-splittable>
       </ng-container>
 
-      <ng-template 
-        #notSplittable>
-
-        <ternimal-pane
-          [index]="ix"
-          [split]="split"
-          [splittable]="splittable">
+      <ng-template #notSplittable>
+        <ternimal-pane [index]="ix" [split]="split" [splittable]="splittable">
         </ternimal-pane>
-
       </ng-template>
-
     </as-split-area>
-
   </ng-container>
-
 </as-split>

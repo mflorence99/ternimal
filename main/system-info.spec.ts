@@ -6,7 +6,6 @@ import { SystemInfo } from './common/system-info';
 import * as electron from 'electron';
 
 describe('system-info', () => {
-
   let event;
 
   beforeEach(() => {
@@ -22,5 +21,4 @@ describe('system-info', () => {
     expect(systemInfo.cpuUsage).toBeGreaterThanOrEqual(0);
     expect(systemInfo.memUsage).toBeGreaterThanOrEqual(0);
   });
-
 });

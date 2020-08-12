@@ -14,19 +14,12 @@ import { NgxsModule } from '@ngxs/store';
 
 const COMPONENTS = [];
 
-const MODULES = [
-  BarrelModule,
-  NgxElectronModule,
-  PagesModule
-];
+const MODULES = [BarrelModule, NgxElectronModule, PagesModule];
 
 @NgModule({
-
   bootstrap: [RootComponent],
 
-  declarations: [
-    ...COMPONENTS
-  ],
+  declarations: [...COMPONENTS],
 
   imports: [
     ...MODULES,
@@ -42,7 +35,5 @@ const MODULES = [
       logger: console
     })
   ]
-
 })
-
-export class TernimalModule { }
+export class TernimalModule {}

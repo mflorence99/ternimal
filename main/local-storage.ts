@@ -25,10 +25,16 @@ ipcMain.on(Channels.localStorageKey, (event: Event, n: number): void => {
   event.returnValue = Object.keys(store.store)[n] as any;
 });
 
-ipcMain.on(Channels.localStorageRemoveItem, (event: Event, key: string): void => {
-  store.delete(key);
-});
+ipcMain.on(
+  Channels.localStorageRemoveItem,
+  (event: Event, key: string): void => {
+    store.delete(key);
+  }
+);
 
-ipcMain.on(Channels.localStorageSetItem, (event: Event, key: string, value: any): void => {
-  store.set(key, value);
-});
+ipcMain.on(
+  Channels.localStorageSetItem,
+  (event: Event, key: string, value: any): void => {
+    store.set(key, value);
+  }
+);

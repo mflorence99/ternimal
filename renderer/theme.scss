@@ -5,8 +5,8 @@
 //  Custom Angulat Material theme
 
 $custom-primary: mat-palette($mat-blue, 400, 200, 600);
-$custom-accent:  mat-palette($mat-amber, 400, 200, 600);
-$custom-warn:  mat-palette($mat-red, 400, 200, 600);
+$custom-accent: mat-palette($mat-amber, 400, 200, 600);
+$custom-warn: mat-palette($mat-red, 400, 200, 600);
 $custom-theme: mat-dark-theme($custom-primary, $custom-accent, $custom-warn);
 
 @include angular-material-theme($custom-theme);
@@ -16,7 +16,6 @@ $custom-theme: mat-dark-theme($custom-primary, $custom-accent, $custom-warn);
 @import 'colors.scss';
 
 :root {
-
   --primary-color: var(--mat-blue-400);
   --accent-color: var(--mat-amber-300);
   --warn-color: var(--mat-red-400);
@@ -28,7 +27,6 @@ $custom-theme: mat-dark-theme($custom-primary, $custom-accent, $custom-warn);
   --ternimal-gutter: 5px;
   --ternimal-cy-header: 5rem;
   --ternimal-cx-tabs: 14rem;
-
 }
 
 * {
@@ -63,7 +61,6 @@ a {
   &:hover {
     text-decoration: underline;
   }
-
 }
 
 .as-split-gutter {
@@ -144,13 +141,11 @@ html {
     padding: 0;
 
     li {
-
       &.divider {
         margin: 0.5rem 0;
       }
 
       &.disabled {
-
         a {
           color: var(--mat-grey-500);
 
@@ -162,9 +157,7 @@ html {
           .accelerator {
             visibility: hidden;
           }
-
         }
-
       }
 
       a {
@@ -182,7 +175,6 @@ html {
           .accelerator {
             color: var(--mat-grey-800);
           }
-
         }
 
         .accelerator {
@@ -190,13 +182,9 @@ html {
           font-family: 'B612 Mono', monospace;
           margin-left: 2rem;
         }
-
       }
-
     }
-
   }
-
 }
 
 ol,

@@ -21,25 +21,20 @@ export class MockElementRef extends ElementRef {
 }
 
 describe('RootComponent', () => {
-
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
-      declarations: [
-        RootComponent
-      ],
+      declarations: [RootComponent],
       imports: [
         BarrelModule,
         ComponentsModule,
         NgxsModule.forRoot(states),
-        NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
+        NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN])
       ],
       providers: [
         ContextMenuService,
         { provide: ElementRef, useValue: new MockElementRef() }
       ]
     }).compileComponents();
-
   }));
 
   test('App is created', () => {
@@ -47,5 +42,4 @@ describe('RootComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
 });

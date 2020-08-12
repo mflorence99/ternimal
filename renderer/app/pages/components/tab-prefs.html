@@ -1,91 +1,67 @@
 <section>
-
   <header>
-
-    <div 
-      class="icon">
-
+    <div class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
         [fixedWidth]="true"
         [icon]="tabs.tab.icon"
         [ngStyle]="{color: tabs.tab.color}"
-        size=lg>
+        size="lg"
+      >
       </fa-icon>
-
     </div>
 
     <h3>
       {{ tabs.tab.label }} Setup
     </h3>
-
   </header>
 
-  <form
-    [formGroup]="tabPrefsForm"
-    novalidate
-    spellcheck="false">
-
+  <form [formGroup]="tabPrefsForm" novalidate spellcheck="false">
     <mat-form-field>
       <input
         formControlName="label"
         matInput
         placeholder="Enter a label for this tab"
-        type="text">
+        type="text"
+      />
       <button
         (click)="clear('label')"
         aria-label="Clear"
         mat-button
         mat-icon-button
-        matSuffix>
-        <fa-icon
-          [icon]="['fas', 'times']">
-        </fa-icon>
+        matSuffix
+      >
+        <fa-icon [icon]="['fas', 'times']"> </fa-icon>
       </button>
     </mat-form-field>
 
     <article>
-
       <h4>Select an Icon</h4>
 
-      <mat-button-toggle-group
-        formControlName="icon">
-
-        <mat-button-toggle 
+      <mat-button-toggle-group formControlName="icon">
+        <mat-button-toggle
           [value]="icon"
-          *ngFor="let icon of icons; let ix = index">
-          <fa-icon
-            [fixedWidth]="true"
-            [icon]="splitIcons[ix]"
-            size="2x">
+          *ngFor="let icon of icons; let ix = index"
+        >
+          <fa-icon [fixedWidth]="true" [icon]="splitIcons[ix]" size="2x">
           </fa-icon>
         </mat-button-toggle>
-
       </mat-button-toggle-group>
-
     </article>
 
     <article>
-
       <h4>Select a Color</h4>
 
-      <mat-button-toggle-group
-        formControlName="color">
-
-        <mat-button-toggle 
-          [value]="color"
-          *ngFor="let color of colors">
+      <mat-button-toggle-group formControlName="color">
+        <mat-button-toggle [value]="color" *ngFor="let color of colors">
           <fa-icon
             [icon]="['fas', 'square']"
             [ngStyle]="{color: color}"
-            size="2x">
+            size="2x"
+          >
           </fa-icon>
         </mat-button-toggle>
-
       </mat-button-toggle-group>
-
     </article>
-
   </form>
-
 </section>

@@ -3,24 +3,13 @@ import { WidgetHostDirective } from './widget-host';
 
 import { NgModule } from '@angular/core';
 
-const DIRECTIVES = [
-  WidgetHostDirective
-];
+const DIRECTIVES = [WidgetHostDirective];
 
 @NgModule({
+  declarations: [...DIRECTIVES],
 
-  declarations: [
-    ...DIRECTIVES
-  ],
+  exports: [...DIRECTIVES],
 
-  exports: [
-    ...DIRECTIVES
-  ],
-
-  imports: [
-    BarrelModule
-  ]
-
+  imports: [BarrelModule]
 })
-
-export class DirectivesModule { }
+export class DirectivesModule {}

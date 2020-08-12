@@ -16,7 +16,10 @@ module.exports = {
     prefix: '<rootDir>/'
   }),
   preset: 'jest-preset-angular',
-  reporters: ['default', ['jest-junit', { outputDirectory: './reports/junit' }]],
+  reporters: [
+    'default',
+    ['jest-junit', { outputDirectory: './reports/junit' }]
+  ],
   roots: ['<rootDir>/common/', '<rootDir>/main/', '<rootDir>/renderer/'],
   setupFilesAfterEnv: ['<rootDir>/renderer/test.ts'],
   testMatch: ['**/+(*.)+(spec).+(ts)'],

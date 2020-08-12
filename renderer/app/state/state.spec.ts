@@ -34,13 +34,12 @@ export interface Bundle {
 }
 
 export function prepare(): Bundle {
-
-  const bundle: Bundle = { };
+  const bundle: Bundle = {};
 
   TestBed.configureTestingModule({
     imports: [
       NgxsModule.forRoot(states),
-      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
+      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN])
     ]
   });
 
@@ -58,13 +57,10 @@ export function prepare(): Bundle {
   bundle.ternimal = TestBed.inject(TernimalState);
 
   return bundle;
-
 }
 
 describe('State tests helpers', () => {
-
   test('Dummy test', () => {
     expect(true).toBeTruthy();
   });
-
 });

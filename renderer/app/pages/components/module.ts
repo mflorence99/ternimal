@@ -25,14 +25,9 @@ const COMPONENTS = [
 ];
 
 @NgModule({
+  declarations: [...COMPONENTS],
 
-  declarations: [
-    ...COMPONENTS
-  ],
-
-  exports: [
-    ...COMPONENTS
-  ],
+  exports: [...COMPONENTS],
 
   imports: [
     BarrelModule,
@@ -40,7 +35,5 @@ const COMPONENTS = [
     DirectivesModule,
     WidgetsModule
   ]
-
 })
-
-export class ComponentsModule { }
+export class ComponentsModule {}

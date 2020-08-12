@@ -49,10 +49,9 @@ export type SplitVisitorFn = (split: Layout) => void;
   defaults: {
     [Params.initialLayoutID]: LayoutState.defaultLayout()
   }
-}) export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
-
-  constructor(private selection: SelectionState,
-              private utils: Utils) {
+})
+export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
+  constructor(private selection: SelectionState, private utils: Utils) {
     super();
   }
 
@@ -74,7 +73,10 @@ export type SplitVisitorFn = (split: Layout) => void;
   // actions
 
   @DataAction({ insideZone: true })
-  closeSplit(@Payload('LayoutState.closeSplit') { splitID, ix, visitor }: DataActionParams): void {
+  closeSplit(
+    @Payload('LayoutState.closeSplit')
+    { splitID, ix, visitor }: DataActionParams
+  ): void {
     const model = this.utils.deepCopy(this.ctx.getState());
     const split = this.findSplitByID(splitID, model);
     if (split) {
@@ -83,9 +85,9 @@ export type SplitVisitorFn = (split: Layout) => void;
       split.splits.splice(ix, 1);
       // if we have more than one split left (or at the root level)
       // we set everyone to the same size, distributed evenly
-      if (split.root || (split.splits.length > 1)) {
+      if (split.root || split.splits.length > 1) {
         const size = 100 / split.splits.length;
-        split.splits.forEach(split => split.size = size);
+        split.splits.forEach((split) => (split.size = size));
       } else {
         // but if only one split left, collapse the splits
         // NOTE: the root level can't be deleted
@@ -98,7 +100,10 @@ export type SplitVisitorFn = (split: Layout) => void;
   }
 
   @DataAction({ insideZone: true })
-  makeSplit(@Payload('LayoutState.makeSplit') { splitID, ix, direction, before, visitor }: DataActionParams): void {
+  makeSplit(
+    @Payload('LayoutState.makeSplit')
+    { splitID, ix, direction, before, visitor }: DataActionParams
+  ): void {
     const model = this.utils.deepCopy(this.ctx.getState());
     const split = this.findSplitByID(splitID, model);
     if (split) {
@@ -108,7 +113,7 @@ export type SplitVisitorFn = (split: Layout) => void;
         const iy = ix + (before ? 0 : 1);
         split.splits.splice(iy, 0, { id: UUID.UUID(), size: 0 });
         const size = 100 / split.splits.length;
-        split.splits.forEach(split => split.size = size);
+        split.splits.forEach((split) => (split.size = size));
       } else {
         // but now we want to split in the opposite direction
         // we create a new sub-split, preserving IDs
@@ -117,39 +122,52 @@ export type SplitVisitorFn = (split: Layout) => void;
         splat.direction = direction;
         const splatID = splat.id;
         splat.id = UUID.UUID();
-        if (before) 
-          splat.splits = [{ id: UUID.UUID(), size: 50 }, { id: splatID, size: 50 }];
-        else splat.splits = [{ id: splatID, size: 50 }, { id: UUID.UUID(), size: 50 }];
+        if (before)
+          splat.splits = [
+            { id: UUID.UUID(), size: 50 },
+            { id: splatID, size: 50 }
+          ];
+        else
+          splat.splits = [
+            { id: splatID, size: 50 },
+            { id: UUID.UUID(), size: 50 }
+          ];
       }
       // visit every split we're adjusting
-      this.visitSplits(split, split => visitor?.(split));
+      this.visitSplits(split, (split) => visitor?.(split));
       this.ctx.setState(model);
     }
   }
 
   @DataAction({ insideZone: true })
-  newLayout(@Payload('LayoutState.newLayout') { layoutID, visitor }: DataActionParams): void {
+  newLayout(
+    @Payload('LayoutState.newLayout') { layoutID, visitor }: DataActionParams
+  ): void {
     this.ctx.setState(patch({ [layoutID]: LayoutState.defaultLayout() }));
     const layout = this.ctx.getState()[layoutID];
-    this.visitSplits(layout, split => visitor?.(split));
+    this.visitSplits(layout, (split) => visitor?.(split));
   }
 
   @DataAction({ insideZone: true })
-  remove(@Payload('LayoutState.remove') { layoutID, visitor }: DataActionParams): void {
+  remove(
+    @Payload('LayoutState.remove') { layoutID, visitor }: DataActionParams
+  ): void {
     const layout = this.ctx.getState()[layoutID];
     if (layout) {
       // visit every layout we're deleting
-      this.visitSplits(layout, split => visitor?.(split));
+      this.visitSplits(layout, (split) => visitor?.(split));
       this.ctx.setState(scratch(layoutID));
     }
   }
 
   @DataAction({ insideZone: true })
-  updateSplit(@Payload('LayoutState.updateSplit') { splitID, sizes }: DataActionParams): void {
+  updateSplit(
+    @Payload('LayoutState.updateSplit') { splitID, sizes }: DataActionParams
+  ): void {
     const model = this.utils.deepCopy(this.ctx.getState());
     const split = this.findSplitByID(splitID, model);
     if (split) {
-      sizes.forEach((size, ix) => split.splits[ix].size = size);
+      sizes.forEach((size, ix) => (split.splits[ix].size = size));
       this.ctx.setState(model);
     }
   }
@@ -159,25 +177,22 @@ export type SplitVisitorFn = (split: Layout) => void;
   @Computed() get layout(): Layout {
     return this.snapshot[this.selection.layoutID];
   }
-  
+
   /* eslint-disable @typescript-eslint/member-ordering */
 
   findSplitByID(id: string, model = this.snapshot): Layout {
     for (const key of Object.keys(model)) {
       const layout = this.findSplitByIDImpl(id, model[key]);
-      if (layout)
-        return layout;
+      if (layout) return layout;
     }
     return null;
   }
 
   findSplitByIDImpl(id: string, layout: Layout): Layout {
-    if (layout.id === id)
-      return layout;
+    if (layout.id === id) return layout;
     for (const inner of layout.splits ?? []) {
       const split = this.findSplitByIDImpl(id, inner);
-      if (split)
-        return split;
+      if (split) return split;
     }
     return null;
   }
@@ -188,5 +203,4 @@ export type SplitVisitorFn = (split: Layout) => void;
       this.visitSplits(inner, visitor);
     }
   }
-
 }

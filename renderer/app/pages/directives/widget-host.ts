@@ -4,7 +4,6 @@ import { ViewContainerRef } from '@angular/core';
 @Directive({
   selector: '[ternimalWidgetHost]'
 })
-
 export class WidgetHostDirective {
-  constructor(public vcRef: ViewContainerRef) { }
+  constructor(public vcRef: ViewContainerRef) {}
 }

@@ -30,11 +30,9 @@ export type StatusStateModel = Record<string, Status>;
 @StateRepository()
 @State<StatusStateModel>({
   name: 'status',
-  defaults: { }
+  defaults: {}
 })
-
 export class StatusState extends NgxsDataRepository<StatusStateModel> {
-
   static defaultStatus(): Status {
     return {
       cwd: Params.homeDir
@@ -49,7 +47,10 @@ export class StatusState extends NgxsDataRepository<StatusStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  update(@Payload('StatusState.update') { splitID, widgetID, status }: DataActionParams): void {
+  update(
+    @Payload('StatusState.update')
+    { splitID, widgetID, status }: DataActionParams
+  ): void {
     if (!this.ctx.getState()[splitID])
       this.ctx.setState(patch({ [splitID]: {} }));
     this.ctx.setState(patch({ [splitID]: patch({ [widgetID]: status }) }));
@@ -60,5 +61,4 @@ export class StatusState extends NgxsDataRepository<StatusStateModel> {
   status(splitID: string, widgetID: string): Status {
     return this.snapshot[splitID]?.[widgetID] ?? StatusState.defaultStatus();
   }
-
 }
