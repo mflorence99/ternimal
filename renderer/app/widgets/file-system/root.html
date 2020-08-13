@@ -44,7 +44,6 @@
                   [icon]="['fas', isCut(desc.path)? 'cut' : 'clipboard']"
                   [ngStyle]="{color: 'var(--text-color)'}"
                   *ngIf="isClipped(desc.path)"
-                  size="sm"
                 >
                 </fa-icon>
 
@@ -53,7 +52,6 @@
                   [icon]="isEmpty(desc.path)? ['far', 'folder'] : (paths.isOpen(splitID, desc.path)? ['fas', 'folder-open'] : ['fas', 'folder'])"
                   [ngStyle]="{color: desc.color}"
                   *ngIf="!isClipped(desc.path) && desc.isDirectory"
-                  size="sm"
                 >
                 </fa-icon>
 
@@ -62,7 +60,6 @@
                   [icon]="desc.icon"
                   [ngStyle]="{color: desc.color}"
                   *ngIf="!isClipped(desc.path) && !desc.isDirectory"
-                  size="sm"
                 >
                 </fa-icon>
               </ng-container>

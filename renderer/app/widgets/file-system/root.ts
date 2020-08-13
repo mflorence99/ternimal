@@ -165,10 +165,13 @@ export class FileSystemComponent implements OnInit, Widget {
   }
 
   canGotoHere(): boolean {
-    return (
-      this.table.selectedRowIDs.length === 1 &&
-      !this.isEmpty(this.table.selectedRowIDs[0])
-    );
+    if (this.table.selectedRowIDs.length !== 1) return false;
+    else {
+      const desc = this.descs.find(
+        (desc) => desc.path === this.table.selectedRowIDs[0]
+      );
+      return desc?.isDirectory;
+    }
   }
 
   clearClipboard(): void {
