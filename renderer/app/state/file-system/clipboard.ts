@@ -35,6 +35,7 @@ export interface FileSystemClipboardStateModel {
 export class FileSystemClipboardState
   extends NgxsDataRepository<FileSystemClipboardStateModel>
   implements NgxsOnInit {
+  //
   constructor(
     private actions$: Actions,
     public electron: ElectronService,

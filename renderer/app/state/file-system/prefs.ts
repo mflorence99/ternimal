@@ -90,6 +90,7 @@ export interface FileSystemPrefsStateModel {
 export class FileSystemPrefsState
   extends NgxsDataRepository<FileSystemPrefsStateModel>
   implements NgxsOnInit {
+  //
   constructor(
     private actions$: Actions,
     private selection: SelectionState,

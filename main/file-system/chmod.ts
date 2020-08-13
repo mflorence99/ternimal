@@ -5,11 +5,13 @@ import { FileDescriptor } from '../common/file-system';
 
 import * as async from 'async';
 import * as electron from 'electron';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as Mode from 'stat-mode';
 import * as util from 'util';
 
 const { ipcMain } = electron;
+
+// NOTE: we want "undo" capability, so we need FileDescriptors, not just paths
 
 const chmoder = (descs: FileDescriptor[], chmod: Chmod): void => {
   async.filter(
@@ -18,7 +20,7 @@ const chmoder = (descs: FileDescriptor[], chmod: Chmod): void => {
       try {
         // attempt to change the mode of every supplied path
         const stat = await util.promisify(fs.lstat)(desc.path);
-        const mode = Mode(stat);
+        const mode = Mode(stat as fs.Stats);
         mode.owner.read = chmod.owner.read ?? mode.owner.read;
         mode.owner.write = chmod.owner.write ?? mode.owner.write;
         mode.owner.execute = chmod.owner.execute ?? mode.owner.execute;
@@ -49,18 +51,20 @@ const chmoder = (descs: FileDescriptor[], chmod: Chmod): void => {
 };
 
 const report = (failures: FileDescriptor[]): void => {
-  const theWindow = globalThis.theWindow;
-  let message = `Permission denied ${failures[0].path}`;
-  if (failures.length === 2) message += ' and one other';
-  if (failures.length > 2) message += ` and ${failures.length - 1} others`;
-  theWindow?.webContents.send(Channels.error, message);
+  if (failures.length > 0) {
+    const theWindow = globalThis.theWindow;
+    let message = `Permission denied ${failures[0].path}`;
+    if (failures.length === 2) message += ' and one other';
+    if (failures.length > 2) message += ` and ${failures.length - 1} others`;
+    theWindow?.webContents.send(Channels.error, message);
+  }
 };
 
 const undo = (descs: FileDescriptor[]): void => {
   async.each(descs, async (desc) => {
     // reset the mode of every supplied path
     const stat = await util.promisify(fs.lstat)(desc.path);
-    const mode = Mode(stat);
+    const mode = Mode(stat as fs.Stats);
     mode.owner.read = desc.mode[1] === 'r';
     mode.owner.write = desc.mode[2] === 'w';
     mode.owner.execute = desc.mode[3] === 'x';

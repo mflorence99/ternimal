@@ -1,4 +1,5 @@
 import './file-system/chmod';
+import './file-system/files';
 import './file-system/paths';
 import './file-system/readdir';
 import './native';

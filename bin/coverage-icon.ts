@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as path from 'path';
 
 /* eslint-disable @typescript-eslint/naming-convention */

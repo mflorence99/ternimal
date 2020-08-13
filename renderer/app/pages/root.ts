@@ -15,6 +15,7 @@ import { OnInit } from '@angular/core';
   styleUrls: ['root.scss']
 })
 export class RootComponent implements OnInit {
+  //
   constructor(
     public electron: ElectronService,
     public layout: LayoutState,

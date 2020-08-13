@@ -1,20 +1,10 @@
 import { Channels } from '../common/channels';
 
 import * as electron from 'electron';
-import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
 const { app, ipcMain } = electron;
-
-ipcMain.on(Channels.fsExists, (event: Event, path: string): void => {
-  try {
-    fs.accessSync(path);
-    event.returnValue = true;
-  } catch (error) {
-    event.returnValue = false;
-  }
-});
 
 ipcMain.on(Channels.fsHomeDir, (event: Event): void => {
   event.returnValue = app.getPath('home') as any;

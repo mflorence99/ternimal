@@ -38,6 +38,7 @@ export type TabsStateModel = Tab[];
   defaults: TabsState.defaultTabs()
 })
 export class TabsState extends NgxsDataRepository<TabsStateModel> {
+  //
   constructor(private selection: SelectionState) {
     super();
   }

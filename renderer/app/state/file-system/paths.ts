@@ -37,6 +37,7 @@ export type FileSystemPathsStateModel = Record<string, string[]>;
 export class FileSystemPathsState
   extends NgxsDataRepository<FileSystemPathsStateModel>
   implements NgxsOnInit {
+  //
   constructor(
     private actions$: Actions,
     public electron: ElectronService,

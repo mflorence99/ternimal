@@ -87,6 +87,23 @@ export class FileSystemComponent implements OnInit, Widget {
     ],
     [
       {
+        command: 'touch()',
+        description: 'Touch',
+        if: 'table.selectedRowIDs.length'
+      },
+      {
+        command: 'trash()',
+        description: 'Move to Trash',
+        if: 'table.selectedRowIDs.length'
+      },
+      {
+        command: 'delete()',
+        description: 'Permanently delete',
+        if: 'table.selectedRowIDs.length'
+      }
+    ],
+    [
+      {
         command: 'cutToClipboard()',
         description: 'Cut',
         if: 'table.selectedRowIDs.length'
@@ -171,6 +188,13 @@ export class FileSystemComponent implements OnInit, Widget {
 
   cutToClipboard(): void {
     this.clipboard.update({ op: 'cut', paths: this.table.selectedRowIDs });
+  }
+
+  delete(): void {
+    this.electron.ipcRenderer.send(
+      Channels.fsDelete,
+      this.table.selectedRowIDs
+    );
   }
 
   goto(path: string): void {
@@ -261,12 +285,20 @@ export class FileSystemComponent implements OnInit, Widget {
     });
   }
 
+  touch(): void {
+    this.electron.ipcRenderer.send(Channels.fsTouch, this.table.selectedRowIDs);
+  }
+
   trackByDesc(_, desc: FileDescriptor): string {
     return desc.path;
   }
 
   trackByDict(_, dict: Dictionary): string {
     return dict.name;
+  }
+
+  trash(): void {
+    this.electron.ipcRenderer.send(Channels.fsTrash, this.table.selectedRowIDs);
   }
 
   // private methods

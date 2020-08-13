@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Channels } from '../common/channels';
 import { FileDescriptor } from '../common/file-system';
 
@@ -6,7 +7,7 @@ import { store } from '../local-storage';
 import * as async from 'async';
 import * as electron from 'electron';
 import * as filewatcher from 'filewatcher';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as Mode from 'stat-mode';
 import * as os from 'os';
 import * as path from 'path';
@@ -224,7 +225,9 @@ const loadPath = (root: string): void => {
         theWindow?.webContents.send(
           Channels.fsLoadPathSuccess,
           root,
-          names.map((name, ix) => makeDescriptor(root, name, stats[ix]))
+          names.map((name, ix) =>
+            makeDescriptor(root, name, stats[ix] as fs.Stats)
+          )
         );
         // NOTE: side-effect of makeDescriptor updates colorByExt
         store.set('file-system.colorByExt', colorByExt);
