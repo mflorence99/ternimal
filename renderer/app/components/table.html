@@ -13,13 +13,18 @@
 </div>
 
 <div
-  (mousedown)="rowSelect($event)"
-  (mouseover)="rowSelectXtnd($event)"
-  (mouseup)="rowSelectCancel()"
+  (mousedown)="rowDeselect($event)"
   (scroll)="scrollLeft = $event.target.scrollLeft"
   class="body-wrapper"
 >
-  <table (onResize)="resize()" #body class="body">
+  <table
+    (mousedown)="rowSelect($event)"
+    (mouseover)="rowSelectXtnd($event)"
+    (mouseup)="rowSelectCancel($event)"
+    (onResize)="resize()"
+    #body
+    class="body"
+  >
     <ng-content select="tbody"> </ng-content>
   </table>
 </div>

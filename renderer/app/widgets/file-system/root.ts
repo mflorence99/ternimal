@@ -87,12 +87,14 @@ export class FileSystemComponent implements OnInit, Widget {
       {
         command: 'newFile()',
         description: 'New file...',
-        if: 'table.selectedRowIDs.length'
+        // NOTE: meaning zero or 1 selected
+        if: 'table.selectedRowIDs.length < 2'
       },
       {
         command: 'newDir()',
         description: 'New directory...',
-        if: 'table.selectedRowIDs.length'
+        // NOTE: meaning zero or 1 selected
+        if: 'table.selectedRowIDs.length < 2'
       },
       {
         command: 'rename()',
@@ -336,7 +338,7 @@ export class FileSystemComponent implements OnInit, Widget {
     );
     console.log(newnamer.parsedPath);
     newnamer.newName$.subscribe((name) => {
-      if (name) console.log(name);
+      if (name) this.electron.ipcRenderer.send(Channels.fsRename, path, name);
       this.overlayRef.detach();
     });
   }

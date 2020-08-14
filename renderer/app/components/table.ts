@@ -73,6 +73,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
   }
 
   columnHover(event: MouseEvent): void {
+    event.stopPropagation();
     const column = event.target as HTMLElement;
     if (column.getAttribute('_ix') != null) {
       const hoverColumn = Number(column.getAttribute('_ix'));
@@ -99,6 +100,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
   }
 
   columnSort(event: MouseEvent): void {
+    event.stopPropagation();
     const column = event.target as HTMLElement;
     if (column.getAttribute('_ix') != null && event.buttons === 1) {
       const sortedColumn = Number(column.getAttribute('_ix'));
@@ -195,7 +197,13 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
     this.syncCells();
   }
 
+  rowDeselect(event: MouseEvent): void {
+    event.stopPropagation();
+    this.rowUnselect();
+  }
+
   rowSelect(event: MouseEvent, forceShift = false): void {
+    event.stopPropagation();
     const tr = this.findRow(event);
     if (tr) {
       const oldSelected = new Set<string>(this.selectedRowIDs);
@@ -249,12 +257,14 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
     }
   }
 
-  rowSelectCancel(): void {
+  rowSelectCancel(event: MouseEvent): void {
+    event.stopPropagation();
     this.rowIDs = null;
     this.rowIndexByID = null;
   }
 
   rowSelectXtnd(event: MouseEvent): void {
+    event.stopPropagation();
     if (event.buttons === 1) this.rowSelect(event, /* forceShift= */ true);
   }
 

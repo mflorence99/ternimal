@@ -1,4 +1,5 @@
 <input
+  (input)="newName($event.target.value)"
   (keyup.escape)="cancel()"
   (keyup.enter)="accept()"
   [value]="parsedPath.base"
@@ -8,3 +9,8 @@
   type="text"
   tabindex="0"
 />
+
+<p *ngIf="invalid" class="error">
+  A file or directory <b>{{ invalid }}</b> already exists at this location.
+  Please choose another.
+</p>

@@ -4,6 +4,13 @@
   width: 100%;
 }
 
+.error {
+  background-color: var(--warn-color);
+  font-size: 0.75rem;
+  line-height: 125%;
+  padding: 0.25rem 0.5rem;
+}
+
 input {
   background-color: var(--mat-grey-850);
   border: 1px dotted var(--mat-grey-400);

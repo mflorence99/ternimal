@@ -9,18 +9,15 @@ import { NgModule } from '@angular/core';
 
 const COMPONENTS = [
   FileSystemComponent,
+  FileSystemNewNameComponent,
   FileSystemPrefsComponent,
   FileSystemPropsComponent
 ];
-
-const ENTRY_COMPONENTS = [FileSystemNewNameComponent];
 
 const MODULES = [BarrelModule, CommonComponentsModule];
 
 @NgModule({
   declarations: [...COMPONENTS],
-
-  entryComponents: [ENTRY_COMPONENTS],
 
   exports: [...COMPONENTS],
 

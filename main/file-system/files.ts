@@ -4,6 +4,7 @@ import { Channels } from '../common/channels';
 import * as async from 'async';
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
+import * as path from 'path';
 import * as touch from 'touch';
 import * as trash from 'trash';
 
@@ -49,6 +50,12 @@ ipcMain.on(Channels.fsExists, (event: Event, path: string): void => {
   } catch (error) {
     event.returnValue = false;
   }
+});
+
+ipcMain.on(Channels.fsRename, (_, origPath: string, newName: string): void => {
+  fs.rename(origPath, path.join(path.dirname(origPath), newName), (err) => {
+    if (err) report([origPath]);
+  });
 });
 
 ipcMain.on(Channels.fsTouch, (_, paths: string[]): void => {
