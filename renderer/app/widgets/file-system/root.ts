@@ -44,6 +44,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FileSystemComponent implements OnInit, Widget {
   descs: FileDescriptor[];
+  descsByPath: Record<string, FileDescriptor> = {};
   effectivePrefs: FileSystemPrefs;
   loading: Record<string, boolean> = {};
   overlayRef: OverlayRef;
@@ -190,9 +191,7 @@ export class FileSystemComponent implements OnInit, Widget {
   canGotoHere(): boolean {
     if (this.table.selectedRowIDs.length !== 1) return false;
     else {
-      const desc = this.descs.find(
-        (desc) => desc.path === this.table.selectedRowIDs[0]
-      );
+      const desc = this.descsByPath[this.table.selectedRowIDs[0]];
       return desc?.isDirectory;
     }
   }
@@ -267,8 +266,8 @@ export class FileSystemComponent implements OnInit, Widget {
     const descs = this.files.snapshot[path];
     if (!descs) return false;
     else if (descs.length === 0) return true;
+    // TODO: Windows ??
     else if (!this.effectivePrefs.showHiddenFiles)
-      // TODO: Windows ??
       return descs.every((desc) => desc.name.startsWith('.'));
   }
 
@@ -290,9 +289,13 @@ export class FileSystemComponent implements OnInit, Widget {
     }
   }
 
-  newDir(): void {}
+  newDir(): void {
+    this.newDirOrFile(Channels.fsNewDir);
+  }
 
-  newFile(): void {}
+  newFile(): void {
+    this.newDirOrFile(Channels.fsNewFile);
+  }
 
   ngOnInit(): void {
     this.loadEm(this.paths.snapshot[this.splitID] ?? []);
@@ -319,24 +322,7 @@ export class FileSystemComponent implements OnInit, Widget {
   rename(): void {
     const path = this.table.selectedRowIDs[0];
     const cell = this.table.cellElement(path, 0);
-    const rect = cell.getBoundingClientRect();
-    this.overlayRef.updatePositionStrategy(
-      this.overlay
-        .position()
-        .global()
-        .width(`${rect.width}px`)
-        .left(`${rect.left}px`)
-        .height(`${rect.height}px`)
-        .top(`${rect.top}px`)
-    );
-    const newnamer = this.overlayRef.attach(
-      new ComponentPortal(FileSystemNewNameComponent)
-    ).instance;
-    newnamer.parsedPath = this.electron.ipcRenderer.sendSync(
-      Channels.fsParsePath,
-      path
-    );
-    console.log(newnamer.parsedPath);
+    const newnamer = this.makeNewnamer(path, cell);
     newnamer.newName$.subscribe((name) => {
       if (name) this.electron.ipcRenderer.send(Channels.fsRename, path, name);
       this.overlayRef.detach();
@@ -371,6 +357,7 @@ export class FileSystemComponent implements OnInit, Widget {
     const paths = this.paths.snapshot[this.splitID] ?? [];
     for (let ix = 0; ix < assembled.length; ix++) {
       const desc = assembled[ix];
+      this.descsByPath[desc.path] = desc;
       if (desc.isDirectory && paths.includes(desc.path)) {
         const inner = this.assemble(this.files.snapshot[desc.path] ?? []);
         // NOTE: this supposedly slower: assembled.splice(ix + 1, 0, ...inner);
@@ -418,11 +405,67 @@ export class FileSystemComponent implements OnInit, Widget {
       this.splitID
     );
     // NOTE: always the root as well
-    // TODO: no paths above this root??
+    // TODO: exclude paths above this root??
     if (paths) this.files.loadPaths([this.effectivePrefs.root, ...paths]);
+    this.descsByPath = {};
     this.descs = this.assemble([
       ...(this.files.snapshot[this.effectivePrefs.root] ?? [])
     ]);
+  }
+
+  private makeNewnamer(
+    path: string,
+    cell: HTMLElement,
+    nobase = false
+  ): FileSystemNewNameComponent {
+    const rect = cell.getBoundingClientRect();
+    this.overlayRef.updatePositionStrategy(
+      this.overlay
+        .position()
+        .global()
+        .width(`${rect.width}px`)
+        .left(`${rect.left}px`)
+        .height(`${rect.height}px`)
+        .top(`${rect.top}px`)
+    );
+    const newnamer = this.overlayRef.attach(
+      new ComponentPortal(FileSystemNewNameComponent)
+    ).instance;
+    const parsedPath = this.electron.ipcRenderer.sendSync(
+      Channels.fsParsePath,
+      path
+    );
+    // TODO: onky when we are renaming do we have a base name to
+    // disambiguate against
+    if (nobase) {
+      parsedPath.base = '';
+      parsedPath.ext = '';
+      parsedPath.name = '';
+    }
+    newnamer.parsedPath = parsedPath;
+    return newnamer;
+  }
+
+  private newDirOrFile(op: Channels): void {
+    const path = this.table.selectedRowIDs[0] ?? this.effectivePrefs.root;
+    const cell =
+      path !== this.effectivePrefs.root
+        ? this.table.cellElement(path, 0)
+        : this.table.cellElement(this.descs[this.descs.length - 1].path, 0);
+    const desc = this.descsByPath[path];
+    const cpath =
+      !desc || desc.isDirectory ? `${path}${Params.pathSeparator}dummy` : path;
+    const newnamer = this.makeNewnamer(cpath, cell, /* nobase = */ true);
+    newnamer.newName$.subscribe((name) => {
+      if (name) {
+        this.electron.ipcRenderer.send(op, cpath, name);
+        if (desc?.isDirectory) {
+          this.files.loadPaths([path]);
+          this.paths.open({ splitID: this.splitID, path });
+        }
+      }
+      this.overlayRef.detach();
+    });
   }
 
   private setupOverlay(): void {

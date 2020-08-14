@@ -52,6 +52,20 @@ ipcMain.on(Channels.fsExists, (event: Event, path: string): void => {
   }
 });
 
+ipcMain.on(Channels.fsNewDir, (_, base: string, name: string): void => {
+  const newDir = path.join(path.dirname(base), name);
+  fs.ensureDir(newDir, { mode: 0o2775 }, (err) => {
+    if (err) report([newDir]);
+  });
+});
+
+ipcMain.on(Channels.fsNewFile, (_, base: string, name: string): void => {
+  const newPath = path.join(path.dirname(base), name);
+  touch(newPath, { force: true }, (err) => {
+    if (err) report([newPath]);
+  });
+});
+
 ipcMain.on(Channels.fsRename, (_, origPath: string, newName: string): void => {
   fs.rename(origPath, path.join(path.dirname(origPath), newName), (err) => {
     if (err) report([origPath]);
