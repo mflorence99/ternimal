@@ -58,7 +58,6 @@
     <select
       (change)="select(inMore[$event.target.selectedIndex - 1])"
       autocomplete="off"
-      tabindex="0"
     >
       <option
         [attr.selected]="!isInMore(selection.layoutID)? true : null"

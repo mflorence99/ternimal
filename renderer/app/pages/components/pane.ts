@@ -1,5 +1,6 @@
 import * as widgets from '../../widgets/all-widgets';
 
+import { DestroyService } from '../../services/destroy';
 import { Layout } from '../../state/layout';
 import { LayoutState } from '../../state/layout';
 import { PanesState } from '../../state/panes';
@@ -9,20 +10,27 @@ import { SortState } from '../../state/sort';
 import { StatusState } from '../../state/status';
 import { TabsState } from '../../state/tabs';
 import { TernimalState } from '../../state/ternimal';
+import { Utils } from '../../services/utils';
 import { Widget } from '../../widgets/widget';
 import { WidgetCommand } from '../../widgets/widget';
 import { WidgetHostDirective } from '../directives/widget-host';
 
+import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ContextMenuComponent } from 'ngx-contextmenu';
+import { ElementRef } from '@angular/core';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
+import { filter } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
+  providers: [DestroyService],
   selector: 'ternimal-pane',
   templateUrl: 'pane.html',
   styleUrls: ['pane.scss']
@@ -36,6 +44,9 @@ export class PaneComponent implements OnInit {
   contextMenu: ContextMenuComponent;
 
   @Input() index: number;
+
+  @ViewChild('pane', { static: true }) pane: ElementRef;
+
   @Input() split: Layout;
   @Input() splittable: Layout;
 
@@ -47,6 +58,8 @@ export class PaneComponent implements OnInit {
   widgetHost: WidgetHostDirective;
 
   constructor(
+    private actions$: Actions,
+    private destroy$: DestroyService,
     public layout: LayoutState,
     public panes: PanesState,
     public tabs: TabsState,
@@ -54,7 +67,8 @@ export class PaneComponent implements OnInit {
     public selection: SelectionState,
     public sort: SortState,
     public status: StatusState,
-    public ternimal: TernimalState
+    public ternimal: TernimalState,
+    private utils: Utils
   ) {}
 
   close(): void {
@@ -122,6 +136,10 @@ export class PaneComponent implements OnInit {
     return this.split.id === this.selection.splitID;
   }
 
+  keydown(event: KeyboardEvent): void {
+    console.log(this.split.id, event);
+  }
+
   launch(widget: Widget): void {
     this.launchImpl(widget.widgetLaunch.implementation);
     this.panes.update({
@@ -133,6 +151,7 @@ export class PaneComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.handleActions$();
     const prefs = this.panes.prefs(this.split.id);
     this.launchImpl(prefs.widget);
   }
@@ -179,6 +198,25 @@ export class PaneComponent implements OnInit {
   }
 
   // private methods
+
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        filter(({ action, status }) => {
+          return (
+            this.utils.hasProperty(action, 'SelectionState.selectSplit') &&
+            status === 'SUCCESSFUL'
+          );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(({ action }) => {
+        const splitID = action['SelectionState.selectSplit'].splitID;
+        if (splitID === this.split.id) this.pane.nativeElement.focus();
+        else this.pane.nativeElement.blur();
+        console.log(`${splitID} selected`);
+      });
+  }
 
   private launchImpl(implementation: string): void {
     this.widgetHost.vcRef.clear();

@@ -1,4 +1,6 @@
 import { Channels } from '../../common/channels';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog';
+import { ConfirmDialogModel } from '../../components/confirm-dialog';
 import { DestroyService } from '../../services/destroy';
 import { Dictionary } from '../../state/file-system/prefs';
 import { FileDescriptor } from '../../common/file-system';
@@ -26,6 +28,7 @@ import { Component } from '@angular/core';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ElectronService } from 'ngx-electron';
 import { Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { OnInit } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { OverlayRef } from '@angular/cdk/overlay';
@@ -120,8 +123,8 @@ export class FileSystemComponent implements OnInit, Widget {
         if: 'table.selectedRowIDs.length'
       },
       {
-        command: 'delete()',
-        description: 'Permanently delete',
+        command: 'confirmDelete()',
+        description: 'Permanently delete...',
         if: 'table.selectedRowIDs.length'
       }
     ],
@@ -168,6 +171,7 @@ export class FileSystemComponent implements OnInit, Widget {
     private actions$: Actions,
     public clipboard: FileSystemClipboardState,
     private destroy$: DestroyService,
+    private dialog: MatDialog,
     public electron: ElectronService,
     public files: FileSystemFilesState,
     private overlay: Overlay,
@@ -198,6 +202,20 @@ export class FileSystemComponent implements OnInit, Widget {
 
   clearClipboard(): void {
     this.clipboard.update({ op: 'clear', paths: [] });
+  }
+
+  confirmDelete(): void {
+    const message =
+      'Are you sure you want to proceed? All selected directories and files will be permanently deleted and they cannot be restored.';
+    const title = 'Confirm Permanent Delete';
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: new ConfirmDialogModel(title, message)
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) this.delete();
+      });
   }
 
   copyPath(): void {

@@ -17,6 +17,7 @@ import { ViewChild } from '@angular/core';
 
 import { debounceTime } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -315,7 +316,15 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
 
   private handleActions$(): void {
     this.actions$
-      .pipe(debounceTime(0), takeUntil(this.destroy$))
+      .pipe(
+        debounceTime(0),
+        tap(({ action }) => {
+          // NOTE unselect all rows once we're no longer active table
+          const splitID = action['SelectionState.selectSplit']?.splitID;
+          if (splitID && splitID !== this.splitID) this.rowUnselect();
+        }),
+        takeUntil(this.destroy$)
+      )
       // NOTE: update column heads after ANY potential state change
       .subscribe(() => {
         this.utils.nextTick(() => {

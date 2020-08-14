@@ -1,7 +1,10 @@
 <section
   (click)="select()"
+  (keydown)="keydown($event)"
   [contextMenu]="contextMenu"
   [ngClass]="{selected: isSelected()}"
+  #pane
+  tabindex="0"
 >
   <fa-icon
     [icon]="tabs.tab.icon"
