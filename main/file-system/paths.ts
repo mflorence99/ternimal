@@ -14,6 +14,10 @@ ipcMain.on(Channels.fsParentDir, (event: Event, nm: string): void => {
   event.returnValue = path.dirname(nm) as any;
 });
 
+ipcMain.on(Channels.fsParsePath, (event: Event, nm: string): void => {
+  event.returnValue = path.parse(nm) as any;
+});
+
 ipcMain.on(Channels.fsPathSeparator, (event: Event): void => {
   event.returnValue = path.sep as any;
 });

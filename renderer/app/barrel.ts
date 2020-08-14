@@ -23,6 +23,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
 import { NgxResizeObserverModule } from 'ngx-resize-observer';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { ReactiveFormsModule } from '@angular/forms';
 
 const MODULES = [
@@ -48,6 +49,7 @@ const MODULES = [
   MatTooltipModule,
   MomentModule,
   NgxResizeObserverModule,
+  OverlayModule,
   PipesModule,
   ReactiveFormsModule
 ];

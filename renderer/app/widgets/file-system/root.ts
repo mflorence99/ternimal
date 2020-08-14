@@ -4,6 +4,7 @@ import { Dictionary } from '../../state/file-system/prefs';
 import { FileDescriptor } from '../../common/file-system';
 import { FileSystemClipboardState } from '../../state/file-system/clipboard';
 import { FileSystemFilesState } from '../../state/file-system/files';
+import { FileSystemNewNameComponent } from './new-name';
 import { FileSystemPathsState } from '../../state/file-system/paths';
 import { FileSystemPrefs } from '../../state/file-system/prefs';
 import { FileSystemPrefsState } from '../../state/file-system/prefs';
@@ -22,9 +23,12 @@ import { WidgetStatus } from '../widget';
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ComponentPortal } from '@angular/cdk/portal';
 import { ElectronService } from 'ngx-electron';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { Overlay } from '@angular/cdk/overlay';
+import { OverlayRef } from '@angular/cdk/overlay';
 import { ViewChild } from '@angular/core';
 
 import { debounceTime } from 'rxjs/operators';
@@ -42,6 +46,7 @@ export class FileSystemComponent implements OnInit, Widget {
   descs: FileDescriptor[];
   effectivePrefs: FileSystemPrefs;
   loading: Record<string, boolean> = {};
+  overlayRef: OverlayRef;
 
   @Input() splitID: string;
 
@@ -79,6 +84,21 @@ export class FileSystemComponent implements OnInit, Widget {
       }
     ],
     [
+      {
+        command: 'newFile()',
+        description: 'New file...',
+        if: 'table.selectedRowIDs.length'
+      },
+      {
+        command: 'newDir()',
+        description: 'New directory...',
+        if: 'table.selectedRowIDs.length'
+      },
+      {
+        command: 'rename()',
+        description: 'Rename...',
+        if: 'table.selectedRowIDs.length ===  1'
+      },
       {
         command: 'props()',
         description: 'Properties...',
@@ -147,6 +167,7 @@ export class FileSystemComponent implements OnInit, Widget {
     private destroy$: DestroyService,
     public electron: ElectronService,
     public files: FileSystemFilesState,
+    private overlay: Overlay,
     public params: Params,
     public paths: FileSystemPathsState,
     public prefs: FileSystemPrefsState,
@@ -267,10 +288,15 @@ export class FileSystemComponent implements OnInit, Widget {
     }
   }
 
+  newDir(): void {}
+
+  newFile(): void {}
+
   ngOnInit(): void {
     this.loadEm(this.paths.snapshot[this.splitID] ?? []);
     this.handleActions$();
     this.handleLoading$();
+    this.setupOverlay();
   }
 
   pasteFromClipboard(): void {
@@ -285,6 +311,33 @@ export class FileSystemComponent implements OnInit, Widget {
     this.ternimal.showWidgetSidebar({
       implementation: 'FileSystemPropsComponent',
       context: this.files.descsForPaths(this.table.selectedRowIDs)
+    });
+  }
+
+  rename(): void {
+    const path = this.table.selectedRowIDs[0];
+    const cell = this.table.cellElement(path, 0);
+    const rect = cell.getBoundingClientRect();
+    this.overlayRef.updatePositionStrategy(
+      this.overlay
+        .position()
+        .global()
+        .width(`${rect.width}px`)
+        .left(`${rect.left}px`)
+        .height(`${rect.height}px`)
+        .top(`${rect.top}px`)
+    );
+    const newnamer = this.overlayRef.attach(
+      new ComponentPortal(FileSystemNewNameComponent)
+    ).instance;
+    newnamer.parsedPath = this.electron.ipcRenderer.sendSync(
+      Channels.fsParsePath,
+      path
+    );
+    console.log(newnamer.parsedPath);
+    newnamer.newName$.subscribe((name) => {
+      if (name) console.log(name);
+      this.overlayRef.detach();
     });
   }
 
@@ -362,13 +415,22 @@ export class FileSystemComponent implements OnInit, Widget {
       this.tabs.tab.layoutID,
       this.splitID
     );
-    if (paths)
-      // NOTE: always the root as well
-      // TODO: no paths above this root??
-      this.files.loadPaths([this.effectivePrefs.root, ...paths]);
+    // NOTE: always the root as well
+    // TODO: no paths above this root??
+    if (paths) this.files.loadPaths([this.effectivePrefs.root, ...paths]);
     this.descs = this.assemble([
       ...(this.files.snapshot[this.effectivePrefs.root] ?? [])
     ]);
+  }
+
+  private setupOverlay(): void {
+    this.overlayRef = this.overlay.create({ hasBackdrop: true });
+    this.overlayRef
+      .backdropClick()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.overlayRef.detach();
+      });
   }
 
   private sortEm(descs: FileDescriptor[]): FileDescriptor[] {

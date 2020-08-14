@@ -17,3 +17,11 @@ export interface FileDescriptor {
   size: number;
   user: string;
 }
+
+export interface ParsedPath {
+  base: string;
+  dir: string;
+  ext: string;
+  name: string;
+  root: string;
+}

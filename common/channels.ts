@@ -11,6 +11,7 @@ export enum Channels {
   fsNewDir = 'file-system.newDir',
   fsNewFile = 'file-system.newFile',
   fsParentDir = 'file-system.parentDir',
+  fsParsePath = 'file-system.parsePath',
   fsPathSeparator = 'file-system.pathSeparator',
   fsRename = 'file-system.rename',
   fsRootDir = 'file-system.rootDir',

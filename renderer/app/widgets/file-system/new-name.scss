@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+input {
+  background-color: var(--mat-grey-850);
+  border: 1px dotted var(--mat-grey-400);
+  color: var(--text-color);
+  height: 100%;
+  padding: 0 0.5rem;
+  width: 100%;
+}

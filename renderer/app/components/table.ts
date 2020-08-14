@@ -62,6 +62,12 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
     private utils: Utils
   ) {}
 
+  cellElement(rowID: string, ix: number): HTMLElement {
+    return this.findElements(this.body.nativeElement, `tr[id='${rowID}'] td`)?.[
+      ix
+    ];
+  }
+
   @HostListener('mouseout', ['$event']) cleanup(event: MouseEvent): void {
     this.columnUnhover(event);
   }
