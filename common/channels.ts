@@ -25,6 +25,7 @@ export enum Channels {
   localStorageSetItem = 'local-storage.setItem',
 
   nativeClipboardWrite = 'native.clipboardWrite',
+  nativeOpen = 'native.open',
 
   openDevTools = 'toolbar.openDevTools',
 

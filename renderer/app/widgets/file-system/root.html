@@ -21,7 +21,11 @@
   </thead>
 
   <tbody>
-    <tr *ngFor="let desc of descs; trackBy: trackByDesc" [id]="desc.path">
+    <tr
+      (dblclick)="open(desc.path)"
+      [id]="desc.path"
+      *ngFor="let desc of descs; trackBy: trackByDesc"
+    >
       <ng-container *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
         <td [ngClass]="dict.name" *ngIf="effectivePrefs.visibility[dict.name]">
           <ng-container *ngIf="table.isHydrated(desc.path)">

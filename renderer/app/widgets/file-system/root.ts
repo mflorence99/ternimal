@@ -345,6 +345,10 @@ export class FileSystemComponent implements OnInit, Widget {
     this.setupOverlay();
   }
 
+  open(path: string): void {
+    this.electron.ipcRenderer.send(Channels.nativeOpen, path);
+  }
+
   pasteFromClipboard(): void {
     console.log(
       '%cPaste',
