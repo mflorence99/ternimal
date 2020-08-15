@@ -1,6 +1,6 @@
 <section
   (click)="select()"
-  (keydown)="keydown($event)"
+  (window:keydown)="keydown($event)"
   [contextMenu]="contextMenu"
   [ngClass]="{selected: isSelected()}"
   #pane
@@ -86,6 +86,9 @@
         [enabled]="isCommandEnabled.bind(this, menuItem)"
       >
         <div>{{ menuItem.description }}</div>
+        <div *ngIf="menuItem.accelerator" class="accelerator">
+          {{ menuItem.accelerator.description }}
+        </div>
       </ng-template>
     </ng-container>
 

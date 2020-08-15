@@ -101,6 +101,10 @@ export class FileSystemComponent implements OnInit, Widget {
         if: 'table.selectedRowIDs.length < 2'
       },
       {
+        accelerator: {
+          description: 'F2',
+          key: 'F2'
+        },
         command: 'rename()',
         description: 'Rename...',
         if: 'table.selectedRowIDs.length ===  1'
@@ -118,6 +122,10 @@ export class FileSystemComponent implements OnInit, Widget {
         if: 'table.selectedRowIDs.length'
       },
       {
+        accelerator: {
+          description: 'Backspace',
+          key: 'Backspace'
+        },
         command: 'trash()',
         description: 'Move to Trash',
         if: 'table.selectedRowIDs.length'
@@ -130,11 +138,21 @@ export class FileSystemComponent implements OnInit, Widget {
     ],
     [
       {
+        accelerator: {
+          ctrlKey: true,
+          description: 'Ctrl+X',
+          key: 'x'
+        },
         command: 'cutToClipboard()',
         description: 'Cut',
         if: 'table.selectedRowIDs.length'
       },
       {
+        accelerator: {
+          ctrlKey: true,
+          description: 'Ctrl+C',
+          key: 'c'
+        },
         command: 'copyToClipboard()',
         description: 'Copy',
         if: 'table.selectedRowIDs.length'
@@ -145,6 +163,11 @@ export class FileSystemComponent implements OnInit, Widget {
         if: 'table.selectedRowIDs.length === 1'
       },
       {
+        accelerator: {
+          ctrlKey: true,
+          description: 'Ctrl+V',
+          key: 'v'
+        },
         command: 'pasteFromClipboard()',
         description: 'Paste',
         if: 'clipboard.paths.length'

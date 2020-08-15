@@ -15,18 +15,13 @@ import { Widget } from '../../widgets/widget';
 import { WidgetCommand } from '../../widgets/widget';
 import { WidgetHostDirective } from '../directives/widget-host';
 
-import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ContextMenuComponent } from 'ngx-contextmenu';
-import { ElementRef } from '@angular/core';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
-
-import { filter } from 'rxjs/operators';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -44,9 +39,6 @@ export class PaneComponent implements OnInit {
   contextMenu: ContextMenuComponent;
 
   @Input() index: number;
-
-  @ViewChild('pane', { static: true }) pane: ElementRef;
-
   @Input() split: Layout;
   @Input() splittable: Layout;
 
@@ -58,8 +50,6 @@ export class PaneComponent implements OnInit {
   widgetHost: WidgetHostDirective;
 
   constructor(
-    private actions$: Actions,
-    private destroy$: DestroyService,
     public layout: LayoutState,
     public panes: PanesState,
     public tabs: TabsState,
@@ -137,7 +127,20 @@ export class PaneComponent implements OnInit {
   }
 
   keydown(event: KeyboardEvent): void {
-    console.log(this.split.id, event);
+    console.log(event);
+    if (this.isSelected()) {
+      const menuItem = this.widget.widgetMenuItems
+        .flat()
+        .filter((menuItem) => menuItem.accelerator)
+        .find((menuItem) => {
+          return (
+            event.key === menuItem.accelerator.key &&
+            event.ctrlKey === !!menuItem.accelerator.ctrlKey
+          );
+        });
+      if (menuItem && this.isCommandEnabled(menuItem))
+        this.executeCommand(menuItem);
+    }
   }
 
   launch(widget: Widget): void {
@@ -151,7 +154,6 @@ export class PaneComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.handleActions$();
     const prefs = this.panes.prefs(this.split.id);
     this.launchImpl(prefs.widget);
   }
@@ -198,25 +200,6 @@ export class PaneComponent implements OnInit {
   }
 
   // private methods
-
-  private handleActions$(): void {
-    this.actions$
-      .pipe(
-        filter(({ action, status }) => {
-          return (
-            this.utils.hasProperty(action, 'SelectionState.selectSplit') &&
-            status === 'SUCCESSFUL'
-          );
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(({ action }) => {
-        const splitID = action['SelectionState.selectSplit'].splitID;
-        if (splitID === this.split.id) this.pane.nativeElement.focus();
-        else this.pane.nativeElement.blur();
-        console.log(`${splitID} selected`);
-      });
-  }
 
   private launchImpl(implementation: string): void {
     this.widgetHost.vcRef.clear();

@@ -13,11 +13,18 @@ export interface WidgetCaps {
 }
 
 export interface WidgetCommand {
+  accelerator?: WidgetCommandAccelerator;
   command: string;
   description?: string;
   icon?: string[];
   if?: string;
   unless?: string;
+}
+
+export interface WidgetCommandAccelerator {
+  ctrlKey?: boolean;
+  description: string;
+  key: string;
 }
 
 export interface WidgetLaunch {
