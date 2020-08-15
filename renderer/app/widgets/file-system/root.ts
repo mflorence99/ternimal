@@ -58,6 +58,16 @@ export class FileSystemComponent implements OnInit, Widget {
 
   tableID = 'file-system';
 
+  widgetCommands: WidgetCommand[] = [
+    {
+      color: 'var(--warn-color)',
+      command: 'cancel()',
+      description: 'Cancel copy/move',
+      icon: ['fas', 'times-circle'],
+      if: 'ternimal.op.running'
+    }
+  ];
+
   widgetLaunch: WidgetLaunch = {
     description: 'File System',
     icon: ['fas', 'database'],

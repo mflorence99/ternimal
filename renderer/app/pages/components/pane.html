@@ -51,6 +51,14 @@
 
         &#x202d;
       </div>
+
+      <mat-progress-bar
+        [value]="(ternimal.op.progress / ternimal.op.limit) * 100"
+        *ngIf="ternimal.op.running"
+        color="warn"
+        mode="determinate"
+      >
+      </mat-progress-bar>
     </div>
 
     <ng-container *ngFor="let command of widget.widgetCommands || []">
@@ -59,6 +67,7 @@
         [fixedWidth]="true"
         [icon]="command.icon"
         [matTooltip]="command.description"
+        [ngStyle]="{color: command.color || 'inherit'}"
         *ngIf="isCommandEnabled(command)"
         class="command tool"
       >

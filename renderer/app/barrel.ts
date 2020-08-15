@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -42,6 +43,7 @@ const MODULES = [
   MatDividerModule,
   MatExpansionModule,
   MatInputModule,
+  MatProgressBarModule,
   MatRadioModule,
   MatRippleModule,
   MatSidenavModule,

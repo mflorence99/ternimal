@@ -64,9 +64,11 @@ section {
     }
 
     .statusbar {
+      align-items: center;
       display: flex;
       flex-direction: row;
       flex-grow: 1;
+      justify-content: space-between;
       min-width: 0;
 
       > * {
@@ -79,10 +81,13 @@ section {
         font-size: 0.75rem;
         overflow: hidden;
         text-align: left;
-        // @see https://stackoverflow.com/questions/218065
-        // NOTE: but ellipsis shows below, not left
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+
+      .mat-progress-bar {
+        height: 1rem;
+        width: 7rem;
       }
     }
 

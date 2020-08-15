@@ -6,6 +6,7 @@
   "exclude": [
     "../common/**/chmod.ts",
     "../common/**/file-system.ts",
+    "../common/**/long-running-op.ts",
     "../common/**/process-list.ts",
     "../common/**/system-info.ts",
     "../common/**/*.spec.ts",

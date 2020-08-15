@@ -10,7 +10,6 @@ import { SortState } from '../../state/sort';
 import { StatusState } from '../../state/status';
 import { TabsState } from '../../state/tabs';
 import { TernimalState } from '../../state/ternimal';
-import { Utils } from '../../services/utils';
 import { Widget } from '../../widgets/widget';
 import { WidgetCommand } from '../../widgets/widget';
 import { WidgetHostDirective } from '../directives/widget-host';
@@ -22,6 +21,9 @@ import { ContextMenuComponent } from 'ngx-contextmenu';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
+
+import { take } from 'rxjs/operators';
+import { timer } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -57,9 +59,17 @@ export class PaneComponent implements OnInit {
     public selection: SelectionState,
     public sort: SortState,
     public status: StatusState,
-    public ternimal: TernimalState,
-    private utils: Utils
-  ) {}
+    public ternimal: TernimalState
+  ) {
+    // TODO: temporary
+    timer(500, 500)
+      .pipe(take(25))
+      .subscribe((n) => {
+        this.ternimal.longRunningOp({
+          op: { id: 'x', limit: 25, progress: n, running: n < 24 }
+        });
+      });
+  }
 
   close(): void {
     this.layout.closeSplit({

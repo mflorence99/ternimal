@@ -1,3 +1,4 @@
+import { LongRunningOp } from '../common/long-running-op';
 import { StorageService } from '../services/storage';
 
 import { Computed } from '@ngxs-labs/data/decorators';
@@ -15,10 +16,12 @@ interface DataActionParams {
   context?: any;
   enabled?: boolean;
   implementation?: string;
+  op?: LongRunningOp;
 }
 
 export interface TernimalStateModel {
   enabled: boolean;
+  op: LongRunningOp;
   showTabPrefs: boolean;
   showWidgetSidebar: boolean;
   unique: Record<string, number>;
@@ -33,6 +36,12 @@ export interface TernimalStateModel {
   name: 'ternimal',
   defaults: {
     enabled: true,
+    op: {
+      id: null,
+      limit: 0,
+      progress: 0,
+      running: false
+    },
     showTabPrefs: false,
     showWidgetSidebar: false,
     unique: {},
@@ -59,13 +68,22 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   }
 
   @DataAction({ insideZone: true })
+  longRunningOp(
+    @Payload('Ternimal.longRunningOp')
+    { op }: DataActionParams
+  ): void {
+    this.ctx.setState(patch({ op: op }));
+  }
+
+  @DataAction({ insideZone: true })
   showTabPrefs(): void {
     this.ctx.setState(patch({ showTabPrefs: true }));
   }
 
   @DataAction({ insideZone: true })
   showWidgetSidebar(
-    @Payload('showWidgetSidebar') { implementation, context }: DataActionParams
+    @Payload('Ternimal.showWidgetSidebar')
+    { implementation, context }: DataActionParams
   ): void {
     this.ctx.setState(
       patch({
@@ -86,6 +104,10 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
 
   @Computed() get isEnabled(): boolean {
     return this.snapshot.enabled;
+  }
+
+  @Computed() get op(): LongRunningOp {
+    return this.snapshot.op;
   }
 
   @Computed() get tabPrefsShowing(): boolean {

@@ -14,6 +14,7 @@ export interface WidgetCaps {
 
 export interface WidgetCommand {
   accelerator?: WidgetCommandAccelerator;
+  color?: string;
   command: string;
   description?: string;
   icon?: string[];
