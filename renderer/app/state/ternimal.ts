@@ -1,10 +1,13 @@
+import { Channels } from '../common/channels';
 import { LongRunningOp } from '../common/long-running-op';
 import { StorageService } from '../services/storage';
 
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
+import { ElectronService } from 'ngx-electron';
 import { Injectable } from '@angular/core';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { NgxsOnInit } from '@ngxs/store';
 import { Payload } from '@ngxs-labs/data/decorators';
 import { Persistence } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
@@ -16,12 +19,12 @@ interface DataActionParams {
   context?: any;
   enabled?: boolean;
   implementation?: string;
-  op?: LongRunningOp;
+  longRunningOp?: LongRunningOp;
 }
 
 export interface TernimalStateModel {
   enabled: boolean;
-  op: LongRunningOp;
+  longRunningOp: LongRunningOp;
   showTabPrefs: boolean;
   showWidgetSidebar: boolean;
   unique: Record<string, number>;
@@ -36,7 +39,7 @@ export interface TernimalStateModel {
   name: 'ternimal',
   defaults: {
     enabled: true,
-    op: {
+    longRunningOp: {
       id: null,
       item: null,
       progress: 0,
@@ -49,7 +52,12 @@ export interface TernimalStateModel {
     widgetSidebarImpl: null
   }
 })
-export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
+export class TernimalState extends NgxsDataRepository<TernimalStateModel>
+  implements NgxsOnInit {
+  //
+  constructor(public electron: ElectronService) {
+    super();
+  }
   // actions
 
   @DataAction({ insideZone: true })
@@ -65,14 +73,6 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   @DataAction({ insideZone: true })
   hideWidgetSidebar(): void {
     this.ctx.setState(patch({ showWidgetSidebar: false }));
-  }
-
-  @DataAction({ insideZone: true })
-  longRunningOp(
-    @Payload('Ternimal.longRunningOp')
-    { op }: DataActionParams
-  ): void {
-    this.ctx.setState(patch({ op: op }));
   }
 
   @DataAction({ insideZone: true })
@@ -95,6 +95,14 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
   }
 
   @DataAction({ insideZone: true })
+  updateLongRunningOp(
+    @Payload('Ternimal.updateLongRunningOp')
+    { longRunningOp }: DataActionParams
+  ): void {
+    this.ctx.setState(patch({ longRunningOp }));
+  }
+
+  @DataAction({ insideZone: true })
   updateUnique(@Payload('updateUnique') { context }: DataActionParams): void {
     const unique = this.ctx.getState().unique[context] || 0;
     this.ctx.setState(patch({ unique: patch({ [context]: unique + 1 }) }));
@@ -106,8 +114,8 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
     return this.snapshot.enabled;
   }
 
-  @Computed() get op(): LongRunningOp {
-    return this.snapshot.op;
+  @Computed() get longRunningOp(): LongRunningOp {
+    return this.snapshot.longRunningOp;
   }
 
   @Computed() get tabPrefsShowing(): boolean {
@@ -128,8 +136,24 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel> {
 
   /* eslint-disable @typescript-eslint/member-ordering */
 
+  ngxsOnInit(): void {
+    super.ngxsOnInit();
+    this.rcvProgress$();
+  }
+
   unique(context: string): number {
     this.updateUnique({ context });
     return this.snapshot.unique[context];
+  }
+
+  // private methods
+
+  private rcvProgress$(): void {
+    this.electron.ipcRenderer.on(
+      Channels.longRunningOpProgress,
+      (_, longRunningOp: LongRunningOp) => {
+        this.updateLongRunningOp({ longRunningOp });
+      }
+    );
   }
 }

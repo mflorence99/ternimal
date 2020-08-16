@@ -26,7 +26,7 @@ import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'ternimal-processes-root',
   templateUrl: 'root.html',

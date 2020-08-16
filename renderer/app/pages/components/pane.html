@@ -52,13 +52,26 @@
         &#x202d;
       </div>
 
-      <mat-progress-bar
-        [value]="ternimal.op.progress"
-        *ngIf="ternimal.op.running"
-        color="warn"
-        mode="determinate"
-      >
-      </mat-progress-bar>
+      <div class="spacer"></div>
+
+      <ng-container *ngIf="ternimal.longRunningOp.running">
+        <mat-progress-bar
+          [value]="ternimal.longRunningOp.progress"
+          color="warn"
+          mode="determinate"
+        >
+        </mat-progress-bar>
+
+        <fa-icon
+          (click)="cancelLongRunningOp()"
+          [fixedWidth]="true"
+          [icon]="['fas', 'times-circle']"
+          [ngStyle]="{color: 'var(--warn-color)'}"
+          class="command tool"
+          matTooltip="Cancel"
+        >
+        </fa-icon>
+      </ng-container>
     </div>
 
     <ng-container *ngFor="let command of widget.widgetCommands || []">
@@ -67,7 +80,6 @@
         [fixedWidth]="true"
         [icon]="command.icon"
         [matTooltip]="command.description"
-        [ngStyle]="{color: command.color || 'inherit'}"
         *ngIf="isCommandEnabled(command)"
         class="command tool"
       >

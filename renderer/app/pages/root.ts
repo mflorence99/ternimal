@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { OnInit } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-root',
   templateUrl: 'root.html',
   styleUrls: ['root.scss']
@@ -24,12 +24,12 @@ export class RootComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.handleError$();
+    this.rcvError$();
   }
 
   // private methods
 
-  private handleError$(): void {
+  private rcvError$(): void {
     this.electron.ipcRenderer.on(Channels.error, (_, message) => {
       this.snackBar.open(message, 'OK');
     });

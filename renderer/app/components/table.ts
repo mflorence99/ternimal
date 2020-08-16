@@ -20,7 +20,7 @@ import { takeUntil } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'ternimal-table',
   templateUrl: 'table.html',

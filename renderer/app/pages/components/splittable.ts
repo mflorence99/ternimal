@@ -11,7 +11,7 @@ import { ViewChild } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-splittable',
   templateUrl: 'splittable.html',
   styleUrls: ['splittable.scss']

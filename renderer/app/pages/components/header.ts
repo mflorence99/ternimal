@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-header',
   templateUrl: 'header.html',
   styleUrls: ['header.scss']

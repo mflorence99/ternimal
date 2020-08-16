@@ -4,7 +4,6 @@ import { Channels } from '../../common/channels';
 import { DestroyService } from '../../services/destroy';
 import { Layout } from '../../state/layout';
 import { LayoutState } from '../../state/layout';
-import { LongRunningOp } from '../../common/long-running-op';
 import { PanesState } from '../../state/panes';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
@@ -26,7 +25,7 @@ import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'ternimal-pane',
   templateUrl: 'pane.html',
@@ -62,6 +61,13 @@ export class PaneComponent implements OnInit {
     public status: StatusState,
     public ternimal: TernimalState
   ) {}
+
+  cancelLongRunningOp(): void {
+    this.electron.ipcRenderer.send(
+      Channels.longRunningOpCancel,
+      this.ternimal.longRunningOp.id
+    );
+  }
 
   close(): void {
     this.layout.closeSplit({
@@ -157,7 +163,6 @@ export class PaneComponent implements OnInit {
   ngOnInit(): void {
     const prefs = this.panes.prefs(this.split.id);
     this.launchImpl(prefs.widget);
-    this.handleProgress$();
   }
 
   select(): void {
@@ -202,15 +207,6 @@ export class PaneComponent implements OnInit {
   }
 
   // private methods
-
-  private handleProgress$(): void {
-    this.electron.ipcRenderer.on(
-      Channels.longRunningProgress,
-      (_, op: LongRunningOp) => {
-        this.ternimal.longRunningOp({ op });
-      }
-    );
-  }
 
   private launchImpl(implementation: string): void {
     this.widgetHost.vcRef.clear();

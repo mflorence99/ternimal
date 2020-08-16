@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 import { timer } from 'rxjs';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'ternimal-system-info',
   templateUrl: 'system-info.html',

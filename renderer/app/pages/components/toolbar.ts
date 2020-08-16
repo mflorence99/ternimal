@@ -14,7 +14,7 @@ import { UUID } from 'angular2-uuid';
 import { ViewChild } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-toolbar',
   templateUrl: 'toolbar.html',
   styleUrls: ['toolbar.scss']

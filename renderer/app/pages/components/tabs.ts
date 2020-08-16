@@ -29,7 +29,7 @@ import { timer } from 'rxjs';
 import { zip } from 'rxjs';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'ternimal-tabs',
   templateUrl: 'tabs.html',

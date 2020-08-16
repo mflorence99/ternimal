@@ -6,7 +6,7 @@ import { Input } from '@angular/core';
 import { ResizeObserverEntry } from 'ngx-resize-observer';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-eq-gauge',
   templateUrl: 'eq-gauge.html',
   styleUrls: ['eq-gauge.scss']

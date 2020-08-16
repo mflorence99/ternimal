@@ -17,7 +17,7 @@ import { OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'ternimal-file-system-props',
   templateUrl: 'props.html',

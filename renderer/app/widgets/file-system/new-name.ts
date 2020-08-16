@@ -13,7 +13,7 @@ import { Subject } from 'rxjs';
 import { ViewChild } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-file-system-new-name',
   templateUrl: 'new-name.html',
   styleUrls: ['new-name.scss']

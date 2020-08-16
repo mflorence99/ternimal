@@ -16,7 +16,7 @@ interface Sparkline {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-sparkline',
   templateUrl: 'sparkline.html',
   styleUrls: ['sparkline.scss']

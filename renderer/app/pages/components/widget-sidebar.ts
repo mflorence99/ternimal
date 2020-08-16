@@ -15,7 +15,7 @@ import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-widget-sidebar',
   templateUrl: 'widget-sidebar.html',
   styleUrls: ['widget-sidebar.scss']

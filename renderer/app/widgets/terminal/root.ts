@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-terminal-root',
   template: '',
   styles: [':host { display: block; }']

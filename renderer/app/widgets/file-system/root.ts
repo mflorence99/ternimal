@@ -40,7 +40,7 @@ import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'ternimal-file-system-root',
   templateUrl: 'root.html',
@@ -58,16 +58,6 @@ export class FileSystemComponent implements OnInit, Widget {
   @ViewChild(TableComponent, { static: true }) table: TableComponent;
 
   tableID = 'file-system';
-
-  widgetCommands: WidgetCommand[] = [
-    {
-      color: 'var(--warn-color)',
-      command: 'cancel()',
-      description: 'Cancel copy/move',
-      icon: ['fas', 'times-circle'],
-      if: 'ternimal.op.running'
-    }
-  ];
 
   widgetLaunch: WidgetLaunch = {
     description: 'File System',
@@ -236,7 +226,7 @@ export class FileSystemComponent implements OnInit, Widget {
 
   canPasteFromClipboard(): boolean {
     return (
-      !this.ternimal.op.running &&
+      // !this.ternimal.longRunningOp.running &&
       this.clipboard.paths.length > 0 &&
       this.table.selectedRowIDs.length === 1 &&
       !this.clipboard.paths.includes(this.table.selectedRowIDs[0])

@@ -19,7 +19,7 @@ import { map } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'ternimal-file-system-prefs',
   templateUrl: 'prefs.html',

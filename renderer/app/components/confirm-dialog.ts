@@ -9,7 +9,7 @@ export class ConfirmDialogModel {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ternimal-confirm-dialog',
   templateUrl: 'confirm-dialog.html',
   styleUrls: ['confirm-dialog.scss']
