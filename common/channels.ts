@@ -1,7 +1,10 @@
 export enum Channels {
   error = 'ternimal.error',
 
+  fsCancelCopyOrMove = 'file-system.cancelCopyOrMove',
   fsChmod = 'file-system.chmod',
+  fsCopy = 'file-system.copy',
+  fsMove = 'file-system.move',
   fsDelete = 'file-system.delete',
   fsExists = 'file-system.exists',
   fsHomeDir = 'file-system.homeDir',
@@ -23,6 +26,8 @@ export enum Channels {
   localStorageKey = 'local-storage.key',
   localStorageRemoveItem = 'local-storage.removeItem',
   localStorageSetItem = 'local-storage.setItem',
+
+  longRunningProgress = 'long-running.progress',
 
   nativeClipboardWrite = 'native.clipboardWrite',
   nativeOpen = 'native.open',

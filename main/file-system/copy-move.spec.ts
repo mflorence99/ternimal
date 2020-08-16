@@ -1,11 +1,11 @@
-import './native';
+import './copy-move';
 
 import * as electron from 'electron';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const { BrowserWindow } = electron;
 
-describe('native', () => {
+describe('copy-move', () => {
   let theWindow;
 
   beforeEach(() => {

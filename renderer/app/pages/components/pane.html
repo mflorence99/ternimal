@@ -53,7 +53,7 @@
       </div>
 
       <mat-progress-bar
-        [value]="(ternimal.op.progress / ternimal.op.limit) * 100"
+        [value]="ternimal.op.progress"
         *ngIf="ternimal.op.running"
         color="warn"
         mode="determinate"

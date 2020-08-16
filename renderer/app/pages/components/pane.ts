@@ -1,8 +1,10 @@
 import * as widgets from '../../widgets/all-widgets';
 
+import { Channels } from '../../common/channels';
 import { DestroyService } from '../../services/destroy';
 import { Layout } from '../../state/layout';
 import { LayoutState } from '../../state/layout';
+import { LongRunningOp } from '../../common/long-running-op';
 import { PanesState } from '../../state/panes';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
@@ -18,12 +20,10 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ContextMenuComponent } from 'ngx-contextmenu';
+import { ElectronService } from 'ngx-electron';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
-
-import { take } from 'rxjs/operators';
-import { timer } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -52,6 +52,7 @@ export class PaneComponent implements OnInit {
   widgetHost: WidgetHostDirective;
 
   constructor(
+    public electron: ElectronService,
     public layout: LayoutState,
     public panes: PanesState,
     public tabs: TabsState,
@@ -60,16 +61,7 @@ export class PaneComponent implements OnInit {
     public sort: SortState,
     public status: StatusState,
     public ternimal: TernimalState
-  ) {
-    // TODO: temporary
-    timer(500, 500)
-      .pipe(take(25))
-      .subscribe((n) => {
-        this.ternimal.longRunningOp({
-          op: { id: 'x', limit: 25, progress: n, running: n < 24 }
-        });
-      });
-  }
+  ) {}
 
   close(): void {
     this.layout.closeSplit({
@@ -137,7 +129,6 @@ export class PaneComponent implements OnInit {
   }
 
   keydown(event: KeyboardEvent): void {
-    console.log(event);
     if (this.isSelected()) {
       const menuItem = this.widget.widgetMenuItems
         .flat()
@@ -166,6 +157,7 @@ export class PaneComponent implements OnInit {
   ngOnInit(): void {
     const prefs = this.panes.prefs(this.split.id);
     this.launchImpl(prefs.widget);
+    this.handleProgress$();
   }
 
   select(): void {
@@ -210,6 +202,15 @@ export class PaneComponent implements OnInit {
   }
 
   // private methods
+
+  private handleProgress$(): void {
+    this.electron.ipcRenderer.on(
+      Channels.longRunningProgress,
+      (_, op: LongRunningOp) => {
+        this.ternimal.longRunningOp({ op });
+      }
+    );
+  }
 
   private launchImpl(implementation: string): void {
     this.widgetHost.vcRef.clear();

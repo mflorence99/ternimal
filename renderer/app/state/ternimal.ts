@@ -38,7 +38,7 @@ export interface TernimalStateModel {
     enabled: true,
     op: {
       id: null,
-      limit: 0,
+      item: null,
       progress: 0,
       running: false
     },

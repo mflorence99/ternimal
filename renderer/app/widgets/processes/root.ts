@@ -7,7 +7,6 @@ import { ProcessListState } from '../../state/processes/list';
 import { ProcessStats } from '../../state/processes/list';
 import { SortState } from '../../state/sort';
 import { TableComponent } from '../../components/table';
-import { Utils } from '../../services/utils';
 import { Widget } from '../widget';
 import { WidgetCommand } from '../widget';
 import { WidgetLaunch } from '../widget';
@@ -83,8 +82,7 @@ export class ProcessListComponent implements OnInit, Widget {
     private params: Params,
     public processList: ProcessListState,
     private snackBar: MatSnackBar,
-    public sort: SortState,
-    private utils: Utils
+    public sort: SortState
   ) {}
 
   confirmKill(): void {

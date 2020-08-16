@@ -32,6 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { OnInit } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { OverlayRef } from '@angular/cdk/overlay';
+import { UUID } from 'angular2-uuid';
 import { ViewChild } from '@angular/core';
 
 import { debounceTime } from 'rxjs/operators';
@@ -180,7 +181,7 @@ export class FileSystemComponent implements OnInit, Widget {
         },
         command: 'pasteFromClipboard()',
         description: 'Paste',
-        if: 'clipboard.paths.length'
+        if: 'canPasteFromClipboard()'
       },
       {
         command: 'clearClipboard()',
@@ -231,6 +232,15 @@ export class FileSystemComponent implements OnInit, Widget {
       const desc = this.descsByPath[this.table.selectedRowIDs[0]];
       return desc?.isDirectory;
     }
+  }
+
+  canPasteFromClipboard(): boolean {
+    return (
+      !this.ternimal.op.running &&
+      this.clipboard.paths.length > 0 &&
+      this.table.selectedRowIDs.length === 1 &&
+      !this.clipboard.paths.includes(this.table.selectedRowIDs[0])
+    );
   }
 
   clearClipboard(): void {
@@ -360,11 +370,15 @@ export class FileSystemComponent implements OnInit, Widget {
   }
 
   pasteFromClipboard(): void {
-    console.log(
-      '%cPaste',
-      this.params.log.colorize('#004d40'),
-      this.clipboard.paths
+    const channel =
+      this.clipboard.op === 'copy' ? Channels.fsCopy : Channels.fsMove;
+    this.electron.ipcRenderer.send(
+      channel,
+      UUID.UUID(),
+      this.clipboard.paths,
+      this.table.selectedRowIDs[0]
     );
+    this.clearClipboard();
   }
 
   props(): void {

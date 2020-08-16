@@ -1,6 +1,6 @@
 export interface LongRunningOp {
   id: string;
-  limit: number;
+  item: string;
   progress: number;
   running: boolean;
 }

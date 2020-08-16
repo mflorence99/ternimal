@@ -1,4 +1,4 @@
-import './paths';
+import './chmod';
 
 import * as electron from 'electron';
 

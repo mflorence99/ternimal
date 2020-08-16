@@ -20,22 +20,22 @@ const watcher = filewatcher({ debounce: 250 });
 const colorByExt = store.get('file-system.colorByExt', {});
 
 const colors = [
-  'var(--mat-amber-a100)',
-  'var(--mat-blue-a100)',
-  'var(--mat-cyan-a100)',
-  'var(--mat-deep-orange-a100)',
-  'var(--mat-deep-purple-a100)',
-  'var(--mat-green-a100)',
-  'var(--mat-indigo-a100)',
-  'var(--mat-light-blue-a100)',
-  'var(--mat-light-green-a100)',
-  'var(--mat-lime-a100)',
-  'var(--mat-orange-a100)',
-  'var(--mat-pink-a100)',
-  'var(--mat-purple-a100)',
-  'var(--mat-red-a100)',
-  'var(--mat-teal-a100)',
-  'var(--mat-yellow-a100)'
+  'var(--mat-amber-500)',
+  'var(--mat-blue-500)',
+  'var(--mat-cyan-500)',
+  'var(--mat-deep-orange-500)',
+  'var(--mat-deep-purple-500)',
+  'var(--mat-green-500)',
+  'var(--mat-indigo-500)',
+  'var(--mat-light-blue-500)',
+  'var(--mat-light-green-500)',
+  'var(--mat-lime-500)',
+  'var(--mat-orange-500)',
+  'var(--mat-pink-500)',
+  'var(--mat-purple-500)',
+  'var(--mat-red-500)',
+  'var(--mat-teal-500)',
+  'var(--mat-yellow-500)'
 ];
 
 const iconByExt = {
