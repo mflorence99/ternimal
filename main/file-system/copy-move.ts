@@ -21,6 +21,50 @@ const copyAndMover = async (
 ): Promise<void> => {
   const theWindow = globalThis.theWindow;
 
+  const copyOpts = {
+    errorOnExist: true,
+    overwrite: false,
+    preserveTimestamps: true
+  };
+
+  const moveOpts = { overwrite: false };
+
+  // what to write to?
+  let stat = await fs.lstat(to);
+  to = stat.isDirectory() ? to : path.dirname(to);
+
+  // make sure it is writable
+  try {
+    await fs.access(to, fs.constants.W_OK);
+  } catch (err) {
+    theWindow?.webContents.send(Channels.error, err.message);
+    return;
+  }
+
+  // itemize each of the "froms" and match them to a "to"
+  const ifroms = [],
+    itos = [];
+  const cleanups = [],
+    tos = [];
+  for (const from of froms) {
+    stat = await fs.lstat(from);
+    if (stat.isDirectory()) {
+      if (op === 'move') cleanups.push(from);
+      const itemized = (await util.promisify(recursive)(from)) as string[];
+      const root = path.dirname(from);
+      itemized.forEach((ifrom) => {
+        ifroms.push(ifrom);
+        itos.push(path.join(to, ifrom.substring(root.length)));
+      });
+      tos.push(path.join(to, from.substring(root.length)));
+    } else {
+      ifroms.push(from);
+      const ito = path.join(to, path.basename(from));
+      itos.push(ito);
+      tos.push(ito);
+    }
+  }
+
   // kick off the long-running op
   const longRunningOp: LongRunningOp = {
     id,
@@ -30,76 +74,57 @@ const copyAndMover = async (
   };
   theWindow?.webContents.send(Channels.longRunningOpProgress, longRunningOp);
 
-  // NOTE: util typing doesn't seem right
-  const access = util.promisify(fs.access) as Function;
-  // const copy = util.promisify(fs.copy) as Function;
-  // const copyOpts = {
-  //   errorOnExist: true,
-  //   overwrite: false,
-  //   preserveTimestamps: true
-  // };
-  const lstat = util.promisify(fs.lstat);
-  // const move = util.promisify(fs.copy) as Function;
-  // const moveOpts = { overwrite: false };
-  const pathExists = util.promisify(fs.pathExists);
-  const recurse = util.promisify(recursive);
+  // copy or move froms => to
+  async.eachOfSeries(
+    ifroms,
+    async (ifrom: string, ix: number) => {
+      // cancel if requested
+      if (longRunningOpCancelID === id)
+        throw new Error(`File ${op} canceled by request`);
 
-  try {
-    // what to write to?
-    let stat = (await lstat(to)) as fs.Stats;
-    to = stat.isDirectory() ? to : path.dirname(to);
+      // if the "to" already exists, we have to disambiguate it
+      const parsed = path.parse(itos[ix]);
+      for (let iy = 1; await fs.pathExists(itos[ix]); iy++)
+        itos[ix] = path.join(parsed.dir, `${parsed.name} (${iy})${parsed.ext}`);
 
-    // make sure it is writable
-    await access(to, fs.constants.W_OK);
+      // execute copy or move
+      op === 'copy'
+        ? await fs.copy(ifrom, itos[ix], copyOpts)
+        : await fs.move(ifrom, itos[ix], moveOpts);
 
-    // itemize each of the froms
-    let acc = [];
-    for (const from of froms) {
-      stat = (await lstat(from)) as fs.Stats;
-      if (stat.isDirectory()) acc = acc.concat(await recurse(from));
-      else acc.push(from);
-    }
-    const ifroms = acc.flat();
-
-    // copy or move froms => to
-    async.eachOfSeries(
-      ifroms,
-      async (ifrom: string, ix: number) => {
-        // cancel if requested
-        if (longRunningOpCancelID === id)
-          throw new Error(`File ${op} canceled by request`);
-
-        // execute copy or move
-        const base = path.basename(ifrom);
-        const ito = path.join(to, base);
-        console.log(`${op} ${ifrom} => ${ito}`);
-        await pathExists(ito);
-        // op === 'copy'
-        //   ? await copy(ifrom, ito, copyOpts)
-        //   : await move(ifrom, ito, moveOpts);
-
-        // indicate progress
-        // cut out noise by tripping at most 100 times
-        const scale = Math.round(((ix + 1) / ifroms.length) * 100);
-        if (ix === ifroms.length - 1 || scale > longRunningOp.progress) {
-          longRunningOp.item = ifrom;
-          longRunningOp.progress = scale;
-          longRunningOp.running = ix < ifroms.length - 1;
-          theWindow?.webContents.send(
-            Channels.longRunningOpProgress,
-            longRunningOp
-          );
-        }
-      },
-      (err) => {
-        if (err) throw err;
+      // indicate progress
+      // cut out noise by tripping at most 100 times
+      const scale = Math.round(((ix + 1) / ifroms.length) * 100);
+      if (scale > longRunningOp.progress) {
+        longRunningOp.item = ifrom;
+        longRunningOp.progress = scale;
+        longRunningOp.running = ix < ifroms.length - 1;
+        theWindow?.webContents.send(
+          Channels.longRunningOpProgress,
+          longRunningOp
+        );
       }
-    );
-  } catch (error) {
-    longRunningOp.running = false;
-    theWindow?.webContents.send(Channels.longRunningOpProgress, longRunningOp);
-    theWindow?.webContents.send(Channels.error, error.message);
-  }
+    },
+    async (err) => {
+      // whatever happened, we're done
+      longRunningOp.running = false;
+      theWindow?.webContents.send(
+        Channels.longRunningOpProgress,
+        longRunningOp
+      );
+
+      // send an error meesage if we failed
+      if (err) theWindow?.webContents.send(Channels.error, err.message);
+      else {
+        // after a move, make sure that the "from" directory is gone
+        for (const cleanup of cleanups) await fs.remove(cleanup);
+        // send completed message
+        const channel =
+          op === 'copy' ? Channels.fsCopyCompleted : Channels.fsMoveCompleted;
+        theWindow?.webContents.send(channel, id, froms, tos);
+      }
+    }
+  );
 };
 
 ipcMain.on(

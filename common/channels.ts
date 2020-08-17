@@ -3,7 +3,9 @@ export enum Channels {
 
   fsChmod = 'file-system.chmod',
   fsCopy = 'file-system.copy',
+  fsCopyCompleted = 'file-system.copyCompleted',
   fsMove = 'file-system.move',
+  fsMoveCompleted = 'file-system.moveCompleted',
   fsDelete = 'file-system.delete',
   fsExists = 'file-system.exists',
   fsHomeDir = 'file-system.homeDir',

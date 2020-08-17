@@ -33,7 +33,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { OnInit } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { OverlayRef } from '@angular/cdk/overlay';
-import { UUID } from 'angular2-uuid';
 import { ViewChild } from '@angular/core';
 
 import { debounceTime } from 'rxjs/operators';
@@ -228,7 +227,7 @@ export class FileSystemComponent implements OnInit, Widget {
 
   canPasteFromClipboard(): boolean {
     return (
-      // !this.ternimal.longRunningOp.running &&
+      !this.ternimal.longRunningOp.running &&
       this.clipboard.paths.length > 0 &&
       this.table.selectedRowIDs.length === 1 &&
       !this.clipboard.paths.includes(this.table.selectedRowIDs[0])
@@ -354,6 +353,7 @@ export class FileSystemComponent implements OnInit, Widget {
     this.loadEm(this.paths.snapshot[this.splitID] ?? []);
     this.handleActions$();
     this.handleLoading$();
+    this.rcvCompletion$();
     this.setupOverlay();
   }
 
@@ -361,16 +361,20 @@ export class FileSystemComponent implements OnInit, Widget {
     this.electron.ipcRenderer.send(Channels.nativeOpen, path);
   }
 
+  pasteCompleted(id: string, froms: string[], tos: string[]): void {
+    console.log(id, froms, tos);
+    this.clearClipboard();
+  }
+
   pasteFromClipboard(): void {
     const channel =
       this.clipboard.op === 'copy' ? Channels.fsCopy : Channels.fsMove;
     this.electron.ipcRenderer.send(
       channel,
-      UUID.UUID(),
+      this.splitID,
       this.clipboard.paths,
       this.table.selectedRowIDs[0]
     );
-    this.clearClipboard();
   }
 
   props(): void {
@@ -534,6 +538,23 @@ export class FileSystemComponent implements OnInit, Widget {
       }
       this.overlayRef.detach();
     });
+  }
+
+  private rcvCompletion$(): void {
+    this.electron.ipcRenderer.on(
+      Channels.fsCopyCompleted,
+      (_, id: string, froms: string[], tos: string[]) => {
+        this.pasteCompleted(id, froms, tos);
+        this.cdf.detectChanges();
+      }
+    );
+    this.electron.ipcRenderer.on(
+      Channels.fsMoveCompleted,
+      (_, id: string, froms: string[], tos: string[]) => {
+        this.pasteCompleted(id, froms, tos);
+        this.cdf.detectChanges();
+      }
+    );
   }
 
   private setupOverlay(): void {

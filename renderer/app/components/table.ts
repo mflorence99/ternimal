@@ -2,7 +2,6 @@ import { ColumnSort } from '../state/sort';
 import { DestroyService } from '../services/destroy';
 import { Params } from '../services/params';
 import { SortState } from '../state/sort';
-import { Utils } from '../services/utils';
 
 import { Actions } from '@ngxs/store';
 import { AfterContentInit } from '@angular/core';
@@ -65,8 +64,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
     private destroy$: DestroyService,
     private host: ElementRef,
     private params: Params,
-    public sort: SortState,
-    private utils: Utils
+    public sort: SortState
   ) {}
 
   cellElement(rowID: string, ix: number): HTMLElement {
@@ -333,12 +331,10 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
       )
       // NOTE: update column heads after ANY potential state change
       .subscribe(() => {
-        // this.utils.nextTick(() => {
         this.observeRows();
         this.mungeHeaders();
         this.syncCells();
         this.cdf.detectChanges();
-        // });
       });
   }
 
