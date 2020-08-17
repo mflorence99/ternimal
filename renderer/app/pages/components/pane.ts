@@ -11,11 +11,14 @@ import { SortState } from '../../state/sort';
 import { StatusState } from '../../state/status';
 import { TabsState } from '../../state/tabs';
 import { TernimalState } from '../../state/ternimal';
+import { Utils } from '../../services/utils';
 import { Widget } from '../../widgets/widget';
 import { WidgetCommand } from '../../widgets/widget';
 import { WidgetHostDirective } from '../directives/widget-host';
 
+import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ContextMenuComponent } from 'ngx-contextmenu';
@@ -23,6 +26,9 @@ import { ElectronService } from 'ngx-electron';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
+
+import { filter } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,6 +57,9 @@ export class PaneComponent implements OnInit {
   widgetHost: WidgetHostDirective;
 
   constructor(
+    private actions$: Actions,
+    private cdf: ChangeDetectorRef,
+    private destroy$: DestroyService,
     public electron: ElectronService,
     public layout: LayoutState,
     public panes: PanesState,
@@ -59,7 +68,8 @@ export class PaneComponent implements OnInit {
     public selection: SelectionState,
     public sort: SortState,
     public status: StatusState,
-    public ternimal: TernimalState
+    public ternimal: TernimalState,
+    private utils: Utils
   ) {}
 
   cancelLongRunningOp(): void {
@@ -161,6 +171,7 @@ export class PaneComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.handleActions$();
     const prefs = this.panes.prefs(this.split.id);
     this.launchImpl(prefs.widget);
   }
@@ -207,6 +218,24 @@ export class PaneComponent implements OnInit {
   }
 
   // private methods
+
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        filter(({ action, status }) => {
+          return (
+            (this.utils.hasProperty(action, /^SelectionState\./) ||
+              this.utils.hasProperty(action, /^TabsState\./) ||
+              this.utils.hasProperty(action, /^TernimalState\./)) &&
+            status === 'SUCCESSFUL'
+          );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.cdf.detectChanges();
+      });
+  }
 
   private launchImpl(implementation: string): void {
     this.widgetHost.vcRef.clear();

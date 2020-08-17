@@ -1,5 +1,6 @@
 import { Layout } from '../../state/layout';
 import { LayoutState } from '../../state/layout';
+import { Params } from '../../services/params';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -21,7 +22,7 @@ export class SplittableComponent implements OnInit {
 
   @ViewChild(SplitComponent, { static: true }) splitter: SplitComponent;
 
-  constructor(public layout: LayoutState) {}
+  constructor(public layout: LayoutState, private params: Params) {}
 
   ngOnInit(): void {
     this.handleDragProgress$();
@@ -35,7 +36,7 @@ export class SplittableComponent implements OnInit {
 
   private handleDragProgress$(): void {
     this.splitter.dragProgress$
-      .pipe(debounceTime(1000))
+      .pipe(debounceTime(this.params.splitterDebounceTime))
       .subscribe(({ sizes }) => {
         this.layout.updateSplit({ splitID: this.splittable.id, sizes });
       });

@@ -13,6 +13,7 @@ import { WidgetLaunch } from '../widget';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { Input } from '@angular/core';
@@ -76,6 +77,7 @@ export class ProcessListComponent implements OnInit, Widget {
 
   constructor(
     private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     private destroy$: DestroyService,
     private dialog: MatDialog,
     public electron: ElectronService,
@@ -144,9 +146,10 @@ export class ProcessListComponent implements OnInit, Widget {
         debounceTime(0),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        () => (this.stats = this.sortStats(this.processList.snapshot))
-      );
+      .subscribe(() => {
+        this.stats = this.sortStats(this.processList.snapshot);
+        this.cdf.detectChanges();
+      });
   }
 
   private sortStats(stats: ProcessStats[]): ProcessStats[] {

@@ -82,7 +82,7 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel>
 
   @DataAction({ insideZone: true })
   showWidgetSidebar(
-    @Payload('Ternimal.showWidgetSidebar')
+    @Payload('TernimalState.showWidgetSidebar')
     { implementation, context }: DataActionParams
   ): void {
     this.ctx.setState(
@@ -96,14 +96,16 @@ export class TernimalState extends NgxsDataRepository<TernimalStateModel>
 
   @DataAction({ insideZone: true })
   updateLongRunningOp(
-    @Payload('Ternimal.updateLongRunningOp')
+    @Payload('TernimalState.updateLongRunningOp')
     { longRunningOp }: DataActionParams
   ): void {
     this.ctx.setState(patch({ longRunningOp }));
   }
 
   @DataAction({ insideZone: true })
-  updateUnique(@Payload('updateUnique') { context }: DataActionParams): void {
+  updateUnique(
+    @Payload('TernimalState.updateUnique') { context }: DataActionParams
+  ): void {
     const unique = this.ctx.getState().unique[context] || 0;
     this.ctx.setState(patch({ unique: patch({ [context]: unique + 1 }) }));
   }

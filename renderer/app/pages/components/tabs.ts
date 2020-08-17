@@ -15,12 +15,12 @@ import { Utils } from '../../services/utils';
 import { Actions } from '@ngxs/store';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OnInit } from '@angular/core';
 import { ResizeObserverEntry } from 'ngx-resize-observer';
 
-import { debounceTime } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -45,6 +45,7 @@ export class TabsComponent implements OnInit {
 
   constructor(
     private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     private destroy$: DestroyService,
     private dialog: MatDialog,
     public layout: LayoutState,
@@ -153,10 +154,12 @@ export class TabsComponent implements OnInit {
             status === 'SUCCESSFUL'
           );
         }),
-        debounceTime(0),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.whichTabs());
+      .subscribe(() => {
+        this.whichTabs();
+        this.cdf.detectChanges();
+      });
   }
 
   private whichTabs(): void {

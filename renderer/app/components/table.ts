@@ -7,12 +7,15 @@ import { Utils } from '../services/utils';
 import { Actions } from '@ngxs/store';
 import { AfterContentInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElementRef } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { Input } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { Output } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 import { debounceTime } from 'rxjs/operators';
@@ -32,6 +35,8 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
 
   @Input() hydrate: boolean;
   @Input() hydrateTrace: boolean;
+
+  @Output() rehydrated = new EventEmitter<void>();
 
   scrollLeft: 0;
 
@@ -56,6 +61,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
 
   constructor(
     private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     private destroy$: DestroyService,
     private host: ElementRef,
     private params: Params,
@@ -317,21 +323,22 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
   private handleActions$(): void {
     this.actions$
       .pipe(
-        debounceTime(0),
         tap(({ action }) => {
           // NOTE unselect all rows once we're no longer active table
           const splitID = action['SelectionState.selectSplit']?.splitID;
           if (splitID && splitID !== this.splitID) this.rowUnselect();
         }),
+        debounceTime(0),
         takeUntil(this.destroy$)
       )
       // NOTE: update column heads after ANY potential state change
       .subscribe(() => {
-        this.utils.nextTick(() => {
-          this.observeRows();
-          this.mungeHeaders();
-          this.syncCells();
-        });
+        // this.utils.nextTick(() => {
+        this.observeRows();
+        this.mungeHeaders();
+        this.syncCells();
+        this.cdf.detectChanges();
+        // });
       });
   }
 
@@ -412,6 +419,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
     // NOTE: need to resync the cells because the row that gave the headers
     // their widths may have been dehydrated
     this.syncCells();
+    this.rehydrated.emit();
   }
 
   private observeRows(): void {

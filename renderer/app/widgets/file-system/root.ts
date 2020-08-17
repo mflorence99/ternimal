@@ -24,6 +24,7 @@ import { WidgetStatus } from '../widget';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ElectronService } from 'ngx-electron';
@@ -193,13 +194,14 @@ export class FileSystemComponent implements OnInit, Widget {
 
   constructor(
     private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     public clipboard: FileSystemClipboardState,
     private destroy$: DestroyService,
     private dialog: MatDialog,
     public electron: ElectronService,
     public files: FileSystemFilesState,
     private overlay: Overlay,
-    public params: Params,
+    private params: Params,
     public paths: FileSystemPathsState,
     public prefs: FileSystemPrefsState,
     public sort: SortState,
@@ -378,6 +380,10 @@ export class FileSystemComponent implements OnInit, Widget {
     });
   }
 
+  rehydrated(): void {
+    this.cdf.detectChanges();
+  }
+
   rename(): void {
     const path = this.table.selectedRowIDs[0];
     const cell = this.table.cellElement(path, 0);
@@ -434,9 +440,9 @@ export class FileSystemComponent implements OnInit, Widget {
     this.actions$
       .pipe(
         filter(({ action, status }) => {
-          // TODO: only paths this indtance is showing ??
           return (
-            (action['FileSystemFilesState.loadPath'] ||
+            (action['FileSystemClipboardState.update'] ||
+              action['FileSystemFilesState.loadPath'] ||
               action['FileSystemPathsState.close']?.splitID === this.splitID ||
               action['FileSystemPathsState.open']?.splitID === this.splitID ||
               (action['FileSystemPrefsState.update'] &&
@@ -449,7 +455,10 @@ export class FileSystemComponent implements OnInit, Widget {
         debounceTime(0),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.loadEm());
+      .subscribe(() => {
+        this.loadEm();
+        this.cdf.detectChanges();
+      });
   }
 
   private handleLoading$(): void {

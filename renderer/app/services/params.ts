@@ -38,6 +38,8 @@ export class Params {
 
   snackBarDuration = 2000;
 
+  splitterDebounceTime = 1000;
+
   systemInfoPollInterval = 1000;
 
   table = {

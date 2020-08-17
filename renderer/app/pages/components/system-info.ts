@@ -4,6 +4,7 @@ import { Params } from '../../services/params';
 import { SystemInfo } from '../../common/system-info';
 
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { OnInit } from '@angular/core';
@@ -22,6 +23,7 @@ export class SystemInfoComponent implements OnInit {
   systemInfo: SystemInfo;
 
   constructor(
+    private cdf: ChangeDetectorRef,
     private destroy$: DestroyService,
     public electron: ElectronService,
     private params: Params
@@ -40,6 +42,7 @@ export class SystemInfoComponent implements OnInit {
         this.systemInfo = this.electron.ipcRenderer.sendSync(
           Channels.systemInfo
         );
+        this.cdf.detectChanges();
       });
   }
 }
