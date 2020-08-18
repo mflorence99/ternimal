@@ -132,6 +132,11 @@ export class FileSystemComponent implements OnInit, Widget {
         if: 'table.selectedRowIDs.length'
       },
       {
+        accelerator: {
+          ctrlKey: true,
+          description: 'Ctrl+Delete',
+          key: 'Delete'
+        },
         command: 'confirmDelete()',
         description: 'Permanently delete...',
         if: 'table.selectedRowIDs.length'
@@ -362,8 +367,16 @@ export class FileSystemComponent implements OnInit, Widget {
   }
 
   pasteCompleted(id: string, froms: string[], tos: string[]): void {
-    console.log(id, froms, tos);
-    this.clearClipboard();
+    if (id === this.splitID) {
+      this.clearClipboard();
+      // TODO: we have to delay here because the riws we want to select won't exist
+      // until the table is redrawn -- and currently we can't detect that
+      // so this is an ugky hack
+      setTimeout(() => {
+        this.table.rowUnselect();
+        this.table.rowSelectByIDs(tos);
+      }, this.params.fileSystemPasteDelay);
+    }
   }
 
   pasteFromClipboard(): void {
@@ -507,7 +520,7 @@ export class FileSystemComponent implements OnInit, Widget {
       Channels.fsParsePath,
       path
     );
-    // TODO: onky when we are renaming do we have a base name to
+    // TODO: only when we are renaming do we have a base name to
     // disambiguate against
     if (nobase) {
       parsedPath.base = '';
@@ -541,20 +554,11 @@ export class FileSystemComponent implements OnInit, Widget {
   }
 
   private rcvCompletion$(): void {
-    this.electron.ipcRenderer.on(
-      Channels.fsCopyCompleted,
-      (_, id: string, froms: string[], tos: string[]) => {
-        this.pasteCompleted(id, froms, tos);
-        this.cdf.detectChanges();
-      }
-    );
-    this.electron.ipcRenderer.on(
-      Channels.fsMoveCompleted,
-      (_, id: string, froms: string[], tos: string[]) => {
-        this.pasteCompleted(id, froms, tos);
-        this.cdf.detectChanges();
-      }
-    );
+    const completed = (_, id: string, froms: string[], tos: string[]): void => {
+      this.pasteCompleted(id, froms, tos);
+    };
+    this.electron.ipcRenderer.on(Channels.fsCopyCompleted, completed);
+    this.electron.ipcRenderer.on(Channels.fsMoveCompleted, completed);
   }
 
   private setupOverlay(): void {

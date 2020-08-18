@@ -39,6 +39,8 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
 
   scrollLeft: 0;
 
+  @ViewChild('scroller', { static: true }) scroller: ElementRef;
+
   selectedRowIDs: string[] = [];
 
   sortDir: number;
@@ -142,8 +144,9 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
               ? this.params.table.sortUpArrow
               : this.params.table.sortDownArrow)
         );
-        // clear the selection
+        // clear the selection and scroll to top
         this.rowUnselect();
+        this.scrollToTop();
         // publish the sort
         const columnSort: ColumnSort = {
           sortDir: this.sortDir,
@@ -262,6 +265,17 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
     }
   }
 
+  rowSelectByIDs(ids: string[]): void {
+    ids.forEach((id, ix) => {
+      this.apply(this.body.nativeElement, `tr[id="${id}"] td`, (element) => {
+        this.addClass(element, 'selected');
+        if (ix === 0)
+          element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+    this.selectedRowIDs = ids;
+  }
+
   rowSelectCancel(event: MouseEvent): void {
     event.stopPropagation();
     this.rowIDs = null;
@@ -284,6 +298,10 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
     this.selectedRowIDs = [];
   }
 
+  scrollToTop(): void {
+    this.scroller.nativeElement.scrollTo(0, 0);
+  }
+
   // private methods
 
   private addClass(element: HTMLElement, clazz: string): void {
@@ -296,7 +314,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
     cb: (element: HTMLElement, ix?: number) => void
   ): HTMLElement[] {
     const elements = this.findElements(root, selector);
-    elements.forEach(cb);
+    if (elements) elements.forEach(cb);
     return elements;
   }
 

@@ -15,7 +15,7 @@ import * as path from 'path';
 const { ipcMain } = electron;
 
 const userInfo = os.userInfo();
-const watcher = filewatcher({ debounce: 250 });
+const watcher = filewatcher({ debounce: 10 });
 
 const colorByExt = store.get('file-system.colorByExt', {});
 

@@ -15,6 +15,7 @@
 <div
   (mousedown)="rowDeselect($event)"
   (scroll)="scrollLeft = $event.target.scrollLeft"
+  #scroller
   class="body-wrapper"
 >
   <table
