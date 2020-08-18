@@ -1,6 +1,6 @@
-import { Channels } from '../../common/channels';
+import { Channels } from '../../common';
 import { Params } from '../../services/params';
-import { ParsedPath } from '../../common/file-system';
+import { ParsedPath } from '../../common';
 
 import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';

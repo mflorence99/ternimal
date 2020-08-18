@@ -1,5 +1,5 @@
-import { Channels } from '../../common/channels';
-import { FileDescriptor } from '../../common/file-system';
+import { Channels } from '../../common';
+import { FileDescriptor } from '../../common';
 import { Params } from '../../services/params';
 
 import { scratch } from '../operators';

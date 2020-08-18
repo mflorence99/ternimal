@@ -1,4 +1,4 @@
-import { Channels } from '../../../common/channels';
+import { Channels } from '../../../common';
 import { LayoutState } from '../state/layout';
 import { TernimalState } from '../state/ternimal';
 

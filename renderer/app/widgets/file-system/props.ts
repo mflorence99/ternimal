@@ -1,7 +1,7 @@
-import { Channels } from '../../common/channels';
-import { Chmod } from '../../common/chmod';
+import { Channels } from '../../common';
+import { Chmod } from '../../common';
 import { DestroyService } from '../../services/destroy';
-import { FileDescriptor } from '../../common/file-system';
+import { FileDescriptor } from '../../common';
 import { TernimalState } from '../../state/ternimal';
 import { Widget } from '../widget';
 import { WidgetPrefs } from '../widget-prefs';

@@ -1,4 +1,4 @@
-import { Channels } from '../../common/channels';
+import { Channels } from '../../common';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog';
 import { ConfirmDialogModel } from '../../components/confirm-dialog';
 import { DestroyService } from '../../services/destroy';

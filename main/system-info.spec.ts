@@ -1,7 +1,7 @@
 import './system-info';
 
-import { Channels } from './common/channels';
-import { SystemInfo } from './common/system-info';
+import { Channels } from './common';
+import { SystemInfo } from './common';
 
 import * as electron from 'electron';
 

@@ -1,6 +1,6 @@
 import * as widgets from '../../widgets/all-widgets';
 
-import { Channels } from '../../common/channels';
+import { Channels } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { Layout } from '../../state/layout';
 import { LayoutState } from '../../state/layout';

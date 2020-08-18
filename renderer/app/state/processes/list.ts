@@ -1,7 +1,7 @@
-import { Channels } from '../../common/channels';
+import { Channels } from '../../common';
 import { Params } from '../../services/params';
-import { ProcessDescriptor } from '../../common/process-list';
-import { ProcessList } from '../../common/process-list';
+import { ProcessDescriptor } from '../../common';
+import { ProcessList } from '../../common';
 import { Utils } from '../../services/utils';
 
 import { DataAction } from '@ngxs-labs/data/decorators';

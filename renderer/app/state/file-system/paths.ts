@@ -1,4 +1,4 @@
-import { Channels } from '../../common/channels';
+import { Channels } from '../../common';
 import { StorageService } from '../../services/storage';
 import { Utils } from '../../services/utils';
 

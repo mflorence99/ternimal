@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { Channels } from '../../common/channels';
+import { Channels } from '../../common';
 import { ToolbarComponent } from './toolbar';
 
 import { prepare } from './component.spec';

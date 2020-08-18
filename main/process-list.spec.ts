@@ -1,7 +1,7 @@
 import './process-list';
 
-import { Channels } from './common/channels';
-import { ProcessList } from './common/process-list';
+import { Channels } from './common';
+import { ProcessList } from './common';
 
 import { waitableJestFn } from './main.spec';
 

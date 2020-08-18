@@ -1,6 +1,6 @@
-import { Channels } from './common/channels';
-import { ProcessDescriptor } from './common/process-list';
-import { ProcessList } from './common/process-list';
+import { Channels } from './common';
+import { ProcessDescriptor } from './common';
+import { ProcessList } from './common';
 
 import * as electron from 'electron';
 import * as os from 'os';

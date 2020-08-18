@@ -1,7 +1,7 @@
-import { Channels } from '../../common/channels';
+import { Channels } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { Params } from '../../services/params';
-import { SystemInfo } from '../../common/system-info';
+import { SystemInfo } from '../../common';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';

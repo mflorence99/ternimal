@@ -1,4 +1,4 @@
-import { Channels } from '../common/channels';
+import { Channels } from '../common';
 
 import { ElectronService } from 'ngx-electron';
 import { Injectable } from '@angular/core';

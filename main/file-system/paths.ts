@@ -1,4 +1,4 @@
-import { Channels } from '../common/channels';
+import { Channels } from '../common';
 
 import * as electron from 'electron';
 import * as os from 'os';

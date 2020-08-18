@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Channels } from '../common/channels';
-import { FileDescriptor } from '../common/file-system';
+import { Channels } from '../common';
+import { FileDescriptor } from '../common';
 
 import { store } from '../local-storage';
 

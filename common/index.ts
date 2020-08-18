@@ -43,3 +43,70 @@ export enum Channels {
   reload = 'toolbar.reload',
   systemInfo = 'ternimal.systemInfo'
 }
+
+export interface Chmod {
+  group: ChmodFlags;
+  others: ChmodFlags;
+  owner: ChmodFlags;
+}
+
+export interface ChmodFlags {
+  execute: boolean | null;
+  read: boolean | null;
+  write: boolean | null;
+}
+
+export interface FileDescriptor {
+  atime: Date;
+  btime: Date;
+  color: string;
+  group: number;
+  icon: string[];
+  isDirectory: boolean;
+  isExecutable: boolean;
+  isFile: boolean;
+  isReadable: boolean;
+  isSymlink: boolean;
+  isWritable: boolean;
+  mode: string;
+  mtime: Date;
+  name: string;
+  path: string;
+  size: number;
+  user: string;
+}
+
+export interface LongRunningOp {
+  id: string;
+  item: string;
+  progress: number;
+  running: boolean;
+}
+
+export interface ParsedPath {
+  base: string;
+  dir: string;
+  ext: string;
+  name: string;
+  root: string;
+}
+
+export interface ProcessDescriptor {
+  cmd: string;
+  cpu: number;
+  ctime: number;
+  elapsed: number;
+  memory: number;
+  name: string;
+  pid: number;
+  ppid: number;
+  timestamp: number;
+  uid: string;
+}
+
+export type ProcessList = ProcessDescriptor[];
+
+export interface SystemInfo {
+  cpuUsage: number;
+  memUsage: number;
+}

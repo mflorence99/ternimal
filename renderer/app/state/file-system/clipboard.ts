@@ -1,4 +1,4 @@
-import { Channels } from '../../common/channels';
+import { Channels } from '../../common';
 import { Utils } from '../../services/utils';
 
 import { Actions } from '@ngxs/store';

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Channels } from '../common/channels';
+import { Channels } from '../common';
 
 import * as async from 'async';
 import * as electron from 'electron';

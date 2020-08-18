@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Channels } from '../common/channels';
-import { Chmod } from '../common/chmod';
-import { FileDescriptor } from '../common/file-system';
+import { Channels } from '../common';
+import { Chmod } from '../common';
+import { FileDescriptor } from '../common';
 
 import * as async from 'async';
 import * as electron from 'electron';

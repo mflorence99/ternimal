@@ -1,4 +1,4 @@
-import { Channels } from '../common/channels';
+import { Channels } from '../common';
 
 import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';

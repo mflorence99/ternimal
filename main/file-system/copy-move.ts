@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Channels } from '../common/channels';
-import { LongRunningOp } from '../common/long-running-op';
+import { Channels } from '../common';
+import { LongRunningOp } from '../common';
 
 import { longRunningOpCancelID } from '../long-running-op';
 

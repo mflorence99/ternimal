@@ -1,5 +1,5 @@
-import { Channels } from '../common/channels';
-import { LongRunningOp } from '../common/long-running-op';
+import { Channels } from '../common';
+import { LongRunningOp } from '../common';
 import { StorageService } from '../services/storage';
 
 import { Computed } from '@ngxs-labs/data/decorators';
