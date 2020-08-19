@@ -68,7 +68,8 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
     this.propsForm.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((chmod: Chmod) => {
-        this.electron.ipcRenderer.send(Channels.fsChmod, this.descs, chmod);
+        const paths = this.descs.map((desc) => desc.path);
+        this.electron.ipcRenderer.send(Channels.fsChmod, paths, chmod);
       });
   }
 
