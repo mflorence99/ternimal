@@ -1,3 +1,4 @@
+import './file-system/analyze';
 import './file-system/chmod';
 import './file-system/copy-move';
 import './file-system/files';

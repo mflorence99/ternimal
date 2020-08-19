@@ -1,6 +1,17 @@
+export interface AnalysisByExt {
+  [path: string]: {
+    color: string;
+    count: number;
+    icon: string[];
+    size: number;
+  };
+}
+
 export enum Channels {
   error = 'ternimal.error',
 
+  fsAnalyze = 'file-system.analyze',
+  fsAnalyzeCompleted = 'file-system.analyzeCompleted',
   fsChmod = 'file-system.chmod',
   fsCopy = 'file-system.copy',
   fsCopyCompleted = 'file-system.copyCompleted',

@@ -30,6 +30,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { ElectronService } from 'ngx-electron';
 import { Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { OverlayRef } from '@angular/cdk/overlay';
@@ -46,7 +47,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'root.html',
   styleUrls: ['root.scss']
 })
-export class FileSystemComponent implements OnInit, Widget {
+export class FileSystemComponent implements OnDestroy, OnInit, Widget {
   descs: FileDescriptor[];
   descsByPath: Record<string, FileDescriptor> = {};
   effectivePrefs: FileSystemPrefs;
@@ -111,6 +112,11 @@ export class FileSystemComponent implements OnInit, Widget {
         if: 'table.selectedRowIDs.length ===  1'
       },
       {
+        accelerator: {
+          ctrlKey: true,
+          description: 'Ctrl+Enter',
+          key: 'Enter'
+        },
         command: 'props()',
         description: 'Properties...',
         if: 'table.selectedRowIDs.length'
@@ -195,6 +201,8 @@ export class FileSystemComponent implements OnInit, Widget {
     gotoCWD: 'goto',
     showCWD: true
   };
+
+  private pasteCompletedFn = this.pasteCompleted.bind(this);
 
   constructor(
     private actions$: Actions,
@@ -354,6 +362,17 @@ export class FileSystemComponent implements OnInit, Widget {
     this.newDirOrFile(Channels.fsNewFile);
   }
 
+  ngOnDestroy(): void {
+    this.electron.ipcRenderer.off(
+      Channels.fsCopyCompleted,
+      this.pasteCompletedFn
+    );
+    this.electron.ipcRenderer.off(
+      Channels.fsMoveCompleted,
+      this.pasteCompletedFn
+    );
+  }
+
   ngOnInit(): void {
     this.loadEm(this.paths.snapshot[this.splitID] ?? []);
     this.handleActions$();
@@ -366,7 +385,7 @@ export class FileSystemComponent implements OnInit, Widget {
     this.electron.ipcRenderer.send(Channels.nativeOpen, path);
   }
 
-  pasteCompleted(id: string, froms: string[], tos: string[]): void {
+  pasteCompleted(_, id: string, froms: string[], tos: string[]): void {
     if (id === this.splitID) {
       this.clearClipboard();
       // TODO: we have to delay here because the riws we want to select won't exist
@@ -554,11 +573,14 @@ export class FileSystemComponent implements OnInit, Widget {
   }
 
   private rcvCompletion$(): void {
-    const completed = (_, id: string, froms: string[], tos: string[]): void => {
-      this.pasteCompleted(id, froms, tos);
-    };
-    this.electron.ipcRenderer.on(Channels.fsCopyCompleted, completed);
-    this.electron.ipcRenderer.on(Channels.fsMoveCompleted, completed);
+    this.electron.ipcRenderer.on(
+      Channels.fsCopyCompleted,
+      this.pasteCompletedFn
+    );
+    this.electron.ipcRenderer.on(
+      Channels.fsMoveCompleted,
+      this.pasteCompletedFn
+    );
   }
 
   private setupOverlay(): void {

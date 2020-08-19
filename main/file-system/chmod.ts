@@ -11,8 +11,7 @@ const { ipcMain } = electron;
 
 const business = async (paths: string[], chmod: Chmod): Promise<void> => {
   const originalStats = await statsByPath(paths);
-  console.dir(originalStats);
-  const successes = await performChmod(paths, chmod);
+  const successes = await performChmod(paths, originalStats, chmod);
   // now we have a list of those that succeeded
   // if any failed, we want to undo those that succeeded
   if (paths.length !== successes.length) {
@@ -26,13 +25,14 @@ const business = async (paths: string[], chmod: Chmod): Promise<void> => {
 
 const performChmod = async (
   paths: string[],
+  originalStats: Record<string, fs.Stats>,
   chmod: Chmod
 ): Promise<string[]> => {
   return await async.filterSeries(paths, async (path) => {
     try {
+      await fs.access(path, fs.constants.W_OK);
       // attempt to change the mode of every supplied path
-      const stat = await fs.lstat(path);
-      const mode = Mode(stat);
+      const mode = Mode(originalStats[path]);
       mode.owner.read = chmod.owner.read ?? mode.owner.read;
       mode.owner.write = chmod.owner.write ?? mode.owner.write;
       mode.owner.execute = chmod.owner.execute ?? mode.owner.execute;
@@ -42,7 +42,6 @@ const performChmod = async (
       mode.others.read = chmod.others.read ?? mode.others.read;
       mode.others.write = chmod.others.write ?? mode.others.write;
       mode.others.execute = chmod.others.execute ?? mode.others.execute;
-      await fs.access(path, fs.constants.W_OK);
       await fs.chmod(path, mode.toOctal());
       return true;
     } catch (error) {
@@ -77,8 +76,8 @@ const undo = (
 ): void => {
   async.eachSeries(paths, async (path) => {
     // reset the mode of every supplied path
-    const orig = Mode(originalStats[path]);
-    await fs.chmod(path, orig.toOctal());
+    const mode = Mode(originalStats[path]);
+    await fs.chmod(path, mode.toOctal());
   });
 };
 

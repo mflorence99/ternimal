@@ -61,6 +61,23 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
 
   ngOnInit(): void {
     this.populate();
+    this.handleValueChanges$();
+  }
+
+  rescope(scope: Scope): void {
+    if (scope !== this.prefs.scope) {
+      this.prefs.rescope({ scope });
+      this.populate();
+    }
+  }
+
+  trackByDict(_, dict: Dictionary): string {
+    return dict.name;
+  }
+
+  // private methods
+
+  private handleValueChanges$(): void {
     this.prefsForm.valueChanges
       .pipe(
         // NOTE: name is always visible
@@ -78,19 +95,6 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
         this.prefs.update({ prefs: prefsForm, layoutID, splitID });
       });
   }
-
-  rescope(scope: Scope): void {
-    if (scope !== this.prefs.scope) {
-      this.prefs.rescope({ scope });
-      this.populate();
-    }
-  }
-
-  trackByDict(_, dict: Dictionary): string {
-    return dict.name;
-  }
-
-  // private methods
 
   private populate(): void {
     const prefs = this.prefs[this.prefs.scope];

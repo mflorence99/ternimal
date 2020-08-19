@@ -30,6 +30,8 @@ export class RootComponent implements OnInit {
   // private methods
 
   private rcvError$(): void {
+    // NOTE: because this component is a singleton,
+    // we don't have to release this handler
     this.electron.ipcRenderer.on(Channels.error, (_, message) => {
       this.snackBar.open(message, 'OK');
     });

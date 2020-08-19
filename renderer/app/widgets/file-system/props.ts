@@ -1,3 +1,4 @@
+import { AnalysisByExt } from '../../common';
 import { Channels } from '../../common';
 import { Chmod } from '../../common';
 import { DestroyService } from '../../services/destroy';
@@ -65,15 +66,20 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
 
   ngOnInit(): void {
     this.populate();
-    this.propsForm.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((chmod: Chmod) => {
-        const paths = this.descs.map((desc) => desc.path);
-        this.electron.ipcRenderer.send(Channels.fsChmod, paths, chmod);
-      });
+    const paths = this.descs.map((desc) => desc.path);
+    this.handleValueChanges$(paths);
+    if (this.descs.length > 1 || this.desc.isDirectory) this.rcvAnalyze$(paths);
   }
 
   // private methods
+
+  private handleValueChanges$(paths: string[]): void {
+    this.propsForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((chmod: Chmod) => {
+        this.electron.ipcRenderer.send(Channels.fsChmod, paths, chmod);
+      });
+  }
 
   private populate(): void {
     this.propsForm.patchValue(
@@ -95,6 +101,16 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
         }
       } as Chmod,
       { emitEvent: false }
+    );
+  }
+
+  private rcvAnalyze$(paths: string[]): void {
+    this.electron.ipcRenderer.send(Channels.fsAnalyze, paths);
+    this.electron.ipcRenderer.once(
+      Channels.fsAnalyzeCompleted,
+      (_, analysis: AnalysisByExt) => {
+        console.log(analysis);
+      }
     );
   }
 

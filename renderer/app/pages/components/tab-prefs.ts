@@ -98,17 +98,7 @@ export class TabPrefsComponent implements OnInit {
 
   ngOnInit(): void {
     this.handleActions$();
-    this.tabPrefsForm.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((tabPrefsForm) => {
-        this.tabs.update({
-          tab: {
-            ...tabPrefsForm,
-            icon: tabPrefsForm.icon.split(' '),
-            layoutID: this.selection.layoutID
-          }
-        });
-      });
+    this.handleValueChanges$();
   }
 
   // private methods
@@ -129,6 +119,20 @@ export class TabPrefsComponent implements OnInit {
           color: this.tabs.tab.color,
           icon: this.tabs.tab.icon.join(' '),
           label: this.tabs.tab.label
+        });
+      });
+  }
+
+  private handleValueChanges$(): void {
+    this.tabPrefsForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((tabPrefsForm) => {
+        this.tabs.update({
+          tab: {
+            ...tabPrefsForm,
+            icon: tabPrefsForm.icon.split(' '),
+            layoutID: this.selection.layoutID
+          }
         });
       });
   }
