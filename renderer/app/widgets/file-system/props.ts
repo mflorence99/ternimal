@@ -4,18 +4,23 @@ import { Chmod } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { FileDescriptor } from '../../common';
 import { TernimalState } from '../../state/ternimal';
+import { Utils } from '../../services/utils';
 import { Widget } from '../widget';
 import { WidgetPrefs } from '../widget-prefs';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
+import { ElementRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { ViewChild } from '@angular/core';
 
 import { takeUntil } from 'rxjs/operators';
+
+import Chart from 'chart.js';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,6 +30,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['props.scss']
 })
 export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
+  chart: Chart;
   desc: FileDescriptor;
   descs: FileDescriptor[];
   flags = ['read', 'write', 'execute'];
@@ -37,11 +43,17 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
 
   @Input() widget: Widget;
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  @ViewChild('canvas', { static: true }) canvas: ElementRef;
+  @ViewChild('wrapper', { static: true }) wrapper: ElementRef;
+
   constructor(
     private destroy$: DestroyService,
     public electron: ElectronService,
     private formBuilder: FormBuilder,
-    public ternimal: TernimalState
+    private host: ElementRef,
+    public ternimal: TernimalState,
+    private utils: Utils
   ) {
     this.desc = this.ternimal.widgetSidebarCtx[0];
     this.descs = this.ternimal.widgetSidebarCtx;
@@ -65,6 +77,7 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
   }
 
   ngOnInit(): void {
+    this.initChart();
     this.populate();
     const paths = this.descs.map((desc) => desc.path);
     this.handleValueChanges$(paths);
@@ -79,6 +92,35 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
       .subscribe((chmod: Chmod) => {
         this.electron.ipcRenderer.send(Channels.fsChmod, paths, chmod);
       });
+  }
+
+  private initChart(): void {
+    const canvas = this.canvas.nativeElement;
+    canvas.height = this.wrapper.nativeElement.offsetHeight;
+    canvas.width = this.wrapper.nativeElement.offsetWidth;
+    const ctx = canvas.getContext('2d');
+    this.chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            backgroundColor: [],
+            borderWidth: 0,
+            data: []
+          }
+        ]
+      },
+      options: {
+        responsive: false,
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: true
+        }
+      }
+    });
   }
 
   private populate(): void {
@@ -110,6 +152,16 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
       Channels.fsAnalyzeCompleted,
       (_, analysis: AnalysisByExt) => {
         console.log(analysis);
+        // TODO: temporary
+        const colors = Object.values(analysis).map((val) =>
+          this.utils.colorOf(this.host, val.color, 1)
+        );
+        const data = Object.values(analysis).map((val) => val.count);
+        const labels = Object.keys(analysis);
+        this.chart.data.datasets[0].backgroundColor = colors;
+        this.chart.data.datasets[0].data = data;
+        this.chart.data.labels = labels;
+        this.chart.update();
       }
     );
   }

@@ -42,6 +42,13 @@ section {
         justify-self: start;
       }
     }
+
+    .wrapper {
+      // NOTE: hack of sidenav width minus padding
+      height: 14rem;
+      margin-top: 2rem;
+      width: 14rem;
+    }
   }
 
   header {

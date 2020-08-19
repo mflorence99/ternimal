@@ -9,6 +9,8 @@ export class Utils {
 
   colorOf(element: ElementRef, nm: string, opacity: number): string {
     const style = window.getComputedStyle(element.nativeElement);
+    if (nm.startsWith('var(') && nm.endsWith(')'))
+      nm = nm.substring(4, nm.length - 1);
     const color = style.getPropertyValue(nm);
     if (opacity === 0) return 'rgba(0, 0, 0, 0)';
     else if (opacity === 1) return color.trim();
