@@ -52,10 +52,10 @@
     </div>
 
     <table *ngIf="descs.length === 1" class="info">
-      <tr *ngIf="!desc.isDirectory">
+      <tr>
         <td>Size</td>
         <td class="size">
-          {{ desc.size| ternimalNumeral:'0,0' }}
+          {{ (desc.isDirectory? totalSize : desc.size) | ternimalNumeral:'0b' }}
         </td>
       </tr>
 
@@ -102,30 +102,35 @@
       </tr>
     </table>
 
+    <div *ngIf="loading" class="info">
+      <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"> </fa-icon>
+      Loading file and directory analysis...
+    </div>
+
     <figure #wrapper class="wrapper">
       <canvas #canvas class="chart"> </canvas>
     </figure>
 
-    <table *ngIf="digest.length > 0" class="info">
+    <table *ngIf="digests.length > 0" class="info">
       <tr>
         <th></th>
         <th>Size</th>
         <th>Count</th>
       </tr>
 
-      <tr *ngFor="let analysis of digest">
+      <tr *ngFor="let digest of digests">
         <td class="ext monospace">
           <fa-icon
             [fixedWidth]="true"
-            [icon]="analysis.icon"
-            [ngStyle]="{color: analysis.color}"
+            [icon]="digest.icon"
+            [ngStyle]="{color: digest.color}"
             size="lg"
           >
           </fa-icon>
-          {{ analysis.ext || '&mdash;' }}
+          {{ digest.ext || '&mdash;' }}
         </td>
-        <td class="numeric">{{ analysis.size | ternimalNumeral:'0b' }}</td>
-        <td class="numeric">{{ analysis.count | ternimalNumeral:'0,0' }}</td>
+        <td class="numeric">{{ digest.size | ternimalNumeral:'0b' }}</td>
+        <td class="numeric">{{ digest.count | ternimalNumeral:'0,0' }}</td>
       </tr>
     </table>
   </form>

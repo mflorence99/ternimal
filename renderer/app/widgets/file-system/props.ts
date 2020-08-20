@@ -16,6 +16,7 @@ import { ElementRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
@@ -38,25 +39,29 @@ interface AnalysisDigest {
   templateUrl: 'props.html',
   styleUrls: ['props.scss']
 })
-export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
-  analysis: AnalysisByExt;
+export class FileSystemPropsComponent
+  implements OnDestroy, OnInit, WidgetPrefs {
   chart: Chart;
   desc: FileDescriptor;
   descs: FileDescriptor[] = [];
-  digest: AnalysisDigest[] = [];
+  digests: AnalysisDigest[] = [];
   flags = ['read', 'write', 'execute'];
+  loading = false;
   perms = [
     ['owner', 'Owner'],
     ['group', 'Group'],
     ['others', 'Others']
   ];
   propsForm: FormGroup;
+  totalSize = 0;
 
   @Input() widget: Widget;
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @ViewChild('canvas', { static: true }) canvas: ElementRef;
   @ViewChild('wrapper', { static: true }) wrapper: ElementRef;
+
+  private digestAnalysisFn = this.digestAnalysis.bind(this);
 
   constructor(
     private cdf: ChangeDetectorRef,
@@ -88,6 +93,13 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
     });
   }
 
+  ngOnDestroy(): void {
+    this.electron.ipcRenderer.off(
+      Channels.fsAnalyzeCompleted,
+      this.digestAnalysisFn
+    );
+  }
+
   ngOnInit(): void {
     this.initChart();
     this.populateForm();
@@ -98,13 +110,16 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
 
   // private methods
 
-  private digestAnalysis(): void {
-    this.digest = Object.entries(this.analysis).map(([ext, analysis]) => {
-      return { ...analysis, ext };
+  private digestAnalysis(_, analysis: AnalysisByExt): void {
+    this.loading = false;
+    this.digests = Object.entries(analysis).map(([ext, digest]) => {
+      return { ...digest, ext };
     });
-    // NOTE: descending order
-    this.digest.sort((p, q) => q.size - p.size);
-    this.updateChart();
+    this.totalSize = this.digests.reduce(
+      (acc, digest) => (acc += digest.size),
+      0
+    );
+    this.sortem('size');
   }
 
   private handleValueChanges$(paths: string[]): void {
@@ -169,22 +184,27 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
   }
 
   private rcvAnalyze$(paths: string[]): void {
+    this.loading = true;
     this.electron.ipcRenderer.send(Channels.fsAnalyze, paths);
     this.electron.ipcRenderer.once(
       Channels.fsAnalyzeCompleted,
-      (_, analysis: AnalysisByExt) => {
-        this.analysis = analysis;
-        this.digestAnalysis();
-        this.cdf.detectChanges();
-      }
+      this.digestAnalysisFn
     );
+    this.cdf.detectChanges();
+  }
+
+  private sortem(_: 'count' | 'ext' | 'size'): void {
+    // NOTE: descending order
+    this.digests.sort((p, q) => q.size - p.size);
+    this.updateChart();
+    this.cdf.detectChanges();
   }
 
   private updateChart(): void {
     // extract top N and the rest
-    const top = this.digest.slice(0, 7);
-    if (this.digest.length > 7) {
-      const others = this.digest.slice(7).reduce(
+    const top = this.digests.slice(0, 7);
+    if (this.digests.length > 7) {
+      const others = this.digests.slice(7).reduce(
         (acc, analysis) => {
           acc.count += analysis.count;
           acc.size += analysis.size;

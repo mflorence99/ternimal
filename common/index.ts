@@ -121,3 +121,5 @@ export interface SystemInfo {
   cpuUsage: number;
   memUsage: number;
 }
+
+export const numParallelOps = 8;

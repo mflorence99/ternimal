@@ -4,6 +4,7 @@ import { Channels } from '../common';
 
 import { makeColor } from './icons';
 import { makeIcon } from './icons';
+import { numParallelOps } from '../common';
 import { saveColors } from './icons';
 
 import * as async from 'async';
@@ -16,17 +17,22 @@ import * as util from 'util';
 const { ipcMain } = electron;
 
 const business = async (paths: string[]): Promise<void> => {
-  const stats = await itemizePaths(paths);
-  const analysis = performAnalysis(stats);
   const theWindow = globalThis.theWindow;
-  theWindow?.webContents.send(Channels.fsAnalyzeCompleted, analysis);
+  try {
+    const stats = await itemizePaths(paths);
+    const analysis = performAnalysis(stats);
+    theWindow?.webContents.send(Channels.fsAnalyzeCompleted, analysis);
+  } catch (error) {
+    theWindow?.webContents.send(Channels.fsAnalyzeCompleted, {});
+    theWindow?.webContents.send(Channels.error, error.message);
+  }
 };
 
 const itemizePaths = async (
   paths: string[]
 ): Promise<Record<string, fs.Stats>> => {
   let hash: Record<string, fs.Stats> = {};
-  await async.eachSeries(paths, async (path) => {
+  await async.eachLimit(paths, numParallelOps, async (path) => {
     const stat = await fs.lstat(path);
     if (stat.isDirectory()) {
       const itemized = (await util.promisify(recursive)(path)) as string[];
@@ -61,8 +67,9 @@ const statsByPath = async (
   paths: string[]
 ): Promise<Record<string, fs.Stats>> => {
   const hash = Object.fromEntries(paths.map((path) => [path, path]));
-  return await async.mapValuesSeries(
+  return await async.mapValuesLimit(
     hash,
+    numParallelOps,
     async (path) => await fs.lstat(path)
   );
 };
