@@ -26,6 +26,8 @@ export class Params {
       `background-color: ${color}; color: white; font-weight: bold; padding: 2px 4px`
   };
 
+  maxPieWedges = 7;
+
   processList = {
     maxTimeline: 5 * 60 * 1000,
     pollInterval: 5000

@@ -33,11 +33,14 @@ const itemizePaths = async (
 ): Promise<Record<string, fs.Stats>> => {
   let hash: Record<string, fs.Stats> = {};
   await async.eachLimit(paths, numParallelOps, async (path) => {
-    const stat = await fs.lstat(path);
-    if (stat.isDirectory()) {
-      const itemized = (await util.promisify(recursive)(path)) as string[];
-      hash = Object.assign(hash, await statsByPath(itemized));
-    } else hash[path] = stat;
+    try {
+      const stat = await fs.lstat(path);
+      if (stat.isDirectory()) {
+        // NOTE: looks like recursive can throw an exception we can't control
+        const itemized = (await util.promisify(recursive)(path)) as string[];
+        hash = Object.assign(hash, await statsByPath(itemized));
+      } else hash[path] = stat;
+    } catch (ignored) {}
   });
   return hash;
 };
@@ -67,11 +70,13 @@ const statsByPath = async (
   paths: string[]
 ): Promise<Record<string, fs.Stats>> => {
   const hash = Object.fromEntries(paths.map((path) => [path, path]));
-  return await async.mapValuesLimit(
-    hash,
-    numParallelOps,
-    async (path) => await fs.lstat(path)
-  );
+  return await async.mapValuesLimit(hash, numParallelOps, async (path) => {
+    try {
+      return await fs.lstat(path);
+    } catch (ignored) {
+      return { size: 0 };
+    }
+  });
 };
 
 ipcMain.on(Channels.fsAnalyze, (_, paths: string[]): void => {

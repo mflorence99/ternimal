@@ -112,10 +112,16 @@
     </figure>
 
     <table *ngIf="digests.length > 0" class="info">
-      <tr>
+      <tr
+        (matSortChange)="sortDigests($event.active, $event.direction)"
+        [matSortActive]="sortColumn"
+        [matSortDirection]="sortDir"
+        [matSortDisableClear]="true"
+        matSort
+      >
         <th></th>
-        <th>Size</th>
-        <th>Count</th>
+        <th arrowPosition="before" mat-sort-header="size">SIZE</th>
+        <th arrowPosition="before" mat-sort-header="count">COUNT</th>
       </tr>
 
       <tr *ngFor="let digest of digests">

@@ -3,6 +3,7 @@ import { Channels } from '../../common';
 import { Chmod } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { FileDescriptor } from '../../common';
+import { Params } from '../../services/params';
 import { TernimalState } from '../../state/ternimal';
 import { Utils } from '../../services/utils';
 import { Widget } from '../widget';
@@ -32,6 +33,9 @@ interface AnalysisDigest {
   size: number;
 }
 
+type SortColumn = 'size' | 'count';
+type SortDir = 'asc' | 'desc';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
@@ -53,6 +57,8 @@ export class FileSystemPropsComponent
     ['others', 'Others']
   ];
   propsForm: FormGroup;
+  sortColumn: SortColumn = 'size';
+  sortDir: SortDir = 'desc';
   totalSize = 0;
 
   @Input() widget: Widget;
@@ -69,6 +75,7 @@ export class FileSystemPropsComponent
     public electron: ElectronService,
     private formBuilder: FormBuilder,
     private host: ElementRef,
+    private params: Params,
     public ternimal: TernimalState,
     private utils: Utils
   ) {
@@ -108,6 +115,26 @@ export class FileSystemPropsComponent
     if (this.descs.length > 1 || this.desc.isDirectory) this.rcvAnalyze$(paths);
   }
 
+  sortDigests(sortColumn: SortColumn, sortDir: SortDir): void {
+    this.sortColumn = sortColumn;
+    this.sortDir = sortDir;
+    const factor = sortDir === 'asc' ? 1 : -1;
+    this.digests.sort((p, q) => {
+      let result = 0;
+      switch (sortColumn) {
+        case 'size':
+          result = p.size - q.size;
+          break;
+        case 'count':
+          result = p.count - q.count;
+          break;
+      }
+      return result * factor;
+    });
+    this.updateChart();
+    this.cdf.detectChanges();
+  }
+
   // private methods
 
   private digestAnalysis(_, analysis: AnalysisByExt): void {
@@ -119,7 +146,7 @@ export class FileSystemPropsComponent
       (acc, digest) => (acc += digest.size),
       0
     );
-    this.sortem('size');
+    this.sortDigests('size', 'desc');
   }
 
   private handleValueChanges$(paths: string[]): void {
@@ -193,18 +220,19 @@ export class FileSystemPropsComponent
     this.cdf.detectChanges();
   }
 
-  private sortem(_: 'count' | 'ext' | 'size'): void {
-    // NOTE: descending order
-    this.digests.sort((p, q) => q.size - p.size);
-    this.updateChart();
-    this.cdf.detectChanges();
-  }
-
   private updateChart(): void {
     // extract top N and the rest
-    const top = this.digests.slice(0, 7);
-    if (this.digests.length > 7) {
-      const others = this.digests.slice(7).reduce(
+    const n = this.params.maxPieWedges;
+    const top =
+      this.sortDir === 'asc'
+        ? this.digests.slice(-n)
+        : this.digests.slice(0, n);
+    if (this.digests.length > n) {
+      const rest =
+        this.sortDir === 'asc'
+          ? this.digests.slice(0, this.digests.length - n)
+          : this.digests.slice(n);
+      const others = rest.reduce(
         (acc, analysis) => {
           acc.count += analysis.count;
           acc.size += analysis.size;
@@ -224,8 +252,10 @@ export class FileSystemPropsComponent
     this.chart.data.datasets[0].backgroundColor = top.map((p) =>
       this.utils.colorOf(this.host, p.color, 0.66)
     );
-    this.chart.data.datasets[0].data = top.map((p) => p.size);
-    this.chart.data.labels = top.map((p) => p.ext);
+    this.chart.data.datasets[0].data = top.map((p) =>
+      this.sortColumn === 'count' ? p.count : p.size
+    );
+    this.chart.data.labels = top.map((p) => p.ext || '--');
     this.chart.update();
   }
 

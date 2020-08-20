@@ -20,6 +20,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
@@ -48,6 +49,7 @@ const MODULES = [
   MatRippleModule,
   MatSidenavModule,
   MatSnackBarModule,
+  MatSortModule,
   MatTooltipModule,
   MomentModule,
   NgxResizeObserverModule,
