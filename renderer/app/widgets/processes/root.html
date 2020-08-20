@@ -52,7 +52,7 @@
           {{ stat.ctime | amUtc | amDateFormat:'HH:mm:ss' }}
         </td>
 
-        <td [matTooltip]="stat.cmd" class="cmd">
+        <td [matTooltip]="stat.cmd" class="cmd monospace">
           {{ stat.cmd }}
         </td>
 

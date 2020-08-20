@@ -21,14 +21,24 @@ section {
       font-size: 0.8rem;
       width: 100%;
 
-      .mode {
-        font-family: 'B612 mono', monospace;
-      }
-
       td:first-child {
         font-weight: bold;
+        max-width: 6rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
         text-transform: uppercase;
+        white-space: nowrap;
         width: 6rem;
+      }
+
+      td.numeric {
+        text-align: right;
+      }
+
+      th {
+        font-weight: bold;
+        text-align: right;
+        text-transform: uppercase;
       }
     }
 

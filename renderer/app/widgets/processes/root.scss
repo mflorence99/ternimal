@@ -10,8 +10,6 @@ ternimal-table {
     white-space: nowrap;
 
     &.cmd {
-      font-family: 'B612 mono', monospace;
-      font-size: 0.75rem;
       max-width: 10rem;
       overflow: hidden;
       text-overflow: ellipsis;

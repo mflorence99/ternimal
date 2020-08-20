@@ -82,7 +82,7 @@
 
       <tr>
         <td>Mode</td>
-        <td class="mode">
+        <td class="mode monospace">
           {{ desc.mode }}
         </td>
       </tr>
@@ -105,5 +105,28 @@
     <figure #wrapper class="wrapper">
       <canvas #canvas class="chart"> </canvas>
     </figure>
+
+    <table *ngIf="digest.length > 0" class="info">
+      <tr>
+        <th></th>
+        <th>Size</th>
+        <th>Count</th>
+      </tr>
+
+      <tr *ngFor="let analysis of digest">
+        <td class="ext monospace">
+          <fa-icon
+            [fixedWidth]="true"
+            [icon]="analysis.icon"
+            [ngStyle]="{color: analysis.color}"
+            size="lg"
+          >
+          </fa-icon>
+          {{ analysis.ext || '&mdash;' }}
+        </td>
+        <td class="numeric">{{ analysis.size | ternimalNumeral:'0b' }}</td>
+        <td class="numeric">{{ analysis.count | ternimalNumeral:'0,0' }}</td>
+      </tr>
+    </table>
   </form>
 </section>

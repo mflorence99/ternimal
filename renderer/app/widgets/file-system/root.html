@@ -124,7 +124,9 @@
             </ng-container>
 
             <ng-container *ngIf="['mode', 'user', 'group'].includes(dict.name)">
-              {{ desc[dict.name] }}
+              <div class="monospace">
+                {{ desc[dict.name] }}
+              </div>
             </ng-container>
           </ng-container>
         </td>
@@ -146,7 +148,7 @@
 
       No accessible contents in:
 
-      <div class="path">
+      <div class="monospace">
         {{ effectivePrefs.root | ternimalBreakable }}
       </div>
     </div>

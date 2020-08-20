@@ -9,6 +9,7 @@ import { Widget } from '../widget';
 import { WidgetPrefs } from '../widget-prefs';
 
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { ElementRef } from '@angular/core';
@@ -22,6 +23,14 @@ import { takeUntil } from 'rxjs/operators';
 
 import Chart from 'chart.js';
 
+interface AnalysisDigest {
+  color: string;
+  count: number;
+  ext: string;
+  icon: string[];
+  size: number;
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
@@ -30,9 +39,11 @@ import Chart from 'chart.js';
   styleUrls: ['props.scss']
 })
 export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
+  analysis: AnalysisByExt;
   chart: Chart;
   desc: FileDescriptor;
-  descs: FileDescriptor[];
+  descs: FileDescriptor[] = [];
+  digest: AnalysisDigest[] = [];
   flags = ['read', 'write', 'execute'];
   perms = [
     ['owner', 'Owner'],
@@ -48,6 +59,7 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
   @ViewChild('wrapper', { static: true }) wrapper: ElementRef;
 
   constructor(
+    private cdf: ChangeDetectorRef,
     private destroy$: DestroyService,
     public electron: ElectronService,
     private formBuilder: FormBuilder,
@@ -78,13 +90,22 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
 
   ngOnInit(): void {
     this.initChart();
-    this.populate();
+    this.populateForm();
     const paths = this.descs.map((desc) => desc.path);
     this.handleValueChanges$(paths);
     if (this.descs.length > 1 || this.desc.isDirectory) this.rcvAnalyze$(paths);
   }
 
   // private methods
+
+  private digestAnalysis(): void {
+    this.digest = Object.entries(this.analysis).map(([ext, analysis]) => {
+      return { ...analysis, ext };
+    });
+    // NOTE: descending order
+    this.digest.sort((p, q) => q.size - p.size);
+    this.updateChart();
+  }
 
   private handleValueChanges$(paths: string[]): void {
     this.propsForm.valueChanges
@@ -123,7 +144,7 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
     });
   }
 
-  private populate(): void {
+  private populateForm(): void {
     this.propsForm.patchValue(
       {
         owner: {
@@ -151,19 +172,40 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
     this.electron.ipcRenderer.once(
       Channels.fsAnalyzeCompleted,
       (_, analysis: AnalysisByExt) => {
-        console.log(analysis);
-        // TODO: temporary
-        const colors = Object.values(analysis).map((val) =>
-          this.utils.colorOf(this.host, val.color, 1)
-        );
-        const data = Object.values(analysis).map((val) => val.count);
-        const labels = Object.keys(analysis);
-        this.chart.data.datasets[0].backgroundColor = colors;
-        this.chart.data.datasets[0].data = data;
-        this.chart.data.labels = labels;
-        this.chart.update();
+        this.analysis = analysis;
+        this.digestAnalysis();
+        this.cdf.detectChanges();
       }
     );
+  }
+
+  private updateChart(): void {
+    // extract top N and the rest
+    const top = this.digest.slice(0, 7);
+    if (this.digest.length > 7) {
+      const others = this.digest.slice(7).reduce(
+        (acc, analysis) => {
+          acc.count += analysis.count;
+          acc.size += analysis.size;
+          return acc;
+        },
+        {
+          color: 'var(--mat-grey-700)',
+          count: 0,
+          ext: 'Others',
+          icon: ['far', 'file'],
+          size: 0
+        }
+      );
+      top.push(others);
+    }
+    // load top results into chart
+    this.chart.data.datasets[0].backgroundColor = top.map((p) =>
+      this.utils.colorOf(this.host, p.color, 0.66)
+    );
+    this.chart.data.datasets[0].data = top.map((p) => p.size);
+    this.chart.data.labels = top.map((p) => p.ext);
+    this.chart.update();
   }
 
   private union(ix: number, f: string): boolean {

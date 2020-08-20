@@ -34,7 +34,7 @@
     <div class="statusbar">
       <!-- NOTE: all this reversing so that the ellipsis and truncation appear on the "left!" -->
 
-      <div *ngIf="widget.widgetStatus?.showCWD" class="cwd">
+      <div *ngIf="widget.widgetStatus?.showCWD" class="cwd monospace">
         &#x202e;
 
         <ng-container *ngIf="widget.widgetStatus?.gotoCWD; else rawCWD">
@@ -107,7 +107,7 @@
         [enabled]="isCommandEnabled.bind(this, menuItem)"
       >
         <div>{{ menuItem.description }}</div>
-        <div *ngIf="menuItem.accelerator" class="accelerator">
+        <div *ngIf="menuItem.accelerator" class="accelerator monospace">
           {{ menuItem.accelerator.description }}
         </div>
       </ng-template>

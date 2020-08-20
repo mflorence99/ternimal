@@ -1,29 +1,31 @@
 :host {
+  display: block;
+}
+
+figure {
   align-items: center;
   display: grid;
-  font-family: 'B612 Mono', monospace;
-  font-size: 0.85rem;
   grid-gap: 0.5rem;
   grid-template-columns: auto 1fr auto;
-}
 
-.gauge {
-  display: flex;
-  height: 100%;
-  overflow: hidden;
-}
+  .gauge {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+  }
 
-.led {
-  flex-shrink: 0;
-  height: 100%;
-  transition: background-color 0.5s ease-in-out;
-}
+  .led {
+    flex-shrink: 0;
+    height: 100%;
+    transition: background-color 0.5s ease-in-out;
+  }
 
-.tag,
-.value {
-  width: 2rem;
-}
+  .tag,
+  .value {
+    width: 2rem;
+  }
 
-.value {
-  text-align: right;
+  .value {
+    text-align: right;
+  }
 }

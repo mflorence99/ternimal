@@ -134,6 +134,11 @@ html {
   font-size: 1rem !important;
 }
 
+.monospace {
+  font-family: 'B612 mono', monospace;
+  font-size: 0.75rem;
+}
+
 .ngx-contextmenu.dropdown {
   background-color: var(--mat-grey-800);
   font-size: 0.9rem;
@@ -183,8 +188,6 @@ html {
 
         .accelerator {
           color: var(--mat-grey-400);
-          font-family: 'B612 Mono', monospace;
-          font-size: 0.75rem;
           margin-left: 2rem;
         }
       }
