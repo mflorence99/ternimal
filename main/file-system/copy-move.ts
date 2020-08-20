@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Channels } from '../common';
 
+import { clearLongRunningOpCancelID } from '../long-running-op';
 import { longRunningOpCancelID } from '../long-running-op';
 
 import * as async from 'async';
@@ -149,8 +150,10 @@ const performCopyOrMove = async (
   let progress = 0;
   const theWindow = globalThis.theWindow;
   await async.eachOfSeries(ifroms, async (ifrom: string, ix: number) => {
-    if (longRunningOpCancelID === id)
+    if (longRunningOpCancelID === id) {
+      clearLongRunningOpCancelID();
       throw new Error(`File ${op} canceled by request`);
+    }
     op === 'copy'
       ? await fs.copy(ifrom, itos[ix], copyOpts)
       : await fs.move(ifrom, itos[ix], moveOpts);
