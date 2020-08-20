@@ -127,7 +127,8 @@ export class FileSystemPropsComponent implements OnInit, WidgetPrefs {
         datasets: [
           {
             backgroundColor: [],
-            borderWidth: 0,
+            borderColor: this.utils.colorOf(this.host, '--mat-grey-500', 1),
+            borderWidth: 1,
             data: []
           }
         ]
