@@ -27,26 +27,32 @@ export class DraggableDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const host = this.host.nativeElement;
-    const down$ = fromEvent(host, 'mousedown');
-    const out$ = fromEvent(host, 'mouseout');
-    const up$ = fromEvent(host, 'mouseup');
-    const drag$ = down$.pipe(
-      mergeMap((down) => {
-        this.draggable = 'false';
-        return of(down).pipe(
-          delay(this.params.draggableAfter),
-          takeUntil(merge(out$, up$))
-        );
-      }),
-      takeUntil(this.destroy$)
-    );
-    drag$.subscribe(() => {
-      // https://stackoverflow.com/questions/24025165/
-      const evt = document.createEvent('MouseEvents');
-      evt.initEvent('mousedown', true, true);
-      host.dispatchEvent(evt);
-      this.draggable = 'true';
-    });
+    fromEvent(this.host.nativeElement, 'mousedown')
+      .pipe(
+        mergeMap((down) => {
+          // turn off any residual draggable
+          this.draggable = 'false';
+          return of(down).pipe(
+            delay(this.params.draggableAfter),
+            takeUntil(
+              merge(
+                fromEvent(this.host.nativeElement, 'mouseout'),
+                fromEvent(this.host.nativeElement, 'mouseup')
+              )
+            )
+          );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        // now we have a "long press" to trigger the drag
+        // but we ate the mousedown to get here, so we have to re-send it
+        // @see https://stackoverflow.com/questions/24025165/
+        const evt = document.createEvent('MouseEvents');
+        evt.initEvent('mousedown', true, true);
+        this.host.nativeElement.dispatchEvent(evt);
+        // now the host is draggable
+        this.draggable = 'true';
+      });
   }
 }
