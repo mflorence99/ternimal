@@ -12,7 +12,6 @@ import { ElectronService } from 'ngx-electron';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OnInit } from '@angular/core';
 
-import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -43,19 +42,10 @@ export class RootComponent implements OnInit {
   // private methods
 
   private handleActions$(): void {
-    this.actions$
-      .pipe(
-        filter(({ action, status }) => {
-          return (
-            this.utils.hasProperty(action, /^LayoutState\./) &&
-            status === 'SUCCESSFUL'
-          );
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.cdf.detectChanges();
-      });
+    // NOTE: trigger change detection on any action
+    this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.cdf.detectChanges();
+    });
   }
 
   private rcvError$(): void {
