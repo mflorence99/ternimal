@@ -23,9 +23,11 @@ ternimal-table {
 
     &.name {
       max-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
       width: 100%;
+      > div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     &.size {

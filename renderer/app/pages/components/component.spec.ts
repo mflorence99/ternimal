@@ -2,6 +2,7 @@ import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from './module';
 import { ComponentsModule as CommonComponentsModule } from '../../components/module';
 import { DirectivesModule } from '../directives/module';
+import { DirectivesModule as CommonDirectivesModule } from '../../directives/module';
 
 import { states } from '../../state/app';
 
@@ -25,6 +26,7 @@ export function prepare(): void {
     imports: [
       BarrelModule,
       CommonComponentsModule,
+      CommonDirectivesModule,
       ComponentsModule,
       DirectivesModule,
       NgxsModule.forRoot(states),

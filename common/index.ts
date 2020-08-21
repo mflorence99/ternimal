@@ -43,6 +43,7 @@ export enum Channels {
   longRunningOpProgress = 'long-running-op.progress',
 
   nativeClipboardWrite = 'native.clipboardWrite',
+  nativeDragStart = 'native.dragStart',
   nativeOpen = 'native.open',
 
   openDevTools = 'toolbar.openDevTools',

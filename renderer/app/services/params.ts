@@ -14,6 +14,8 @@ export class Params {
   static pathSeparator = ipcRenderer.sendSync(Channels.fsPathSeparator);
   static rootDir = ipcRenderer.sendSync(Channels.fsRootDir);
 
+  draggableAfter = 1000;
+
   fileSystemPasteDelay = 500;
 
   led = {

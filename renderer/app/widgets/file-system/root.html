@@ -24,6 +24,7 @@
   <tbody>
     <tr
       (dblclick)="open(desc.path)"
+      (dragstart)="dragStart($event, desc.path)"
       [id]="desc.path"
       *ngFor="let desc of descs; trackBy: trackByDesc"
     >
@@ -31,45 +32,47 @@
         <td [ngClass]="dict.name" *ngIf="effectivePrefs.visibility[dict.name]">
           <ng-container *ngIf="table.isHydrated(desc.path)">
             <ng-container *ngIf="['name'].includes(dict.name)">
-              <span [ngStyle]="{'padding-left.rem': level(desc)}"> </span>
+              <div ternimalDraggable>
+                <span [ngStyle]="{'padding-left.rem': level(desc)}"> </span>
 
-              <fa-icon
-                (click)="loadPath(desc.path)"
-                [fixedWidth]="true"
-                [icon]="loading[desc.path]? ['far', 'clock'] : ['fas', 'caret-right']"
-                [ngStyle]="{cursor: loading[desc.path]? 'progress' : 'pointer', visibility: desc.isDirectory && !isEmpty(desc.path)? 'visible' : 'hidden'}"
-                [pulse]="loading[desc.path]"
-                [rotate]="paths.isOpen(splitID, desc.path)? 90 : 0"
-              >
-              </fa-icon>
-
-              <ng-container>
                 <fa-icon
+                  (click)="loadPath(desc.path)"
                   [fixedWidth]="true"
-                  [icon]="['fas', isCut(desc.path)? 'cut' : 'clipboard']"
-                  [ngStyle]="{color: 'var(--text-color)'}"
-                  *ngIf="isClipped(desc.path)"
+                  [icon]="loading[desc.path]? ['far', 'clock'] : ['fas', 'caret-right']"
+                  [ngStyle]="{cursor: loading[desc.path]? 'progress' : 'pointer', visibility: desc.isDirectory && !isEmpty(desc.path)? 'visible' : 'hidden'}"
+                  [pulse]="loading[desc.path]"
+                  [rotate]="paths.isOpen(splitID, desc.path)? 90 : 0"
                 >
                 </fa-icon>
 
-                <fa-icon
-                  [fixedWidth]="true"
-                  [icon]="isEmpty(desc.path)? ['far', 'folder'] : (paths.isOpen(splitID, desc.path)? ['fas', 'folder-open'] : ['fas', 'folder'])"
-                  [ngStyle]="{color: desc.color}"
-                  *ngIf="!isClipped(desc.path) && desc.isDirectory"
-                >
-                </fa-icon>
+                <ng-container>
+                  <fa-icon
+                    [fixedWidth]="true"
+                    [icon]="['fas', isCut(desc.path)? 'cut' : 'clipboard']"
+                    [ngStyle]="{color: 'var(--text-color)'}"
+                    *ngIf="isClipped(desc.path)"
+                  >
+                  </fa-icon>
 
-                <fa-icon
-                  [fixedWidth]="true"
-                  [icon]="desc.icon"
-                  [ngStyle]="{color: desc.color}"
-                  *ngIf="!isClipped(desc.path) && !desc.isDirectory"
-                >
-                </fa-icon>
-              </ng-container>
+                  <fa-icon
+                    [fixedWidth]="true"
+                    [icon]="isEmpty(desc.path)? ['far', 'folder'] : (paths.isOpen(splitID, desc.path)? ['fas', 'folder-open'] : ['fas', 'folder'])"
+                    [ngStyle]="{color: desc.color}"
+                    *ngIf="!isClipped(desc.path) && desc.isDirectory"
+                  >
+                  </fa-icon>
 
-              {{ desc[dict.name] }}
+                  <fa-icon
+                    [fixedWidth]="true"
+                    [icon]="desc.icon"
+                    [ngStyle]="{color: desc.color}"
+                    *ngIf="!isClipped(desc.path) && !desc.isDirectory"
+                  >
+                  </fa-icon>
+                </ng-container>
+
+                {{ desc[dict.name] }}
+              </div>
             </ng-container>
 
             <ng-container *ngIf="['size'].includes(dict.name)">

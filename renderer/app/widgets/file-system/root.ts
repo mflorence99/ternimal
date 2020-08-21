@@ -287,6 +287,11 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
     );
   }
 
+  dragStart(event: MouseEvent, path: string): void {
+    event.preventDefault();
+    this.electron.ipcRenderer.send(Channels.nativeDragStart, path);
+  }
+
   goto(path: string): void {
     this.files.loadPaths([path]);
     this.paths.open({ splitID: this.splitID, path });

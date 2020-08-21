@@ -1,5 +1,6 @@
 import { BarrelModule } from '../../barrel';
 import { ComponentsModule as CommonComponentsModule } from '../../components/module';
+import { DirectivesModule as CommonDirectivesModule } from '../../directives/module';
 import { FileSystemComponent } from './root';
 import { FileSystemNewNameComponent } from './new-name';
 import { FileSystemPrefsComponent } from './prefs';
@@ -14,7 +15,7 @@ const COMPONENTS = [
   FileSystemPropsComponent
 ];
 
-const MODULES = [BarrelModule, CommonComponentsModule];
+const MODULES = [BarrelModule, CommonComponentsModule, CommonDirectivesModule];
 
 @NgModule({
   declarations: [...COMPONENTS],
