@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Channels } from '../common';
 
-import { clearLongRunningOpCancelID } from '../long-running-op';
-import { longRunningOpCancelID } from '../long-running-op';
+import { isLongRunningOpCanceled } from '../long-running-op';
+import { numParallelOps } from '../common';
 
 import * as async from 'async';
 import * as electron from 'electron';
@@ -27,6 +27,7 @@ const business = async (
   to: string,
   op: 'copy' | 'move'
 ): Promise<void> => {
+  console.time(op);
   const theWindow = globalThis.theWindow;
   // kick off the long-running op
   theWindow?.webContents.send(Channels.longRunningOpProgress, {
@@ -67,18 +68,19 @@ const business = async (
       progress: 100,
       running: false
     });
+    console.timeEnd(op);
   }
 };
 
 const cleanupAfterMove = async (froms: string[]): Promise<void> => {
-  await async.eachSeries(froms, async (from) => {
+  await async.eachLimit(froms, numParallelOps, async (from) => {
     const stat = await fs.lstat(from);
     if (stat.isDirectory()) await fs.remove(from);
   });
 };
 
 const disambiguateTos = async (tos: string[]): Promise<void> => {
-  await async.eachOfSeries(tos, async (to, ix) => {
+  await async.eachOfLimit(tos, numParallelOps, async (to, ix) => {
     const parsed = path.parse(to);
     // see if we are already disambiguated with this pattern
     let disamb = 1;
@@ -97,7 +99,7 @@ const disambiguateTos = async (tos: string[]): Promise<void> => {
 };
 
 const ensureWritability = async (paths: string[]): Promise<void> => {
-  await async.eachSeries(paths, async (path) => {
+  await async.eachLimit(paths, numParallelOps, async (path) => {
     await fs.access(path, fs.constants.W_OK);
   });
 };
@@ -149,26 +151,27 @@ const performCopyOrMove = async (
 ): Promise<void> => {
   let progress = 0;
   const theWindow = globalThis.theWindow;
-  await async.eachOfSeries(ifroms, async (ifrom: string, ix: number) => {
-    if (longRunningOpCancelID === id) {
-      clearLongRunningOpCancelID();
-      throw new Error(`File ${op} canceled by request`);
+  await async.eachOfLimit(
+    ifroms,
+    numParallelOps,
+    async (ifrom: string, ix: number) => {
+      isLongRunningOpCanceled(id, `File ${op} canceled by request`);
+      op === 'copy'
+        ? await fs.copy(ifrom, itos[ix], copyOpts)
+        : await fs.move(ifrom, itos[ix], moveOpts);
+      // NOTE: cut out noise by tripping at most 100 times
+      const scale = Math.round(((ix + 1) / ifroms.length) * 100);
+      if (scale > progress) {
+        theWindow?.webContents.send(Channels.longRunningOpProgress, {
+          id: id,
+          item: ifrom,
+          progress: scale,
+          running: ix < ifroms.length - 1
+        });
+        progress = scale;
+      }
     }
-    op === 'copy'
-      ? await fs.copy(ifrom, itos[ix], copyOpts)
-      : await fs.move(ifrom, itos[ix], moveOpts);
-    // NOTE: cut out noise by tripping at most 100 times
-    const scale = Math.round(((ix + 1) / ifroms.length) * 100);
-    if (scale > progress) {
-      theWindow?.webContents.send(Channels.longRunningOpProgress, {
-        id: id,
-        item: ifrom,
-        progress: scale,
-        running: ix < ifroms.length - 1
-      });
-      progress = scale;
-    }
-  });
+  );
 };
 
 ipcMain.on(

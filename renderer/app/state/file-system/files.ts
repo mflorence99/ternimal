@@ -79,10 +79,7 @@ export class FileSystemFilesState
     paths.forEach((path) => {
       if (!this.snapshot[path]) {
         this.loading$.next(
-          paths.reduce((acc, path) => {
-            acc[path] = true;
-            return acc;
-          }, {})
+          paths.reduce((acc, path) => Object.assign(acc, { [path]: true }), {})
         );
         this.electron.ipcRenderer.send(Channels.fsLoadPathRequest, path);
       }

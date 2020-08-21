@@ -104,6 +104,11 @@ export class PaneComponent implements OnInit {
     ).cwd;
   }
 
+  cwdir(): string {
+    const parts = this.cwdParts();
+    return parts[parts.length - 1];
+  }
+
   cwdGoto(path: string): void {
     const parts = this.cwdParts();
     const ix = parts.findIndex((part) => part === path);

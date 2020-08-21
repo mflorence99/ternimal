@@ -26,10 +26,22 @@ section {
   }
 
   .badge {
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    justify-items: end;
     opacity: 0.25;
     position: absolute;
-    right: 3rem;
-    top: 3rem;
+    right: 2rem;
+    text-align: right;
+    top: 4rem;
+
+    .cwd {
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
   }
 
   .content {

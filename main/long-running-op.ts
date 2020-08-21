@@ -4,10 +4,13 @@ import * as electron from 'electron';
 
 const { ipcMain } = electron;
 
-export let longRunningOpCancelID;
+let longRunningOpCancelID;
 
-export const clearLongRunningOpCancelID = (): void => {
-  longRunningOpCancelID = null;
+export const isLongRunningOpCanceled = (id: string, message: string): void => {
+  if (longRunningOpCancelID === id) {
+    longRunningOpCancelID = null;
+    throw new Error(message);
+  }
 };
 
 ipcMain.on(Channels.longRunningOpCancel, (_, id: string): void => {

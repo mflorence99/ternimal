@@ -102,6 +102,15 @@
       </tr>
     </table>
 
+    <table *ngIf="descs.length > 1" class="info">
+      <tr>
+        <td>Total Size</td>
+        <td class="size">
+          {{ totalSize | ternimalNumeral:'0b' }}
+        </td>
+      </tr>
+    </table>
+
     <div *ngIf="loading" class="info">
       <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"> </fa-icon>
       Loading file and directory analysis...

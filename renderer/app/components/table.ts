@@ -468,10 +468,10 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
       this.rowIDs = this.findElements(this.body.nativeElement, 'tr[id]').map(
         (tr) => tr.id
       );
-      this.rowIndexByID = this.rowIDs.reduce((acc, id, ix) => {
-        acc[id] = ix;
-        return acc;
-      }, {});
+      this.rowIndexByID = this.rowIDs.reduce(
+        (acc, id, ix) => Object.assign(acc, { [id]: ix }),
+        {}
+      );
     }
     // now extend the selection by row index
     let row = this.rowIndexByID[id];
