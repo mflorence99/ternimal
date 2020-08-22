@@ -158,7 +158,7 @@ export class TabsComponent implements OnInit {
       )
       .subscribe(() => {
         this.whichTabs();
-        this.cdf.detectChanges();
+        this.cdf.markForCheck();
       });
   }
 

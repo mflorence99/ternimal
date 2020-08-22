@@ -42,7 +42,7 @@ export class SystemInfoComponent implements OnInit {
         this.systemInfo = this.electron.ipcRenderer.sendSync(
           Channels.systemInfo
         );
-        this.cdf.detectChanges();
+        this.cdf.markForCheck();
       });
   }
 }

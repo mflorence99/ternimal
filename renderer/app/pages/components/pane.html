@@ -1,5 +1,6 @@
 <section
   (click)="select()"
+  (contextmenu)="select()"
   (window:keydown)="keydown($event)"
   [contextMenu]="contextMenu"
   [ngClass]="{selected: isSelected()}"

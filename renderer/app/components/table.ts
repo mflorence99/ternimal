@@ -58,6 +58,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
   private observedRowIDs = new Set<string>();
   private rowIDs: string[] = null;
   private rowIndexByID: Record<string, number> = null;
+  private selecting = false;
   private ths: HTMLElement[];
 
   constructor(
@@ -212,6 +213,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
 
   rowSelect(event: MouseEvent, forceShift = false): void {
     event.stopPropagation();
+    this.selecting = true;
     const tr = this.findRow(event);
     if (tr) {
       const oldSelected = new Set<string>(this.selectedRowIDs);
@@ -278,13 +280,15 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
 
   rowSelectCancel(event: MouseEvent): void {
     event.stopPropagation();
+    this.selecting = false;
     this.rowIDs = null;
     this.rowIndexByID = null;
   }
 
   rowSelectXtnd(event: MouseEvent): void {
     event.stopPropagation();
-    if (event.buttons === 1) this.rowSelect(event, /* forceShift= */ true);
+    if (event.buttons === 1 && this.selecting)
+      this.rowSelect(event, /* forceShift= */ true);
   }
 
   rowUnselect(): void {
@@ -352,7 +356,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
         this.observeRows();
         this.mungeHeaders();
         this.syncCells();
-        this.cdf.detectChanges();
+        this.cdf.markForCheck();
       });
   }
 

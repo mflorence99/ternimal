@@ -44,7 +44,7 @@ export class RootComponent implements OnInit {
   private handleActions$(): void {
     // NOTE: trigger change detection on any action
     this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.cdf.detectChanges();
+      this.cdf.markForCheck();
     });
   }
 

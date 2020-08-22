@@ -114,7 +114,7 @@ export class ProcessListComponent implements OnInit, Widget {
   }
 
   ngOnInit(): void {
-    this.stats = this.sortStats(this.processList.snapshot);
+    this.stats = this.sortem(this.processList.snapshot);
     this.handleActions$();
     this.processList.startPolling();
   }
@@ -147,12 +147,12 @@ export class ProcessListComponent implements OnInit, Widget {
         takeUntil(this.destroy$)
       )
       .subscribe(() => {
-        this.stats = this.sortStats(this.processList.snapshot);
-        this.cdf.detectChanges();
+        this.stats = this.sortem(this.processList.snapshot);
+        this.cdf.markForCheck();
       });
   }
 
-  private sortStats(stats: ProcessStats[]): ProcessStats[] {
+  private sortem(stats: ProcessStats[]): ProcessStats[] {
     const columnSort = this.sort.columnSort(this.splitID, this.tableID);
     if (columnSort.sortDir === 0) return stats;
     else

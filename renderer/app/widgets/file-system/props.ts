@@ -132,7 +132,7 @@ export class FileSystemPropsComponent
       return result * factor;
     });
     this.updateChart();
-    this.cdf.detectChanges();
+    this.cdf.markForCheck();
   }
 
   // private methods
@@ -217,7 +217,7 @@ export class FileSystemPropsComponent
       Channels.fsAnalyzeCompleted,
       this.digestAnalysisFn
     );
-    this.cdf.detectChanges();
+    this.cdf.markForCheck();
   }
 
   private updateChart(): void {

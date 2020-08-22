@@ -422,7 +422,7 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
   }
 
   rehydrated(): void {
-    this.cdf.detectChanges();
+    this.cdf.markForCheck();
   }
 
   rename(): void {
@@ -498,7 +498,7 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
       )
       .subscribe(() => {
         this.loadEm();
-        this.cdf.detectChanges();
+        this.cdf.markForCheck();
       });
   }
 
