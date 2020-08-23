@@ -2,7 +2,7 @@ import { Channels } from '../../common';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog';
 import { ConfirmDialogModel } from '../../components/confirm-dialog';
 import { DestroyService } from '../../services/destroy';
-import { Dictionary } from '../../state/file-system/prefs';
+import { Dictionary } from '../../state/prefs';
 import { FileDescriptor } from '../../common';
 import { FileSystemClipboardState } from '../../state/file-system/clipboard';
 import { FileSystemFilesState } from '../../state/file-system/files';

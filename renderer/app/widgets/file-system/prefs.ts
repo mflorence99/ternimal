@@ -1,5 +1,5 @@
 import { DestroyService } from '../../services/destroy';
-import { Dictionary } from '../../state/file-system/prefs';
+import { Dictionary } from '../../state/prefs';
 import { FileSystemPrefsState } from '../../state/file-system/prefs';
 import { Scope } from '../../state/file-system/prefs';
 import { SelectionState } from '../../state/selection';

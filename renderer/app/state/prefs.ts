@@ -4,6 +4,7 @@ import { Utils } from '../services/utils';
 import { scratch } from './operators';
 
 import { Actions } from '@ngxs/store';
+import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { NgxsOnInit } from '@ngxs/store';
@@ -17,6 +18,13 @@ interface DataActionParams<T> {
   prefs?: Partial<T>;
   scope?: Scope;
   splitID?: string;
+}
+
+export interface Dictionary {
+  isDate?: boolean;
+  isNumber?: boolean;
+  name: string;
+  tag: string;
 }
 
 export type Scope = 'global' | 'byLayoutID' | 'bySplitID';
@@ -40,6 +48,20 @@ export abstract class PrefsState<T>
     super();
   }
 
+  static defaultPrefs(): any {
+    return {};
+  }
+
+  static emptyPrefs(): any {
+    const nullify = (obj: any): any => {
+      return Object.keys(obj).reduce((acc, key) => {
+        acc[key] = typeof obj[key] === 'object' ? nullify(obj[key]) : null;
+        return acc;
+      }, {});
+    };
+    return nullify(this.defaultPrefs());
+  }
+
   // actions
 
   @DataAction({ insideZone: true })
@@ -56,6 +78,50 @@ export abstract class PrefsState<T>
   @DataAction({ insideZone: true })
   rescope(@Payload('PrefsState.rescope') { scope }: DataActionParams<T>): void {
     this.ctx.setState(patch({ scope }));
+  }
+
+  @DataAction({ insideZone: true })
+  update(
+    @Payload('FileSystemPrefsState.update')
+    { layoutID, splitID, prefs }: DataActionParams<T>
+  ): void {
+    // NOTE: prefs may be Partial
+    const effectivePrefs = { ...PrefsState.emptyPrefs(), ...prefs };
+    if (!layoutID && !splitID)
+      this.ctx.setState(patch({ global: effectivePrefs }));
+    else if (layoutID && !splitID)
+      this.ctx.setState(
+        patch({ byLayoutID: patch({ [layoutID]: effectivePrefs }) })
+      );
+    else if (!layoutID && splitID)
+      this.ctx.setState(
+        patch({ bySplitID: patch({ [splitID]: effectivePrefs }) })
+      );
+  }
+
+  // accessors
+
+  abstract get dictionary(): Dictionary[];
+
+  @Computed() get byLayoutID(): T {
+    return (
+      this.snapshot.byLayoutID[this.selection.layoutID] ??
+      PrefsState.emptyPrefs()
+    );
+  }
+
+  @Computed() get bySplitID(): T {
+    return (
+      this.snapshot.bySplitID[this.selection.splitID] ?? PrefsState.emptyPrefs()
+    );
+  }
+
+  @Computed() get global(): T {
+    return this.snapshot.global;
+  }
+
+  @Computed() get scope(): Scope {
+    return this.snapshot.scope;
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */
