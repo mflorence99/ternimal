@@ -1,4 +1,7 @@
 import { Channels } from '../../common';
+import { Layout } from '../../state/layout';
+import { LayoutState } from '../../state/layout';
+import { PanesState } from '../../state/panes';
 import { Params } from '../../services/params';
 import { ProcessDescriptor } from '../../common';
 import { ProcessList } from '../../common';
@@ -13,6 +16,7 @@ import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
+import { filter } from 'rxjs/operators';
 import { timer } from 'rxjs';
 
 interface DataActionParams {
@@ -54,6 +58,8 @@ export class ProcessListState extends NgxsDataRepository<ProcessListStateModel>
 
   constructor(
     public electron: ElectronService,
+    private layout: LayoutState,
+    private panes: PanesState,
     private params: Params,
     private utils: Utils
   ) {
@@ -84,14 +90,8 @@ export class ProcessListState extends NgxsDataRepository<ProcessListStateModel>
 
   ngxsOnInit(): void {
     super.ngxsOnInit();
+    this.pollProcessList$();
     this.rcvProcessList$();
-  }
-
-  startPolling(): void {
-    if (!this.polling) {
-      this.pollProcessList$();
-      this.polling = true;
-    }
   }
 
   // private methods
@@ -127,10 +127,20 @@ export class ProcessListState extends NgxsDataRepository<ProcessListStateModel>
     };
   }
 
+  private anyListeners(): boolean {
+    return this.layout.someSplit(
+      this.layout.layout,
+      (split: Layout): boolean =>
+        this.panes.prefs(split.id).widget === 'ProcessListComponent'
+    );
+  }
+
   private pollProcessList$(): void {
-    timer(0, this.params.processList.pollInterval).subscribe(() => {
-      this.electron.ipcRenderer.send(Channels.processListRequest);
-    });
+    timer(0, this.params.processList.pollInterval)
+      .pipe(filter(() => this.anyListeners()))
+      .subscribe(() => {
+        this.electron.ipcRenderer.send(Channels.processListRequest);
+      });
   }
 
   private rcvProcessList$(): void {

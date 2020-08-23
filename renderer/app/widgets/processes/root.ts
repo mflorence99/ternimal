@@ -116,7 +116,6 @@ export class ProcessListComponent implements OnInit, Widget {
   ngOnInit(): void {
     this.stats = this.sortem(this.processList.snapshot);
     this.handleActions$();
-    this.processList.startPolling();
   }
 
   run(running: boolean): void {

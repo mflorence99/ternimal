@@ -28,12 +28,14 @@ export type Attribute =
   | 'mode'
   | 'user'
   | 'group';
+
 export type DateFmt =
   | 'ago'
   | 'shortDate'
   | 'mediumDate'
   | 'longDate'
   | 'fullDate';
+
 export type QuantityFmt = 'abbrev' | 'bytes' | 'number';
 export type SortOrder = 'alpha' | 'first' | 'last';
 export type TimeFmt =
@@ -42,6 +44,7 @@ export type TimeFmt =
   | 'mediumTime'
   | 'longTime'
   | 'fullTime';
+
 export type Scope = 'global' | 'byLayoutID' | 'bySplitID';
 
 interface DataActionParams {

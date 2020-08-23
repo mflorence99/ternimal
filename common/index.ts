@@ -10,13 +10,16 @@ export interface AnalysisByExt {
 export enum Channels {
   error = 'ternimal.error',
 
+  // NOTE: channels ending in "..." are suffixed with an unique ID,
+  // targeted to a single listener
+
   fsAnalyze = 'file-system.analyze',
   fsAnalyzeCompleted = 'file-system.analyzeCompleted',
   fsChmod = 'file-system.chmod',
   fsCopy = 'file-system.copy',
-  fsCopyCompleted = 'file-system.copyCompleted',
+  fsCopyCompleted = 'file-system.copyCompleted...',
   fsMove = 'file-system.move',
-  fsMoveCompleted = 'file-system.moveCompleted',
+  fsMoveCompleted = 'file-system.moveCompleted...',
   fsDelete = 'file-system.delete',
   fsExists = 'file-system.exists',
   fsHomeDir = 'file-system.homeDir',

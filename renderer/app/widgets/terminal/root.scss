@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  height: 100%;
+  position: relative;
+}
+
+.renderer {
+  height: calc(100% - 2rem);
+  left: 1rem;
+  position: absolute;
+  top: 1rem;
+  width: calc(100% - 2rem);
+}

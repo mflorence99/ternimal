@@ -57,7 +57,7 @@ const business = async (
     // send completed message
     const channel =
       op === 'copy' ? Channels.fsCopyCompleted : Channels.fsMoveCompleted;
-    theWindow?.webContents.send(channel, id, froms, tos);
+    theWindow?.webContents.send(channel + id, froms, tos);
   } catch (error) {
     theWindow?.webContents.send(Channels.error, error.message);
   } finally {

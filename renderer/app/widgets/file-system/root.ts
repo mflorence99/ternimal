@@ -369,11 +369,11 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
 
   ngOnDestroy(): void {
     this.electron.ipcRenderer.off(
-      Channels.fsCopyCompleted,
+      Channels.fsCopyCompleted + this.splitID,
       this.pasteCompletedFn
     );
     this.electron.ipcRenderer.off(
-      Channels.fsMoveCompleted,
+      Channels.fsMoveCompleted + this.splitID,
       this.pasteCompletedFn
     );
   }
@@ -390,17 +390,15 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
     this.electron.ipcRenderer.send(Channels.nativeOpen, path);
   }
 
-  pasteCompleted(_, id: string, froms: string[], tos: string[]): void {
-    if (id === this.splitID) {
-      this.clearClipboard();
-      // TODO: we have to delay here because the riws we want to select won't exist
-      // until the table is redrawn -- and currently we can't detect that
-      // so this is an ugky hack
-      setTimeout(() => {
-        this.table.rowUnselect();
-        this.table.rowSelectByIDs(tos);
-      }, this.params.fileSystemPasteDelay);
-    }
+  pasteCompleted(_, froms: string[], tos: string[]): void {
+    this.clearClipboard();
+    // TODO: we have to delay here because the rows we want to select won't exist
+    // until the table is redrawn -- and currently we can't detect that
+    // so this is an ugky hack
+    setTimeout(() => {
+      this.table.rowUnselect();
+      this.table.rowSelectByIDs(tos);
+    }, this.params.fileSystemPasteDelay);
   }
 
   pasteFromClipboard(): void {
@@ -579,11 +577,11 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
 
   private rcvCompletion$(): void {
     this.electron.ipcRenderer.on(
-      Channels.fsCopyCompleted,
+      Channels.fsCopyCompleted + this.splitID,
       this.pasteCompletedFn
     );
     this.electron.ipcRenderer.on(
-      Channels.fsMoveCompleted,
+      Channels.fsMoveCompleted + this.splitID,
       this.pasteCompletedFn
     );
   }

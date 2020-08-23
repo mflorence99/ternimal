@@ -11,6 +11,7 @@ section {
   position: relative;
 
   &.selected .badge {
+    bottom: calc(2rem + var(--pane-cy-footer));
     opacity: 0.4;
     transition: opacity 0.25s ease-in-out;
   }
@@ -26,6 +27,7 @@ section {
   }
 
   .badge {
+    bottom: 2rem;
     display: grid;
     grid-gap: 0.5rem;
     grid-template-columns: 1fr;
@@ -35,7 +37,7 @@ section {
     position: absolute;
     right: 2rem;
     text-align: right;
-    top: 4rem;
+    z-index: -1;
 
     .cwd {
       font-size: 1.25rem;

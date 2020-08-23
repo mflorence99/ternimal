@@ -39,7 +39,7 @@ export type LayoutStateModel = Record<string, Layout>;
 
 export type SplitDir = 'horizontal' | 'vertical';
 
-export type SplitVisitorFn = (split: Layout) => void;
+export type SplitVisitorFn = (split: Layout) => void | boolean;
 
 @Injectable({ providedIn: 'root' })
 @Persistence({ path: 'layout', useClass: StorageService })
@@ -181,6 +181,12 @@ export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
 
   /* eslint-disable @typescript-eslint/member-ordering */
 
+  everySplit(layout: Layout, visitor: SplitVisitorFn): boolean {
+    for (const inner of layout.splits ?? []) {
+      if (!visitor(inner) || !this.everySplit(inner, visitor)) return false;
+    }
+  }
+
   findSplitByID(id: string, model = this.snapshot): Layout {
     for (const key of Object.keys(model)) {
       const layout = this.findSplitByIDImpl(id, model[key]);
@@ -196,6 +202,12 @@ export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
       if (split) return split;
     }
     return null;
+  }
+
+  someSplit(layout: Layout, visitor: SplitVisitorFn): boolean {
+    for (const inner of layout.splits ?? []) {
+      if (visitor(inner) || this.someSplit(inner, visitor)) return true;
+    }
   }
 
   visitSplits(layout: Layout, visitor: SplitVisitorFn): void {

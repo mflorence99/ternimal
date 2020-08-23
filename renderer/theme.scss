@@ -139,8 +139,8 @@ html {
 }
 
 .monospace {
-  font-family: 'B612 mono', monospace;
-  font-size: 0.75rem;
+  font-family: monospace;
+  font-size: 0.8rem;
 }
 
 .ngx-contextmenu.dropdown {
@@ -202,4 +202,8 @@ html {
 ol,
 ul {
   list-style-type: none;
+}
+
+.xterm-viewport {
+  overflow: hidden !important;
 }
