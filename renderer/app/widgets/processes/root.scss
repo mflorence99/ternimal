@@ -1,6 +1,7 @@
 :host {
   display: block;
   height: 100%;
+  position: relative;
 }
 
 ternimal-table {
@@ -23,8 +24,8 @@ ternimal-table {
       text-align: right;
     }
 
-    &.cpu,
-    &.memory {
+    &.cpu.withSparkline,
+    &.memory.withSparkline {
       padding: 0 0.25rem 0 0;
       width: 6.25rem;
 
@@ -47,5 +48,24 @@ ternimal-table {
 
   tr {
     height: 1.5rem;
+  }
+}
+
+aside {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  > div {
+    align-content: center;
+    color: var(--mat-grey-500);
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: 1fr;
+    height: 100%;
+    justify-items: center;
+    padding: 2rem;
   }
 }

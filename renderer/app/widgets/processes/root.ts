@@ -2,14 +2,19 @@ import { Channels } from '../../common';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog';
 import { ConfirmDialogModel } from '../../components/confirm-dialog';
 import { DestroyService } from '../../services/destroy';
+import { Dictionary } from '../../state/prefs';
 import { Params } from '../../services/params';
+import { ProcessListPrefs } from '../../state/processes/prefs';
+import { ProcessListPrefsState } from '../../state/processes/prefs';
 import { ProcessListState } from '../../state/processes/list';
 import { ProcessStats } from '../../state/processes/list';
 import { SortState } from '../../state/sort';
 import { TableComponent } from '../../components/table';
+import { TabsState } from '../../state/tabs';
 import { Widget } from '../widget';
 import { WidgetCommand } from '../widget';
 import { WidgetLaunch } from '../widget';
+import { WidgetPrefs } from '../widget';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -34,6 +39,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['root.scss']
 })
 export class ProcessListComponent implements OnInit, Widget {
+  effectivePrefs: ProcessListPrefs;
   running = true;
 
   @Input() splitID: string;
@@ -60,7 +66,7 @@ export class ProcessListComponent implements OnInit, Widget {
   ];
 
   widgetLaunch: WidgetLaunch = {
-    description: 'top+',
+    description: 'Process List',
     icon: ['fas', 'sitemap'],
     implementation: 'ProcessListComponent'
   };
@@ -75,6 +81,11 @@ export class ProcessListComponent implements OnInit, Widget {
     ]
   ];
 
+  widgetPrefs: WidgetPrefs = {
+    description: 'ProcessList setup',
+    implementation: 'ProcessListPrefsComponent'
+  };
+
   constructor(
     private actions$: Actions,
     private cdf: ChangeDetectorRef,
@@ -82,9 +93,11 @@ export class ProcessListComponent implements OnInit, Widget {
     private dialog: MatDialog,
     public electron: ElectronService,
     private params: Params,
+    public prefs: ProcessListPrefsState,
     public processList: ProcessListState,
     private snackBar: MatSnackBar,
-    public sort: SortState
+    public sort: SortState,
+    public tabs: TabsState
   ) {}
 
   confirmKill(): void {
@@ -125,6 +138,10 @@ export class ProcessListComponent implements OnInit, Widget {
     });
   }
 
+  trackByDict(_, dict: Dictionary): string {
+    return dict.name;
+  }
+
   trackByPID(_, process): string {
     return String(process.pid);
   }
@@ -138,6 +155,9 @@ export class ProcessListComponent implements OnInit, Widget {
         filter(({ action, status }) => {
           return (
             (action['ProcessListState.update'] ||
+              (action['PrefsState.update'] &&
+                !action['PrefsState.update'].splitID) ||
+              action['PrefsState.update']?.splitID === this.splitID ||
               action['SortState.update']?.splitID === this.splitID) &&
             status === 'SUCCESSFUL'
           );
@@ -152,16 +172,22 @@ export class ProcessListComponent implements OnInit, Widget {
   }
 
   private sortem(stats: ProcessStats[]): ProcessStats[] {
+    this.effectivePrefs = this.prefs.effectivePrefs(
+      this.tabs.tab.layoutID,
+      this.splitID
+    );
     const columnSort = this.sort.columnSort(this.splitID, this.tableID);
-    if (columnSort.sortDir === 0) return stats;
-    else
-      return stats.slice(0).sort((p, q): number => {
-        const nm = columnSort.sortedID;
-        let order = 0;
-        if (['name', 'uid'].includes(nm))
-          order = p[nm].toLowerCase().localeCompare(q[nm].toLowerCase());
-        else order = p[nm] - q[nm];
-        return order * columnSort.sortDir;
-      });
+    const dict = this.prefs.dictionary.find(
+      (dict) => dict.name === (columnSort.sortedID ?? 'name')
+    );
+    return stats.slice(0).sort((p: any, q: any): number => {
+      if (dict.isNumber)
+        return (p[dict.name] - q[dict.name]) * columnSort.sortDir;
+      else
+        return (
+          p[dict.name].toLowerCase().localeCompare(q[dict.name].toLowerCase()) *
+          columnSort.sortDir
+        );
+    });
   }
 }

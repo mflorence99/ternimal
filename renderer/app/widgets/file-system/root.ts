@@ -484,9 +484,9 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
               action['FileSystemFilesState.loadPath'] ||
               action['FileSystemPathsState.close']?.splitID === this.splitID ||
               action['FileSystemPathsState.open']?.splitID === this.splitID ||
-              (action['FileSystemPrefsState.update'] &&
-                !action['FileSystemPrefsState.update'].splitID) ||
-              action['FileSystemPrefsState.update']?.splitID === this.splitID ||
+              (action['PrefsState.update'] &&
+                !action['PrefsState.update'].splitID) ||
+              action['PrefsState.update']?.splitID === this.splitID ||
               action['SortState.update']?.splitID === this.splitID) &&
             status === 'SUCCESSFUL'
           );
@@ -613,16 +613,16 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
     const dict = this.prefs.dictionary.find(
       (dict) => dict.name === (columnSort.sortedID ?? 'name')
     );
-    return descs.sort((a: any, b: any) => {
+    return descs.sort((p: any, q: any) => {
       if (dict.isDate)
         return (
-          (a[dict.name].getTime() - b[dict.name].getTime()) * columnSort.sortDir
+          (p[dict.name].getTime() - q[dict.name].getTime()) * columnSort.sortDir
         );
       else if (dict.isNumber)
-        return (a[dict.name] - b[dict.name]) * columnSort.sortDir;
+        return (p[dict.name] - q[dict.name]) * columnSort.sortDir;
       else
         return (
-          a[dict.name].toLowerCase().localeCompare(b[dict.name].toLowerCase()) *
+          p[dict.name].toLowerCase().localeCompare(q[dict.name].toLowerCase()) *
           columnSort.sortDir
         );
     });

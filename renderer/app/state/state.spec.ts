@@ -4,11 +4,13 @@ import { FileSystemPathsState } from './file-system/paths';
 import { FileSystemPrefsState } from './file-system/prefs';
 import { LayoutState } from './layout';
 import { PanesState } from './panes';
+import { ProcessListPrefsState } from './processes/prefs';
 import { ProcessListState } from './processes/list';
 import { SelectionState } from './selection';
 import { SortState } from './sort';
 import { StatusState } from './status';
 import { TabsState } from './tabs';
+import { TerminalPrefsState } from './terminal/prefs';
 import { TernimalState } from './ternimal';
 
 import { states } from './app';
@@ -26,10 +28,12 @@ export interface Bundle {
   layout?: LayoutState;
   panes?: PanesState;
   processList?: ProcessListState;
+  processListPrefs?: ProcessListPrefsState;
   selection?: SelectionState;
   sort?: SortState;
   status?: StatusState;
   tabs?: TabsState;
+  terminalPrefs?: TerminalPrefsState;
   ternimal?: TernimalState;
 }
 
@@ -50,10 +54,12 @@ export function prepare(): Bundle {
   bundle.layout = TestBed.inject(LayoutState);
   bundle.panes = TestBed.inject(PanesState);
   bundle.processList = TestBed.inject(ProcessListState);
+  bundle.processListPrefs = TestBed.inject(ProcessListPrefsState);
   bundle.selection = TestBed.inject(SelectionState);
   bundle.sort = TestBed.inject(SortState);
   bundle.status = TestBed.inject(StatusState);
   bundle.tabs = TestBed.inject(TabsState);
+  bundle.terminalPrefs = TestBed.inject(TerminalPrefsState);
   bundle.ternimal = TestBed.inject(TernimalState);
 
   return bundle;

@@ -77,7 +77,7 @@
           >
             <mat-checkbox
               [formControlName]="dict.name"
-              *ngFor="let dict of prefs.dictionary"
+              *ngFor="let dict of prefs.dictionary; trackBy: trackByDict"
             >
               Show {{ dict.tag }}
             </mat-checkbox>

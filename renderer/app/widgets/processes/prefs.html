@@ -1,0 +1,122 @@
+<section>
+  <header>
+    <div class="icon">
+      <fa-icon
+        [classes]="['fa-icon-shadow']"
+        [fixedWidth]="true"
+        [icon]="widget.widgetLaunch.icon"
+        [ngStyle]="{color: tabs.tab.color}"
+        size="lg"
+      >
+      </fa-icon>
+    </div>
+
+    <h3>
+      Process LIst Setup
+    </h3>
+  </header>
+
+  <form [formGroup]="prefsForm" novalidate spellcheck="false">
+    <ul class="tabs">
+      <li
+        (click)="rescope('global')"
+        [ngClass]="{selected: prefs.scope === 'global'}"
+        class="tab"
+        matRipple
+      >
+        Global
+      </li>
+
+      <li
+        (click)="rescope('byLayoutID')"
+        [ngClass]="{selected: prefs.scope === 'byLayoutID'}"
+        class="tab"
+        matRipple
+      >
+        {{ tabs.tab.label }}
+      </li>
+
+      <li
+        (click)="rescope('bySplitID')"
+        [ngClass]="{selected: prefs.scope === 'bySplitID'}"
+        class="tab"
+        matRipple
+      >
+        This panel
+      </li>
+    </ul>
+
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Content
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="group">
+          <mat-checkbox
+            *ngIf="prefs.scope === 'global'"
+            formControlName="showSparkline"
+          >
+            Show sparklines
+          </mat-checkbox>
+
+          <mat-divider></mat-divider>
+
+          <ng-container
+            *ngIf="prefs.scope === 'global'"
+            formGroupName="visibility"
+          >
+            <mat-checkbox
+              [formControlName]="dict.name"
+              *ngFor="let dict of prefs.dictionary; trackBy: trackByDict"
+            >
+              Show {{ dict.tag }}
+            </mat-checkbox>
+          </ng-container>
+
+          <ng-container
+            *ngIf="prefs.scope !== 'global'"
+            formGroupName="visibility"
+          >
+            <ternimal-tristate
+              [formControlName]="dict.name"
+              *ngFor="let dict of prefs.dictionary; trackBy: trackByDict"
+            >
+              Show {{ dict.tag }}
+            </ternimal-tristate>
+          </ng-container>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Formatting Options
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-radio-group class="group" formControlName="timeFormat">
+          <label class="label">
+            How to Show Time
+          </label>
+
+          <mat-radio-button
+            [value]="null"
+            *ngIf="prefs.scope !== 'global'"
+            color="warn"
+          >
+            Default
+          </mat-radio-button>
+          <mat-radio-button value="duration">
+            a few seconds
+          </mat-radio-button>
+          <mat-radio-button value="hhmmss">
+            00:03:24
+          </mat-radio-button>
+        </mat-radio-group>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+</section>

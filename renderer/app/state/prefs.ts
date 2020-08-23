@@ -82,7 +82,7 @@ export abstract class PrefsState<T>
 
   @DataAction({ insideZone: true })
   update(
-    @Payload('FileSystemPrefsState.update')
+    @Payload('PrefsState.update')
     { layoutID, splitID, prefs }: DataActionParams<T>
   ): void {
     // NOTE: prefs may be Partial
@@ -101,7 +101,9 @@ export abstract class PrefsState<T>
 
   // accessors
 
-  abstract get dictionary(): Dictionary[];
+  get dictionary(): Dictionary[] {
+    return [];
+  }
 
   @Computed() get byLayoutID(): T {
     return (

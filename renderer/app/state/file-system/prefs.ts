@@ -1,6 +1,7 @@
 import { Dictionary } from '../prefs';
 import { Params } from '../../services/params';
 import { PrefsState } from '../prefs';
+import { PrefsStateModel } from '../prefs';
 import { SelectionState } from '../../state/selection';
 import { StorageService } from '../../services/storage';
 import { Utils } from '../../services/utils';
@@ -8,7 +9,6 @@ import { Utils } from '../../services/utils';
 import { Actions } from '@ngxs/store';
 import { Computed } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
-import { NgxsOnInit } from '@ngxs/store';
 import { Persistence } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
@@ -29,8 +29,6 @@ export type TimeFmt =
   | 'longTime'
   | 'fullTime';
 
-export type Scope = 'global' | 'byLayoutID' | 'bySplitID';
-
 export interface FileSystemPrefs {
   dateFormat: DateFmt;
   quantityFormat: QuantityFmt;
@@ -41,17 +39,10 @@ export interface FileSystemPrefs {
   visibility: Record<string, boolean>;
 }
 
-export interface FileSystemPrefsStateModel {
-  byLayoutID: Record<string, FileSystemPrefs>;
-  bySplitID: Record<string, FileSystemPrefs>;
-  global: FileSystemPrefs;
-  scope: Scope;
-}
-
 @Injectable({ providedIn: 'root' })
 @Persistence({ path: 'fileSystemPrefs', useClass: StorageService })
 @StateRepository()
-@State<FileSystemPrefsStateModel>({
+@State<PrefsStateModel<FileSystemPrefs>>({
   name: 'fileSystemPrefs',
   defaults: {
     byLayoutID: {},
@@ -60,8 +51,7 @@ export interface FileSystemPrefsStateModel {
     scope: 'global'
   }
 })
-export class FileSystemPrefsState extends PrefsState<FileSystemPrefs>
-  implements NgxsOnInit {
+export class FileSystemPrefsState extends PrefsState<FileSystemPrefs> {
   //
   constructor(actions$: Actions, selection: SelectionState, utils: Utils) {
     super(actions$, selection, utils);

@@ -1,6 +1,6 @@
 import { DestroyService } from '../../services/destroy';
 import { Dictionary } from '../../state/prefs';
-import { FileSystemPrefsState } from '../../state/file-system/prefs';
+import { ProcessListPrefsState } from '../../state/processes/prefs';
 import { Scope } from '../../state/prefs';
 import { SelectionState } from '../../state/selection';
 import { TabsState } from '../../state/tabs';
@@ -21,37 +21,30 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
-  selector: 'ternimal-file-system-prefs',
+  selector: 'ternimal-processes-prefs',
   templateUrl: 'prefs.html',
   styleUrls: ['../prefs.scss']
 })
-export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
+export class ProcessListPrefsComponent implements OnInit, WidgetPrefs {
   prefsForm: FormGroup;
-
-  size = 259673;
-  today = Date.now();
 
   @Input() widget: Widget;
 
   constructor(
     private destroy$: DestroyService,
     private formBuilder: FormBuilder,
-    public prefs: FileSystemPrefsState,
+    public prefs: ProcessListPrefsState,
     public tabs: TabsState,
     private selection: SelectionState
   ) {
     this.prefsForm = this.formBuilder.group({
-      dateFormat: null,
-      quantityFormat: null,
-      root: null,
-      showHiddenFiles: null,
-      sortDirectories: null,
+      showSparkline: null,
       timeFormat: null,
       visibility: this.formBuilder.group(
         this.prefs.dictionary.reduce((acc, dict) => {
           acc[dict.name] = new FormControl({
             value: null,
-            disabled: dict.name === 'name'
+            disabled: dict.name === 'pid'
           });
           return acc;
         }, {})
@@ -83,7 +76,7 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
         // NOTE: name is always visible
         map((prefsForm) => ({
           ...prefsForm,
-          visibility: { ...prefsForm.visibility, name: true }
+          visibility: { ...prefsForm.visibility, pid: true }
         })),
         takeUntil(this.destroy$)
       )
@@ -100,11 +93,7 @@ export class FileSystemPrefsComponent implements OnInit, WidgetPrefs {
     const prefs = this.prefs[this.prefs.scope];
     this.prefsForm.patchValue(
       {
-        dateFormat: prefs.dateFormat,
-        quantityFormat: prefs.quantityFormat,
-        root: prefs.root,
-        showHiddenFiles: prefs.showHiddenFiles,
-        sortDirectories: prefs.sortDirectories,
+        showSparkline: prefs.showSparkline,
         timeFormat: prefs.timeFormat,
         visibility: this.prefs.dictionary.reduce((acc, dict) => {
           acc[dict.name] = prefs.visibility?.[dict.name];

@@ -6,70 +6,68 @@
 >
   <thead>
     <tr>
-      <th id="pid" sortable>PID</th>
-      <th id="ppid" sortable>PPID</th>
-      <th id="uid" sortable>UID</th>
-      <th id="name" sortable>Name</th>
-      <th id="cpu" sortable>CPU</th>
-      <th id="memory" sortable>Mem</th>
-      <th id="ctime" sortable>Time</th>
-      <th>Command</th>
+      <ng-container *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
+        <th
+          *ngIf="effectivePrefs.visibility[dict.name]"
+          [id]="dict.name"
+          sortable
+        >
+          {{ dict.tag }}
+        </th>
+      </ng-container>
+
       <th></th>
     </tr>
   </thead>
 
   <tbody>
     <tr *ngFor="let stat of stats; trackBy: trackByPID" [id]="stat.pid">
-      <ng-container *ngIf="table.isHydrated(stat.pid); else dehydrated">
-        <td class="pid">{{ stat.pid }}</td>
-        <td class="ppid">{{ stat.ppid }}</td>
-        <td class="uid">{{ stat.uid }}</td>
-        <td class="name">{{ stat.name }}</td>
-
-        <td class="cpu">
-          <div>
-            <ternimal-sparkline
-              [sparkline]="stat.cpuTimeline"
-              class="sparkline"
+      <ng-container *ngFor="let dict of prefs.dictionary; trackBy: trackByDict">
+        <td
+          [matTooltip]="['cmd'].includes(dict.name)? stat[dict.name] : null"
+          [ngClass]="dict.name + (effectivePrefs.showSparkline? ' withSparkline' : '')"
+          *ngIf="effectivePrefs.visibility[dict.name]"
+        >
+          <ng-container *ngIf="table.isHydrated(stat.pid)">
+            <ng-container
+              *ngIf="['pid', 'ppid', 'uid', 'name', 'cmd'].includes(dict.name)"
             >
-            </ternimal-sparkline>
-            {{ stat.cpu / 100 | percent:'0.1-1' }}
-          </div>
-        </td>
+              {{ stat[dict.name] }}
+            </ng-container>
 
-        <td class="memory">
-          <div>
-            <ternimal-sparkline
-              [sparkline]="stat.memoryTimeline"
-              class="sparkline"
-            >
-            </ternimal-sparkline>
-            {{ stat.memory / 100 | percent:'0.1-1' }}
-          </div>
-        </td>
+            <ng-container *ngIf="['cpu', 'memory'].includes(dict.name)">
+              <div *ngIf="effectivePrefs.showSparkline; else noSparkline">
+                <ternimal-sparkline
+                  [sparkline]="stat[dict.name + 'Timeline']"
+                  class="sparkline"
+                >
+                </ternimal-sparkline>
+                {{ stat[dict.name] / 100 | percent:'0.1-1' }}
+              </div>
+              <ng-template #noSparkline>
+                {{ stat[dict.name] / 100 | percent:'0.1-1' }}
+              </ng-template>
+            </ng-container>
 
-        <td class="ctime">
-          {{ stat.ctime | amUtc | amDateFormat:'HH:mm:ss' }}
+            <ng-container *ngIf="['ctime'].includes(dict.name)">
+              <ng-container *ngIf="effectivePrefs.timeFormat === 'duration'">
+                {{ stat[dict.name] | amDuration:'milliseconds' }}
+              </ng-container>
+              <ng-container *ngIf="effectivePrefs.timeFormat === 'hhmmss'">
+                {{ stat[dict.name] | amUtc | amDateFormat:'HH:mm:ss' }}
+              </ng-container>
+            </ng-container>
+          </ng-container>
         </td>
-
-        <td [matTooltip]="stat.cmd" class="cmd monospace">
-          {{ stat.cmd }}
-        </td>
-
-        <td></td>
       </ng-container>
 
-      <ng-template #dehydrated>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </ng-template>
+      <td></td>
     </tr>
   </tbody>
 </ternimal-table>
+
+<aside *ngIf="stats.length === 0">
+  <div>
+    <fa-icon [icon]="['fas', 'spinner']" [pulse]="true" size="6x"> </fa-icon>
+  </div>
+</aside>
