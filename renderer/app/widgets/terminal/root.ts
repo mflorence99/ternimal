@@ -1,3 +1,4 @@
+import { DestroyService } from '../../services/destroy';
 import { TabsState } from '../../state/tabs';
 import { TerminalPrefs } from '../../state/terminal/prefs';
 import { TerminalPrefsState } from '../../state/terminal/prefs';
@@ -5,7 +6,9 @@ import { Widget } from '../widget';
 import { WidgetLaunch } from '../widget';
 import { WidgetPrefs } from '../widget';
 
+import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { FitAddon } from 'xterm-addon-fit';
@@ -16,8 +19,13 @@ import { Terminal } from 'xterm';
 import { ViewChild } from '@angular/core';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 
+import { debounceTime } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DestroyService],
   templateUrl: 'root.html',
   selector: 'ternimal-terminal-root',
   styleUrls: ['root.scss']
@@ -42,7 +50,13 @@ export class TerminalComponent implements OnInit, Widget {
   private fitAddon: FitAddon;
   private terminal: Terminal;
 
-  constructor(public prefs: TerminalPrefsState, public tabs: TabsState) {}
+  constructor(
+    private actions$: Actions,
+    private cdf: ChangeDetectorRef,
+    private destroy$: DestroyService,
+    public prefs: TerminalPrefsState,
+    public tabs: TabsState
+  ) {}
 
   handleResize(): void {
     // NOTE: this roundabout way seems to eliminate the flicker
@@ -52,15 +66,51 @@ export class TerminalComponent implements OnInit, Widget {
   }
 
   ngOnInit(): void {
-    // TODO: temporary
+    this.handleActions$();
+    this.setupTerminal();
+  }
+
+  // private methods
+
+  private adjustTerminal(): void {
     this.effectivePrefs = this.prefs.effectivePrefs(
       this.tabs.tab.layoutID,
       this.splitID
     );
+    this.terminal.setOption('fontFamily', this.effectivePrefs.fontFamily);
+    this.terminal.setOption('fontSize', this.effectivePrefs.fontSize);
+    this.terminal.refresh(0, this.terminal.rows - 1);
+    this.handleResize();
+    // TODO: temporary
+    for (let ix = 1; ix <= 100; ix++)
+      this.terminal.writeln(
+        `#${ix} oO08 iIlL1 g9qCGQ ~-+=> ${this.effectivePrefs.fontFamily} ${this.effectivePrefs.fontSize}pt`
+      );
+  }
+
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        filter(({ action, status }) => {
+          return (
+            (action['PrefsState.update'] &&
+              !action['PrefsState.update'].splitID) ||
+            (action['PrefsState.update']?.splitID === this.splitID &&
+              status === 'SUCCESSFUL')
+          );
+        }),
+        debounceTime(0),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.adjustTerminal();
+        this.cdf.markForCheck();
+      });
+  }
+
+  private setupTerminal(): void {
     this.terminal = new Terminal({
       allowTransparency: true,
-      fontFamily: this.effectivePrefs.fontFamily,
-      fontSize: this.effectivePrefs.fontSize,
       lineHeight: 1,
       logLevel: 'info',
       rendererType: 'dom',
@@ -68,18 +118,12 @@ export class TerminalComponent implements OnInit, Widget {
         background: 'transparent'
       }
     });
-
     this.fitAddon = new FitAddon();
     this.terminal.loadAddon(this.fitAddon);
     this.terminal.loadAddon(new SearchAddon());
     this.terminal.loadAddon(new WebLinksAddon());
-
     this.terminal.open(this.renderer.nativeElement);
     this.terminal.focus();
-
-    for (let ix = 1; ix <= 100; ix++)
-      this.terminal.writeln(
-        `Hello from \x1B[1;3;31mxterm.js\x1B[0m 1 ${ix} \u25b6 `
-      );
+    this.adjustTerminal();
   }
 }

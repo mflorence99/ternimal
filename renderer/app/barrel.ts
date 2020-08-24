@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatRippleModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
@@ -47,6 +48,7 @@ const MODULES = [
   MatProgressBarModule,
   MatRadioModule,
   MatRippleModule,
+  MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
   MatSortModule,

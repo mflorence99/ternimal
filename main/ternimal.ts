@@ -4,6 +4,7 @@ import './file-system/copy-move';
 import './file-system/files';
 import './file-system/paths';
 import './file-system/readdir';
+import './fonts';
 import './long-running-op';
 import './native';
 import './process-list';

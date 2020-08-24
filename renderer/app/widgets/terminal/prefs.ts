@@ -1,3 +1,4 @@
+import { Channels } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { Dictionary } from '../../state/prefs';
 import { Params } from '../../services/params';
@@ -10,6 +11,7 @@ import { WidgetPrefs } from '../widget-prefs';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ElectronService } from 'ngx-electron';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
@@ -26,12 +28,14 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['../prefs.scss']
 })
 export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
+  fonts: string[];
   prefsForm: FormGroup;
 
   @Input() widget: Widget;
 
   constructor(
     private destroy$: DestroyService,
+    private electron: ElectronService,
     private formBuilder: FormBuilder,
     private params: Params,
     public prefs: TerminalPrefsState,
@@ -45,6 +49,7 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
   }
 
   ngOnInit(): void {
+    this.loadFontList();
     this.populate();
     this.handleValueChanges$();
   }
@@ -75,6 +80,10 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
           this.prefs.scope === 'bySplitID' ? this.selection.splitID : null;
         this.prefs.update({ prefs: prefsForm, layoutID, splitID });
       });
+  }
+
+  private loadFontList(): void {
+    this.fonts = this.electron.ipcRenderer.sendSync(Channels.getAvailableFonts);
   }
 
   private populate(): void {

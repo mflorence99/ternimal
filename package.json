@@ -78,6 +78,7 @@
     "eslint-plugin-import-splitnsort": "^0.1.4",
     "eslint-plugin-jest": "^23",
     "filewatcher": "^3.0.1",
+    "font-list": "^1.2.11",
     "fs-extra": "^9.0.1",
     "jest": "^26",
     "jest-junit": "^11",

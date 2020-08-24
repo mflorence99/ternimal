@@ -36,6 +36,8 @@ export enum Channels {
   fsTouch = 'file-system.touch',
   fsTrash = 'file-system.trash',
 
+  getAvailableFonts = 'fonts.getAvailableFonts',
+
   localStorageClear = 'local-storage.clear',
   localStorageGetItem = 'local-storage.getItem',
   localStorageKey = 'local-storage.key',

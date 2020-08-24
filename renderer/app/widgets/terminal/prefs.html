@@ -56,12 +56,15 @@
 
         <div class="group">
           <mat-form-field>
-            <input
-              formControlName="fontFamily"
-              matInput
-              placeholder="Font family"
-              type="text"
-            />
+            <mat-label>Font family</mat-label>
+            <mat-select formControlName="fontFamily">
+              <mat-option [value]="null" *ngIf="prefs.scope !== 'global'">
+              </mat-option>
+              <mat-option value="monospace">monospace</mat-option>
+              <mat-option *ngFor="let font of fonts" [value]="font">
+                {{ font }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
           <mat-form-field>
             <input
