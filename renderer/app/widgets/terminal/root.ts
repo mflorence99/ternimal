@@ -1,5 +1,9 @@
+import { TabsState } from '../../state/tabs';
+import { TerminalPrefs } from '../../state/terminal/prefs';
+import { TerminalPrefsState } from '../../state/terminal/prefs';
 import { Widget } from '../widget';
 import { WidgetLaunch } from '../widget';
+import { WidgetPrefs } from '../widget';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -19,6 +23,7 @@ import { WebLinksAddon } from 'xterm-addon-web-links';
   styleUrls: ['root.scss']
 })
 export class TerminalComponent implements OnInit, Widget {
+  effectivePrefs: TerminalPrefs;
   @ViewChild('renderer', { static: true }) renderer: ElementRef;
 
   @Input() splitID: string;
@@ -29,8 +34,15 @@ export class TerminalComponent implements OnInit, Widget {
     implementation: 'TerminalComponent'
   };
 
+  widgetPrefs: WidgetPrefs = {
+    description: 'Terminal setup',
+    implementation: 'TerminalPrefsComponent'
+  };
+
   private fitAddon: FitAddon;
   private terminal: Terminal;
+
+  constructor(public prefs: TerminalPrefsState, public tabs: TabsState) {}
 
   handleResize(): void {
     // NOTE: this roundabout way seems to eliminate the flicker
@@ -41,10 +53,14 @@ export class TerminalComponent implements OnInit, Widget {
 
   ngOnInit(): void {
     // TODO: temporary
+    this.effectivePrefs = this.prefs.effectivePrefs(
+      this.tabs.tab.layoutID,
+      this.splitID
+    );
     this.terminal = new Terminal({
       allowTransparency: true,
-      fontSize: 12,
-      fontFamily: 'monospace',
+      fontFamily: this.effectivePrefs.fontFamily,
+      fontSize: this.effectivePrefs.fontSize,
       lineHeight: 1,
       logLevel: 'info',
       rendererType: 'dom',

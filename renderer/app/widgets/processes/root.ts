@@ -82,7 +82,7 @@ export class ProcessListComponent implements OnInit, Widget {
   ];
 
   widgetPrefs: WidgetPrefs = {
-    description: 'ProcessList setup',
+    description: 'Process List setup',
     implementation: 'ProcessListPrefsComponent'
   };
 

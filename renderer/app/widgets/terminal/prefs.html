@@ -1,0 +1,79 @@
+<section>
+  <header>
+    <div class="icon">
+      <fa-icon
+        [classes]="['fa-icon-shadow']"
+        [fixedWidth]="true"
+        [icon]="widget.widgetLaunch.icon"
+        [ngStyle]="{color: tabs.tab.color}"
+        size="lg"
+      >
+      </fa-icon>
+    </div>
+
+    <h3>
+      Terminal Setup
+    </h3>
+  </header>
+
+  <form [formGroup]="prefsForm" novalidate spellcheck="false">
+    <ul class="tabs">
+      <li
+        (click)="rescope('global')"
+        [ngClass]="{selected: prefs.scope === 'global'}"
+        class="tab"
+        matRipple
+      >
+        Global
+      </li>
+
+      <li
+        (click)="rescope('byLayoutID')"
+        [ngClass]="{selected: prefs.scope === 'byLayoutID'}"
+        class="tab"
+        matRipple
+      >
+        {{ tabs.tab.label }}
+      </li>
+
+      <li
+        (click)="rescope('bySplitID')"
+        [ngClass]="{selected: prefs.scope === 'bySplitID'}"
+        class="tab"
+        matRipple
+      >
+        This panel
+      </li>
+    </ul>
+
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Appearance
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="group">
+          <mat-form-field>
+            <input
+              formControlName="fontFamily"
+              matInput
+              placeholder="Font family"
+              type="text"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              formControlName="fontSize"
+              matInput
+              placeholder="Font size"
+              step="0.1"
+              type="number"
+            />
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+</section>

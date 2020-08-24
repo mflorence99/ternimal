@@ -3,3 +3,4 @@
 export * from './file-system/prefs';
 export * from './file-system/props';
 export * from './processes/prefs';
+export * from './terminal/prefs';

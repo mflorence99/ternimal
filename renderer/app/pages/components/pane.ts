@@ -149,7 +149,7 @@ export class PaneComponent implements OnInit {
   }
 
   keydown(event: KeyboardEvent): void {
-    if (this.isSelected()) {
+    if (this.isSelected() && this.widget.widgetMenuItems) {
       const menuItem = this.widget.widgetMenuItems
         .flat()
         .filter((menuItem) => menuItem.accelerator)

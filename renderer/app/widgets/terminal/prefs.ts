@@ -1,31 +1,31 @@
 import { DestroyService } from '../../services/destroy';
 import { Dictionary } from '../../state/prefs';
-import { ProcessListPrefsState } from '../../state/processes/prefs';
+import { Params } from '../../services/params';
 import { Scope } from '../../state/prefs';
 import { SelectionState } from '../../state/selection';
 import { TabsState } from '../../state/tabs';
+import { TerminalPrefsState } from '../../state/terminal/prefs';
 import { Widget } from '../widget';
 import { WidgetPrefs } from '../widget-prefs';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 
-import { map } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
-  selector: 'ternimal-processes-prefs',
+  selector: 'ternimal-terminal-prefs',
   templateUrl: 'prefs.html',
   styleUrls: ['../prefs.scss']
 })
-export class ProcessListPrefsComponent implements OnInit, WidgetPrefs {
+export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
   prefsForm: FormGroup;
 
   @Input() widget: Widget;
@@ -33,22 +33,14 @@ export class ProcessListPrefsComponent implements OnInit, WidgetPrefs {
   constructor(
     private destroy$: DestroyService,
     private formBuilder: FormBuilder,
-    public prefs: ProcessListPrefsState,
+    private params: Params,
+    public prefs: TerminalPrefsState,
     public tabs: TabsState,
     private selection: SelectionState
   ) {
     this.prefsForm = this.formBuilder.group({
-      showSparkline: null,
-      timeFormat: null,
-      visibility: this.formBuilder.group(
-        this.prefs.dictionary.reduce((acc, dict) => {
-          acc[dict.name] = new FormControl({
-            value: null,
-            disabled: dict.name === 'pid'
-          });
-          return acc;
-        }, {})
-      )
+      fontFamily: null,
+      fontSize: null
     });
   }
 
@@ -73,11 +65,7 @@ export class ProcessListPrefsComponent implements OnInit, WidgetPrefs {
   private handleValueChanges$(): void {
     this.prefsForm.valueChanges
       .pipe(
-        // NOTE: pid is always visible
-        map((prefsForm) => ({
-          ...prefsForm,
-          visibility: { ...prefsForm.visibility, pid: true }
-        })),
+        debounceTime(this.params.prefsDebounceTime),
         takeUntil(this.destroy$)
       )
       .subscribe((prefsForm) => {
@@ -93,12 +81,8 @@ export class ProcessListPrefsComponent implements OnInit, WidgetPrefs {
     const prefs = this.prefs[this.prefs.scope];
     this.prefsForm.patchValue(
       {
-        showSparkline: prefs.showSparkline,
-        timeFormat: prefs.timeFormat,
-        visibility: this.prefs.dictionary.reduce((acc, dict) => {
-          acc[dict.name] = prefs.visibility?.[dict.name];
-          return acc;
-        }, {})
+        fontFamily: prefs.fontFamily,
+        fontSize: prefs.fontSize
       },
       { emitEvent: false }
     );

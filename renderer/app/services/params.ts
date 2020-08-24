@@ -30,6 +30,8 @@ export class Params {
 
   maxPieWedges = 7;
 
+  prefsDebounceTime = 1000;
+
   processList = {
     maxTimeline: 5 * 60 * 1000,
     pollInterval: 5000
