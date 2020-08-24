@@ -77,8 +77,24 @@ export class TerminalComponent implements OnInit, Widget {
       this.tabs.tab.layoutID,
       this.splitID
     );
+    this.terminal.setOption('cursorBlink', this.effectivePrefs.cursorBlink);
+    this.terminal.setOption('cursorStyle', this.effectivePrefs.cursorStyle);
+    this.terminal.setOption('cursorWidth', this.effectivePrefs.cursorWidth);
     this.terminal.setOption('fontFamily', this.effectivePrefs.fontFamily);
     this.terminal.setOption('fontSize', this.effectivePrefs.fontSize);
+    this.terminal.setOption('fontWeight', this.effectivePrefs.fontWeight);
+    this.terminal.setOption(
+      'fontWeightBold',
+      this.effectivePrefs.fontWeightBold
+    );
+    this.terminal.setOption('letterSpacing', this.effectivePrefs.letterSpacing);
+    this.terminal.setOption('lineHeight', this.effectivePrefs.lineHeight);
+    this.terminal.setOption('rendererType', this.effectivePrefs.rendererType);
+    this.terminal.setOption(
+      'scrollSensitivity',
+      this.effectivePrefs.scrollSensitivity
+    );
+    this.terminal.setOption('scrollback', this.effectivePrefs.scrollback);
     this.terminal.refresh(0, this.terminal.rows - 1);
     this.handleResize();
     // TODO: temporary
@@ -109,11 +125,21 @@ export class TerminalComponent implements OnInit, Widget {
   }
 
   private setupTerminal(): void {
+    const dflts = TerminalPrefsState.defaultPrefs();
     this.terminal = new Terminal({
       allowTransparency: true,
-      lineHeight: 1,
+      cursorBlink: dflts.cursorBlink,
+      cursorStyle: dflts.cursorStyle,
+      fontFamily: dflts.fontFamily,
+      fontSize: dflts.fontSize,
+      fontWeight: dflts.fontWeight,
+      fontWeightBold: dflts.fontWeightBold,
+      letterSpacing: dflts.letterSpacing,
+      lineHeight: dflts.lineHeight,
       logLevel: 'info',
-      rendererType: 'dom',
+      rendererType: dflts.rendererType,
+      scrollSensitivity: dflts.scrollSensitivity,
+      scrollback: dflts.scrollback,
       theme: {
         background: 'transparent'
       }

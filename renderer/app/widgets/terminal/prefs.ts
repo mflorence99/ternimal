@@ -28,8 +28,23 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['../prefs.scss']
 })
 export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
+  cursors = ['block', 'underline', 'bar'];
   fonts: string[];
   prefsForm: FormGroup;
+  renderers = ['dom', 'canvas'];
+  weights = [
+    'normal',
+    'bold',
+    '100',
+    '200',
+    '300',
+    '400',
+    '500',
+    '600',
+    '700',
+    '800',
+    '900'
+  ];
 
   @Input() widget: Widget;
 
@@ -43,8 +58,18 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
     private selection: SelectionState
   ) {
     this.prefsForm = this.formBuilder.group({
+      cursorBlink: null,
+      cursorStyle: null,
+      cursorWidth: null,
       fontFamily: null,
-      fontSize: null
+      fontSize: null,
+      fontWeight: null,
+      fontWeightBold: null,
+      letterSpacing: null,
+      lineHeight: null,
+      rendererType: null,
+      scrollSensitivity: null,
+      scrollback: null
     });
   }
 
@@ -90,8 +115,18 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
     const prefs = this.prefs[this.prefs.scope];
     this.prefsForm.patchValue(
       {
+        cursorBlink: prefs.cursorBlink,
+        cursorStyle: prefs.cursorStyle,
+        cursorWidth: prefs.cursorWidth,
         fontFamily: prefs.fontFamily,
-        fontSize: prefs.fontSize
+        fontSize: prefs.fontSize,
+        fontWeight: prefs.fontWeight,
+        fontWeightBold: prefs.fontWeightBold,
+        letterSpacing: prefs.letterSpacing,
+        lineHeight: prefs.lineHeight,
+        rendererType: prefs.rendererType,
+        scrollSensitivity: prefs.scrollSensitivity,
+        scrollback: prefs.scrollback
       },
       { emitEvent: false }
     );

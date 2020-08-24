@@ -50,7 +50,7 @@
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Appearance
+            Font
           </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -66,12 +66,134 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+
           <mat-form-field>
             <input
               formControlName="fontSize"
               matInput
               placeholder="Font size"
               step="0.1"
+              type="number"
+            />
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Normal font weight</mat-label>
+            <mat-select formControlName="fontWeight">
+              <mat-option [value]="null" *ngIf="prefs.scope !== 'global'">
+              </mat-option>
+              <mat-option *ngFor="let weight of weights" [value]="weight">
+                {{ weight }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Bold font weight</mat-label>
+            <mat-select formControlName="fontWeightBold">
+              <mat-option [value]="null" *ngIf="prefs.scope !== 'global'">
+              </mat-option>
+              <mat-option *ngFor="let weight of weights" [value]="weight">
+                {{ weight }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              formControlName="letterSpacing"
+              matInput
+              placeholder="Letter spacing (pixels)"
+              step="1"
+              type="number"
+            />
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              formControlName="lineHeight"
+              matInput
+              placeholder="Line height"
+              step="0.1"
+              type="number"
+            />
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Cursor
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="group">
+          <mat-form-field>
+            <mat-label>Cursor style</mat-label>
+            <mat-select formControlName="cursorStyle">
+              <mat-option [value]="null" *ngIf="prefs.scope !== 'global'">
+              </mat-option>
+              <mat-option *ngFor="let cursor of cursors" [value]="cursor">
+                {{ cursor }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              formControlName="cursorWidth"
+              matInput
+              placeholder="cursorWidth"
+              step="1"
+              type="number"
+            />
+          </mat-form-field>
+
+          <mat-checkbox
+            *ngIf="prefs.scope === 'global'"
+            formControlName="cursorBlink"
+          >
+            Blinking cursor
+          </mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Operation
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="group">
+          <mat-form-field>
+            <mat-label>Renderer</mat-label>
+            <mat-select formControlName="rendererType">
+              <mat-option [value]="null" *ngIf="prefs.scope !== 'global'">
+              </mat-option>
+              <mat-option *ngFor="let renderer of renderers" [value]="renderer">
+                {{ renderer }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              formControlName="scrollSensitivity"
+              matInput
+              placeholder="Scroll sensitivity"
+              step="0.1"
+              type="number"
+            />
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              formControlName="scrollback"
+              matInput
+              placeholder="Scroll buffer size"
+              step="1"
               type="number"
             />
           </mat-form-field>

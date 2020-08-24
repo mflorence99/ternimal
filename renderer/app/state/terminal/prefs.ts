@@ -5,14 +5,26 @@ import { StorageService } from '../../services/storage';
 import { Utils } from '../../services/utils';
 
 import { Actions } from '@ngxs/store';
+import { FontWeight } from 'xterm';
 import { Injectable } from '@angular/core';
 import { Persistence } from '@ngxs-labs/data/decorators';
+import { RendererType } from 'xterm';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
 export interface TerminalPrefs {
+  cursorBlink: boolean;
+  cursorStyle: 'block' | 'underline' | 'bar';
+  cursorWidth: number;
   fontFamily: string;
   fontSize: number;
+  fontWeight: FontWeight;
+  fontWeightBold: FontWeight;
+  letterSpacing: number;
+  lineHeight: number;
+  rendererType: RendererType;
+  scrollSensitivity: number;
+  scrollback: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -35,8 +47,18 @@ export class TerminalPrefsState extends PrefsState<TerminalPrefs> {
 
   static defaultPrefs(): TerminalPrefs {
     return {
+      cursorBlink: false,
+      cursorStyle: 'block',
+      cursorWidth: 3,
       fontFamily: 'monospace',
-      fontSize: 12
+      fontSize: 12,
+      fontWeight: 'normal',
+      fontWeightBold: 'bold',
+      letterSpacing: 1,
+      lineHeight: 1,
+      rendererType: 'dom',
+      scrollSensitivity: 1,
+      scrollback: 2500
     };
   }
 }
