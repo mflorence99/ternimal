@@ -10,6 +10,7 @@ import './native';
 import './process-list';
 import './system-info';
 import './toolbar';
+import './xterm-pty';
 
 import { store } from './local-storage';
 

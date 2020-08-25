@@ -1,3 +1,4 @@
+import { Channels } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { TabsState } from '../../state/tabs';
 import { TerminalPrefs } from '../../state/terminal/prefs';
@@ -6,13 +7,17 @@ import { Widget } from '../widget';
 import { WidgetLaunch } from '../widget';
 import { WidgetPrefs } from '../widget';
 
+import * as nodePty from 'node-pty';
+
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
+import { ElectronService } from 'ngx-electron';
 import { ElementRef } from '@angular/core';
 import { FitAddon } from 'xterm-addon-fit';
 import { Input } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SearchAddon } from 'xterm-addon-search';
 import { Terminal } from 'xterm';
@@ -30,7 +35,7 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'ternimal-terminal-root',
   styleUrls: ['root.scss']
 })
-export class TerminalComponent implements OnInit, Widget {
+export class TerminalComponent implements OnDestroy, OnInit, Widget {
   effectivePrefs: TerminalPrefs;
   @ViewChild('renderer', { static: true }) renderer: ElementRef;
 
@@ -48,12 +53,14 @@ export class TerminalComponent implements OnInit, Widget {
   };
 
   private fitAddon: FitAddon;
+  private listener: nodePty.IDisposable;
   private terminal: Terminal;
 
   constructor(
     private actions$: Actions,
     private cdf: ChangeDetectorRef,
     private destroy$: DestroyService,
+    public electron: ElectronService,
     public prefs: TerminalPrefsState,
     public tabs: TabsState
   ) {}
@@ -63,11 +70,22 @@ export class TerminalComponent implements OnInit, Widget {
     // that plain fit() generates
     const { cols, rows } = this.fitAddon.proposeDimensions();
     this.terminal.resize(cols, rows);
+    this.electron.ipcRenderer.send(
+      Channels.xtermResizePty,
+      this.splitID,
+      cols,
+      rows
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.listener?.dispose();
   }
 
   ngOnInit(): void {
-    this.handleActions$();
     this.setupTerminal();
+    this.handleActions$();
+    this.handleData$();
   }
 
   // private methods
@@ -97,11 +115,6 @@ export class TerminalComponent implements OnInit, Widget {
     this.terminal.setOption('scrollback', this.effectivePrefs.scrollback);
     this.terminal.refresh(0, this.terminal.rows - 1);
     this.handleResize();
-    // TODO: temporary
-    for (let ix = 1; ix <= 100; ix++)
-      this.terminal.writeln(
-        `#${ix} oO08 iIlL1 g9qCGQ ~-+=> ${this.effectivePrefs.fontFamily} ${this.effectivePrefs.fontSize}pt`
-      );
   }
 
   private handleActions$(): void {
@@ -124,6 +137,16 @@ export class TerminalComponent implements OnInit, Widget {
       });
   }
 
+  private handleData$(): void {
+    // TODO: must "off" this
+    this.electron.ipcRenderer.on(
+      Channels.xtermFromPty + this.splitID,
+      (_, data: string) => {
+        this.terminal.write(data);
+      }
+    );
+  }
+
   private setupTerminal(): void {
     const dflts = TerminalPrefsState.defaultPrefs();
     this.terminal = new Terminal({
@@ -144,6 +167,13 @@ export class TerminalComponent implements OnInit, Widget {
         background: 'transparent'
       }
     });
+    // connect to node-pty
+    // TODO: parameterize cols, rows
+    this.listener = this.terminal.onData((data: string) =>
+      this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data)
+    );
+    this.electron.ipcRenderer.send(Channels.xtermConnect, this.splitID, 80, 24);
+    // configure the UI with required add-ons
     this.fitAddon = new FitAddon();
     this.terminal.loadAddon(this.fitAddon);
     this.terminal.loadAddon(new SearchAddon());

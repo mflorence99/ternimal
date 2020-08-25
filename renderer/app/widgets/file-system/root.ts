@@ -392,8 +392,9 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
 
   pasteCompleted(_, froms: string[], tos: string[]): void {
     this.clearClipboard();
-    // TODO: we have to delay here because the rows we want to select won't exist
-    // until the table is redrawn -- and currently we can't detect that
+    // TODO: we have to delay here because the rows we want to
+    // select won't exist until the table is redrawn -- and currently
+    // we can't detect that
     // so this is an ugky hack
     setTimeout(() => {
       this.table.rowUnselect();
