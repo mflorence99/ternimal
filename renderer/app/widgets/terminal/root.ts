@@ -7,8 +7,6 @@ import { Widget } from '../widget';
 import { WidgetLaunch } from '../widget';
 import { WidgetPrefs } from '../widget';
 
-import * as nodePty from 'node-pty';
-
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
@@ -17,7 +15,6 @@ import { ElectronService } from 'ngx-electron';
 import { ElementRef } from '@angular/core';
 import { FitAddon } from 'xterm-addon-fit';
 import { Input } from '@angular/core';
-import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SearchAddon } from 'xterm-addon-search';
 import { Terminal } from 'xterm';
@@ -35,7 +32,9 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'ternimal-terminal-root',
   styleUrls: ['root.scss']
 })
-export class TerminalComponent implements OnDestroy, OnInit, Widget {
+export class TerminalComponent implements OnInit, Widget {
+  private static terminals: Record<string, Terminal> = {};
+
   effectivePrefs: TerminalPrefs;
   @ViewChild('renderer', { static: true }) renderer: ElementRef;
 
@@ -53,7 +52,6 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
   };
 
   private fitAddon: FitAddon;
-  private listener: nodePty.IDisposable;
   private terminal: Terminal;
 
   constructor(
@@ -78,14 +76,10 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     );
   }
 
-  ngOnDestroy(): void {
-    this.listener?.dispose();
-  }
-
   ngOnInit(): void {
-    this.setupTerminal();
     this.handleActions$();
     this.handleData$();
+    this.setupTerminal();
   }
 
   // private methods
@@ -138,47 +132,57 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
   }
 
   private handleData$(): void {
-    // TODO: must "off" this
     this.electron.ipcRenderer.on(
       Channels.xtermFromPty + this.splitID,
-      (_, data: string) => {
-        this.terminal.write(data);
-      }
+      (_, data: string): void => this.terminal.write(data)
     );
   }
 
+  private onData(_, data: string): void {
+    this.terminal.write(data);
+  }
+
   private setupTerminal(): void {
-    const dflts = TerminalPrefsState.defaultPrefs();
-    this.terminal = new Terminal({
-      allowTransparency: true,
-      cursorBlink: dflts.cursorBlink,
-      cursorStyle: dflts.cursorStyle,
-      fontFamily: dflts.fontFamily,
-      fontSize: dflts.fontSize,
-      fontWeight: dflts.fontWeight,
-      fontWeightBold: dflts.fontWeightBold,
-      letterSpacing: dflts.letterSpacing,
-      lineHeight: dflts.lineHeight,
-      logLevel: 'info',
-      rendererType: dflts.rendererType,
-      scrollSensitivity: dflts.scrollSensitivity,
-      scrollback: dflts.scrollback,
-      theme: {
-        background: 'transparent'
-      }
-    });
-    // connect to node-pty
-    // TODO: parameterize cols, rows
-    this.listener = this.terminal.onData((data: string) =>
-      this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data)
-    );
-    this.electron.ipcRenderer.send(Channels.xtermConnect, this.splitID, 80, 24);
-    // configure the UI with required add-ons
-    this.fitAddon = new FitAddon();
-    this.terminal.loadAddon(this.fitAddon);
-    this.terminal.loadAddon(new SearchAddon());
-    this.terminal.loadAddon(new WebLinksAddon());
-    this.terminal.open(this.renderer.nativeElement);
+    this.terminal = TerminalComponent.terminals[this.splitID];
+    if (!this.terminal) {
+      const dflts = TerminalPrefsState.defaultPrefs();
+      this.terminal = new Terminal({
+        allowTransparency: true,
+        cursorBlink: dflts.cursorBlink,
+        cursorStyle: dflts.cursorStyle,
+        fontFamily: dflts.fontFamily,
+        fontSize: dflts.fontSize,
+        fontWeight: dflts.fontWeight,
+        fontWeightBold: dflts.fontWeightBold,
+        letterSpacing: dflts.letterSpacing,
+        lineHeight: dflts.lineHeight,
+        logLevel: 'info',
+        rendererType: dflts.rendererType,
+        scrollSensitivity: dflts.scrollSensitivity,
+        scrollback: dflts.scrollback,
+        theme: {
+          background: 'transparent'
+        }
+      });
+      TerminalComponent.terminals[this.splitID] = this.terminal;
+      // configure the UI with required add-ons
+      this.fitAddon = new FitAddon();
+      this.terminal['__fit'] = this.fitAddon;
+      this.terminal.loadAddon(this.fitAddon);
+      this.terminal.loadAddon(new SearchAddon());
+      this.terminal.loadAddon(new WebLinksAddon());
+      // connect to node-pty
+      this.terminal.onData((data: string) =>
+        this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data)
+      );
+      this.electron.ipcRenderer.send(Channels.xtermConnect, this.splitID);
+      this.terminal.open(this.renderer.nativeElement);
+    } else {
+      this.fitAddon = this.terminal['__fit'];
+      const pp = this.renderer.nativeElement.parentNode;
+      pp.insertBefore(this.terminal.element, this.renderer.nativeElement);
+      this.renderer.nativeElement.remove();
+    }
     this.terminal.focus();
     this.adjustTerminal();
   }

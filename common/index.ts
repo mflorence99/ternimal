@@ -61,7 +61,6 @@ export enum Channels {
   systemInfo = 'ternimal.systemInfo',
 
   xtermConnect = 'xterm.connect',
-  xtermDisconnect = 'xterm.discconnect',
   xtermKill = 'xterm.kill',
   xtermToPty = 'xterm.data2pty',
   xtermFromPty = 'xterm.data2xterm...',
