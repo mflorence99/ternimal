@@ -6,6 +6,7 @@ import { TerminalPrefsState } from '../../state/terminal/prefs';
 import { TerminalXtermDataState } from '../../state/terminal/xterm-data';
 import { Utils } from '../../services/utils';
 import { Widget } from '../widget';
+import { WidgetCommand } from '../widget';
 import { WidgetLaunch } from '../widget';
 import { WidgetPrefs } from '../widget';
 
@@ -48,6 +49,26 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     implementation: 'TerminalComponent'
   };
 
+  widgetMenuItems: WidgetCommand[][] = [
+    [
+      {
+        command: 'copyToClipboard()',
+        description: 'Copy',
+        if: 'canCopyToClipboard()'
+      },
+      {
+        accelerator: {
+          ctrlKey: true,
+          description: 'Ctrl+Shift+V',
+          key: 'V'
+        },
+        command: 'pasteFromClipboard()',
+        description: 'Paste',
+        if: 'canPasteFromClipboard()'
+      }
+    ]
+  ];
+
   widgetPrefs: WidgetPrefs = {
     description: 'Terminal setup',
     implementation: 'TerminalPrefsComponent'
@@ -67,6 +88,22 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     private utils: Utils,
     public xtermData: TerminalXtermDataState
   ) {}
+
+  canCopyToClipboard(): boolean {
+    return this.terminal.hasSelection();
+  }
+
+  canPasteFromClipboard(): boolean {
+    return !!this.electron.ipcRenderer.sendSync(Channels.nativeClipboardRead);
+  }
+
+  copyToClipboard(): void {
+    this.electron.ipcRenderer.send(
+      Channels.nativeClipboardWrite,
+      this.terminal.getSelection()
+    );
+    this.terminal.focus();
+  }
 
   handleResize(): void {
     // NOTE: this roundabout way seems to eliminate the flicker
@@ -89,6 +126,14 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
   ngOnInit(): void {
     this.handleActions$();
     this.setupTerminal();
+  }
+
+  pasteFromClipboard(): void {
+    const data = this.electron.ipcRenderer.sendSync(
+      Channels.nativeClipboardRead
+    );
+    this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data);
+    this.terminal.focus();
   }
 
   // private methods

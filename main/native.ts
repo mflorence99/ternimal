@@ -6,6 +6,10 @@ import opener = require('opener');
 
 const { app, clipboard, ipcMain } = electron;
 
+ipcMain.on(Channels.nativeClipboardRead, (event: Event): void => {
+  event.returnValue = clipboard.readText() as any;
+});
+
 ipcMain.on(Channels.nativeClipboardWrite, (_, text: string): void => {
   clipboard.writeText(text);
 });

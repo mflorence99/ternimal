@@ -1,5 +1,9 @@
 import { Channels } from '../../common';
+import { Utils } from '../../services/utils';
 
+import { scratch } from '../operators';
+
+import { Actions } from '@ngxs/store';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { ElectronService } from 'ngx-electron';
 import { Injectable } from '@angular/core';
@@ -9,6 +13,7 @@ import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
+import { filter } from 'rxjs/operators';
 import { patch } from '@ngxs/store/operators';
 
 interface DataActionParams {
@@ -28,7 +33,11 @@ export class TerminalXtermDataState
   extends NgxsDataRepository<TerminalXtermDataStateModel>
   implements NgxsOnInit {
   //
-  constructor(public electron: ElectronService) {
+  constructor(
+    private actions$: Actions,
+    public electron: ElectronService,
+    private utils: Utils
+  ) {
     super();
   }
 
@@ -51,6 +60,13 @@ export class TerminalXtermDataState
     this.ctx.setState(patch({ [splitID]: state ? state + data : data }));
   }
 
+  @DataAction({ insideZone: true })
+  remove(
+    @Payload('TerminalXtermDataState.remove') { splitID }: DataActionParams
+  ): void {
+    this.ctx.setState(scratch(splitID));
+  }
+
   // accessors
 
   xtermData(splitID: string): string {
@@ -63,10 +79,32 @@ export class TerminalXtermDataState
 
   ngxsOnInit(): void {
     super.ngxsOnInit();
+    this.handleActions$();
     this.rcvXtermData$();
   }
 
   // private methods
+
+  // NOTE: why do this here, rather than in the coordinated remove in
+  // Tabs and PanesComponent? Because neither of those high-level components
+  // "know" anything about the file-system widget
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        filter(({ action, status }) => {
+          return (
+            this.utils.hasProperty(action, 'PanesState.remove') &&
+            status === 'SUCCESSFUL'
+          );
+        })
+      )
+      .subscribe(({ action }) => {
+        const splitID = action['PanesState.remove'].splitID;
+        this.remove({ splitID });
+        // convenient to kill the pty process here
+        this.electron.ipcRenderer.send(Channels.xtermKill, splitID);
+      });
+  }
 
   private rcvXtermData$(): void {
     this.electron.ipcRenderer.on(

@@ -53,6 +53,7 @@
     "@ngxs/store": "^3.6.2",
     "@types/async": "^3.2.3",
     "@types/chart.js": "^2",
+    "@types/find-process": "^1.2.0",
     "@types/fs-extra": "^9.0.1",
     "@types/jest": "^26",
     "@types/node": "^12",

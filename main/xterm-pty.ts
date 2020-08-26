@@ -17,25 +17,30 @@ const connected = new Set<string>();
 const ptys: Record<string, nodePty.IPty> = {};
 const scrollbacks: Record<string, typeof CBuffer> = {};
 
-const connect = (id: string): void => {
-  connected.add(id);
+const connect = async (id: string): Promise<void> => {
   const theWindow = globalThis.theWindow;
   let pty = ptys[id];
   if (!pty) {
-    scrollbacks[id] = new CBuffer(maxScrollback);
+    // no pty session yet
     const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
     pty = nodePty.spawn(shell, [], {
       cwd: app.getPath('home'),
       env: process.env,
       name: 'xterm-256color'
     });
+    // register new connection
+    connected.add(id);
+    ptys[id] = pty;
+    scrollbacks[id] = new CBuffer(maxScrollback);
+    // route data to xterm while still connected
     pty.onData((data: string): void => {
       if (connected.has(id))
         theWindow?.webContents.send(Channels.xtermFromPty, id, data);
       scrollbacks[id].push(data);
     });
-    ptys[id] = pty;
   } else {
+    // reattach to pty session
+    connected.add(id);
     const scrollback = scrollbacks[id].toArray().join('');
     theWindow?.webContents.send(Channels.xtermFromPty, id, scrollback);
   }
@@ -46,21 +51,18 @@ const disconnect = (id: string): void => {
 };
 
 const kill = (id: string): void => {
-  const pty = ptys[id];
-  if (pty) {
-    pty.kill();
-    delete ptys[id];
-  }
+  disconnect(id);
+  ptys[id]?.kill();
+  delete ptys[id];
+  delete scrollbacks[id];
 };
 
 const resize = (id: string, cols: number, rows: number): void => {
-  const pty = ptys[id];
-  if (pty) pty.resize(cols, rows);
+  ptys[id]?.resize(cols, rows);
 };
 
 const write = (id: string, data: string): void => {
-  const pty = ptys[id];
-  if (pty) pty.write(data);
+  ptys[id]?.write(data);
 };
 
 app.on('window-all-closed', () => {

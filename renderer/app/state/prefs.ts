@@ -143,7 +143,7 @@ export abstract class PrefsState<T>
 
   // private methods
 
-  // NOTE: why do this here, rather than in te coordinated remove in
+  // NOTE: why do this here, rather than in the coordinated remove in
   // Tabs and PanesComponent? Because neither of those high-level components
   // "know" anything about the file-system widget
   private handleActions$(): void {
