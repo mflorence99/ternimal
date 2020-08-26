@@ -54,7 +54,7 @@ export class TerminalPrefsState extends PrefsState<TerminalPrefs> {
       fontSize: 12,
       fontWeight: 'normal',
       fontWeightBold: 'bold',
-      letterSpacing: 1,
+      letterSpacing: 0,
       lineHeight: 1,
       rendererType: 'dom',
       scrollSensitivity: 1,

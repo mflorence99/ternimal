@@ -3,6 +3,8 @@ import { DestroyService } from '../../services/destroy';
 import { TabsState } from '../../state/tabs';
 import { TerminalPrefs } from '../../state/terminal/prefs';
 import { TerminalPrefsState } from '../../state/terminal/prefs';
+import { TerminalXtermDataState } from '../../state/terminal/xterm-data';
+import { Utils } from '../../services/utils';
 import { Widget } from '../widget';
 import { WidgetLaunch } from '../widget';
 import { WidgetPrefs } from '../widget';
@@ -15,6 +17,7 @@ import { ElectronService } from 'ngx-electron';
 import { ElementRef } from '@angular/core';
 import { FitAddon } from 'xterm-addon-fit';
 import { Input } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SearchAddon } from 'xterm-addon-search';
 import { Terminal } from 'xterm';
@@ -24,6 +27,7 @@ import { WebLinksAddon } from 'xterm-addon-web-links';
 import { debounceTime } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,9 +36,7 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'ternimal-terminal-root',
   styleUrls: ['root.scss']
 })
-export class TerminalComponent implements OnInit, Widget {
-  private static terminals: Record<string, Terminal> = {};
-
+export class TerminalComponent implements OnDestroy, OnInit, Widget {
   effectivePrefs: TerminalPrefs;
   @ViewChild('renderer', { static: true }) renderer: ElementRef;
 
@@ -59,8 +61,11 @@ export class TerminalComponent implements OnInit, Widget {
     private cdf: ChangeDetectorRef,
     private destroy$: DestroyService,
     public electron: ElectronService,
+    private host: ElementRef,
     public prefs: TerminalPrefsState,
-    public tabs: TabsState
+    public tabs: TabsState,
+    private utils: Utils,
+    public xtermData: TerminalXtermDataState
   ) {}
 
   handleResize(): void {
@@ -76,9 +81,13 @@ export class TerminalComponent implements OnInit, Widget {
     );
   }
 
+  ngOnDestroy(): void {
+    this.terminal?.dispose();
+    this.electron.ipcRenderer.send(Channels.xtermDisconnect, this.splitID);
+  }
+
   ngOnInit(): void {
     this.handleActions$();
-    this.handleData$();
     this.setupTerminal();
   }
 
@@ -114,12 +123,20 @@ export class TerminalComponent implements OnInit, Widget {
   private handleActions$(): void {
     this.actions$
       .pipe(
+        tap(({ action, status }) => {
+          if (
+            action['TerminalXtermDataState.produce']?.splitID ===
+              this.splitID &&
+            status === 'SUCCESSFUL'
+          )
+            this.terminal.write(this.xtermData.xtermData(this.splitID));
+        }),
         filter(({ action, status }) => {
           return (
-            (action['PrefsState.update'] &&
+            ((action['PrefsState.update'] &&
               !action['PrefsState.update'].splitID) ||
-            (action['PrefsState.update']?.splitID === this.splitID &&
-              status === 'SUCCESSFUL')
+              action['PrefsState.update']?.splitID === this.splitID) &&
+            status === 'SUCCESSFUL'
           );
         }),
         debounceTime(0),
@@ -131,59 +148,41 @@ export class TerminalComponent implements OnInit, Widget {
       });
   }
 
-  private handleData$(): void {
-    this.electron.ipcRenderer.on(
-      Channels.xtermFromPty + this.splitID,
-      (_, data: string): void => this.terminal.write(data)
-    );
-  }
-
-  private onData(_, data: string): void {
-    this.terminal.write(data);
-  }
-
   private setupTerminal(): void {
-    this.terminal = TerminalComponent.terminals[this.splitID];
-    if (!this.terminal) {
-      const dflts = TerminalPrefsState.defaultPrefs();
-      this.terminal = new Terminal({
-        allowTransparency: true,
-        cursorBlink: dflts.cursorBlink,
-        cursorStyle: dflts.cursorStyle,
-        fontFamily: dflts.fontFamily,
-        fontSize: dflts.fontSize,
-        fontWeight: dflts.fontWeight,
-        fontWeightBold: dflts.fontWeightBold,
-        letterSpacing: dflts.letterSpacing,
-        lineHeight: dflts.lineHeight,
-        logLevel: 'info',
-        rendererType: dflts.rendererType,
-        scrollSensitivity: dflts.scrollSensitivity,
-        scrollback: dflts.scrollback,
-        theme: {
-          background: 'transparent'
-        }
-      });
-      TerminalComponent.terminals[this.splitID] = this.terminal;
-      // configure the UI with required add-ons
-      this.fitAddon = new FitAddon();
-      this.terminal['__fit'] = this.fitAddon;
-      this.terminal.loadAddon(this.fitAddon);
-      this.terminal.loadAddon(new SearchAddon());
-      this.terminal.loadAddon(new WebLinksAddon());
-      // connect to node-pty
-      this.terminal.onData((data: string) =>
-        this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data)
-      );
-      this.electron.ipcRenderer.send(Channels.xtermConnect, this.splitID);
-      this.terminal.open(this.renderer.nativeElement);
-    } else {
-      this.fitAddon = this.terminal['__fit'];
-      const pp = this.renderer.nativeElement.parentNode;
-      pp.insertBefore(this.terminal.element, this.renderer.nativeElement);
-      this.renderer.nativeElement.remove();
-    }
+    const dflts = TerminalPrefsState.defaultPrefs();
+    this.terminal = new Terminal({
+      allowProposedApi: true,
+      allowTransparency: true,
+      cursorBlink: dflts.cursorBlink,
+      cursorStyle: dflts.cursorStyle,
+      fontFamily: dflts.fontFamily,
+      fontSize: dflts.fontSize,
+      fontWeight: dflts.fontWeight,
+      fontWeightBold: dflts.fontWeightBold,
+      letterSpacing: dflts.letterSpacing,
+      lineHeight: dflts.lineHeight,
+      logLevel: 'info',
+      rendererType: dflts.rendererType,
+      scrollSensitivity: dflts.scrollSensitivity,
+      scrollback: dflts.scrollback,
+      theme: {
+        background: 'transparent',
+        foreground: this.utils.colorOf(this.host, '--text-color', 1)
+      }
+    });
+    this.terminal.open(this.renderer.nativeElement);
     this.terminal.focus();
+    // configure the UI with required add-ons
+    this.fitAddon = new FitAddon();
+    this.terminal['__fit'] = this.fitAddon;
+    this.terminal.loadAddon(this.fitAddon);
+    this.terminal.loadAddon(new SearchAddon());
+    this.terminal.loadAddon(new WebLinksAddon());
+    // connect xterm to node-pty
+    this.electron.ipcRenderer.send(Channels.xtermConnect, this.splitID);
+    this.terminal.onData((data: string) =>
+      this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data)
+    );
     this.adjustTerminal();
   }
 }

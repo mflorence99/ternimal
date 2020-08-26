@@ -11,6 +11,7 @@ import { SortState } from './sort';
 import { StatusState } from './status';
 import { TabsState } from './tabs';
 import { TerminalPrefsState } from './terminal/prefs';
+import { TerminalXtermDataState } from './terminal/xterm-data';
 import { TernimalState } from './ternimal';
 
 import { states } from './app';
@@ -34,6 +35,7 @@ export interface Bundle {
   status?: StatusState;
   tabs?: TabsState;
   terminalPrefs?: TerminalPrefsState;
+  terminalXtermData?: TerminalXtermDataState;
   ternimal?: TernimalState;
 }
 
@@ -60,6 +62,7 @@ export function prepare(): Bundle {
   bundle.status = TestBed.inject(StatusState);
   bundle.tabs = TestBed.inject(TabsState);
   bundle.terminalPrefs = TestBed.inject(TerminalPrefsState);
+  bundle.terminalXtermData = TestBed.inject(TerminalXtermDataState);
   bundle.ternimal = TestBed.inject(TernimalState);
 
   return bundle;

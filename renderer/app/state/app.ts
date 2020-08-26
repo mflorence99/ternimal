@@ -25,6 +25,8 @@ import { TabsState } from './tabs';
 import { TabsStateModel } from './tabs';
 import { TerminalPrefs } from './terminal/prefs';
 import { TerminalPrefsState } from './terminal/prefs';
+import { TerminalXtermDataState } from './terminal/xterm-data';
+import { TerminalXtermDataStateModel } from './terminal/xterm-data';
 import { TernimalState } from './ternimal';
 import { TernimalStateModel } from './ternimal';
 
@@ -42,6 +44,7 @@ export interface AppState {
   status: StatusStateModel;
   tabs: TabsStateModel;
   terminalPrefs: PrefsStateModel<TerminalPrefs>;
+  terminalXtermData: TerminalXtermDataStateModel;
   ternimal: TernimalStateModel;
 }
 
@@ -59,5 +62,6 @@ export const states = [
   StatusState,
   TabsState,
   TerminalPrefsState,
+  TerminalXtermDataState,
   TernimalState
 ];

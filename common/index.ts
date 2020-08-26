@@ -61,9 +61,10 @@ export enum Channels {
   systemInfo = 'ternimal.systemInfo',
 
   xtermConnect = 'xterm.connect',
+  xtermDisconnect = 'xterm.disconnect',
   xtermKill = 'xterm.kill',
   xtermToPty = 'xterm.data2pty',
-  xtermFromPty = 'xterm.data2xterm...',
+  xtermFromPty = 'xterm.data2xterm',
   xtermResizePty = 'xterm.resizepty'
 }
 
@@ -133,5 +134,7 @@ export interface SystemInfo {
   cpuUsage: number;
   memUsage: number;
 }
+
+export const maxScrollback = 5000;
 
 export const numParallelOps = 8;

@@ -50,7 +50,8 @@ export type ProcessListStateModel = ProcessStats[];
   name: 'processList',
   defaults: []
 })
-export class ProcessListState extends NgxsDataRepository<ProcessListStateModel>
+export class ProcessListState
+  extends NgxsDataRepository<ProcessListStateModel>
   implements NgxsOnInit {
   private accrueCPU;
   private accrueMemory;
