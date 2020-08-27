@@ -52,7 +52,7 @@ export class TerminalPrefsState extends PrefsState<TerminalPrefs> {
       cursorBlink: false,
       cursorStyle: 'block',
       cursorWidth: 3,
-      fontFamily: 'monospace',
+      fontFamily: Params.xtermFontFamily,
       fontSize: 12,
       fontWeight: 'normal',
       fontWeightBold: 'bold',

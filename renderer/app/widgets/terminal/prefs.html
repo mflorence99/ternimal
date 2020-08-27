@@ -11,9 +11,7 @@
       </fa-icon>
     </div>
 
-    <h3>
-      Terminal Setup
-    </h3>
+    <h3>Terminal Setup</h3>
   </header>
 
   <form [formGroup]="prefsForm" novalidate spellcheck="false">
@@ -49,9 +47,7 @@
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Font
-          </mat-panel-title>
+          <mat-panel-title> Font </mat-panel-title>
         </mat-expansion-panel-header>
 
         <div class="group">
@@ -60,7 +56,9 @@
             <mat-select formControlName="fontFamily">
               <mat-option [value]="null" *ngIf="prefs.scope !== 'global'">
               </mat-option>
-              <mat-option value="monospace">monospace</mat-option>
+              <mat-option [value]="params.xtermFontFamily">
+                {{ params.xtermFontFamily }}
+              </mat-option>
               <mat-option *ngFor="let font of fonts" [value]="font">
                 {{ font }}
               </mat-option>
@@ -123,9 +121,7 @@
 
       <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Cursor
-          </mat-panel-title>
+          <mat-panel-title> Cursor </mat-panel-title>
         </mat-expansion-panel-header>
 
         <div class="group">
@@ -161,9 +157,7 @@
 
       <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Operation
-          </mat-panel-title>
+          <mat-panel-title> Operation </mat-panel-title>
         </mat-expansion-panel-header>
 
         <div class="group">

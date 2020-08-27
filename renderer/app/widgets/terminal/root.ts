@@ -109,6 +109,7 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       this.splitID,
       `cd ${path}\n`
     );
+    this.terminal.focus();
   }
 
   copyToClipboard(): void {

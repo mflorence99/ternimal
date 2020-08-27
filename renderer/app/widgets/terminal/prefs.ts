@@ -52,7 +52,7 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
     private destroy$: DestroyService,
     public electron: ElectronService,
     private formBuilder: FormBuilder,
-    private params: Params,
+    public params: Params,
     public prefs: TerminalPrefsState,
     public tabs: TabsState,
     private selection: SelectionState

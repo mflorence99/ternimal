@@ -14,6 +14,9 @@ export class Params {
   static pathSeparator = ipcRenderer.sendSync(Channels.fsPathSeparator);
   static rootDir = ipcRenderer.sendSync(Channels.fsRootDir);
 
+  // NOTE: default built-in font
+  static xtermFontFamily = 'Roboto Mono';
+
   draggableAfter = 1000;
 
   fileSystemPasteDelay = 500;
@@ -61,4 +64,7 @@ export class Params {
   };
 
   tabsMoveInterval = 250;
+
+  // crap! need this statically and via service
+  xtermFontFamily = Params.xtermFontFamily;
 }
