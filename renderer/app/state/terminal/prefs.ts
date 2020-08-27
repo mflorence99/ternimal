@@ -58,7 +58,7 @@ export class TerminalPrefsState extends PrefsState<TerminalPrefs> {
       fontWeightBold: 'bold',
       letterSpacing: 0,
       lineHeight: 1,
-      rendererType: 'dom',
+      rendererType: 'canvas',
       root: Params.homeDir,
       scrollSensitivity: 1,
       scrollback: 2500

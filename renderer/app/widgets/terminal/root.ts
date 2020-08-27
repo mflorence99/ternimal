@@ -1,5 +1,6 @@
 import { Channels } from '../../common';
 import { DestroyService } from '../../services/destroy';
+import { Params } from '../../services/params';
 import { TabsState } from '../../state/tabs';
 import { TerminalPrefs } from '../../state/terminal/prefs';
 import { TerminalPrefsState } from '../../state/terminal/prefs';
@@ -26,6 +27,7 @@ import { Terminal } from 'xterm';
 import { ViewChild } from '@angular/core';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 
+import { debounce } from 'debounce';
 import { debounceTime } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
@@ -41,6 +43,11 @@ import { tap } from 'rxjs/operators';
 export class TerminalComponent implements OnDestroy, OnInit, Widget {
   effectivePrefs: TerminalPrefs;
   @ViewChild('renderer', { static: true }) renderer: ElementRef;
+
+  resizeFn = debounce(
+    this.handleResize.bind(this),
+    this.params?.splitterDebounceTime
+  );
 
   @Input() splitID: string;
 
@@ -89,6 +96,7 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     private destroy$: DestroyService,
     public electron: ElectronService,
     private host: ElementRef,
+    private params: Params,
     public prefs: TerminalPrefsState,
     public tabs: TabsState,
     private utils: Utils,
@@ -121,8 +129,6 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
   }
 
   handleResize(): void {
-    // NOTE: this roundabout way seems to eliminate the flicker
-    // that plain fit() generates
     const { cols, rows } = this.fitAddon.proposeDimensions();
     this.terminal.resize(cols, rows);
     this.electron.ipcRenderer.send(

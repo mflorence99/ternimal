@@ -49,7 +49,7 @@ export class Params {
 
   snackBarDuration = 2000;
 
-  splitterDebounceTime = 1000;
+  splitterDebounceTime = 600;
 
   systemInfoPollInterval = 1000;
 
