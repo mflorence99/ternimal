@@ -9,6 +9,7 @@ import { Widget } from '../widget';
 import { WidgetCommand } from '../widget';
 import { WidgetLaunch } from '../widget';
 import { WidgetPrefs } from '../widget';
+import { WidgetStatus } from '../widget';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -74,6 +75,11 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     implementation: 'TerminalPrefsComponent'
   };
 
+  widgetStatus: WidgetStatus = {
+    gotoCWD: 'chdir',
+    showCWD: true
+  };
+
   private fitAddon: FitAddon;
   private terminal: Terminal;
 
@@ -95,6 +101,14 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
 
   canPasteFromClipboard(): boolean {
     return !!this.electron.ipcRenderer.sendSync(Channels.nativeClipboardRead);
+  }
+
+  chdir(path: string): void {
+    this.electron.ipcRenderer.send(
+      Channels.xtermToPty,
+      this.splitID,
+      `cd ${path}\n`
+    );
   }
 
   copyToClipboard(): void {
@@ -124,6 +138,10 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
   }
 
   ngOnInit(): void {
+    this.effectivePrefs = this.prefs.effectivePrefs(
+      this.tabs.tab.layoutID,
+      this.splitID
+    );
     this.handleActions$();
     this.setupTerminal();
   }
@@ -139,10 +157,6 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
   // private methods
 
   private adjustTerminal(): void {
-    this.effectivePrefs = this.prefs.effectivePrefs(
-      this.tabs.tab.layoutID,
-      this.splitID
-    );
     this.terminal.setOption('cursorBlink', this.effectivePrefs.cursorBlink);
     this.terminal.setOption('cursorStyle', this.effectivePrefs.cursorStyle);
     this.terminal.setOption('cursorWidth', this.effectivePrefs.cursorWidth);
@@ -188,6 +202,10 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
         takeUntil(this.destroy$)
       )
       .subscribe(() => {
+        this.effectivePrefs = this.prefs.effectivePrefs(
+          this.tabs.tab.layoutID,
+          this.splitID
+        );
         this.adjustTerminal();
         this.cdf.markForCheck();
       });
@@ -224,7 +242,11 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     this.terminal.loadAddon(new SearchAddon());
     this.terminal.loadAddon(new WebLinksAddon());
     // connect xterm to node-pty
-    this.electron.ipcRenderer.send(Channels.xtermConnect, this.splitID);
+    this.electron.ipcRenderer.send(
+      Channels.xtermConnect,
+      this.splitID,
+      this.effectivePrefs.root
+    );
     this.terminal.onData((data: string) =>
       this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data)
     );

@@ -1,4 +1,6 @@
 import { Channels } from '../../common';
+import { StatusState } from '../../state/status';
+import { TerminalPrefsState } from '../../state/terminal/prefs';
 import { Utils } from '../../services/utils';
 
 import { scratch } from '../operators';
@@ -36,6 +38,8 @@ export class TerminalXtermDataState
   constructor(
     private actions$: Actions,
     public electron: ElectronService,
+    public prefs: TerminalPrefsState,
+    private status: StatusState,
     private utils: Utils
   ) {
     super();
@@ -80,6 +84,7 @@ export class TerminalXtermDataState
   ngxsOnInit(): void {
     super.ngxsOnInit();
     this.handleActions$();
+    this.rcvXtermCWD$();
     this.rcvXtermData$();
   }
 
@@ -104,6 +109,20 @@ export class TerminalXtermDataState
         // convenient to kill the pty process here
         this.electron.ipcRenderer.send(Channels.xtermKill, splitID);
       });
+  }
+
+  private rcvXtermCWD$(): void {
+    this.electron.ipcRenderer.on(
+      Channels.xtermCWD,
+      (_, splitID: string, cwd: string) => {
+        this.prefs.update({ splitID: splitID, prefs: { root: cwd } });
+        this.status.update({
+          splitID: splitID,
+          widgetID: 'TerminalComponent',
+          status: { cwd: cwd }
+        });
+      }
+    );
   }
 
   private rcvXtermData$(): void {

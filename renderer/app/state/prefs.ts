@@ -86,17 +86,21 @@ export abstract class PrefsState<T>
     { layoutID, splitID, prefs }: DataActionParams<T>
   ): void {
     // NOTE: prefs may be Partial
-    const effectivePrefs = { ...PrefsState.emptyPrefs(), ...prefs };
     if (!layoutID && !splitID)
-      this.ctx.setState(patch({ global: effectivePrefs }));
-    else if (layoutID && !splitID)
+      this.ctx.setState(patch({ global: patch(prefs) }));
+    else if (layoutID && !splitID) {
+      if (!this.ctx.getState().byLayoutID[layoutID])
+        this.ctx.setState(patch({ byLayoutID: patch({ [layoutID]: {} }) }));
       this.ctx.setState(
-        patch({ byLayoutID: patch({ [layoutID]: effectivePrefs }) })
+        patch({ byLayoutID: patch({ [layoutID]: patch(prefs) }) })
       );
-    else if (!layoutID && splitID)
+    } else if (!layoutID && splitID) {
+      if (!this.ctx.getState().bySplitID[splitID])
+        this.ctx.setState(patch({ bySplitID: patch({ [splitID]: {} }) }));
       this.ctx.setState(
-        patch({ bySplitID: patch({ [splitID]: effectivePrefs }) })
+        patch({ bySplitID: patch({ [splitID]: patch(prefs) }) })
       );
+    }
   }
 
   // accessors

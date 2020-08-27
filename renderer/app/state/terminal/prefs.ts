@@ -1,3 +1,4 @@
+import { Params } from '../../services/params';
 import { PrefsState } from '../prefs';
 import { PrefsStateModel } from '../prefs';
 import { SelectionState } from '../../state/selection';
@@ -23,6 +24,7 @@ export interface TerminalPrefs {
   letterSpacing: number;
   lineHeight: number;
   rendererType: RendererType;
+  root: string;
   scrollSensitivity: number;
   scrollback: number;
 }
@@ -57,6 +59,7 @@ export class TerminalPrefsState extends PrefsState<TerminalPrefs> {
       letterSpacing: 0,
       lineHeight: 1,
       rendererType: 'dom',
+      root: Params.homeDir,
       scrollSensitivity: 1,
       scrollback: 2500
     };
