@@ -1,3 +1,11 @@
+<h1
+  [ngClass]="{selected: isSelected()}"
+  [ngStyle]="{color: tabs.tab.color}"
+  class="title"
+>
+  {{ effectivePrefs.title }}
+</h1>
+
 <section
   (onResize)="resizeFn()"
   #renderer

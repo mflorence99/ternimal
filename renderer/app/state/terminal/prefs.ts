@@ -27,6 +27,7 @@ export interface TerminalPrefs {
   root: string;
   scrollSensitivity: number;
   scrollback: number;
+  title: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -61,7 +62,8 @@ export class TerminalPrefsState extends PrefsState<TerminalPrefs> {
       rendererType: 'canvas',
       root: Params.homeDir,
       scrollSensitivity: 1,
-      scrollback: 2500
+      scrollback: 2500,
+      title: undefined
     };
   }
 }

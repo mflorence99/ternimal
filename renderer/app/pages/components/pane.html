@@ -7,10 +7,7 @@
   #pane
   tabindex="0"
 >
-  <figure
-    [ngStyle]="{color: tabs.tab.color}"
-    class="badge"
-  >
+  <figure [ngStyle]="{color: tabs.tab.color}" class="badge">
     <fa-icon [icon]="tabs.tab.icon" size="6x"></fa-icon>
 
     <div *ngIf="widget.widgetStatus?.showCWD" class="cwd monospace">
@@ -57,6 +54,25 @@
       </div>
 
       <div class="spacer"></div>
+
+      <div *ngIf="widget.widgetStatus?.showSearch" class="search">
+        <input spellcheck="false" type="text" />
+
+        <svg-icon
+          src="assets/searchCaseSensitive.svg"
+          svgClass="svg-icon"
+        ></svg-icon>
+
+        <svg-icon
+          src="assets/searchDiacritics.svg"
+          svgClass="svg-icon"
+        ></svg-icon>
+
+        <svg-icon
+          src="assets/searchRegularExpression.svg"
+          svgClass="svg-icon"
+        ></svg-icon>
+      </div>
 
       <ng-container *ngIf="ternimal.longRunningOp.running">
         <mat-progress-bar

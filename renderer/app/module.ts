@@ -4,6 +4,7 @@ import { RootComponent } from './pages/root';
 
 import { states } from './state/app';
 
+import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { NgModule } from '@angular/core';
 import { NgxElectronModule } from 'ngx-electron';
@@ -23,6 +24,7 @@ const MODULES = [BarrelModule, NgxElectronModule, PagesModule];
 
   imports: [
     ...MODULES,
+    AngularSvgIconModule.forRoot(),
     ContextMenuModule.forRoot({
       autoFocus: true
     }),

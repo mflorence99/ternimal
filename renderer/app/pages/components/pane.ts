@@ -152,7 +152,7 @@ export class PaneComponent implements OnInit {
     if (this.isSelected() && this.widget.widgetMenuItems) {
       const menuItem = this.widget.widgetMenuItems
         .flat()
-        .filter((menuItem) => menuItem.accelerator)
+        .filter((menuItem) => menuItem.accelerator?.key)
         .find((menuItem) => {
           return (
             event.key === menuItem.accelerator.key &&

@@ -199,7 +199,8 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
 
   widgetStatus: WidgetStatus = {
     gotoCWD: 'goto',
-    showCWD: true
+    showCWD: true,
+    showSearch: false
   };
 
   private pasteCompletedFn = this.pasteCompleted.bind(this);

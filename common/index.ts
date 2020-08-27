@@ -47,6 +47,7 @@ export enum Channels {
   longRunningOpCancel = 'long-running-op.cancel',
   longRunningOpProgress = 'long-running-op.progress',
 
+  nativeClipboardClear = 'native.clipboardClear',
   nativeClipboardRead = 'native.clipboardRead',
   nativeClipboardWrite = 'native.clipboardWrite',
   nativeDragStart = 'native.dragStart',

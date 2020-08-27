@@ -1,6 +1,7 @@
 import { Channels } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { Params } from '../../services/params';
+import { SelectionState } from '../../state/selection';
 import { TabsState } from '../../state/tabs';
 import { TerminalPrefs } from '../../state/terminal/prefs';
 import { TerminalPrefsState } from '../../state/terminal/prefs';
@@ -57,6 +58,7 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     implementation: 'TerminalComponent'
   };
 
+  // NOTE: we don't actually control the keystroke as Xterm intercepts them
   widgetMenuItems: WidgetCommand[][] = [
     [
       {
@@ -66,12 +68,15 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       },
       {
         accelerator: {
-          ctrlKey: true,
-          description: 'Ctrl+Shift+V',
-          key: 'V'
+          description: 'Ctrl+Shift+V'
         },
         command: 'pasteFromClipboard()',
         description: 'Paste',
+        if: 'canPasteFromClipboard()'
+      },
+      {
+        command: 'clearClipboard()',
+        description: 'Clear clipboard',
         if: 'canPasteFromClipboard()'
       }
     ]
@@ -84,7 +89,8 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
 
   widgetStatus: WidgetStatus = {
     gotoCWD: 'chdir',
-    showCWD: true
+    showCWD: true,
+    showSearch: true
   };
 
   private fitAddon: FitAddon;
@@ -98,6 +104,7 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     private host: ElementRef,
     private params: Params,
     public prefs: TerminalPrefsState,
+    public selection: SelectionState,
     public tabs: TabsState,
     private utils: Utils,
     public xtermData: TerminalXtermDataState
@@ -120,6 +127,11 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     this.terminal.focus();
   }
 
+  clearClipboard(): void {
+    this.electron.ipcRenderer.send(Channels.nativeClipboardClear);
+    this.terminal.focus();
+  }
+
   copyToClipboard(): void {
     this.electron.ipcRenderer.send(
       Channels.nativeClipboardWrite,
@@ -137,6 +149,10 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       cols,
       rows
     );
+  }
+
+  isSelected(): boolean {
+    return this.splitID === this.selection.splitID;
   }
 
   ngOnDestroy(): void {
@@ -218,6 +234,14 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       });
   }
 
+  private handleData$(data: string): void {
+    this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data);
+  }
+
+  private handleTitle$(title: string): void {
+    this.prefs.update({ splitID: this.splitID, prefs: { title } });
+  }
+
   private setupTerminal(): void {
     const dflts = TerminalPrefsState.defaultPrefs();
     this.terminal = new Terminal({
@@ -244,7 +268,6 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     this.terminal.focus();
     // configure the UI with required add-ons
     this.fitAddon = new FitAddon();
-    this.terminal['__fit'] = this.fitAddon;
     this.terminal.loadAddon(this.fitAddon);
     this.terminal.loadAddon(new SearchAddon());
     this.terminal.loadAddon(new WebLinksAddon());
@@ -254,9 +277,9 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       this.splitID,
       this.effectivePrefs.root
     );
-    this.terminal.onData((data: string) =>
-      this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data)
-    );
+    // connect handlers
+    this.terminal.onData(this.handleData$.bind(this));
+    this.terminal.onTitleChange(this.handleTitle$.bind(this));
     this.adjustTerminal();
   }
 }

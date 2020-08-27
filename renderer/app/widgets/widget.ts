@@ -19,7 +19,7 @@ export interface WidgetCommand {
 export interface WidgetCommandAccelerator {
   ctrlKey?: boolean;
   description: string;
-  key: string;
+  key?: string;
 }
 
 export interface WidgetLaunch {
@@ -35,5 +35,6 @@ export interface WidgetPrefs {
 
 export interface WidgetStatus {
   gotoCWD?: string;
-  showCWD: boolean;
+  showCWD?: boolean;
+  showSearch?: boolean;
 }
