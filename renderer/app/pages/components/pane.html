@@ -32,67 +32,27 @@
     >
     </fa-icon>
 
-    <div class="statusbar">
-      <!-- NOTE: all this reversing so that the ellipsis and truncation appear on the "left!" -->
+    <!-- NOTE: all this reversing so that the ellipsis and truncation appear on the "left!" -->
 
-      <div *ngIf="widget.widgetStatus?.showCWD" class="cwd monospace">
-        &#x202e;
+    <div *ngIf="widget.widgetStatus?.showCWD" class="cwd monospace">
+      &#x202e;
 
-        <ng-container *ngIf="widget.widgetStatus?.gotoCWD; else rawCWD">
-          <span *ngFor="let path of cwdParts().reverse()">
-            &thinsp;<a (click)="cwdGoto(path)"
-              >{{ path.split('').reverse().join('') }}</a
-            >
-          </span>
-        </ng-container>
-
-        <ng-template #rawCWD>
-          {{ cwd().split('').reverse().join('') }}
-        </ng-template>
-
-        &#x202d;
-      </div>
-
-      <div class="spacer"></div>
-
-      <div *ngIf="widget.widgetStatus?.showSearch" class="search">
-        <input spellcheck="false" type="text" />
-
-        <svg-icon
-          src="assets/searchCaseSensitive.svg"
-          svgClass="svg-icon"
-        ></svg-icon>
-
-        <svg-icon
-          src="assets/searchDiacritics.svg"
-          svgClass="svg-icon"
-        ></svg-icon>
-
-        <svg-icon
-          src="assets/searchRegularExpression.svg"
-          svgClass="svg-icon"
-        ></svg-icon>
-      </div>
-
-      <ng-container *ngIf="ternimal.longRunningOp.running">
-        <mat-progress-bar
-          [value]="ternimal.longRunningOp.progress"
-          color="warn"
-          mode="determinate"
-        >
-        </mat-progress-bar>
-
-        <fa-icon
-          (click)="cancelLongRunningOp()"
-          [fixedWidth]="true"
-          [icon]="['fas', 'times-circle']"
-          [ngStyle]="{color: 'var(--warn-color)'}"
-          class="command tool"
-          matTooltip="Cancel"
-        >
-        </fa-icon>
+      <ng-container *ngIf="widget.widgetStatus?.gotoCWD; else rawCWD">
+        <span *ngFor="let path of cwdParts().reverse()">
+          &thinsp;<a (click)="cwdGoto(path)"
+            >{{ path.split('').reverse().join('') }}</a
+          >
+        </span>
       </ng-container>
+
+      <ng-template #rawCWD>
+        {{ effectiveStatus.cwd.split('').reverse().join('') }}
+      </ng-template>
+
+      &#x202d;
     </div>
+
+    <div class="spacer"></div>
 
     <ng-container *ngFor="let command of widget.widgetCommands || []">
       <fa-icon
@@ -102,6 +62,59 @@
         [matTooltip]="command.description"
         *ngIf="isCommandEnabled(command)"
         class="command tool"
+      >
+      </fa-icon>
+    </ng-container>
+
+    <div *ngIf="widget.widgetStatus?.showSearch" class="search">
+      <input
+        (input)="setSearch($event.target.value)"
+        [value]="effectiveStatus.search || null"
+        placeholder="Search display"
+        spellcheck="false"
+        type="text"
+      />
+      <button
+        [ngClass]="{selected: effectiveStatus.searchCaseSensitive}"
+        (click)="toggleSearchCaseSensitive()"
+        class="monospace"
+        matTooltip="Match case"
+      >
+        Aa
+      </button>
+      <button
+        [ngClass]="{selected: effectiveStatus.searchWholeWord}"
+        (click)="toggleSearchWholeWord()"
+        class="monospace"
+        matTooltip="Match whole word"
+      >
+        Ab
+      </button>
+      <button
+        [ngClass]="{selected: effectiveStatus.searchRegex}"
+        (click)="toggleSearchRegex()"
+        class="monospace"
+        matTooltip="Use regular expression"
+      >
+        .*
+      </button>
+    </div>
+
+    <ng-container *ngIf="ternimal.longRunningOp.running">
+      <mat-progress-bar
+        [value]="ternimal.longRunningOp.progress"
+        color="warn"
+        mode="determinate"
+      >
+      </mat-progress-bar>
+
+      <fa-icon
+        (click)="cancelLongRunningOp()"
+        [fixedWidth]="true"
+        [icon]="['fas', 'times-circle']"
+        [ngStyle]="{color: 'var(--warn-color)'}"
+        class="command tool"
+        matTooltip="Cancel"
       >
       </fa-icon>
     </ng-container>

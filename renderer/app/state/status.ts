@@ -15,15 +15,19 @@ import { patch } from '@ngxs/store/operators';
 
 interface DataActionParams {
   splitID?: string;
-  status?: Status;
+  status?: Partial<Status>;
   widgetID?: string;
 }
 
 export interface Status {
   cwd?: string;
+  search?: string;
+  searchCaseSensitive?: boolean;
+  searchRegex?: boolean;
+  searchWholeWord?: boolean;
 }
 
-export type StatusStateModel = Record<string, Status>;
+export type StatusStateModel = Record<string, Record<string, Status>>;
 
 @Injectable({ providedIn: 'root' })
 @Persistence({ path: 'status', useClass: StorageService })
@@ -53,10 +57,21 @@ export class StatusState extends NgxsDataRepository<StatusStateModel> {
   ): void {
     if (!this.ctx.getState()[splitID])
       this.ctx.setState(patch({ [splitID]: {} }));
-    this.ctx.setState(patch({ [splitID]: patch({ [widgetID]: status }) }));
+    if (!this.ctx.getState()[splitID][widgetID])
+      this.ctx.setState(patch({ [splitID]: patch({ [widgetID]: {} }) }));
+    this.ctx.setState(
+      patch({ [splitID]: patch({ [widgetID]: patch(status) }) })
+    );
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */
+
+  match(splitID: string, widgetID: string, matchees: string[]): boolean {
+    const status = this.status(splitID, widgetID);
+    if (!status.search) return true;
+    // TODO
+    return matchees.some((matchee) => matchee.includes(status.search));
+  }
 
   status(splitID: string, widgetID: string): Status {
     return this.snapshot[splitID]?.[widgetID] ?? StatusState.defaultStatus();

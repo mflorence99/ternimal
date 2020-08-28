@@ -9,12 +9,14 @@ import { ProcessListPrefsState } from '../../state/processes/prefs';
 import { ProcessListState } from '../../state/processes/list';
 import { ProcessStats } from '../../state/processes/list';
 import { SortState } from '../../state/sort';
+import { StatusState } from '../../state/status';
 import { TableComponent } from '../../components/table';
 import { TabsState } from '../../state/tabs';
 import { Widget } from '../widget';
 import { WidgetCommand } from '../widget';
 import { WidgetLaunch } from '../widget';
 import { WidgetPrefs } from '../widget';
+import { WidgetStatus } from '../widget';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -86,6 +88,10 @@ export class ProcessListComponent implements OnInit, Widget {
     implementation: 'ProcessListPrefsComponent'
   };
 
+  widgetStatus: WidgetStatus = {
+    showSearch: true
+  };
+
   constructor(
     private actions$: Actions,
     private cdf: ChangeDetectorRef,
@@ -97,6 +103,7 @@ export class ProcessListComponent implements OnInit, Widget {
     public processList: ProcessListState,
     private snackBar: MatSnackBar,
     public sort: SortState,
+    public status: StatusState,
     public tabs: TabsState
   ) {}
 
@@ -127,7 +134,11 @@ export class ProcessListComponent implements OnInit, Widget {
   }
 
   ngOnInit(): void {
-    this.stats = this.sortem(this.processList.snapshot);
+    this.effectivePrefs = this.prefs.effectivePrefs(
+      this.tabs.tab.layoutID,
+      this.splitID
+    );
+    this.stats = this.sortem(this.searchem(this.processList.snapshot));
     this.handleActions$();
   }
 
@@ -158,7 +169,8 @@ export class ProcessListComponent implements OnInit, Widget {
               (action['PrefsState.update'] &&
                 !action['PrefsState.update'].splitID) ||
               action['PrefsState.update']?.splitID === this.splitID ||
-              action['SortState.update']?.splitID === this.splitID) &&
+              action['SortState.update']?.splitID === this.splitID ||
+              action['StatusState.update']?.splitID === this.splitID) &&
             status === 'SUCCESSFUL'
           );
         }),
@@ -166,16 +178,30 @@ export class ProcessListComponent implements OnInit, Widget {
         takeUntil(this.destroy$)
       )
       .subscribe(() => {
-        this.stats = this.sortem(this.processList.snapshot);
+        this.effectivePrefs = this.prefs.effectivePrefs(
+          this.tabs.tab.layoutID,
+          this.splitID
+        );
+        this.stats = this.sortem(this.searchem(this.processList.snapshot));
         this.cdf.markForCheck();
       });
   }
 
-  private sortem(stats: ProcessStats[]): ProcessStats[] {
-    this.effectivePrefs = this.prefs.effectivePrefs(
-      this.tabs.tab.layoutID,
-      this.splitID
+  private searchem(stats: ProcessStats[]): ProcessStats[] {
+    const meta = this.prefs.dictionary.filter(
+      (dict) => dict.isSearchable && this.effectivePrefs.visibility[dict.name]
     );
+    return stats.filter((stat) => {
+      const matchees = meta.map((dict) => stat[dict.name]);
+      return this.status.match(
+        this.splitID,
+        this.widgetLaunch.implementation,
+        matchees
+      );
+    });
+  }
+
+  private sortem(stats: ProcessStats[]): ProcessStats[] {
     const columnSort = this.sort.columnSort(this.splitID, this.tableID);
     const dict = this.prefs.dictionary.find(
       (dict) => dict.name === (columnSort.sortedID ?? 'name')

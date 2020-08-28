@@ -23,6 +23,7 @@ interface DataActionParams<T> {
 export interface Dictionary {
   isDate?: boolean;
   isNumber?: boolean;
+  isSearchable?: boolean;
   name: string;
   tag: string;
 }

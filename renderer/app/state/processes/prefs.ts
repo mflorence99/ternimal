@@ -60,11 +60,11 @@ export class ProcessListPrefsState extends PrefsState<ProcessListPrefs> {
       { name: 'pid', tag: 'PID', isNumber: true },
       { name: 'ppid', tag: 'PPID', isNumber: true },
       { name: 'uid', tag: 'UID' },
-      { name: 'name', tag: 'Name' },
+      { name: 'name', tag: 'Name', isSearchable: true },
       { name: 'cpu', tag: 'CPU', isNumber: true },
       { name: 'memory', tag: 'Mem', isNumber: true },
       { name: 'ctime', tag: 'Time', isNumber: true },
-      { name: 'cmd', tag: 'Command' }
+      { name: 'cmd', tag: 'Command', isSearchable: true }
     ];
   }
 }

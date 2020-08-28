@@ -8,6 +8,7 @@ import { PanesState } from '../../state/panes';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { SortState } from '../../state/sort';
+import { Status } from '../../state/status';
 import { StatusState } from '../../state/status';
 import { TabsState } from '../../state/tabs';
 import { TernimalState } from '../../state/ternimal';
@@ -43,6 +44,8 @@ export class PaneComponent implements OnInit {
 
   @ViewChild(ContextMenuComponent, { static: true })
   contextMenu: ContextMenuComponent;
+
+  effectiveStatus: Status = StatusState.defaultStatus();
 
   @Input() index: number;
   @Input() split: Layout;
@@ -96,13 +99,6 @@ export class PaneComponent implements OnInit {
       this.selection.selectSplit({ splitID: this.splittable.splits[0].id });
   }
 
-  cwd(): string {
-    return this.status.status(
-      this.widget.splitID,
-      this.widget.widgetLaunch.implementation
-    ).cwd;
-  }
-
   cwdir(): string {
     const parts = this.cwdParts();
     return parts[parts.length - 1];
@@ -119,7 +115,7 @@ export class PaneComponent implements OnInit {
   }
 
   cwdParts(): string[] {
-    return this.cwd()
+    return this.effectiveStatus.cwd
       .split(Params.pathSeparator)
       .filter((part) => !!part)
       .map((part) => `${Params.pathSeparator}${part}`);
@@ -190,6 +186,10 @@ export class PaneComponent implements OnInit {
       this.selection.selectSplit({ splitID: this.split.id });
   }
 
+  setSearch(search: string): void {
+    this.updateSearch({ search });
+  }
+
   splitDown(): void {
     this.makeSplit({
       splitID: this.splittable.id,
@@ -226,11 +226,33 @@ export class PaneComponent implements OnInit {
     });
   }
 
+  toggleSearchCaseSensitive(): void {
+    this.updateSearch({
+      searchCaseSensitive: !this.effectiveStatus.searchCaseSensitive
+    });
+  }
+
+  toggleSearchRegex(): void {
+    this.updateSearch({
+      searchRegex: !this.effectiveStatus.searchRegex
+    });
+  }
+
+  toggleSearchWholeWord(): void {
+    this.updateSearch({
+      searchWholeWord: !this.effectiveStatus.searchWholeWord
+    });
+  }
+
   // private methods
 
   private handleActions$(): void {
     // NOTE: trigger change detection on any action
     this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.effectiveStatus = this.status.status(
+        this.widget.splitID,
+        this.widget.widgetLaunch.implementation
+      );
       this.cdf.markForCheck();
     });
   }
@@ -256,6 +278,14 @@ export class PaneComponent implements OnInit {
         if (!this.panes.snapshot[split.id])
           this.panes.update({ splitID: split.id, prefs });
       }
+    });
+  }
+
+  private updateSearch(status: Partial<Status>): void {
+    this.status.update({
+      splitID: this.widget.splitID,
+      widgetID: this.widget.widgetLaunch.implementation,
+      status: status
     });
   }
 }

@@ -2,14 +2,12 @@ import { IconsModule } from './icons';
 import { PipesModule } from './pipes/module';
 
 import { AngularSplitModule } from 'angular-split';
-import { AngularSvgIconModule } from 'angular-svg-icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -33,14 +31,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 const MODULES = [
   AngularSplitModule,
-  AngularSvgIconModule,
   BrowserAnimationsModule,
   BrowserModule,
   ContextMenuModule,
   DragDropModule,
   FontAwesomeModule,
   FormsModule,
-  HttpClientModule,
   IconsModule,
   MatButtonModule,
   MatButtonToggleModule,
