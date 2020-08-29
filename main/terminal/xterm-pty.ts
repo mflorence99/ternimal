@@ -1,7 +1,7 @@
-import { Channels } from './common';
+import { Channels } from '../common';
 
-import { debounceTime } from './common';
-import { maxScrollback } from './common';
+import { debounceTime } from '../common';
+import { maxScrollback } from '../common';
 
 import * as CBuffer from 'CBuffer';
 import * as child_process from 'child_process';
@@ -27,7 +27,6 @@ const connect = (id: string, cwd: string): void => {
   let pty = ptys[id];
   if (!pty) {
     // no pty session yet
-    console.log(cwd);
     const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
     pty = nodePty.spawn(shell, [], {
       cwd: cwd,

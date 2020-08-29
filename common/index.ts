@@ -37,6 +37,7 @@ export enum Channels {
   fsTrash = 'file-system.trash',
 
   getAvailableFonts = 'fonts.getAvailableFonts',
+  getAvailableThemes = 'themes.getAvailableThemes',
 
   localStorageClear = 'local-storage.clear',
   localStorageGetItem = 'local-storage.getItem',

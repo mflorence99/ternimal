@@ -9,8 +9,9 @@ import './long-running-op';
 import './native';
 import './process-list';
 import './system-info';
+import './terminal/themes';
+import './terminal/xterm-pty';
 import './toolbar';
-import './xterm-pty';
 
 import { store } from './local-storage';
 
@@ -63,7 +64,7 @@ app.on('ready', () => {
   } else {
     theWindow.loadURL(
       url.format({
-        pathname: path.join(__dirname, 'index.html'),
+        pathname: path.join(__dirname, '..', 'renderer', 'index.html'),
         protocol: 'file:',
         slashes: true
       })

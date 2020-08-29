@@ -32,6 +32,7 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
   fonts: string[];
   prefsForm: FormGroup;
   renderers = ['dom', 'canvas'];
+  themes: string[];
   weights = [
     'normal',
     'bold',
@@ -69,12 +70,14 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
       lineHeight: null,
       rendererType: null,
       scrollSensitivity: null,
-      scrollback: null
+      scrollback: null,
+      theme: null
     });
   }
 
   ngOnInit(): void {
     this.loadFontList();
+    this.loadThemesList();
     this.populate();
     this.handleValueChanges$();
   }
@@ -111,6 +114,12 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
     this.fonts = this.electron.ipcRenderer.sendSync(Channels.getAvailableFonts);
   }
 
+  private loadThemesList(): void {
+    this.themes = this.electron.ipcRenderer.sendSync(
+      Channels.getAvailableThemes
+    );
+  }
+
   private populate(): void {
     const prefs = this.prefs[this.prefs.scope];
     this.prefsForm.patchValue(
@@ -126,7 +135,8 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
         lineHeight: prefs.lineHeight,
         rendererType: prefs.rendererType,
         scrollSensitivity: prefs.scrollSensitivity,
-        scrollback: prefs.scrollback
+        scrollback: prefs.scrollback,
+        theme: prefs.theme
       },
       { emitEvent: false }
     );

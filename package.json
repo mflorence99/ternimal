@@ -14,7 +14,7 @@
   },
   "main": "./dist/main/ternimal.js",
   "scripts": {
-    "build:main": "tsc -p main/tsconfig.json",
+    "build:main": "tsc -p main/tsconfig.json && cp -R themes/ dist/",
     "build:renderer": "ng build",
     "clean:caches": "jest --clearCache",
     "clean:config": "rm -f ~/.config/ternimal/config.dev.json",

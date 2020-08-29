@@ -3,6 +3,10 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   },
+  "compilerOptions": {
+    "module": "es2020",
+    "target": "es2015"
+  },
   "exclude": ["**/*.spec.ts"],
   "extends": "../tsconfig.json",
   "files": ["main.ts", "polyfills.ts"],
