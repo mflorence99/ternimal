@@ -64,7 +64,7 @@ export class TerminalPrefsState extends PrefsState<TerminalPrefs> {
       root: Params.homeDir,
       scrollSensitivity: 1,
       scrollback: 2500,
-      theme: undefined,
+      theme: '(Built-in Theme)',
       title: undefined
     };
   }

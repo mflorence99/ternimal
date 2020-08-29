@@ -6,16 +6,20 @@ import { Scope } from '../../state/prefs';
 import { SelectionState } from '../../state/selection';
 import { TabsState } from '../../state/tabs';
 import { TerminalPrefsState } from '../../state/terminal/prefs';
+import { TerminalPreviewComponent } from './preview';
 import { Widget } from '../widget';
 import { WidgetPrefs } from '../widget-prefs';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ComponentPortal } from '@angular/cdk/portal';
 import { ElectronService } from 'ngx-electron';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { Overlay } from '@angular/cdk/overlay';
+import { OverlayRef } from '@angular/cdk/overlay';
 
 import { debounceTime } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
@@ -30,6 +34,7 @@ import { takeUntil } from 'rxjs/operators';
 export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
   cursors = ['block', 'underline', 'bar'];
   fonts: string[];
+  overlayRef: OverlayRef;
   prefsForm: FormGroup;
   renderers = ['dom', 'canvas'];
   themes: string[];
@@ -53,6 +58,7 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
     private destroy$: DestroyService,
     public electron: ElectronService,
     private formBuilder: FormBuilder,
+    private overlay: Overlay,
     public params: Params,
     public prefs: TerminalPrefsState,
     public tabs: TabsState,
@@ -80,6 +86,7 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
     this.loadThemesList();
     this.populate();
     this.handleValueChanges$();
+    this.setupOverlay();
   }
 
   rescope(scope: Scope): void {
@@ -87,6 +94,16 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
       this.prefs.rescope({ scope });
       this.populate();
     }
+  }
+
+  showSnapshot(snapshot: string): void {
+    this.overlayRef.updatePositionStrategy(
+      this.overlay.position().global().centerHorizontally().centerVertically()
+    );
+    const previewer = this.overlayRef.attach(
+      new ComponentPortal(TerminalPreviewComponent)
+    ).instance;
+    previewer.snapshot = snapshot;
   }
 
   trackByDict(_, dict: Dictionary): string {
@@ -140,5 +157,15 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
       },
       { emitEvent: false }
     );
+  }
+
+  private setupOverlay(): void {
+    this.overlayRef = this.overlay.create({ hasBackdrop: true });
+    this.overlayRef
+      .backdropClick()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.overlayRef.detach();
+      });
   }
 }

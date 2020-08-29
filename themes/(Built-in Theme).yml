@@ -1,0 +1,5 @@
+# Colors (3024 Day)
+colors:
+  primary:
+    background: 'transparent'
+    foreground: '#F5F5F5'

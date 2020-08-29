@@ -3,10 +3,15 @@ import { ComponentsModule as CommonComponentsModule } from '../../components/mod
 import { DirectivesModule as CommonDirectivesModule } from '../../directives/module';
 import { TerminalComponent } from './root';
 import { TerminalPrefsComponent } from './prefs';
+import { TerminalPreviewComponent } from './preview';
 
 import { NgModule } from '@angular/core';
 
-const COMPONENTS = [TerminalComponent, TerminalPrefsComponent];
+const COMPONENTS = [
+  TerminalComponent,
+  TerminalPrefsComponent,
+  TerminalPreviewComponent
+];
 
 const MODULES = [BarrelModule, CommonComponentsModule, CommonDirectivesModule];
 

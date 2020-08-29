@@ -67,6 +67,7 @@
     "@types/stat-mode": "^0.2.0",
     "@types/touch": "^3.1.1",
     "@types/trash": "^5.0.1",
+    "@types/yaml": "^1.9.7",
     "@typescript-eslint/eslint-plugin": "^3",
     "@typescript-eslint/parser": "^3",
     "CBuffer": "^2.1.0",
@@ -121,6 +122,7 @@
     "xterm-addon-fit": "^0.4.0",
     "xterm-addon-search": "^0.7.0",
     "xterm-addon-web-links": "^0.4.0",
+    "yaml": "^1.10.0",
     "zone.js": "^0.11.1"
   },
   "build": {

@@ -38,6 +38,7 @@ export enum Channels {
 
   getAvailableFonts = 'fonts.getAvailableFonts',
   getAvailableThemes = 'themes.getAvailableThemes',
+  loadTheme = 'themes.loadTheme',
 
   localStorageClear = 'local-storage.clear',
   localStorageGetItem = 'local-storage.getItem',
@@ -137,6 +138,36 @@ export type ProcessList = ProcessDescriptor[];
 export interface SystemInfo {
   cpuUsage: number;
   memUsage: number;
+}
+
+export interface Theme {
+  colors: {
+    bright: ThemeColors;
+    cursor: {
+      cursor: string;
+      text: string;
+    };
+    normal: ThemeColors;
+    primary: {
+      background: string;
+      foreground: string;
+    };
+    selection: {
+      background: string;
+      text: string;
+    };
+  };
+}
+
+export interface ThemeColors {
+  black: string;
+  blue: string;
+  cyan: string;
+  green: string;
+  magenta: string;
+  red: string;
+  white: string;
+  yellow: string;
 }
 
 export const debounceTime = 500;

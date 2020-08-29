@@ -7,7 +7,6 @@ import { TabsState } from '../../state/tabs';
 import { TerminalPrefs } from '../../state/terminal/prefs';
 import { TerminalPrefsState } from '../../state/terminal/prefs';
 import { TerminalXtermDataState } from '../../state/terminal/xterm-data';
-import { Utils } from '../../services/utils';
 import { Widget } from '../widget';
 import { WidgetCommand } from '../widget';
 import { WidgetLaunch } from '../widget';
@@ -22,6 +21,7 @@ import { ElectronService } from 'ngx-electron';
 import { ElementRef } from '@angular/core';
 import { FitAddon } from 'xterm-addon-fit';
 import { Input } from '@angular/core';
+import { ITheme } from 'xterm';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SearchAddon } from 'xterm-addon-search';
@@ -44,6 +44,7 @@ import { tap } from 'rxjs/operators';
 })
 export class TerminalComponent implements OnDestroy, OnInit, Widget {
   effectivePrefs: TerminalPrefs;
+
   @ViewChild('renderer', { static: true }) renderer: ElementRef;
 
   resizeFn = debounce(
@@ -111,7 +112,6 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     public selection: SelectionState,
     public status: StatusState,
     public tabs: TabsState,
-    private utils: Utils,
     public xtermData: TerminalXtermDataState
   ) {}
 
@@ -231,8 +231,45 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       this.effectivePrefs.scrollSensitivity
     );
     this.terminal.setOption('scrollback', this.effectivePrefs.scrollback);
+    this.terminal.setOption('theme', this.createTheme());
     this.terminal.refresh(0, this.terminal.rows - 1);
     this.handleResize();
+  }
+
+  private createTheme(): ITheme {
+    const theme = this.electron.ipcRenderer.sendSync(
+      Channels.loadTheme,
+      this.effectivePrefs.theme
+    );
+    // NOTE: we don't actually want to change XTerm's background,
+    // as we want to preserve a margin around it, so we set the pane's
+    // background instead
+    const pane = this.host.nativeElement.closest('ternimal-pane');
+    pane.style.backgroundColor =
+      theme.colors?.primary?.background || 'transparent';
+    return {
+      background: 'transparent',
+      black: theme.colors?.normal?.black,
+      blue: theme.colors?.normal?.blue,
+      brightBlack: theme.colors?.bright?.black,
+      brightBlue: theme.colors?.bright?.blue,
+      brightCyan: theme.colors?.bright?.cyan,
+      brightGreen: theme.colors?.bright?.green,
+      brightMagenta: theme.colors?.bright?.magenta,
+      brightRed: theme.colors?.bright?.red,
+      brightWhite: theme.colors?.bright?.white,
+      brightYellow: theme.colors?.bright?.yellow,
+      cursor: theme.colors?.cursor?.cursor,
+      cursorAccent: theme.colors?.cursor?.text,
+      cyan: theme.colors?.normal?.cyan,
+      foreground: theme.colors?.primary?.foreground,
+      green: theme.colors?.normal?.green,
+      magenta: theme.colors?.normal?.magenta,
+      red: theme.colors?.normal?.red,
+      selection: theme.colors?.selection?.background,
+      white: theme.colors?.normal?.white,
+      yellow: theme.colors?.normal?.yellow
+    };
   }
 
   private handleActions$(): void {
@@ -305,11 +342,7 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       logLevel: 'info',
       rendererType: dflts.rendererType,
       scrollSensitivity: dflts.scrollSensitivity,
-      scrollback: dflts.scrollback,
-      theme: {
-        background: 'transparent',
-        foreground: this.utils.colorOf(this.host, '--text-color', 1)
-      }
+      scrollback: dflts.scrollback
     });
     this.terminal.open(this.renderer.nativeElement);
     this.terminal.focus();

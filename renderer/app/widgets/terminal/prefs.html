@@ -47,6 +47,36 @@
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
+          <mat-panel-title> Theme </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="group">
+          <mat-form-field>
+            <mat-label>Theme</mat-label>
+            <mat-select formControlName="theme">
+              <mat-option [value]="null" *ngIf="prefs.scope !== 'global'">
+              </mat-option>
+              <mat-option *ngFor="let theme of themes" [value]="theme">
+                {{ theme }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <figure *ngIf="prefsForm.controls['theme'].value as theme">
+            <img
+              (click)="showSnapshot(theme)"
+              class="screenshot"
+              src="assets/screenshots/{{ theme }}.png"
+            />
+            <figcaption class="label">
+              Click image for a full-screen preview
+            </figcaption>
+          </figure>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
           <mat-panel-title> Font </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -116,30 +146,6 @@
               type="number"
             />
           </mat-form-field>
-        </div>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel [expanded]="false">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Theme </mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <div class="group">
-          <mat-form-field>
-            <mat-label>Theme</mat-label>
-            <mat-select formControlName="theme">
-              <mat-option [value]="null" *ngIf="prefs.scope !== 'global'">
-              </mat-option>
-              <mat-option *ngFor="let theme of themes" [value]="theme">
-                {{ theme }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <img
-            class="screenshot"
-            src="assets/screenshots/{{ prefsForm.controls['theme'].value }}.png"
-          />
         </div>
       </mat-expansion-panel>
 
