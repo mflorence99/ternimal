@@ -2,6 +2,7 @@ import { Channels } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
+import { StatusState } from '../../state/status';
 import { TabsState } from '../../state/tabs';
 import { TerminalPrefs } from '../../state/terminal/prefs';
 import { TerminalPrefsState } from '../../state/terminal/prefs';
@@ -88,12 +89,15 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
   };
 
   widgetStatus: WidgetStatus = {
+    findNext: 'findNext()',
+    findPrevious: 'findPrevious()',
     gotoCWD: 'chdir',
     showCWD: true,
     showSearch: true
   };
 
   private fitAddon: FitAddon;
+  private searchAddon: SearchAddon;
   private terminal: Terminal;
 
   constructor(
@@ -105,6 +109,7 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     private params: Params,
     public prefs: TerminalPrefsState,
     public selection: SelectionState,
+    public status: StatusState,
     public tabs: TabsState,
     private utils: Utils,
     public xtermData: TerminalXtermDataState
@@ -138,6 +143,34 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       this.terminal.getSelection()
     );
     this.terminal.focus();
+  }
+
+  findNext(): void {
+    const status = this.status.status(
+      this.splitID,
+      this.widgetLaunch.implementation
+    );
+    if (status.search) {
+      this.searchAddon.findNext(status.search, {
+        caseSensitive: status.searchCaseSensitive,
+        regex: status.searchRegex,
+        wholeWord: status.searchWholeWord
+      });
+    }
+  }
+
+  findPrevious(): void {
+    const status = this.status.status(
+      this.splitID,
+      this.widgetLaunch.implementation
+    );
+    if (status.search) {
+      this.searchAddon.findPrevious(status.search, {
+        caseSensitive: status.searchCaseSensitive,
+        regex: status.searchRegex,
+        wholeWord: status.searchWholeWord
+      });
+    }
   }
 
   handleResize(): void {
@@ -211,7 +244,7 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
               this.splitID &&
             status === 'SUCCESSFUL'
           )
-            this.terminal.write(this.xtermData.xtermData(this.splitID));
+            this.handleXtermFromPty$(this.xtermData.xtermData(this.splitID));
         }),
         filter(({ action, status }) => {
           return (
@@ -234,12 +267,26 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       });
   }
 
-  private handleData$(data: string): void {
-    this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data);
-  }
-
   private handleTitle$(title: string): void {
     this.prefs.update({ splitID: this.splitID, prefs: { title } });
+  }
+
+  private handleXtermFromPty$(data: string): void {
+    const regex = this.status.regex(
+      this.splitID,
+      this.widgetLaunch.implementation
+    );
+    if (regex) {
+      const pfx = '\u001B[30;43m';
+      const sfx = '\u001B[0m';
+      const highlighted = `${pfx}$1${sfx}`;
+      data = data.replace(regex, highlighted);
+    }
+    this.terminal.write(data);
+  }
+
+  private handleXtermToPty$(data: string): void {
+    this.electron.ipcRenderer.send(Channels.xtermToPty, this.splitID, data);
   }
 
   private setupTerminal(): void {
@@ -269,7 +316,8 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
     // configure the UI with required add-ons
     this.fitAddon = new FitAddon();
     this.terminal.loadAddon(this.fitAddon);
-    this.terminal.loadAddon(new SearchAddon());
+    this.searchAddon = new SearchAddon();
+    this.terminal.loadAddon(this.searchAddon);
     this.terminal.loadAddon(new WebLinksAddon());
     // connect xterm to node-pty
     this.electron.ipcRenderer.send(
@@ -278,7 +326,7 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
       this.effectivePrefs.root
     );
     // connect handlers
-    this.terminal.onData(this.handleData$.bind(this));
+    this.terminal.onData(this.handleXtermToPty$.bind(this));
     this.terminal.onTitleChange(this.handleTitle$.bind(this));
     this.adjustTerminal();
   }

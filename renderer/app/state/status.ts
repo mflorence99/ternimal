@@ -68,9 +68,23 @@ export class StatusState extends NgxsDataRepository<StatusStateModel> {
 
   match(splitID: string, widgetID: string, matchees: string[]): boolean {
     const status = this.status(splitID, widgetID);
-    if (!status.search) return true;
-    // TODO
-    return matchees.some((matchee) => matchee.includes(status.search));
+    if (!status.search || matchees.length === 0) return true;
+    const regex = this.regex(splitID, widgetID);
+    return matchees.some((matchee) => {
+      return regex.exec(matchee);
+    });
+  }
+
+  regex(splitID: string, widgetID: string): RegExp {
+    const status = this.status(splitID, widgetID);
+    if (!status.search) return null;
+    let matcher = status.search;
+    // @see https://stackoverflow.com/questions/3115150
+    if (!status.searchRegex)
+      matcher = matcher.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    if (status.searchWholeWord) matcher = '\\b' + matcher + '\\b';
+    const flags = status.searchCaseSensitive ? 'g' : 'gi';
+    return new RegExp(`(${matcher})`, flags);
   }
 
   status(splitID: string, widgetID: string): Status {

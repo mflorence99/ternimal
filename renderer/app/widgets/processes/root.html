@@ -67,7 +67,14 @@
 </ternimal-table>
 
 <aside *ngIf="stats.length === 0">
-  <div>
+  <div *ngIf="snapshot.length === 0; else filtered">
     <fa-icon [icon]="['fas', 'spinner']" [pulse]="true" size="6x"> </fa-icon>
   </div>
+
+  <ng-template #filtered>
+    <div>
+      <fa-icon [icon]="['fas', 'info-circle']" size="6x"> </fa-icon>
+      No results match filter
+    </div>
+  </ng-template>
 </aside>

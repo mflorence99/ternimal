@@ -34,6 +34,8 @@ export interface WidgetPrefs {
 }
 
 export interface WidgetStatus {
+  findNext?: string;
+  findPrevious?: string;
   gotoCWD?: string;
   showCWD?: boolean;
   showSearch?: boolean;

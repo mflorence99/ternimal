@@ -44,6 +44,8 @@ export class ProcessListComponent implements OnInit, Widget {
   effectivePrefs: ProcessListPrefs;
   running = true;
 
+  snapshot: ProcessStats[];
+
   @Input() splitID: string;
 
   stats: ProcessStats[];
@@ -138,6 +140,7 @@ export class ProcessListComponent implements OnInit, Widget {
       this.tabs.tab.layoutID,
       this.splitID
     );
+    this.snapshot = this.processList.snapshot;
     this.stats = this.sortem(this.searchem(this.processList.snapshot));
     this.handleActions$();
   }
@@ -162,7 +165,6 @@ export class ProcessListComponent implements OnInit, Widget {
   private handleActions$(): void {
     this.actions$
       .pipe(
-        filter(() => this.running),
         filter(({ action, status }) => {
           return (
             (action['ProcessListState.update'] ||
@@ -182,7 +184,8 @@ export class ProcessListComponent implements OnInit, Widget {
           this.tabs.tab.layoutID,
           this.splitID
         );
-        this.stats = this.sortem(this.searchem(this.processList.snapshot));
+        if (this.running) this.snapshot = this.processList.snapshot;
+        this.stats = this.sortem(this.searchem(this.snapshot));
         this.cdf.markForCheck();
       });
   }

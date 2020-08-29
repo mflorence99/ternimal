@@ -66,39 +66,68 @@
       </fa-icon>
     </ng-container>
 
-    <div *ngIf="widget.widgetStatus?.showSearch" class="search">
-      <input
-        (input)="setSearch($event.target.value)"
-        [value]="effectiveStatus.search || null"
-        placeholder="Search display"
-        spellcheck="false"
-        type="text"
-      />
-      <button
-        [ngClass]="{selected: effectiveStatus.searchCaseSensitive}"
-        (click)="toggleSearchCaseSensitive()"
-        class="monospace"
-        matTooltip="Match case"
+    <ng-container
+      *ngIf="widget.widgetStatus?.showSearch && !ternimal.longRunningOp.running"
+    >
+      <div class="search">
+        <input
+          (input)="setSearch($event.target.value)"
+          [value]="effectiveStatus.search || null"
+          placeholder="Search display"
+          spellcheck="false"
+          type="text"
+        />
+
+        <button
+          [ngClass]="{selected: effectiveStatus.searchCaseSensitive}"
+          (click)="toggleSearchCaseSensitive()"
+          class="monospace"
+          matTooltip="Match case"
+        >
+          Aa
+        </button>
+
+        <button
+          [ngClass]="{selected: effectiveStatus.searchWholeWord}"
+          (click)="toggleSearchWholeWord()"
+          class="monospace"
+          matTooltip="Match whole word"
+        >
+          W
+        </button>
+
+        <button
+          [ngClass]="{selected: effectiveStatus.searchRegex}"
+          (click)="toggleSearchRegex()"
+          class="monospace"
+          matTooltip="Use regular expression"
+        >
+          .*
+        </button>
+      </div>
+
+      <fa-icon
+        (click)="execute(widget.widgetStatus.findPrevious)"
+        [icon]="['fas', 'long-arrow-alt-up']"
+        [ngClass]="{disabled: !effectiveStatus.search}"
+        *ngIf="widget.widgetStatus?.findPrevious"
+        class="command tool"
+        matTooltip="Find previous"
+        size="sm"
       >
-        Aa
-      </button>
-      <button
-        [ngClass]="{selected: effectiveStatus.searchWholeWord}"
-        (click)="toggleSearchWholeWord()"
-        class="monospace"
-        matTooltip="Match whole word"
+      </fa-icon>
+
+      <fa-icon
+        (click)="execute(widget.widgetStatus.findNext)"
+        [icon]="['fas', 'long-arrow-alt-down']"
+        [ngClass]="{disabled: !effectiveStatus.search}"
+        *ngIf="widget.widgetStatus?.findNext"
+        class="command tool"
+        matTooltip="Find next"
+        size="sm"
       >
-        Ab
-      </button>
-      <button
-        [ngClass]="{selected: effectiveStatus.searchRegex}"
-        (click)="toggleSearchRegex()"
-        class="monospace"
-        matTooltip="Use regular expression"
-      >
-        .*
-      </button>
-    </div>
+      </fa-icon>
+    </ng-container>
 
     <ng-container *ngIf="ternimal.longRunningOp.running">
       <mat-progress-bar

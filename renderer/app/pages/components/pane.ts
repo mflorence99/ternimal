@@ -115,14 +115,18 @@ export class PaneComponent implements OnInit {
   }
 
   cwdParts(): string[] {
-    return this.effectiveStatus.cwd
+    return (this.effectiveStatus.cwd || '')
       .split(Params.pathSeparator)
       .filter((part) => !!part)
       .map((part) => `${Params.pathSeparator}${part}`);
   }
 
+  execute(command: string): void {
+    eval(`this.widget.${command}`);
+  }
+
   executeCommand(command: WidgetCommand): void {
-    eval(`this.widget.${command.command}`);
+    this.execute(command.command);
   }
 
   isCloseEnabled(): boolean {

@@ -128,6 +128,10 @@ section {
       cursor: pointer;
       opacity: 0.6;
 
+      &.disabled {
+        opacity: 0.3;
+      }
+
       &.launch.launched {
         opacity: 1;
       }
