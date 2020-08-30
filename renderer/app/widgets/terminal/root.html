@@ -1,6 +1,7 @@
 <h1
   [ngClass]="{selected: isSelected()}"
   [ngStyle]="{color: tabs.tab.color}"
+  *ngIf="effectivePrefs.showTitles"
   class="title"
 >
   {{ effectivePrefs.title }}

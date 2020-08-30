@@ -348,6 +348,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
           const splitID = action['SelectionState.selectSplit']?.splitID;
           if (splitID && splitID !== this.splitID) this.rowUnselect();
         }),
+        // NOTE: Necessary for headers to be rebuikt properly
         debounceTime(0),
         takeUntil(this.destroy$)
       )

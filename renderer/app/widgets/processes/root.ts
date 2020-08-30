@@ -29,7 +29,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
-import { debounceTime } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
@@ -176,7 +175,6 @@ export class ProcessListComponent implements OnInit, Widget {
             status === 'SUCCESSFUL'
           );
         }),
-        debounceTime(0),
         takeUntil(this.destroy$)
       )
       .subscribe(() => {

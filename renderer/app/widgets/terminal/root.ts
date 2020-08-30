@@ -30,7 +30,6 @@ import { ViewChild } from '@angular/core';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 
 import { debounce } from 'debounce';
-import { debounceTime } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
@@ -287,11 +286,11 @@ export class TerminalComponent implements OnDestroy, OnInit, Widget {
           return (
             ((action['PrefsState.update'] &&
               !action['PrefsState.update'].splitID) ||
-              action['PrefsState.update']?.splitID === this.splitID) &&
+              action['PrefsState.update']?.splitID === this.splitID ||
+              action['TabsState.update']) &&
             status === 'SUCCESSFUL'
           );
         }),
-        debounceTime(0),
         takeUntil(this.destroy$)
       )
       .subscribe(() => {

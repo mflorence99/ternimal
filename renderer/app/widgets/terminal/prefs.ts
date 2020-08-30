@@ -77,6 +77,7 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
       rendererType: null,
       scrollSensitivity: null,
       scrollback: null,
+      showTitles: null,
       theme: null
     });
   }
@@ -153,6 +154,7 @@ export class TerminalPrefsComponent implements OnInit, WidgetPrefs {
         rendererType: prefs.rendererType,
         scrollSensitivity: prefs.scrollSensitivity,
         scrollback: prefs.scrollback,
+        showTitles: prefs.showTitles,
         theme: prefs.theme
       },
       { emitEvent: false }

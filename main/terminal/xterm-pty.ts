@@ -1,6 +1,6 @@
 import { Channels } from '../common';
 
-import { debounceTime } from '../common';
+import { cwdDebounceTimeout } from '../common';
 import { maxScrollback } from '../common';
 
 import * as CBuffer from 'CBuffer';
@@ -78,7 +78,7 @@ const findCWD = debounce((pid: number, callback): void => {
     default:
       callback('unsupported OS');
   }
-}, debounceTime);
+}, cwdDebounceTimeout);
 
 const kill = (id: string): void => {
   disconnect(id);

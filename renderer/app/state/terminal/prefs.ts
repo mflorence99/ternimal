@@ -27,6 +27,7 @@ export interface TerminalPrefs {
   root: string;
   scrollSensitivity: number;
   scrollback: number;
+  showTitles: boolean;
   theme: string;
   title: string;
 }
@@ -64,6 +65,7 @@ export class TerminalPrefsState extends PrefsState<TerminalPrefs> {
       root: Params.homeDir,
       scrollSensitivity: 1,
       scrollback: 2500,
+      showTitles: true,
       theme: '(Built-in Theme)',
       title: undefined
     };

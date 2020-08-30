@@ -11,9 +11,7 @@
       </fa-icon>
     </div>
 
-    <h3>
-      {{ tabs.tab.label }} Setup
-    </h3>
+    <h3>{{ tabs.tab.label }} Setup</h3>
   </header>
 
   <form [formGroup]="tabPrefsForm" novalidate spellcheck="false">
@@ -63,5 +61,11 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
     </article>
+
+    <mat-divider></mat-divider>
+
+    <mat-checkbox formControlName="showBadges">
+      Show badges on panels
+    </mat-checkbox>
   </form>
 </section>

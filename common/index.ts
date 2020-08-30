@@ -170,7 +170,7 @@ export interface ThemeColors {
   yellow: string;
 }
 
-export const debounceTime = 500;
+export const cwdDebounceTimeout = 500;
 
 export const maxScrollback = 5000;
 

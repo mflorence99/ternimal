@@ -26,6 +26,7 @@ export interface Tab {
   icon?: string[];
   label?: string;
   layoutID: string;
+  showBadges?: boolean;
 }
 
 export type TabsStateModel = Tab[];
@@ -49,7 +50,8 @@ export class TabsState extends NgxsDataRepository<TabsStateModel> {
         color: 'var(--mat-grey-100)',
         icon: ['fas', 'laptop'],
         label: 'My Ternimal',
-        layoutID: Params.initialLayoutID
+        layoutID: Params.initialLayoutID,
+        showBadges: true
       }
     ];
   }

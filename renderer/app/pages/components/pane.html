@@ -7,14 +7,18 @@
   #pane
   tabindex="0"
 >
-  <figure [ngStyle]="{color: tabs.tab.color}" class="badge">
+  <figure
+    [ngStyle]="{color: tabs.tab.color}"
+    *ngIf="tabs.tab.showBadges"
+    class="badge"
+  >
     <fa-icon [icon]="tabs.tab.icon" size="6x"></fa-icon>
-    <div
+    <figcaption
       *ngIf="widget.widgetStatus?.showCWD && !isSelected()"
       class="cwd monospace"
     >
       &#x202e;{{ effectiveStatus.cwd.split('').reverse().join('') }}&#x202d;
-    </div>
+    </figcaption>
   </figure>
 
   <div class="content">

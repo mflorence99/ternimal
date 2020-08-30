@@ -170,7 +170,7 @@
             <input
               formControlName="cursorWidth"
               matInput
-              placeholder="cursorWidth"
+              placeholder="Cursor width"
               step="1"
               type="number"
             />
@@ -181,6 +181,18 @@
             formControlName="cursorBlink"
           >
             Blinking cursor
+          </mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Options </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="group">
+          <mat-checkbox formControlName="showTitles">
+            Show titles
           </mat-checkbox>
         </div>
       </mat-expansion-panel>

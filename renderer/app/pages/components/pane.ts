@@ -12,7 +12,6 @@ import { Status } from '../../state/status';
 import { StatusState } from '../../state/status';
 import { TabsState } from '../../state/tabs';
 import { TernimalState } from '../../state/ternimal';
-import { Utils } from '../../services/utils';
 import { Widget } from '../../widgets/widget';
 import { WidgetCommand } from '../../widgets/widget';
 import { WidgetHostDirective } from '../directives/widget-host';
@@ -70,8 +69,7 @@ export class PaneComponent implements OnInit {
     public selection: SelectionState,
     public sort: SortState,
     public status: StatusState,
-    public ternimal: TernimalState,
-    private utils: Utils
+    public ternimal: TernimalState
   ) {}
 
   cancelLongRunningOp(): void {

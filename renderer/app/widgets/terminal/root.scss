@@ -16,11 +16,14 @@
 // NOTE: opacity kept in sync with badge i  pane.scss
 .title {
   opacity: 0.25;
+  overflow: hidden;
   position: absolute;
   right: 2rem;
+  text-overflow: ellipsis;
   text-transform: uppercase;
   top: 1rem;
   transition: opacity 0.25s ease-in-out;
+  white-space: nowrap;
   z-index: 1;
 
   &.selected {

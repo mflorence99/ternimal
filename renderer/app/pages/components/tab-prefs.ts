@@ -9,7 +9,6 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
 
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
@@ -86,9 +85,10 @@ export class TabPrefsComponent implements OnInit {
   ) {
     // initialize the form
     this.tabPrefsForm = this.formBuilder.group({
-      color: [this.tabs.tab.color, Validators.required],
-      icon: [this.tabs.tab.icon.join(' '), Validators.required],
-      label: [this.tabs.tab.label, Validators.required]
+      color: this.tabs.tab.color,
+      icon: this.tabs.tab.icon.join(' '),
+      label: this.tabs.tab.label,
+      showBadges: this.tabs.tab.showBadges
     });
   }
 
@@ -118,7 +118,8 @@ export class TabPrefsComponent implements OnInit {
         this.tabPrefsForm.patchValue({
           color: this.tabs.tab.color,
           icon: this.tabs.tab.icon.join(' '),
-          label: this.tabs.tab.label
+          label: this.tabs.tab.label,
+          showBadges: this.tabs.tab.showBadges
         });
       });
   }
