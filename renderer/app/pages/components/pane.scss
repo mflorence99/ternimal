@@ -11,7 +11,7 @@ section {
   position: relative;
 
   &.selected .badge {
-    bottom: calc(2rem + var(--pane-cy-footer));
+    bottom: calc(0.5rem + var(--pane-cy-footer));
     opacity: 0.4;
   }
 
@@ -26,12 +26,13 @@ section {
   }
 
   .badge {
-    bottom: 2rem;
+    bottom: 0.5rem;
     display: grid;
-    grid-gap: 0.5rem;
+    grid-gap: 1rem;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     justify-items: end;
+    left: 0;
     opacity: 0.25;
     position: absolute;
     right: 2rem;
@@ -41,9 +42,18 @@ section {
 
     .cwd {
       font-size: 1.25rem;
+      text-align: right;
       text-transform: uppercase;
-      white-space: nowrap;
+      width: 75%;
     }
+  }
+
+  .cwd {
+    direction: rtl;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .content {
@@ -72,14 +82,6 @@ section {
 
     > *:not(:first-child) {
       margin-left: 0.5rem;
-    }
-
-    .cwd {
-      direction: rtl;
-      overflow: hidden;
-      text-align: left;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     .mat-progress-bar {

@@ -9,9 +9,11 @@
 >
   <figure [ngStyle]="{color: tabs.tab.color}" class="badge">
     <fa-icon [icon]="tabs.tab.icon" size="6x"></fa-icon>
-
-    <div *ngIf="widget.widgetStatus?.showCWD" class="cwd monospace">
-      {{ cwdir() }}
+    <div
+      *ngIf="widget.widgetStatus?.showCWD && !isSelected()"
+      class="cwd monospace"
+    >
+      &#x202e;{{ effectiveStatus.cwd.split('').reverse().join('') }}&#x202d;
     </div>
   </figure>
 
