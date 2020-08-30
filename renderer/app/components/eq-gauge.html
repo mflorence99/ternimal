@@ -1,17 +1,13 @@
-<figure class="monospace">
-  <div class="tag">
-    {{ tag }}
-  </div>
+<figure class="eq-gauge monospace">
+  <figcaption class="tag">{{ tag }}</figcaption>
 
-  <div (onResize)="handleResize($event)" class="gauge">
-    <div
+  <ul (onResize)="handleResize($event)" class="gauge">
+    <li
       [ngStyle]="{'background-color': color(ix), 'margin-right.px': params.led.gap, 'width.px': params.led.width}"
       *ngFor="let ix of count | ternimalRange"
       class="led"
-    ></div>
-  </div>
+    ></li>
+  </ul>
 
-  <div class="value">
-    {{ value | percent }}
-  </div>
+  <figcaption class="value">{{ value | percent }}</figcaption>
 </figure>

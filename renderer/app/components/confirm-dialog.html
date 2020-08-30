@@ -1,15 +1,9 @@
-<h3 mat-dialog-title>
-  {{ title }}
-</h3>
+<h3 mat-dialog-title>{{ title }}</h3>
 
-<p mat-dialog-content>
-  {{ message }}
-</p>
+<p mat-dialog-content>{{ message }}</p>
 
-<div mat-dialog-actions>
-  <button (click)="dismiss()" mat-button>
-    No
-  </button>
+<article mat-dialog-actions>
+  <button (click)="dismiss()" mat-button>No</button>
 
   <button
     [mat-dialog-close]="true"
@@ -19,4 +13,4 @@
   >
     Yes
   </button>
-</div>
+</article>

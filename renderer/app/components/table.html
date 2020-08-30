@@ -1,4 +1,4 @@
-<div
+<article
   [ngStyle]="{transform: 'translateX(-' + scrollLeft + 'px)', visibility: visibility}"
   class="header-wrapper"
 >
@@ -10,9 +10,9 @@
   >
     <ng-content select="thead"> </ng-content>
   </table>
-</div>
+</article>
 
-<div
+<article
   (mousedown)="rowDeselect($event)"
   (scroll)="scrollLeft = $event.target.scrollLeft"
   #scroller
@@ -28,4 +28,4 @@
   >
     <ng-content select="tbody"> </ng-content>
   </table>
-</div>
+</article>

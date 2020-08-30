@@ -3,6 +3,7 @@
   (onResize)="handleResize($event)"
   cdkDropList
   cdkDropListOrientation="horizontal"
+  class="tabs"
 >
   <li
     (click)="select(tab)"
@@ -15,9 +16,9 @@
     class="tab"
     matRipple
   >
-    <div *cdkDragPreview></div>
+    <p *cdkDragPreview></p>
 
-    <div class="icon">
+    <figure class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
         [fixedWidth]="true"
@@ -25,11 +26,9 @@
         [ngStyle]="{color: tab.color}"
       >
       </fa-icon>
-    </div>
+    </figure>
 
-    <div class="label">
-      {{ tab.label }}
-    </div>
+    <label class="label">{{ tab.label }}</label>
 
     <fa-icon
       (click)="confirmRemove($event, tab)"
@@ -51,9 +50,7 @@
     cdkDragLockAxis="x"
     class="more"
   >
-    <div *cdkDragPreview>
-      More tabs...
-    </div>
+    <p *cdkDragPreview>More tabs...</p>
 
     <select
       (change)="select(inMore[$event.target.selectedIndex - 1])"

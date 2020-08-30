@@ -1,5 +1,5 @@
-<section>
-  <header>
+<section class="tab-prefs">
+  <header class="header">
     <div class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
@@ -14,7 +14,12 @@
     <h3>{{ tabs.tab.label }} Setup</h3>
   </header>
 
-  <form [formGroup]="tabPrefsForm" novalidate spellcheck="false">
+  <form
+    [formGroup]="tabPrefsForm"
+    class="tabPrefsForm"
+    novalidate
+    spellcheck="false"
+  >
     <mat-form-field>
       <input
         formControlName="label"

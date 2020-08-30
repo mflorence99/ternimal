@@ -5,6 +5,7 @@
   [contextMenu]="contextMenu"
   [ngClass]="{selected: isSelected()}"
   #pane
+  class="pane"
   tabindex="0"
 >
   <figure
@@ -21,9 +22,9 @@
     </figcaption>
   </figure>
 
-  <div class="content">
+  <article class="content">
     <ng-template ternimalWidgetHost></ng-template>
-  </div>
+  </article>
 
   <footer class="footer">
     <fa-icon
@@ -40,7 +41,7 @@
 
     <!-- NOTE: all this reversing so that the ellipsis and truncation appear on the "left!" -->
 
-    <div *ngIf="widget.widgetStatus?.showCWD" class="cwd monospace">
+    <article *ngIf="widget.widgetStatus?.showCWD" class="cwd monospace">
       &#x202e;
 
       <ng-container *ngIf="widget.widgetStatus?.gotoCWD; else rawCWD">
@@ -56,7 +57,7 @@
       </ng-template>
 
       &#x202d;
-    </div>
+    </article>
 
     <div class="spacer"></div>
 
@@ -75,11 +76,11 @@
     <ng-container
       *ngIf="widget.widgetStatus?.showSearch && !ternimal.longRunningOp.running"
     >
-      <div class="search">
+      <form class="search">
         <input
           (input)="setSearch($event.target.value)"
           [value]="effectiveStatus.search || null"
-          placeholder="Search display"
+          placeholder="Search panel content"
           spellcheck="false"
           type="text"
         />
@@ -110,7 +111,7 @@
         >
           .*
         </button>
-      </div>
+      </form>
 
       <fa-icon
         (click)="execute(widget.widgetStatus.findPrevious)"
