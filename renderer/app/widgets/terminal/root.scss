@@ -4,15 +4,6 @@
   position: relative;
 }
 
-.renderer {
-  height: calc(100% - 2rem);
-  left: 1rem;
-  position: absolute;
-  top: 1rem;
-  width: calc(100% - 2rem);
-  z-index: 2;
-}
-
 // NOTE: opacity kept in sync with badge i  pane.scss
 .title {
   opacity: 0.25;
@@ -29,4 +20,13 @@
   &.selected {
     opacity: 0.4;
   }
+}
+
+.xterm {
+  height: calc(100% - 2rem);
+  left: 1rem;
+  position: absolute;
+  top: 1rem;
+  width: calc(100% - 2rem);
+  z-index: 2;
 }

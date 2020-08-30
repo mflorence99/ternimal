@@ -1,5 +1,5 @@
-<section>
-  <header>
+<section class="prefs">
+  <header class="header">
     <div class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
@@ -14,7 +14,7 @@
     <h3>Terminal Setup</h3>
   </header>
 
-  <form [formGroup]="prefsForm" novalidate spellcheck="false">
+  <form [formGroup]="prefsForm" class="prefsForm" novalidate spellcheck="false">
     <ul class="tabs">
       <li
         (click)="rescope('global')"
@@ -50,7 +50,7 @@
           <mat-panel-title> Theme </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="group">
+        <article class="group">
           <mat-form-field>
             <mat-label>Theme</mat-label>
             <mat-select formControlName="theme">
@@ -72,7 +72,7 @@
               Click image for a full-screen preview
             </figcaption>
           </figure>
-        </div>
+        </article>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">
@@ -80,7 +80,7 @@
           <mat-panel-title> Font </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="group">
+        <article class="group">
           <mat-form-field>
             <mat-label>Font family</mat-label>
             <mat-select formControlName="fontFamily">
@@ -146,7 +146,7 @@
               type="number"
             />
           </mat-form-field>
-        </div>
+        </article>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">
@@ -154,7 +154,7 @@
           <mat-panel-title> Cursor </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="group">
+        <article class="group">
           <mat-form-field>
             <mat-label>Cursor style</mat-label>
             <mat-select formControlName="cursorStyle">
@@ -182,7 +182,7 @@
           >
             Blinking cursor
           </mat-checkbox>
-        </div>
+        </article>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">
@@ -190,11 +190,11 @@
           <mat-panel-title> Options </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="group">
+        <article class="group">
           <mat-checkbox formControlName="showTitles">
             Show titles
           </mat-checkbox>
-        </div>
+        </article>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">
@@ -202,7 +202,7 @@
           <mat-panel-title> Operation </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="group">
+        <article class="group">
           <mat-form-field>
             <mat-label>Renderer</mat-label>
             <mat-select formControlName="rendererType">
@@ -233,7 +233,7 @@
               type="number"
             />
           </mat-form-field>
-        </div>
+        </article>
       </mat-expansion-panel>
     </mat-accordion>
   </form>

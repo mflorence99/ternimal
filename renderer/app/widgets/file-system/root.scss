@@ -4,7 +4,7 @@
   position: relative;
 }
 
-ternimal-table {
+.file-system {
   td {
     padding: 0 0.5rem;
     vertical-align: middle;
@@ -53,14 +53,14 @@ ternimal-table {
   }
 }
 
-aside {
+.file-system-empty {
   bottom: 0;
   left: 0;
   position: absolute;
   right: 0;
   top: 0;
 
-  > div {
+  > p {
     align-content: center;
     color: var(--mat-grey-500);
     display: grid;

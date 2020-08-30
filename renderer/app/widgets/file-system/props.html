@@ -1,5 +1,5 @@
-<section>
-  <header>
+<section class="props">
+  <header class="header">
     <div class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
@@ -12,17 +12,13 @@
     </div>
 
     <div class="name">
-      <h3>
-        {{ desc.name | ternimalBreakable:14 }}
-      </h3>
+      <h3>{{ desc.name | ternimalBreakable:14 }}</h3>
 
-      <p *ngIf="descs.length > 1">
-        + {{ descs.length - 1 }} others
-      </p>
+      <p *ngIf="descs.length > 1">+ {{ descs.length - 1 }} others</p>
     </div>
   </header>
 
-  <form [formGroup]="propsForm" novalidate spellcheck="false">
+  <form [formGroup]="propsForm" class="propsForm" novalidate spellcheck="false">
     <div class="permissions">
       <div>&nbsp;</div>
       <div><b>+R</b></div>
@@ -61,53 +57,39 @@
 
       <tr>
         <td>Modified</td>
-        <td class="mtime">
-          {{ desc.mtime | date:'short' }}
-        </td>
+        <td class="mtime">{{ desc.mtime | date:'short' }}</td>
       </tr>
 
       <tr>
         <td>Created</td>
-        <td class="btime">
-          {{ desc.btime | date:'short' }}
-        </td>
+        <td class="btime">{{ desc.btime | date:'short' }}</td>
       </tr>
 
       <tr>
         <td>Accessed</td>
-        <td class="atime">
-          {{ desc.atime | date:'short' }}
-        </td>
+        <td class="atime">{{ desc.atime | date:'short' }}</td>
       </tr>
 
       <tr>
         <td>Mode</td>
-        <td class="mode monospace">
-          {{ desc.mode }}
-        </td>
+        <td class="mode monospace">{{ desc.mode }}</td>
       </tr>
 
       <tr>
         <td>User</td>
-        <td class="user">
-          {{ desc.user }}
-        </td>
+        <td class="user">{{ desc.user }}</td>
       </tr>
 
       <tr>
         <td>Group</td>
-        <td class="group">
-          {{ desc.group }}
-        </td>
+        <td class="group">{{ desc.group }}</td>
       </tr>
     </table>
 
     <table *ngIf="descs.length > 1" class="info">
       <tr>
         <td>Total Size</td>
-        <td class="size">
-          {{ totalSize | ternimalNumeral:'0b' }}
-        </td>
+        <td class="size">{{ totalSize | ternimalNumeral:'0b' }}</td>
       </tr>
     </table>
 

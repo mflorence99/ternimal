@@ -3,6 +3,7 @@
   [hydrateTrace]="true"
   [splitID]="splitID"
   [tableID]="tableID"
+  class="processes"
 >
   <thead>
     <tr>
@@ -36,14 +37,14 @@
             </ng-container>
 
             <ng-container *ngIf="['cpu', 'memory'].includes(dict.name)">
-              <div *ngIf="effectivePrefs.showSparkline; else noSparkline">
+              <figure *ngIf="effectivePrefs.showSparkline; else noSparkline">
                 <ternimal-sparkline
                   [sparkline]="stat[dict.name + 'Timeline']"
                   class="sparkline"
                 >
                 </ternimal-sparkline>
                 {{ stat[dict.name] / 100 | percent:'0.1-1' }}
-              </div>
+              </figure>
               <ng-template #noSparkline>
                 {{ stat[dict.name] / 100 | percent:'0.1-1' }}
               </ng-template>
@@ -66,15 +67,15 @@
   </tbody>
 </ternimal-table>
 
-<aside *ngIf="stats.length === 0">
-  <div *ngIf="snapshot.length === 0; else filtered">
+<aside *ngIf="stats.length === 0" class="processes-empty">
+  <p *ngIf="snapshot.length === 0; else filtered">
     <fa-icon [icon]="['fas', 'spinner']" [pulse]="true" size="6x"> </fa-icon>
-  </div>
+  </p>
 
   <ng-template #filtered>
-    <div>
+    <p>
       <fa-icon [icon]="['fas', 'info-circle']" size="6x"> </fa-icon>
       No results match filter
-    </div>
+    </p>
   </ng-template>
 </aside>

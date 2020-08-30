@@ -4,6 +4,7 @@
   [hydrateTrace]="false"
   [splitID]="splitID"
   [tableID]="tableID"
+  class="file-system"
 >
   <thead>
     <tr>
@@ -94,9 +95,7 @@
                 </ng-container>
               </ng-container>
 
-              <ng-template #noSize>
-                &ndash;
-              </ng-template>
+              <ng-template #noSize> &ndash; </ng-template>
             </ng-container>
 
             <ng-container
@@ -127,9 +126,7 @@
             </ng-container>
 
             <ng-container *ngIf="['mode', 'user', 'group'].includes(dict.name)">
-              <div class="monospace">
-                {{ desc[dict.name] }}
-              </div>
+              <div class="monospace">{{ desc[dict.name] }}</div>
             </ng-container>
           </ng-container>
         </td>
@@ -140,20 +137,20 @@
   </tbody>
 </ternimal-table>
 
-<aside *ngIf="isEmpty(effectivePrefs.root)">
-  <div *ngIf="loading[effectivePrefs.root]; else empty">
+<aside *ngIf="isEmpty(effectivePrefs.root)" class="file-system-empty">
+  <p *ngIf="loading[effectivePrefs.root]; else empty">
     <fa-icon [icon]="['fas', 'spinner']" [pulse]="true" size="6x"> </fa-icon>
-  </div>
+  </p>
 
   <ng-template #empty>
-    <div>
+    <p>
       <fa-icon [icon]="['fas', 'info-circle']" size="6x"> </fa-icon>
 
       No accessible contents in:
 
-      <div class="monospace">
+      <span class="monospace">
         {{ effectivePrefs.root | ternimalBreakable }}
-      </div>
-    </div>
+      </span>
+    </p>
   </ng-template>
 </aside>

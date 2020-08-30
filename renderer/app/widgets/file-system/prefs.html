@@ -54,7 +54,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="group">
+        <article class="group">
           <mat-checkbox
             *ngIf="prefs.scope === 'global'"
             formControlName="showHiddenFiles"
@@ -94,7 +94,7 @@
               Show {{ dict.tag }}
             </ternimal-tristate>
           </ng-container>
-        </div>
+        </article>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">

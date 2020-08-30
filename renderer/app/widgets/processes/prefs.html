@@ -1,5 +1,5 @@
-<section>
-  <header>
+<section class="prefs">
+  <header class="header">
     <div class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
@@ -11,12 +11,10 @@
       </fa-icon>
     </div>
 
-    <h3>
-      Process List Setup
-    </h3>
+    <h3>Process List Setup</h3>
   </header>
 
-  <form [formGroup]="prefsForm" novalidate spellcheck="false">
+  <form [formGroup]="prefsForm" class="prefsForm" novalidate spellcheck="false">
     <ul class="tabs">
       <li
         (click)="rescope('global')"
@@ -49,12 +47,10 @@
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Content
-          </mat-panel-title>
+          <mat-panel-title> Content </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="group">
+        <article class="group">
           <mat-checkbox
             *ngIf="prefs.scope === 'global'"
             formControlName="showSparkline"
@@ -87,20 +83,16 @@
               Show {{ dict.tag }}
             </ternimal-tristate>
           </ng-container>
-        </div>
+        </article>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Formatting Options
-          </mat-panel-title>
+          <mat-panel-title> Formatting Options </mat-panel-title>
         </mat-expansion-panel-header>
 
         <mat-radio-group class="group" formControlName="timeFormat">
-          <label class="label">
-            How to Show Time
-          </label>
+          <label class="label"> How to Show Time </label>
 
           <mat-radio-button
             [value]="null"
@@ -109,12 +101,8 @@
           >
             Default
           </mat-radio-button>
-          <mat-radio-button value="duration">
-            a few seconds
-          </mat-radio-button>
-          <mat-radio-button value="hhmmss">
-            00:03:24
-          </mat-radio-button>
+          <mat-radio-button value="duration"> a few seconds </mat-radio-button>
+          <mat-radio-button value="hhmmss"> 00:03:24 </mat-radio-button>
         </mat-radio-group>
       </mat-expansion-panel>
     </mat-accordion>
