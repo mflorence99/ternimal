@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="5" failures="0" time="4.455">
-  <testsuite name="Utils" errors="0" failures="0" skipped="0" timestamp="2020-08-07T07:59:56" time="3.807" tests="5">
-    <testcase classname="Utils Object can be deep copied" name="Utils Object can be deep copied" time="0.016">
-    </testcase>
-    <testcase classname="Utils hasProperty can test for a string" name="Utils hasProperty can test for a string" time="0.004">
-    </testcase>
-    <testcase classname="Utils hasProperty can test for a regexp" name="Utils hasProperty can test for a regexp" time="0.003">
-    </testcase>
-    <testcase classname="Utils Objects can be merged, respecting null values" name="Utils Objects can be merged, respecting null values" time="0.002">
-    </testcase>
-    <testcase classname="Utils nextTick works asynchronously" name="Utils nextTick works asynchronously" time="0.008">
+<testsuites name="jest tests" tests="1" failures="0" time="3.749">
+  <testsuite name="fonts" errors="0" failures="0" skipped="0" timestamp="2020-08-31T11:21:14" time="3.217" tests="1">
+    <testcase classname="fonts Smoke test" name="fonts Smoke test" time="0.092">
     </testcase>
   </testsuite>
 </testsuites>

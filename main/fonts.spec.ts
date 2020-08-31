@@ -1,15 +1,8 @@
-import './fonts';
-
-import * as electron from 'electron';
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const { BrowserWindow } = electron;
+import { getAvailableFonts } from './fonts';
 
 describe('fonts', () => {
-  let theWindow;
-
-  beforeEach(() => {
-    theWindow = new BrowserWindow({});
-    globalThis.theWindow = theWindow;
+  test('Smoke test', async () => {
+    const fonts = await getAvailableFonts();
+    expect(fonts.length).toBeGreaterThan(1);
   });
 });

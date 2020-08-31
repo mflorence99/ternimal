@@ -7,13 +7,13 @@ import fontList = require('font-list');
 
 const { ipcMain } = electron;
 
+export const getAvailableFonts = async (): Promise<string[]> => {
+  return (await fontList.getFonts()).map((font) => font.replace(/"/g, ''));
+};
+
 ipcMain.on(
   Channels.getAvailableFonts,
   async (event: Event): Promise<void> => {
-    // NOTE: eliminate double quotes
-    const fonts = (await fontList.getFonts()).map((font) =>
-      font.replace(/"/g, '')
-    );
-    event.returnValue = fonts as any;
+    event.returnValue = (await getAvailableFonts()) as any;
   }
 );
