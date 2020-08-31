@@ -1,6 +1,6 @@
 <section class="prefs">
   <header class="header">
-    <div class="icon">
+    <figure class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
         [fixedWidth]="true"
@@ -9,7 +9,7 @@
         size="lg"
       >
       </fa-icon>
-    </div>
+    </figure>
 
     <h3>Process List Setup</h3>
   </header>
@@ -50,7 +50,7 @@
           <mat-panel-title> Content </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <article class="group">
+        <fieldset class="group">
           <mat-checkbox
             *ngIf="prefs.scope === 'global'"
             formControlName="showSparkline"
@@ -83,7 +83,7 @@
               Show {{ dict.tag }}
             </ternimal-tristate>
           </ng-container>
-        </article>
+        </fieldset>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">

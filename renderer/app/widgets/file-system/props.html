@@ -1,6 +1,6 @@
 <section class="props">
   <header class="header">
-    <div class="icon">
+    <figure class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
         [fixedWidth]="true"
@@ -9,43 +9,46 @@
         size="lg"
       >
       </fa-icon>
-    </div>
+    </figure>
 
-    <div class="name">
-      <h3>{{ desc.name | ternimalBreakable:14 }}</h3>
-
-      <p *ngIf="descs.length > 1">+ {{ descs.length - 1 }} others</p>
-    </div>
+    <h3>
+      {{ desc.name | ternimalBreakable:14 }}
+      <p *ngIf="descs.length > 1" class="sub-header">
+        + {{ descs.length - 1 }} others
+      </p>
+    </h3>
   </header>
 
   <form [formGroup]="propsForm" class="propsForm" novalidate spellcheck="false">
-    <div class="permissions">
-      <div>&nbsp;</div>
-      <div><b>+R</b></div>
-      <div><b>+W</b></div>
-      <div><b>+X</b></div>
+    <fieldset>
+      <article class="permissions">
+        <p>&nbsp;</p>
+        <p><b>+R</b></p>
+        <p><b>+W</b></p>
+        <p><b>+X</b></p>
 
-      <ng-container *ngIf="descs.length === 1">
-        <ng-container [formGroupName]="perm[0]" *ngFor="let perm of perms">
-          <div class="tag">{{ perm[1] }}</div>
+        <ng-container *ngIf="descs.length === 1">
+          <ng-container [formGroupName]="perm[0]" *ngFor="let perm of perms">
+            <p class="tag">{{ perm[1] }}</p>
 
-          <mat-checkbox [formControlName]="flag" *ngFor="let flag of flags">
-          </mat-checkbox>
+            <mat-checkbox [formControlName]="flag" *ngFor="let flag of flags">
+            </mat-checkbox>
+          </ng-container>
         </ng-container>
-      </ng-container>
 
-      <ng-container *ngIf="descs.length > 1">
-        <ng-container [formGroupName]="perm[0]" *ngFor="let perm of perms">
-          <div class="tag">{{ perm[1] }}</div>
+        <ng-container *ngIf="descs.length > 1">
+          <ng-container [formGroupName]="perm[0]" *ngFor="let perm of perms">
+            <p class="tag">{{ perm[1] }}</p>
 
-          <ternimal-tristate
-            [formControlName]="flag"
-            *ngFor="let flag of flags"
-          >
-          </ternimal-tristate>
+            <ternimal-tristate
+              [formControlName]="flag"
+              *ngFor="let flag of flags"
+            >
+            </ternimal-tristate>
+          </ng-container>
         </ng-container>
-      </ng-container>
-    </div>
+      </article>
+    </fieldset>
 
     <table *ngIf="descs.length === 1" class="info">
       <tr>
@@ -93,10 +96,10 @@
       </tr>
     </table>
 
-    <div *ngIf="loading" class="info">
+    <p *ngIf="loading" class="info">
       <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"> </fa-icon>
       Loading file and directory analysis...
-    </div>
+    </p>
 
     <figure #wrapper class="wrapper">
       <canvas #canvas class="chart"> </canvas>

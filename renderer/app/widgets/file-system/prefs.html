@@ -1,6 +1,6 @@
-<section>
-  <header>
-    <div class="icon">
+<section class="prefs">
+  <header class="header">
+    <figure class="icon">
       <fa-icon
         [classes]="['fa-icon-shadow']"
         [fixedWidth]="true"
@@ -9,14 +9,12 @@
         size="lg"
       >
       </fa-icon>
-    </div>
+    </figure>
 
-    <h3>
-      File System Setup
-    </h3>
+    <h3>File System Setup</h3>
   </header>
 
-  <form [formGroup]="prefsForm" novalidate spellcheck="false">
+  <form [formGroup]="prefsForm" class="prefsForm" novalidate spellcheck="false">
     <ul class="tabs">
       <li
         (click)="rescope('global')"
@@ -49,12 +47,10 @@
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Content
-          </mat-panel-title>
+          <mat-panel-title> Content </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <article class="group">
+        <fieldset class="group">
           <mat-checkbox
             *ngIf="prefs.scope === 'global'"
             formControlName="showHiddenFiles"
@@ -94,20 +90,16 @@
               Show {{ dict.tag }}
             </ternimal-tristate>
           </ng-container>
-        </article>
+        </fieldset>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Sort Options
-          </mat-panel-title>
+          <mat-panel-title> Sort Options </mat-panel-title>
         </mat-expansion-panel-header>
 
         <mat-radio-group class="group" formControlName="sortDirectories">
-          <label class="label">
-            How to Sort Directories
-          </label>
+          <label class="label"> How to Sort Directories </label>
 
           <mat-radio-button
             [value]="null"
@@ -119,26 +111,18 @@
           <mat-radio-button value="alpha">
             Alphabetically with files
           </mat-radio-button>
-          <mat-radio-button value="first">
-            Before all files
-          </mat-radio-button>
-          <mat-radio-button value="last">
-            After all files
-          </mat-radio-button>
+          <mat-radio-button value="first"> Before all files </mat-radio-button>
+          <mat-radio-button value="last"> After all files </mat-radio-button>
         </mat-radio-group>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Formatting Options
-          </mat-panel-title>
+          <mat-panel-title> Formatting Options </mat-panel-title>
         </mat-expansion-panel-header>
 
         <mat-radio-group class="group" formControlName="quantityFormat">
-          <label class="label">
-            How to Show Size
-          </label>
+          <label class="label"> How to Show Size </label>
 
           <mat-radio-button
             [value]="null"
@@ -161,16 +145,12 @@
 
       <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Date and Time
-          </mat-panel-title>
+          <mat-panel-title> Date and Time </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="group outer">
+        <fieldset class="group outer">
           <mat-radio-group class="group" formControlName="dateFormat">
-            <label class="label">
-              Select Date Format
-            </label>
+            <label class="label"> Select Date Format </label>
 
             <mat-radio-button
               [value]="null"
@@ -179,9 +159,7 @@
             >
               Default
             </mat-radio-button>
-            <mat-radio-button value="ago">
-              an hour ago
-            </mat-radio-button>
+            <mat-radio-button value="ago"> an hour ago </mat-radio-button>
             <mat-radio-button value="shortDate">
               {{ today | date:'shortDate' }}
             </mat-radio-button>
@@ -197,9 +175,7 @@
           </mat-radio-group>
 
           <mat-radio-group class="group" formControlName="timeFormat">
-            <label class="label">
-              Select Time Format
-            </label>
+            <label class="label"> Select Time Format </label>
 
             <mat-radio-button
               [value]="null"
@@ -208,9 +184,7 @@
             >
               Default
             </mat-radio-button>
-            <mat-radio-button value="none">
-              Don't show time
-            </mat-radio-button>
+            <mat-radio-button value="none"> Don't show time </mat-radio-button>
             <mat-radio-button value="shortTime">
               {{ today | date:'shortTime' }}
             </mat-radio-button>
@@ -224,7 +198,7 @@
               {{ today | date:'fullTime' }}
             </mat-radio-button>
           </mat-radio-group>
-        </div>
+        </fieldset>
       </mat-expansion-panel>
     </mat-accordion>
   </form>

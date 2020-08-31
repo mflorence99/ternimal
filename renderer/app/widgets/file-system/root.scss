@@ -25,7 +25,7 @@
       max-width: 0;
       width: 100%;
 
-      > div {
+      & .withIcons {
         overflow: hidden;
         text-overflow: ellipsis;
       }

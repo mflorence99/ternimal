@@ -33,7 +33,7 @@
         <td [ngClass]="dict.name" *ngIf="effectivePrefs.visibility[dict.name]">
           <ng-container *ngIf="table.isHydrated(desc.path)">
             <ng-container *ngIf="['name'].includes(dict.name)">
-              <div ternimalDraggable>
+              <article class="withIcons" ternimalDraggable>
                 <span [ngStyle]="{'padding-left.rem': level(desc)}"> </span>
 
                 <fa-icon
@@ -73,7 +73,7 @@
                 </ng-container>
 
                 {{ desc[dict.name] }}
-              </div>
+              </article>
             </ng-container>
 
             <ng-container *ngIf="['size'].includes(dict.name)">
@@ -111,22 +111,22 @@
                 {{ desc[dict.name] | date:effectivePrefs.dateFormat }}
               </ng-container>
 
-              <div
+              <article
                 *ngIf="(effectivePrefs.dateFormat !== 'ago') && (effectivePrefs.timeFormat !== 'none')"
                 class="datetime"
               >
-                <div class="date">
+                <p class="date">
                   {{ desc[dict.name] | date:effectivePrefs.dateFormat }}
-                </div>
+                </p>
 
-                <div class="time">
+                <p class="time">
                   {{ desc[dict.name] | date:effectivePrefs.timeFormat }}
-                </div>
-              </div>
+                </p>
+              </article>
             </ng-container>
 
             <ng-container *ngIf="['mode', 'user', 'group'].includes(dict.name)">
-              <div class="monospace">{{ desc[dict.name] }}</div>
+              <p class="monospace">{{ desc[dict.name] }}</p>
             </ng-container>
           </ng-container>
         </td>

@@ -52,6 +52,17 @@
       }
     }
 
+    // NOTE: <fieldset> does not appear to honor grid on Chrome
+    // @see https://stackoverflow.com/questions/51076747/
+
+    fieldset.group > *:not(:first-child) {
+      margin-top: 0.5rem;
+    }
+
+    fieldset.group.outer > *:not(:first-child) {
+      margin-top: 1.5rem;
+    }
+
     .screenshot {
       cursor: pointer;
       width: 16rem;

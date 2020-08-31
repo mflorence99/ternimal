@@ -175,30 +175,30 @@
         (execute)="executeCommand(menuItem)"
         [enabled]="isCommandEnabled.bind(this, menuItem)"
       >
-        <div>{{ menuItem.description }}</div>
-        <div *ngIf="menuItem.accelerator" class="accelerator monospace">
+        <p>{{ menuItem.description }}</p>
+        <p *ngIf="menuItem.accelerator" class="accelerator monospace">
           {{ menuItem.accelerator.description }}
-        </div>
+        </p>
       </ng-template>
     </ng-container>
 
-    <ng-template contextMenuItem divider="true"> </ng-template>
+    <ng-template contextMenuItem pider="true"> </ng-template>
   </ng-container>
 
   <ng-template contextMenuItem (execute)="splitUp()">
-    <div>Split up</div>
+    <p>Split up</p>
   </ng-template>
 
   <ng-template contextMenuItem (execute)="splitDown()">
-    <div>Split down</div>
+    <p>Split down</p>
   </ng-template>
 
   <ng-template contextMenuItem (execute)="splitLeft()">
-    <div>Split left</div>
+    <p>Split left</p>
   </ng-template>
 
   <ng-template contextMenuItem (execute)="splitRight()">
-    <div>Split right</div>
+    <p>Split right</p>
   </ng-template>
 
   <ng-template contextMenuItem divider="true"> </ng-template>
@@ -208,6 +208,6 @@
     (execute)="close()"
     [enabled]="isCloseEnabled.bind(this)"
   >
-    <div>Close this panel</div>
+    <p>Close this panel</p>
   </ng-template>
 </context-menu>
