@@ -52,7 +52,8 @@ export interface TernimalStateModel {
     widgetSidebarImpl: null
   }
 })
-export class TernimalState extends NgxsDataRepository<TernimalStateModel>
+export class TernimalState
+  extends NgxsDataRepository<TernimalStateModel>
   implements NgxsOnInit {
   //
   constructor(public electron: ElectronService) {

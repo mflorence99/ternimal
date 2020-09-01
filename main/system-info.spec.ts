@@ -6,12 +6,12 @@ import { SystemInfo } from './common';
 import * as electron from 'electron';
 
 describe('system-info', () => {
-  let event;
+  const event = {
+    returnValue: null
+  };
 
   beforeEach(() => {
-    event = {
-      returnValue: null
-    };
+    event.returnValue = null;
   });
 
   test('systemInfo', () => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Channels } from './common';
 
 import * as electron from 'electron';
@@ -19,11 +20,13 @@ ipcMain.on(Channels.nativeClipboardWrite, (_, text: string): void => {
   clipboard.writeText(text);
 });
 
-ipcMain.on(Channels.nativeDragStart, (event, file: string): void => {
-  app.getFileIcon(file).then((icon) => {
+ipcMain.on(
+  Channels.nativeDragStart,
+  async (event, file: string): Promise<void> => {
+    const icon = await app.getFileIcon(file);
     event.sender.startDrag({ file, icon });
-  });
-});
+  }
+);
 
 ipcMain.on(Channels.nativeOpen, (_, path: string): void => {
   opener(path);

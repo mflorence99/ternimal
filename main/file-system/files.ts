@@ -5,8 +5,9 @@ import * as async from 'async';
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import * as touch from 'touch';
-import * as trash from 'trash';
+
+import touch = require('touch');
+import trash = require('trash');
 
 const { ipcMain } = electron;
 

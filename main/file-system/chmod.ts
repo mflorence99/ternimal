@@ -5,7 +5,8 @@ import { Chmod } from '../common';
 import * as async from 'async';
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
-import * as Mode from 'stat-mode';
+
+import Mode = require('stat-mode');
 
 const { ipcMain } = electron;
 

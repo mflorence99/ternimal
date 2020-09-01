@@ -11,8 +11,9 @@ import * as async from 'async';
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import * as recursive from 'recursive-readdir';
 import * as util from 'util';
+
+import recursive = require('recursive-readdir');
 
 const { ipcMain } = electron;
 

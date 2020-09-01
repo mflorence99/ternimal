@@ -8,11 +8,12 @@ import { saveColors } from './icons';
 
 import * as async from 'async';
 import * as electron from 'electron';
-import * as filewatcher from 'filewatcher';
 import * as fs from 'fs-extra';
-import * as Mode from 'stat-mode';
 import * as os from 'os';
 import * as path from 'path';
+
+import filewatcher = require('filewatcher');
+import Mode = require('stat-mode');
 
 const { ipcMain } = electron;
 

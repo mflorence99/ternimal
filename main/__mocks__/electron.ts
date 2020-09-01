@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import Clipboard = require('./electron-clipboard');
+
 const app = {
+  getFileIcon: (file): Promise<string> => Promise.resolve(file),
   on: jest.fn((channel, cb) => (electron.callbacks[channel] = cb)),
   quit: jest.fn()
 };
@@ -18,6 +21,8 @@ class BrowserWindow {
   constructor(public options: any) {}
 }
 
+const clipboard = new Clipboard();
+
 const ipcMain = {
   on: jest.fn((channel, cb) => (electron.callbacks[channel] = cb))
 };
@@ -29,6 +34,7 @@ const electron = {
   // public API
   app,
   BrowserWindow,
+  clipboard,
   ipcMain
 };
 

@@ -21,7 +21,7 @@ describe('local-storage', () => {
     expect(store['options']).toEqual({ name: 'config.prod' });
   });
 
-  test('clear', () => {
+  test('localStorageClear', () => {
     store.set('xxx', 'yyy');
     expect(store.get('xxx')).toBe('yyy');
     const callbacks = electron['callbacks'];
@@ -29,14 +29,14 @@ describe('local-storage', () => {
     expect(store.has('xxx')).toBe(false);
   });
 
-  test('getItem', () => {
+  test('localStorageGetItem', () => {
     store.set('xxx', 'yyy');
     const callbacks = electron['callbacks'];
     callbacks[Channels.localStorageGetItem](event, 'xxx');
     expect(event.returnValue).toEqual('yyy');
   });
 
-  test('key', () => {
+  test('localStorageKey', () => {
     store.set('a', 1);
     store.set('b', 2);
     store.set('c', 3);
@@ -45,7 +45,7 @@ describe('local-storage', () => {
     expect(event.returnValue).toEqual('b');
   });
 
-  test('removeItem', () => {
+  test('localStorageRemoveItem', () => {
     store.set('a', 1);
     store.set('b', 2);
     store.set('c', 3);
@@ -55,7 +55,7 @@ describe('local-storage', () => {
     expect(store.has('b')).toBe(false);
   });
 
-  test('setItem', () => {
+  test('localStorageSetItem', () => {
     store.set('a', 1);
     store.set('c', 3);
     expect(store.has('b')).toBe(false);
