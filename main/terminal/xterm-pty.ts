@@ -22,7 +22,24 @@ const connected = new Set<string>();
 const ptys: Record<string, nodePty.IPty> = {};
 const scrollbacks: Record<string, typeof CBuffer> = {};
 
-const connect = (id: string, cwd: string): void => {
+// @see https://stackoverflow.com/questions/15939380/
+export const findCWD = debounce((pid: number, callback): void => {
+  switch (os.type()) {
+    case 'Linux':
+      fs.readlink(`/proc/${pid}/cwd`, callback);
+      break;
+    case 'Darwin':
+      child_process.exec(
+        `lsof -a -d cwd -p ${pid} | tail -1 | awk '{print $9}'`,
+        callback
+      );
+      break;
+    default:
+      callback('unsupported OS', null);
+  }
+}, cwdDebounceTimeout);
+
+export const xtermConnect = (_, id: string, cwd: string): void => {
   const theWindow = globalThis.theWindow;
   let pty = ptys[id];
   if (!pty) {
@@ -38,7 +55,7 @@ const connect = (id: string, cwd: string): void => {
     ptys[id] = pty;
     scrollbacks[id] = new CBuffer(maxScrollback);
     // route data to xterm while still connected
-    let prevCWD: string;
+    let prevCWD: string = null;
     pty.onData((data: string): void => {
       if (connected.has(id))
         theWindow?.webContents.send(Channels.xtermFromPty, id, data);
@@ -59,65 +76,42 @@ const connect = (id: string, cwd: string): void => {
   }
 };
 
-const disconnect = (id: string): void => {
+export const xtermDisconnect = (_, id: string): void => {
   connected.delete(id);
 };
 
-// @see https://stackoverflow.com/questions/15939380/
-const findCWD = debounce((pid: number, callback): void => {
-  switch (os.type()) {
-    case 'Linux':
-      fs.readlink(`/proc/${pid}/cwd`, callback);
-      break;
-    case 'Darwin':
-      child_process.exec(
-        `lsof -a -d cwd -p ${pid} | tail -1 | awk '{print $9}'`,
-        callback
-      );
-      break;
-    default:
-      callback('unsupported OS');
-  }
-}, cwdDebounceTimeout);
-
-const kill = (id: string): void => {
-  disconnect(id);
+export const xtermKill = (_, id: string): void => {
+  xtermDisconnect(_, id);
   ptys[id]?.kill();
   delete ptys[id];
   delete scrollbacks[id];
 };
 
-const resize = (id: string, cols: number, rows: number): void => {
+export const xtermResizePty = (
+  _,
+  id: string,
+  cols: number,
+  rows: number
+): void => {
   ptys[id]?.resize(cols, rows);
 };
 
-const write = (id: string, data: string): void => {
+export const xtermToPty = (_, id: string, data: string): void => {
   ptys[id]?.write(data);
 };
 
 app.on('window-all-closed', () => {
-  Object.keys(ptys).forEach((id) => kill(id));
+  Object.keys(ptys).forEach((id) => xtermKill(undefined, id));
 });
 
-ipcMain.on(Channels.xtermConnect, (_, id: string, cwd: string): void => {
-  connect(id, cwd);
-});
+ipcMain.on(Channels.xtermConnect, xtermConnect);
 
-ipcMain.on(Channels.xtermDisconnect, (_, id: string): void => {
-  disconnect(id);
-});
+ipcMain.on(Channels.xtermDisconnect, xtermDisconnect);
 
-ipcMain.on(Channels.xtermKill, (_, id: string): void => {
-  kill(id);
-});
+ipcMain.on(Channels.xtermKill, xtermKill);
 
-ipcMain.on(Channels.xtermToPty, (_, id: string, data: string): void => {
-  write(id, data);
-});
+ipcMain.on(Channels.xtermResizePty, xtermResizePty);
 
-ipcMain.on(
-  Channels.xtermResizePty,
-  (_, id: string, cols: number, rows: number): void => {
-    resize(id, cols, rows);
-  }
-);
+ipcMain.on(Channels.xtermToPty, xtermToPty);
+
+ipcMain.on(Channels.xtermResizePty, xtermResizePty);

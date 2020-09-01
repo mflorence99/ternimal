@@ -33,7 +33,9 @@ describe('ternimal', () => {
     const theWindow = globalThis.theWindow;
     const call = theWindow.loadURL.mock.calls[0];
     const url = call[0];
-    expect(url).toBe(`file://${path.join(__dirname, 'index.html')}`);
+    expect(url).toBe(
+      `file://${path.join(__dirname, '..', 'renderer', 'index.html')}`
+    );
   });
 
   test('ready (getBounds)', () => {

@@ -11,7 +11,11 @@ const psList = require('ps-list');
 
 const { ipcMain } = electron;
 
-const business = async (): Promise<void> => {
+export const processListKill = (_, pids: number[]): void => {
+  pids.forEach((pid) => process.kill(pid, 'SIGTERM'));
+};
+
+export const processListRequest = async (): Promise<void> => {
   const processes = await psList();
   const ps = processes.filter((item) => item.cpu > 0);
   const statsByPID = await pidUsage(ps.map((item) => item.pid));
@@ -48,9 +52,7 @@ const business = async (): Promise<void> => {
   theWindow?.webContents.send(Channels.processListResponse, processList);
 };
 
-ipcMain.on(Channels.processListKill, (event: any, pids: number[]) => {
-  pids.forEach((pid) => process.kill(pid, 'SIGTERM'));
-});
+ipcMain.on(Channels.processListKill, processListKill);
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-ipcMain.on(Channels.processListRequest, business);
+ipcMain.on(Channels.processListRequest, processListRequest);

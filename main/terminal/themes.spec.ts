@@ -1,15 +1,23 @@
-import './themes';
-
-import * as electron from 'electron';
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const { BrowserWindow } = electron;
+import { getAvailableThemes } from './themes';
+import { loadTheme } from './themes';
 
 describe('themes', () => {
-  let theWindow;
+  test('getAvailableThemes', () => {
+    const themes = getAvailableThemes();
+    expect(themes.length).toBeGreaterThan(1);
+    expect(themes).toContain('3024 Day');
+    expect(themes).toContain('Zenburn');
+  });
 
-  beforeEach(() => {
-    theWindow = new BrowserWindow({});
-    globalThis.theWindow = theWindow;
+  test('loadTheme', () => {
+    const theme = loadTheme('(Built-in Theme)');
+    expect(theme).toEqual({
+      colors: {
+        primary: {
+          background: 'transparent',
+          foreground: '#F5F5F5'
+        }
+      }
+    });
   });
 });

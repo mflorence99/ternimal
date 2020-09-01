@@ -10,20 +10,28 @@ const { ipcMain } = electron;
 
 const cache: Record<string, Theme> = {};
 
-ipcMain.on(Channels.getAvailableThemes, (event: Event) => {
+export const getAvailableThemes = (): string[] => {
   const themes = path.join(__dirname, '..', '..', 'themes');
   const names = fs.readdirSync(themes);
-  event.returnValue = names
+  return names
     .map((name) => path.basename(name, '.yml'))
-    .sort() as any;
-});
+    .sort((p, q) => p.toLowerCase().localeCompare(q.toLowerCase()));
+};
 
-ipcMain.on(Channels.loadTheme, (event: Event, nm: string) => {
+export const loadTheme = (nm: string): Theme => {
   let theme = cache[nm];
   if (!theme) {
     const themePath = path.join(__dirname, '..', '..', 'themes', nm + '.yml');
     theme = YAML.parse(fs.readFileSync(themePath).toString());
     cache[nm] = theme;
   }
-  event.returnValue = theme as any;
+  return theme;
+};
+
+ipcMain.on(Channels.getAvailableThemes, (event: Event) => {
+  event.returnValue = getAvailableThemes() as any;
+});
+
+ipcMain.on(Channels.loadTheme, (event: Event, nm: string) => {
+  event.returnValue = loadTheme(nm) as any;
 });
