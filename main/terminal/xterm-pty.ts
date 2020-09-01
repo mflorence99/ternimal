@@ -3,24 +3,25 @@ import { Channels } from '../common';
 import { cwdDebounceTimeout } from '../common';
 import { maxScrollback } from '../common';
 
-import * as CBuffer from 'CBuffer';
 import * as child_process from 'child_process';
 import * as electron from 'electron';
 import * as fs from 'fs';
-import * as nodePty from 'node-pty';
 import * as os from 'os';
 import * as process from 'process';
 
 import { debounce } from 'debounce';
+
+import nodePty = require('node-pty');
+import CBuffer = require('CBuffer');
 
 const { app, ipcMain } = electron;
 
 // node-pty is not yet context aware
 app.allowRendererProcessReuse = false;
 
-const connected = new Set<string>();
-const ptys: Record<string, nodePty.IPty> = {};
-const scrollbacks: Record<string, typeof CBuffer> = {};
+export const connected = new Set<string>();
+export const ptys: Record<string, nodePty.IPty> = {};
+export const scrollbacks: Record<string, typeof CBuffer> = {};
 
 // @see https://stackoverflow.com/questions/15939380/
 export const findCWD = debounce((pid: number, callback): void => {

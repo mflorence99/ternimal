@@ -4,6 +4,8 @@ import { Channels } from './common';
 
 import * as electron from 'electron';
 
+// @see __mocks__/electron.ts
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const { BrowserWindow } = electron;
 

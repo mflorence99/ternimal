@@ -6,7 +6,7 @@ import { isLongRunningOpCanceled } from './long-running-op';
 
 import * as electron from 'electron';
 
-// @see __mocks__/electron.s
+// @see __mocks__/electron.ts
 
 describe('long-running-op', () => {
   test('longRunningOpCancel', () => {});

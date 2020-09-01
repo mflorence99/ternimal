@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" time="4.384">
-  <testsuite name="xterm-pty" errors="0" failures="0" skipped="0" timestamp="2020-09-01T11:47:24" time="3.8" tests="1">
+<testsuites name="jest tests" tests="6" failures="0" time="4.734">
+  <testsuite name="xterm-pty" errors="0" failures="0" skipped="0" timestamp="2020-09-01T21:07:13" time="4.183" tests="6">
     <testcase classname="xterm-pty findCWD" name="xterm-pty findCWD" time="0.511">
+    </testcase>
+    <testcase classname="xterm-pty xtermConnect" name="xterm-pty xtermConnect" time="0.008">
+    </testcase>
+    <testcase classname="xterm-pty xtermDisconnect" name="xterm-pty xtermDisconnect" time="0.002">
+    </testcase>
+    <testcase classname="xterm-pty xtermKill" name="xterm-pty xtermKill" time="0.003">
+    </testcase>
+    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0.003">
+    </testcase>
+    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0.002">
     </testcase>
   </testsuite>
 </testsuites>

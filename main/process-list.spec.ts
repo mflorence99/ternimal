@@ -7,6 +7,8 @@ import { processListRequest } from './process-list';
 
 import * as electron from 'electron';
 
+// @see __mocks__/electron.ts
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const { BrowserWindow } = electron;
 

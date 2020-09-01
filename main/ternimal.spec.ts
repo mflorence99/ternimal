@@ -6,6 +6,8 @@ import { store } from './local-storage';
 import * as electron from 'electron';
 import * as path from 'path';
 
+// @see __mocks__/electron.ts
+
 describe('ternimal', () => {
   beforeEach(() => {
     const theWindow = globalThis.theWindow;

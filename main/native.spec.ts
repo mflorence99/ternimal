@@ -6,7 +6,7 @@ import * as electron from 'electron';
 
 import opener = require('opener');
 
-// @see __mocks__/electron.s
+// @see __mocks__/electron.ts
 // @see __mocks__/electron-clipboard.ts
 // @see __mocks__/opener.ts
 

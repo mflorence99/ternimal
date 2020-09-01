@@ -4,7 +4,7 @@ import { store } from './local-storage';
 
 import * as electron from 'electron';
 
-// @see __mocks__/electron.s
+// @see __mocks__/electron.ts
 // @see __mocks__/electron-store.ts
 
 describe('local-storage', () => {
