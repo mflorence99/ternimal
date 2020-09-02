@@ -3,6 +3,7 @@ import Clipboard = require('./electron-clipboard');
 
 const app = {
   getFileIcon: (file): Promise<string> => Promise.resolve(file),
+  getPath: (nm): string => nm,
   on: jest.fn((channel, cb) => (electron.callbacks[channel] = cb)),
   quit: jest.fn()
 };

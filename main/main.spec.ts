@@ -14,7 +14,7 @@ export const waitableJestFn = (times = 1): WaitableMock => {
   return mock;
 };
 
-describe('Components tests helpers', () => {
+describe('Electron tests helpers', () => {
   test('Dummy test', () => {
     expect(true).toBeTruthy();
   });

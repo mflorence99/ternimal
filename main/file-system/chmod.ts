@@ -10,9 +10,13 @@ import Mode = require('stat-mode');
 
 const { ipcMain } = electron;
 
-const business = async (paths: string[], chmod: Chmod): Promise<void> => {
+export const fsChmod = async (
+  _,
+  paths: string[],
+  chmod: Chmod
+): Promise<void> => {
   const originalStats = await statsByPath(paths);
-  const successes = await performChmod(paths, originalStats, chmod);
+  const successes = await fsChmodImpl(paths, originalStats, chmod);
   // now we have a list of those that succeeded
   // if any failed, we want to undo those that succeeded
   if (paths.length !== successes.length) {
@@ -20,11 +24,11 @@ const business = async (paths: string[], chmod: Chmod): Promise<void> => {
       (path) => !successes.find((success) => success === path)
     );
     report(failures);
-    if (successes.length > 0) undo(successes, originalStats);
+    if (successes.length > 0) await undo(successes, originalStats);
   }
 };
 
-const performChmod = async (
+export const fsChmodImpl = async (
   paths: string[],
   originalStats: Record<string, fs.Stats>,
   chmod: Chmod
@@ -51,7 +55,7 @@ const performChmod = async (
   });
 };
 
-const report = (failures: string[]): void => {
+export const report = (failures: string[]): void => {
   if (failures.length > 0) {
     const theWindow = globalThis.theWindow;
     let message = `Permission denied ${failures[0]}`;
@@ -61,27 +65,28 @@ const report = (failures: string[]): void => {
   }
 };
 
-const statsByPath = async (
+export const statsByPath = async (
   paths: string[]
 ): Promise<Record<string, fs.Stats>> => {
   const hash = Object.fromEntries(paths.map((path) => [path, path]));
-  return await async.mapValuesSeries(
-    hash,
-    async (path) => await fs.lstat(path)
-  );
+  return await async.mapValuesSeries(hash, async (path) => {
+    try {
+      return await fs.lstat(path);
+    } catch (ignored) {
+      return { mode: 0 };
+    }
+  });
 };
 
-const undo = (
+export const undo = async (
   paths: string[],
   originalStats: Record<string, fs.Stats>
-): void => {
-  async.eachSeries(paths, async (path) => {
+): Promise<void> => {
+  await async.eachSeries(paths, async (path) => {
     // reset the mode of every supplied path
     const mode = Mode(originalStats[path]);
     await fs.chmod(path, mode.toOctal());
   });
 };
 
-ipcMain.on(Channels.fsChmod, (_, paths: string[], chmod: Chmod): void => {
-  business(paths, chmod);
-});
+ipcMain.on(Channels.fsChmod, fsChmod);
