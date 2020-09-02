@@ -50,6 +50,7 @@
         font-weight: bold;
         max-width: 6rem;
         overflow: hidden;
+        text-align: left;
         text-overflow: ellipsis;
         text-transform: uppercase;
         white-space: nowrap;
@@ -57,6 +58,10 @@
       }
 
       td.numeric {
+        text-align: right;
+      }
+
+      th.numeric {
         text-align: right;
       }
     }
@@ -76,7 +81,18 @@
       // NOTE: hack of sidenav width minus padding
       height: 14rem;
       margin-top: 2rem;
+      position: relative;
       width: 14rem;
+
+      .tooltip {
+        background-color: var(--mat-grey-700);
+        left: -0.5rem;
+        padding: 0 0.5rem 2rem 0.5rem;
+        position: absolute;
+        top: 14.5rem;
+        width: 15rem;
+        z-index: 1;
+      }
     }
   }
 }

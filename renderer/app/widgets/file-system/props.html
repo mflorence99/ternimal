@@ -103,6 +103,30 @@
 
     <figure #wrapper class="wrapper">
       <canvas #canvas class="chart"> </canvas>
+
+      <figcaption *ngIf="tooltip" class="tooltip">
+        <table class="info">
+          <tr>
+            <th></th>
+            <th class="numeric">SIZE</th>
+            <th class="numeric">COUNT</th>
+          </tr>
+          <tr>
+            <td class="ext monospace">
+              <fa-icon
+                [fixedWidth]="true"
+                [icon]="tooltip.icon"
+                [ngStyle]="{color: tooltip.color}"
+                size="lg"
+              >
+              </fa-icon>
+              {{ tooltip.ext || '&mdash;' }}
+            </td>
+            <td class="numeric">{{ tooltip.size | ternimalNumeral:'0b' }}</td>
+            <td class="numeric">{{ tooltip.count | ternimalNumeral:'0,0' }}</td>
+          </tr>
+        </table>
+      </figcaption>
     </figure>
 
     <table *ngIf="digests.length > 0" class="info">

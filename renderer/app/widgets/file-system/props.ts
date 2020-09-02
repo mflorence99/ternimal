@@ -3,7 +3,6 @@ import { Channels } from '../../common';
 import { Chmod } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { FileDescriptor } from '../../common';
-import { NumeralPipe } from '../../pipes/numeral';
 import { Params } from '../../services/params';
 import { TernimalState } from '../../state/ternimal';
 import { Utils } from '../../services/utils';
@@ -60,6 +59,8 @@ export class FileSystemPropsComponent
   propsForm: FormGroup;
   sortColumn: SortColumn = 'size';
   sortDir: SortDir = 'desc';
+  tooltip: AnalysisDigest;
+  top: AnalysisDigest[] = [];
   totalSize = 0;
 
   @Input() widget: Widget;
@@ -182,19 +183,12 @@ export class FileSystemPropsComponent
         },
         responsive: false,
         tooltips: {
-          backgroundColor: this.utils.colorOf(this.host, '--mat-grey-850', 1),
-          callbacks: {
-            label: (tooltipItem, data): string => {
-              const label = data.labels[tooltipItem.index] as string;
-              const value =
-                data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-              const numeral = new NumeralPipe();
-              return `${label.toUpperCase()} ${numeral.transform(value, '0b')}`;
-            },
-            labelTextColor: (_tooltipItem, _chart): string =>
-              this.utils.colorOf(this.host, '--text-color', 1)
+          custom: (tooltipModel: Chart.ChartTooltipModel): void => {
+            console.log(tooltipModel.dataPoints);
+            this.tooltip = this.top[tooltipModel.dataPoints?.[0].index];
+            this.cdf.markForCheck();
           },
-          enabled: true
+          enabled: false
         }
       }
     });
@@ -236,7 +230,7 @@ export class FileSystemPropsComponent
   private updateChart(): void {
     // extract top N and the rest
     const n = this.params.maxPieWedges;
-    const top =
+    this.top =
       this.sortDir === 'asc'
         ? this.digests.slice(-n)
         : this.digests.slice(0, n);
@@ -259,16 +253,16 @@ export class FileSystemPropsComponent
           size: 0
         }
       );
-      top.push(others);
+      this.top.push(others);
     }
     // load top results into chart
-    this.chart.data.datasets[0].backgroundColor = top.map((p) =>
+    this.chart.data.datasets[0].backgroundColor = this.top.map((p) =>
       this.utils.colorOf(this.host, p.color, 0.66)
     );
-    this.chart.data.datasets[0].data = top.map((p) =>
+    this.chart.data.datasets[0].data = this.top.map((p) =>
       this.sortColumn === 'count' ? p.count : p.size
     );
-    this.chart.data.labels = top.map((p) => p.ext || '--');
+    this.chart.data.labels = this.top.map((p) => p.ext || '--');
     this.chart.update();
   }
 
