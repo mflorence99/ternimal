@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="6" failures="0" time="4.734">
-  <testsuite name="xterm-pty" errors="0" failures="0" skipped="0" timestamp="2020-09-01T21:07:13" time="4.183" tests="6">
-    <testcase classname="xterm-pty findCWD" name="xterm-pty findCWD" time="0.511">
+<testsuites name="jest tests" tests="2" failures="0" time="4.135">
+  <testsuite name="icons" errors="0" failures="0" skipped="0" timestamp="2020-09-02T14:29:12" time="3.589" tests="2">
+    <testcase classname="icons makeColor" name="icons makeColor" time="0.003">
     </testcase>
-    <testcase classname="xterm-pty xtermConnect" name="xterm-pty xtermConnect" time="0.008">
-    </testcase>
-    <testcase classname="xterm-pty xtermDisconnect" name="xterm-pty xtermDisconnect" time="0.002">
-    </testcase>
-    <testcase classname="xterm-pty xtermKill" name="xterm-pty xtermKill" time="0.003">
-    </testcase>
-    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0.003">
-    </testcase>
-    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0.002">
+    <testcase classname="icons makeIcon" name="icons makeIcon" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
