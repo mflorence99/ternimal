@@ -17,7 +17,7 @@ import recursive = require('recursive-readdir');
 
 const { ipcMain } = electron;
 
-const business = async (paths: string[]): Promise<void> => {
+export const fsAnalyze = async (_, paths: string[]): Promise<void> => {
   const theWindow = globalThis.theWindow;
   try {
     const stats = await itemizePaths(paths);
@@ -29,7 +29,7 @@ const business = async (paths: string[]): Promise<void> => {
   }
 };
 
-const itemizePaths = async (
+export const itemizePaths = async (
   paths: string[]
 ): Promise<Record<string, fs.Stats>> => {
   let hash: Record<string, fs.Stats> = {};
@@ -46,7 +46,9 @@ const itemizePaths = async (
   return hash;
 };
 
-const performAnalysis = (stats: Record<string, fs.Stats>): AnalysisByExt => {
+export const performAnalysis = (
+  stats: Record<string, fs.Stats>
+): AnalysisByExt => {
   const analysis: AnalysisByExt = {};
   Object.entries(stats).forEach(([name, stat]) => {
     const ext = path.extname(name);
@@ -67,7 +69,7 @@ const performAnalysis = (stats: Record<string, fs.Stats>): AnalysisByExt => {
   return analysis;
 };
 
-const statsByPath = async (
+export const statsByPath = async (
   paths: string[]
 ): Promise<Record<string, fs.Stats>> => {
   const hash = Object.fromEntries(paths.map((path) => [path, path]));
@@ -80,6 +82,4 @@ const statsByPath = async (
   });
 };
 
-ipcMain.on(Channels.fsAnalyze, (_, paths: string[]): void => {
-  business(paths);
-});
+ipcMain.on(Channels.fsAnalyze, fsAnalyze);

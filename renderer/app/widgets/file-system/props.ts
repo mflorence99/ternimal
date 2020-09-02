@@ -3,6 +3,7 @@ import { Channels } from '../../common';
 import { Chmod } from '../../common';
 import { DestroyService } from '../../services/destroy';
 import { FileDescriptor } from '../../common';
+import { NumeralPipe } from '../../pipes/numeral';
 import { Params } from '../../services/params';
 import { TernimalState } from '../../state/ternimal';
 import { Utils } from '../../services/utils';
@@ -176,11 +177,23 @@ export class FileSystemPropsComponent
         ]
       },
       options: {
-        responsive: false,
         legend: {
           display: false
         },
+        responsive: false,
         tooltips: {
+          backgroundColor: this.utils.colorOf(this.host, '--mat-grey-850', 1),
+          callbacks: {
+            label: (tooltipItem, data): string => {
+              const label = data.labels[tooltipItem.index] as string;
+              const value =
+                data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+              const numeral = new NumeralPipe();
+              return `${label.toUpperCase()} ${numeral.transform(value, '0b')}`;
+            },
+            labelTextColor: (_tooltipItem, _chart): string =>
+              this.utils.colorOf(this.host, '--text-color', 1)
+          },
           enabled: true
         }
       }
