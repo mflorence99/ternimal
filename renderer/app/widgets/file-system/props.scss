@@ -27,6 +27,12 @@
       width: 3rem;
     }
 
+    .name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .sub-header {
       font-size: smaller;
       font-weight: lighter;
@@ -63,6 +69,10 @@
 
       th.numeric {
         text-align: right;
+      }
+
+      tr {
+        vertical-align: top;
       }
     }
 

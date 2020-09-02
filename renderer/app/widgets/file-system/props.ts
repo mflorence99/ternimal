@@ -184,7 +184,6 @@ export class FileSystemPropsComponent
         responsive: false,
         tooltips: {
           custom: (tooltipModel: Chart.ChartTooltipModel): void => {
-            console.log(tooltipModel.dataPoints);
             this.tooltip = this.top[tooltipModel.dataPoints?.[0].index];
             this.cdf.markForCheck();
           },

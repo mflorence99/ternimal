@@ -11,8 +11,8 @@
       </fa-icon>
     </figure>
 
-    <h3>
-      {{ desc.name | ternimalBreakable:14 }}
+    <h3 class="name">
+      {{ desc.name }}
       <p *ngIf="descs.length > 1" class="sub-header">
         + {{ descs.length - 1 }} others
       </p>
@@ -51,6 +51,10 @@
     </fieldset>
 
     <table *ngIf="descs.length === 1" class="info">
+      <tr>
+        <td>Name</td>
+        <td class="name">{{ desc.name | ternimalBreakable:14}}</td>
+      </tr>
       <tr>
         <td>Size</td>
         <td class="size">
