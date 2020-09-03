@@ -57,8 +57,12 @@
       </tr>
       <tr>
         <td>Size</td>
-        <td class="size">
-          {{ (desc.isDirectory? totalSize : desc.size) | ternimalNumeral:'0b' }}
+        <td *ngIf="desc.isDirectory" class="size">
+          {{ totalCount | ternimalNumeral:'0,0' }} files, {{ totalSize |
+          ternimalNumeral:'0b' }}
+        </td>
+        <td *ngIf="!desc.isDirectory" class="size">
+          {{ desc.size | ternimalNumeral:'0b' }}
         </td>
       </tr>
 
@@ -96,7 +100,10 @@
     <table *ngIf="descs.length > 1" class="info">
       <tr>
         <td>Total Size</td>
-        <td class="size">{{ totalSize | ternimalNumeral:'0b' }}</td>
+        <td class="size">
+          {{ totalCount | ternimalNumeral:'0,0' }} files, {{ totalSize |
+          ternimalNumeral:'0b' }}
+        </td>
       </tr>
     </table>
 

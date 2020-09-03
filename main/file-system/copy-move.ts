@@ -3,14 +3,12 @@ import { Channels } from '../common';
 
 import { isLongRunningOpCanceled } from '../long-running-op';
 import { numParallelOps } from '../common';
+import { rreaddir } from './rreaddir';
 
 import * as async from 'async';
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import * as util from 'util';
-
-import recursive = require('recursive-readdir');
 
 const { ipcMain } = electron;
 
@@ -114,7 +112,9 @@ const itemizeFroms = async (
   await async.eachOfSeries(froms, async (from, ix) => {
     const stat = await fs.lstat(from);
     if (stat.isDirectory()) {
-      const itemized = (await util.promisify(recursive)(from)) as string[];
+      const hash = {};
+      await rreaddir(from, hash);
+      const itemized = Object.keys(hash);
       const root = path.dirname(from);
       itemized.forEach((ifrom) => {
         ifroms.push(ifrom);

@@ -54,9 +54,8 @@ describe('chmod', () => {
     const calls = theWindow.webContents.send.mock.calls;
     expect(calls[0][0]).toEqual(Channels.error);
     expect(calls[0][1]).toEqual('Permission denied /does/not/exist');
-    // TODO: should be undone
     const stat = fs.lstatSync('/fake/file');
-    expect(stat.mode).toEqual(33279);
+    expect(stat.mode).toEqual(33206);
   });
 
   test('fsChmodImpl', async () => {

@@ -61,6 +61,7 @@ export class FileSystemPropsComponent
   sortDir: SortDir = 'desc';
   tooltip: AnalysisDigest;
   top: AnalysisDigest[] = [];
+  totalCount = 0;
   totalSize = 0;
 
   @Input() widget: Widget;
@@ -144,6 +145,10 @@ export class FileSystemPropsComponent
     this.digests = Object.entries(analysis).map(([ext, digest]) => {
       return { ...digest, ext };
     });
+    this.totalCount = this.digests.reduce(
+      (acc, digest) => (acc += digest.count),
+      0
+    );
     this.totalSize = this.digests.reduce(
       (acc, digest) => (acc += digest.size),
       0

@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="4" failures="0" time="4.482">
-  <testsuite name="chmod" errors="0" failures="0" skipped="0" timestamp="2020-09-02T21:12:56" time="3.559" tests="4">
-    <testcase classname="chmod fsChmod" name="chmod fsChmod" time="0.006">
+<testsuites name="jest tests" tests="8" failures="0" time="4.902">
+  <testsuite name="files" errors="0" failures="0" skipped="0" timestamp="2020-09-03T11:17:45" time="4.337" tests="8">
+    <testcase classname="files report" name="files report" time="0.004">
     </testcase>
-    <testcase classname="chmod fsChmodImpl" name="chmod fsChmodImpl" time="0.001">
+    <testcase classname="files fsDelete" name="files fsDelete" time="0.004">
     </testcase>
-    <testcase classname="chmod report" name="chmod report" time="0.001">
+    <testcase classname="files fsExists" name="files fsExists" time="0.001">
     </testcase>
-    <testcase classname="chmod statsByPath" name="chmod statsByPath" time="0.001">
+    <testcase classname="files fsNewDir" name="files fsNewDir" time="0.001">
+    </testcase>
+    <testcase classname="files fsNewFile" name="files fsNewFile" time="0.002">
+    </testcase>
+    <testcase classname="files fsRename" name="files fsRename" time="0.001">
+    </testcase>
+    <testcase classname="files fsTouch" name="files fsTouch" time="0.001">
+    </testcase>
+    <testcase classname="files fsTrash" name="files fsTrash" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

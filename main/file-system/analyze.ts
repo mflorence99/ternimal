@@ -5,15 +5,15 @@ import { Channels } from '../common';
 import { makeColor } from './icons';
 import { makeIcon } from './icons';
 import { numParallelOps } from '../common';
+import { rreaddir } from './rreaddir';
+import { rreaddirBudgetCount } from '../common';
+import { rreaddirBudgetTime } from '../common';
 import { saveColors } from './icons';
 
 import * as async from 'async';
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import * as util from 'util';
-
-import recursive = require('recursive-readdir');
 
 const { ipcMain } = electron;
 
@@ -32,16 +32,12 @@ export const fsAnalyze = async (_, paths: string[]): Promise<void> => {
 export const itemizePaths = async (
   paths: string[]
 ): Promise<Record<string, fs.Stats>> => {
-  let hash: Record<string, fs.Stats> = {};
+  const hash: Record<string, fs.Stats> = {};
   await async.eachLimit(paths, numParallelOps, async (path) => {
-    try {
-      const stat = await fs.lstat(path);
-      if (stat.isDirectory()) {
-        // NOTE: looks like recursive can throw an exception we can't control
-        const itemized = (await util.promisify(recursive)(path)) as string[];
-        hash = Object.assign(hash, await statsByPath(itemized));
-      } else hash[path] = stat;
-    } catch (ignored) {}
+    const stat = await fs.lstat(path);
+    if (stat.isDirectory())
+      await rreaddir(path, hash, rreaddirBudgetCount, rreaddirBudgetTime);
+    else hash[path] = stat;
   });
   return hash;
 };
@@ -67,19 +63,6 @@ export const performAnalysis = (
   });
   saveColors();
   return analysis;
-};
-
-export const statsByPath = async (
-  paths: string[]
-): Promise<Record<string, fs.Stats>> => {
-  const hash = Object.fromEntries(paths.map((path) => [path, path]));
-  return await async.mapValuesLimit(hash, numParallelOps, async (path) => {
-    try {
-      return await fs.lstat(path);
-    } catch (ignored) {
-      return { size: 0 };
-    }
-  });
 };
 
 ipcMain.on(Channels.fsAnalyze, fsAnalyze);

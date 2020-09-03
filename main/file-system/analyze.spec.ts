@@ -6,7 +6,6 @@ import { Channels } from '../common';
 import { fsAnalyze } from './analyze';
 import { itemizePaths } from './analyze';
 import { performAnalysis } from './analyze';
-import { statsByPath } from './analyze';
 
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
@@ -46,14 +45,5 @@ describe('analyze', () => {
     expect(analysis['.ts'].count).toBeGreaterThan(0);
     expect(analysis['.ts'].icon).toEqual(['far', 'file-code']);
     expect(analysis['.ts'].size).toBeGreaterThan(0);
-  });
-
-  test('statsByPath', async () => {
-    let hash: Record<string, fs.Stats> = await statsByPath([__dirname]);
-    expect(hash[__dirname].size).toBeGreaterThan(0);
-    // these paths do not exist
-    hash = await statsByPath(['/does/not/exist', '/not/all/there']);
-    expect(hash['/does/not/exist'].size).toEqual(0);
-    expect(hash['/not/all/there'].size).toEqual(0);
   });
 });

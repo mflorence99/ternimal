@@ -175,3 +175,7 @@ export const cwdDebounceTimeout = 500;
 export const maxScrollback = 5000;
 
 export const numParallelOps = 8;
+
+export const rreaddirBudgetCount = 100000;
+export const rreaddirBudgetTime = 5000;
+export const rreaddirCacheTTL = 15 * 60 * 1000;

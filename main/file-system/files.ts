@@ -25,18 +25,16 @@ const forEachPath = async (
         return false;
       }
     });
-    report(failures);
+    if (failures.length > 0) report(failures);
   } catch (ignored) {}
 };
 
 export const report = (failures: string[]): void => {
-  if (failures.length > 0) {
-    const theWindow = globalThis.theWindow;
-    let message = `Permission denied ${failures[0]}`;
-    if (failures.length === 2) message += ' and one other';
-    if (failures.length > 2) message += ` and ${failures.length - 1} others`;
-    theWindow?.webContents.send(Channels.error, message);
-  }
+  const theWindow = globalThis.theWindow;
+  let message = `Permission denied ${failures[0]}`;
+  if (failures.length === 2) message += ' and one other';
+  if (failures.length > 2) message += ` and ${failures.length - 1} others`;
+  theWindow?.webContents.send(Channels.error, message);
 };
 
 ipcMain.on(
