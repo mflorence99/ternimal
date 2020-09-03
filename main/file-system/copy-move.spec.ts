@@ -12,4 +12,8 @@ describe('copy-move', () => {
     theWindow = new BrowserWindow({});
     globalThis.theWindow = theWindow;
   });
+
+  test('dummy', () => {
+    expect(true).toBe(true);
+  });
 });

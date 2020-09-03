@@ -44,17 +44,6 @@ describe('rreaddir', () => {
     }
   });
 
-  test('quick exit on invalid directory', async () => {
-    const hash: Record<string, fs.Stats> = {};
-    expect.assertions(2);
-    try {
-      await rreaddir('/does/not/exist', hash);
-    } catch (error) {
-      expect(error.message).toBeTruthy();
-      expect(hash).toEqual({});
-    }
-  });
-
   test('real-life test on home directory', async () => {
     const hash: Record<string, fs.Stats> = {};
     expect.assertions(2);

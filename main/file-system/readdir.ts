@@ -4,6 +4,7 @@ import { FileDescriptor } from '../common';
 
 import { makeColor } from './icons';
 import { makeIcon } from './icons';
+import { numParallelOps } from '../common';
 import { saveColors } from './icons';
 
 import * as async from 'async';
@@ -19,6 +20,31 @@ const { ipcMain } = electron;
 
 const userInfo = os.userInfo();
 const watcher = filewatcher({ debounce: 10 });
+
+export const fsLoadPathRequest = async (_, dirname: string): Promise<void> => {
+  const theWindow = globalThis.theWindow;
+  try {
+    await fs.access(dirname, fs.constants.R_OK);
+    const names = await fs.readdir(dirname);
+    const paths = names.map((name) => path.join(dirname, name));
+    const hash = await statsByPath(paths);
+    theWindow?.webContents.send(
+      Channels.fsLoadPathSuccess,
+      dirname,
+      names.map((name) =>
+        makeDescriptor(dirname, name, hash[path.join(dirname, name)])
+      )
+    );
+    // NOTE: side-effect of makeDescriptor updates colors
+    saveColors();
+    watcher.add(dirname);
+  } catch (error) {
+    if (error.code === 'EACCES')
+      theWindow?.webContents.send(Channels.error, error.message);
+    theWindow?.webContents.send(Channels.fsLoadPathFailure, dirname);
+    watcher.remove(dirname);
+  }
+};
 
 const isExecutable = (mode, uid: number, gid: number): boolean => {
   return (
@@ -44,33 +70,7 @@ const isWritable = (mode, uid: number, gid: number): boolean => {
   );
 };
 
-const loadPath = (root: string): void => {
-  const theWindow = globalThis.theWindow;
-  fs.readdir(root, (err, names) => {
-    if (err) {
-      if (err.code === 'EACCES')
-        theWindow?.webContents.send(Channels.error, err.message);
-      theWindow?.webContents.send(Channels.fsLoadPathFailure, root);
-      watcher.remove(root);
-    } else {
-      const children = names.map((name) => path.join(root, name));
-      async.map(children, fs.lstat, (err, stats) => {
-        theWindow?.webContents.send(
-          Channels.fsLoadPathSuccess,
-          root,
-          names.map((name, ix) =>
-            makeDescriptor(root, name, stats[ix] as fs.Stats)
-          )
-        );
-        // NOTE: side-effect of makeDescriptor updates colors
-        saveColors();
-        watcher.add(root);
-      });
-    }
-  });
-};
-
-const makeDescriptor = (
+export const makeDescriptor = (
   root: string,
   name: string,
   stat: fs.Stats
@@ -102,7 +102,14 @@ const makeDescriptor = (
   };
 };
 
-watcher.on('change', (root: string) => loadPath(root));
+export const statsByPath = async (
+  paths: string[]
+): Promise<Record<string, fs.Stats>> => {
+  const hash = Object.fromEntries(paths.map((path) => [path, path]));
+  return await async.mapValuesLimit(hash, numParallelOps, fs.lstat);
+};
+
+watcher.on('change', (root: string) => fsLoadPathRequest(undefined, root));
 
 watcher.on('fallback', (ulimit: number) => {
   const theWindow = globalThis.theWindow;
@@ -110,6 +117,4 @@ watcher.on('fallback', (ulimit: number) => {
   theWindow?.webContents.send(Channels.error, message);
 });
 
-ipcMain.on(Channels.fsLoadPathRequest, (_, root: string): void =>
-  loadPath(root)
-);
+ipcMain.on(Channels.fsLoadPathRequest, fsLoadPathRequest);
