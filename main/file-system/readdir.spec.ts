@@ -10,6 +10,9 @@ import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 
+// @see __mocks__/electron.ts
+// @see __mocks__/filewatcher.ts
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const { BrowserWindow } = electron;
 

@@ -11,6 +11,8 @@ import { statsByPath } from './chmod';
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
 
+// @see __mocks__/electron.ts
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const { BrowserWindow } = electron;
 
