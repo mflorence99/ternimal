@@ -34,8 +34,23 @@ describe('analyze', () => {
     expect(analysis['.ts'].size).toBeGreaterThan(0);
   });
 
-  test('itemizePaths', async () => {
+  test('fsAnalyze (failure)', async () => {
+    await fsAnalyze(undefined, ['/root']);
+    expect(theWindow.webContents.send).toHaveBeenCalledTimes(2);
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.fsAnalyzeCompleted);
+    expect(calls[0][1]).toEqual({});
+    expect(calls[1][0]).toEqual(Channels.error);
+    expect(calls[1][1]).toContain('EACCES');
+  });
+
+  test('itemizePaths (directory)', async () => {
     const hash: Record<string, fs.Stats> = await itemizePaths([__dirname]);
+    expect(hash[__filename].size).toBeGreaterThan(0);
+  });
+
+  test('itemizePaths (file)', async () => {
+    const hash: Record<string, fs.Stats> = await itemizePaths([__filename]);
     expect(hash[__filename].size).toBeGreaterThan(0);
   });
 

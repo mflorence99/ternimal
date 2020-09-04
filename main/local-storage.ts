@@ -1,12 +1,12 @@
 import { Channels } from './common';
 
 import * as electron from 'electron';
+import * as process from 'process';
 
 import Store = require('electron-store');
 
 const { ipcMain } = electron;
 
-/* eslint-enable @typescript-eslint/naming-convention */
 const isDev = process.env['DEV_MODE'] === '1';
 
 export const store = new Store({

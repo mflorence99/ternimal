@@ -10,6 +10,8 @@ import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
 
+import filewatcher = require('filewatcher');
+
 // @see __mocks__/electron.ts
 // @see __mocks__/filewatcher.ts
 
@@ -53,5 +55,13 @@ describe('readdir', () => {
     expect(desc.name).toEqual(name);
     expect(desc.path).toEqual(__filename);
     expect(desc.user).toEqual(userInfo.username);
+  });
+
+  test('watcher fallback', () => {
+    const callbacks = filewatcher['callbacks'];
+    callbacks['fallback'](42);
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toContain(' 42 ');
   });
 });

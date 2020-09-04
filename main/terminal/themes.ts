@@ -10,28 +10,21 @@ const { ipcMain } = electron;
 
 const cache: Record<string, Theme> = {};
 
-export const getAvailableThemes = (): string[] => {
+ipcMain.on(Channels.getAvailableThemes, (event: Event) => {
   const themes = path.join(__dirname, '..', '..', 'themes');
-  const names = fs.readdirSync(themes);
-  return names
+  const names = fs
+    .readdirSync(themes)
     .map((name) => path.basename(name, '.yml'))
     .sort((p, q) => p.toLowerCase().localeCompare(q.toLowerCase()));
-};
+  event.returnValue = names as any;
+});
 
-export const loadTheme = (nm: string): Theme => {
+ipcMain.on(Channels.loadTheme, (event: Event, nm: string) => {
   let theme = cache[nm];
   if (!theme) {
     const themePath = path.join(__dirname, '..', '..', 'themes', nm + '.yml');
     theme = YAML.parse(fs.readFileSync(themePath).toString());
     cache[nm] = theme;
   }
-  return theme;
-};
-
-ipcMain.on(Channels.getAvailableThemes, (event: Event) => {
-  event.returnValue = getAvailableThemes() as any;
-});
-
-ipcMain.on(Channels.loadTheme, (event: Event, nm: string) => {
-  event.returnValue = loadTheme(nm) as any;
+  event.returnValue = theme as any;
 });

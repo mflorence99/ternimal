@@ -19,7 +19,7 @@ module.exports = {
     'default',
     ['jest-junit', { outputDirectory: './reports/junit' }]
   ],
-  roots: ['<rootDir>/main/', '<rootDir>/renderer/'],
+  roots: ['<rootDir>/main/' /* , '<rootDir>/renderer/' */],
   setupFilesAfterEnv: ['<rootDir>/renderer/test.ts'],
   testMatch: ['**/+(*.)+(spec).+(ts)'],
   testResultsProcessor: 'jest-junit',

@@ -13,7 +13,7 @@ import * as path from 'path';
 const { ipcMain } = electron;
 
 const copyOpts = {
-  errorOnExist: true,
+  errorOnExist: false,
   overwrite: false,
   preserveTimestamps: true
 };
@@ -26,7 +26,6 @@ export const fsCopyOrMove = async (
   to: string,
   op: 'copy' | 'move'
 ): Promise<void> => {
-  console.time(op);
   const theWindow = globalThis.theWindow;
   // kick off the long-running op
   theWindow?.webContents.send(Channels.longRunningOpProgress, {
@@ -69,7 +68,6 @@ export const fsCopyOrMove = async (
       progress: 100,
       running: false
     });
-    console.timeEnd(op);
   }
 };
 
@@ -81,29 +79,28 @@ export const fsCopyOrMoveImpl = async (
 ): Promise<void> => {
   let progress = 0;
   const theWindow = globalThis.theWindow;
-  await async.eachOfLimit(
-    ifroms,
-    numParallelOps,
-    async (ifrom: string, ix: number) => {
-      isLongRunningOpCanceled(id, `File ${op} canceled by request`);
-      op === 'copy'
-        ? await fs.copy(ifrom, itos[ix], copyOpts)
-        : await fs.move(ifrom, itos[ix], moveOpts);
-      // NOTE: cut out noise by tripping at most 100 times
-      const scale = Math.round(((ix + 1) / ifroms.length) * 100);
-      if (scale > progress) {
-        theWindow?.webContents.send(Channels.longRunningOpProgress, {
-          id: id,
-          item: ifrom,
-          progress: scale,
-          running: ix < ifroms.length - 1
-        });
-        progress = scale;
-      }
+  // NOTE: eachOfLimit seems to trip over itself, and
+  // triggers EEXIST errors
+  await async.eachOfSeries(ifroms, async (ifrom: string, ix: number) => {
+    isLongRunningOpCanceled(id, `File ${op} canceled by request`);
+    op === 'copy'
+      ? await fs.copy(ifrom, itos[ix], copyOpts)
+      : await fs.move(ifrom, itos[ix], moveOpts);
+    // NOTE: cut out noise by tripping at most 100 times
+    const scale = Math.round(((ix + 1) / ifroms.length) * 100);
+    if (scale > progress) {
+      theWindow?.webContents.send(Channels.longRunningOpProgress, {
+        id: id,
+        item: ifrom,
+        progress: scale,
+        running: ix < ifroms.length - 1
+      });
+      progress = scale;
     }
-  );
+  });
 };
 
+// NOTE: necessary to remove any empty directories
 export const cleanupAfterMove = async (froms: string[]): Promise<void> => {
   await async.eachLimit(froms, numParallelOps, async (from) => {
     const stat = await fs.lstat(from);
@@ -154,10 +151,9 @@ export const itemizeFroms = async (
       const hash = {};
       await rreaddir(from, hash);
       const itemized = Object.keys(hash);
-      const root = path.dirname(from);
       itemized.forEach((ifrom) => {
         ifroms.push(ifrom);
-        itos.push(path.join(tos[ix], ifrom.substring(root.length)));
+        itos.push(path.join(tos[ix], ifrom.substring(from.length)));
       });
     } else {
       ifroms.push(from);

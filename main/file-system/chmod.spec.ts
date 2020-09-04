@@ -34,6 +34,30 @@ describe('chmod', () => {
   });
 
   test('fsChmod', async () => {
+    const paths = ['/fake/file'];
+    const chmod: Chmod = {
+      group: {
+        execute: true,
+        read: true,
+        write: true
+      },
+      others: {
+        execute: true,
+        read: true,
+        write: true
+      },
+      owner: {
+        execute: true,
+        read: true,
+        write: true
+      }
+    };
+    await fsChmod(undefined, paths, chmod);
+    const stat = fs.lstatSync('/fake/file');
+    expect(stat.mode).toEqual(33279);
+  });
+
+  test('fsChmod (failure)', async () => {
     const paths = ['/fake/file', '/does/not/exist'];
     const chmod: Chmod = {
       group: {
