@@ -110,10 +110,24 @@ describe('chmod', () => {
   });
 
   test('report', () => {
+    report(['this']);
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toEqual('Permission denied this');
+  });
+
+  test('report', () => {
     report(['this', 'that']);
     const calls = theWindow.webContents.send.mock.calls;
     expect(calls[0][0]).toEqual(Channels.error);
     expect(calls[0][1]).toEqual('Permission denied this and one other');
+  });
+
+  test('report', () => {
+    report(['this', 'that', 'another']);
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toEqual('Permission denied this and 2 others');
   });
 
   test('statsByPath', async () => {

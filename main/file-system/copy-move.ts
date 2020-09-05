@@ -28,7 +28,7 @@ export const fsCopyOrMove = async (
 ): Promise<void> => {
   const theWindow = globalThis.theWindow;
   // kick off the long-running op
-  theWindow?.webContents.send(Channels.longRunningOpProgress, {
+  theWindow.webContents.send(Channels.longRunningOpProgress, {
     id: id,
     item: null,
     progress: 0,
@@ -39,11 +39,9 @@ export const fsCopyOrMove = async (
     const stat = await fs.lstat(to);
     to = stat.isDirectory() ? to : path.dirname(to);
     // make sure everything that needs to be is readable
-    await ensureReadability(froms);
+    ensureReadability(froms);
     // make sure everything that needs to be is writable
-    op === 'move'
-      ? await ensureWritability([...froms, to])
-      : await ensureWritability([to]);
+    op === 'move' ? ensureWritability([...froms, to]) : ensureWritability([to]);
     // match all the "froms" to a "to"
     const tos = await matchFromsWithTos(froms, to);
     // if the "to" already exists, we have to disambiguate it
@@ -57,12 +55,12 @@ export const fsCopyOrMove = async (
     // send completed message
     const channel =
       op === 'copy' ? Channels.fsCopyCompleted : Channels.fsMoveCompleted;
-    theWindow?.webContents.send(channel + id, froms, tos);
+    theWindow.webContents.send(channel + id, froms, tos);
   } catch (error) {
-    theWindow?.webContents.send(Channels.error, error.message);
+    theWindow.webContents.send(Channels.error, error.message);
   } finally {
     // always complete the long-running op
-    theWindow?.webContents.send(Channels.longRunningOpProgress, {
+    theWindow.webContents.send(Channels.longRunningOpProgress, {
       id: id,
       item: null,
       progress: 100,
@@ -89,7 +87,7 @@ export const fsCopyOrMoveImpl = async (
     // NOTE: cut out noise by tripping at most 100 times
     const scale = Math.round(((ix + 1) / ifroms.length) * 100);
     if (scale > progress) {
-      theWindow?.webContents.send(Channels.longRunningOpProgress, {
+      theWindow.webContents.send(Channels.longRunningOpProgress, {
         id: id,
         item: ifrom,
         progress: scale,
@@ -127,16 +125,12 @@ export const disambiguateTos = async (tos: string[]): Promise<void> => {
   });
 };
 
-export const ensureReadability = async (paths: string[]): Promise<void> => {
-  await async.eachLimit(paths, numParallelOps, async (path) => {
-    await fs.access(path, fs.constants.R_OK);
-  });
+export const ensureReadability = (paths: string[]): void => {
+  for (const path of paths) fs.accessSync(path, fs.constants.R_OK);
 };
 
-export const ensureWritability = async (paths: string[]): Promise<void> => {
-  await async.eachLimit(paths, numParallelOps, async (path) => {
-    await fs.access(path, fs.constants.W_OK);
-  });
+export const ensureWritability = (paths: string[]): void => {
+  for (const path of paths) fs.accessSync(path, fs.constants.R_OK);
 };
 
 export const itemizeFroms = async (
@@ -181,14 +175,14 @@ export const matchFromsWithTos = async (
 
 ipcMain.on(
   Channels.fsCopy,
-  (_, id: string, froms: string[], to: string): void => {
-    fsCopyOrMove(id, froms, to, 'copy');
+  async (_, id: string, froms: string[], to: string): Promise<void> => {
+    await fsCopyOrMove(id, froms, to, 'copy');
   }
 );
 
 ipcMain.on(
   Channels.fsMove,
-  (_, id: string, froms: string[], to: string): void => {
-    fsCopyOrMove(id, froms, to, 'move');
+  async (_, id: string, froms: string[], to: string): Promise<void> => {
+    await fsCopyOrMove(id, froms, to, 'move');
   }
 );

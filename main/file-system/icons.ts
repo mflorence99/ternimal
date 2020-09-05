@@ -246,7 +246,6 @@ export const makeIcon = (name: string, stat: fs.Stats): string[] => {
     }
     return icon ?? ['far', 'file'];
   } else if (stat.isSymbolicLink()) return ['fas', 'external-link-alt'];
-  else return ['far', 'file'];
 };
 
 export const saveColors = (): void => {

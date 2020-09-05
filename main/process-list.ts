@@ -49,7 +49,7 @@ export const processListRequest = async (): Promise<void> => {
     .filter((item) => item.cpu > 0);
   // response is ready
   const theWindow = globalThis.theWindow;
-  theWindow?.webContents.send(Channels.processListResponse, processList);
+  theWindow.webContents.send(Channels.processListResponse, processList);
 };
 
 ipcMain.on(Channels.processListKill, processListKill);

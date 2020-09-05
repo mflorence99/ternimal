@@ -3,6 +3,7 @@ import './xterm-pty';
 import { Channels } from '../common';
 
 import { connected } from './xterm-pty';
+import { cwdDebounceTimeout } from '../common';
 import { findCWD } from './xterm-pty';
 import { ptys } from './xterm-pty';
 import { scrollbacks } from './xterm-pty';
@@ -31,10 +32,26 @@ describe('xterm-pty', () => {
     callbacks['window-all-closed']();
   });
 
-  test('findCWD', (done) => {
-    findCWD(process.pid, (err, cwd) => {
+  test('findCWD - Linux', (done) => {
+    findCWD(process.pid, 'linux', (err, cwd) => {
       expect(err).toBeNull();
       expect(cwd).toEqual(process.cwd());
+      done();
+    });
+  });
+
+  test('findCWD - MacOS', (done) => {
+    findCWD(process.pid, 'darwin', (err, cwd) => {
+      expect(err).toBeNull();
+      expect(cwd).toBeTruthy();
+      done();
+    });
+  });
+
+  test('findCWD - Windows', (done) => {
+    findCWD(process.pid, 'win32', (err, cwd) => {
+      expect(err).toEqual('Unsupported OS');
+      expect(cwd).toBeNull();
       done();
     });
   });
@@ -60,6 +77,21 @@ describe('xterm-pty', () => {
     expect(calls[1][0]).toEqual(Channels.xtermFromPty);
     expect(calls[1][1]).toEqual('x');
     expect(calls[1][2]).toEqual('xxx');
+  });
+
+  test('xtermConnect - detect CWD', (done) => {
+    xtermConnect(undefined, 'x', '/home');
+    // trigger change in CWD
+    const pty = ptys['x'];
+    (pty.onData as any).mock.calls[0][0](`cd ${__dirname}`);
+    // NOTE: this sucks, but any other way is way too complicated
+    // and for little reward
+    setTimeout(() => {
+      expect(theWindow.webContents.send).toHaveBeenCalledTimes(2);
+      const calls = theWindow.webContents.send.mock.calls;
+      expect(calls[1][0]).toEqual(Channels.xtermCWD);
+      done();
+    }, cwdDebounceTimeout + 100);
   });
 
   test('xtermDisconnect', () => {

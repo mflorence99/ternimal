@@ -9,11 +9,13 @@ import * as path from 'path';
 // @see __mocks__/electron.ts
 
 describe('ternimal', () => {
-  beforeEach(() => {
+  // NOTE: afterEach in this special case because theWindow isn't created
+  // until ready is called
+  afterEach(() => {
     const theWindow = globalThis.theWindow;
-    theWindow?.loadURL.mockReset();
-    theWindow?.webContents.openDevTools.mockReset();
-    theWindow?.webContents.reload.mockReset();
+    theWindow.loadURL.mockReset();
+    theWindow.webContents.openDevTools.mockReset();
+    theWindow.webContents.reload.mockReset();
   });
 
   test('ready (dev mode)', () => {

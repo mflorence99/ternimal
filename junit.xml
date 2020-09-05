@@ -1,175 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="72" failures="0" time="10.508">
-  <testsuite name="readdir" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:03" time="0.905" tests="4">
-    <testcase classname="readdir fsLoadPathRequest" name="readdir fsLoadPathRequest" time="0.019">
+<testsuites name="jest tests" tests="85" failures="0" time="19.189">
+  <testsuite name="xterm-pty" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:40" time="7.793" tests="9">
+    <testcase classname="xterm-pty findCWD - Linux" name="xterm-pty findCWD - Linux" time="0.51">
     </testcase>
-    <testcase classname="readdir fsLoadPathRequest (failure)" name="readdir fsLoadPathRequest (failure)" time="0.003">
+    <testcase classname="xterm-pty findCWD - MacOS" name="xterm-pty findCWD - MacOS" time="1.397">
     </testcase>
-    <testcase classname="readdir makeDescriptor" name="readdir makeDescriptor" time="0.002">
+    <testcase classname="xterm-pty findCWD - Windows" name="xterm-pty findCWD - Windows" time="0.503">
+    </testcase>
+    <testcase classname="xterm-pty xtermConnect" name="xterm-pty xtermConnect" time="0.003">
+    </testcase>
+    <testcase classname="xterm-pty xtermConnect - detect CWD" name="xterm-pty xtermConnect - detect CWD" time="0.603">
+    </testcase>
+    <testcase classname="xterm-pty xtermDisconnect" name="xterm-pty xtermDisconnect" time="0.003">
+    </testcase>
+    <testcase classname="xterm-pty xtermKill" name="xterm-pty xtermKill" time="0.004">
+    </testcase>
+    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0.005">
+    </testcase>
+    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="rreaddir" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:48" time="1.582" tests="5">
+    <testcase classname="rreaddir smoke test" name="rreaddir smoke test" time="0.006">
+    </testcase>
+    <testcase classname="rreaddir budgeted count can be exceeded" name="rreaddir budgeted count can be exceeded" time="0.001">
+    </testcase>
+    <testcase classname="rreaddir budgeted time can be exceeded" name="rreaddir budgeted time can be exceeded" time="0.003">
+    </testcase>
+    <testcase classname="rreaddir quick exit on unreadable directory" name="rreaddir quick exit on unreadable directory" time="0.001">
+    </testcase>
+    <testcase classname="rreaddir real-life test on home directory" name="rreaddir real-life test on home directory" time="1.009">
+    </testcase>
+  </testsuite>
+  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:49" time="2.394" tests="4">
+    <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.003">
+    </testcase>
+    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0">
+    </testcase>
+    <testcase classname="ternimal ready (getBounds)" name="ternimal ready (getBounds)" time="0.001">
+    </testcase>
+    <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="process-list" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:52" time="0.464" tests="2">
+    <testcase classname="process-list processListKill" name="process-list processListKill" time="0.002">
+    </testcase>
+    <testcase classname="process-list processListRequest" name="process-list processListRequest" time="0.179">
+    </testcase>
+  </testsuite>
+  <testsuite name="fonts" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:52" time="0.342" tests="1">
+    <testcase classname="fonts getAvailableFonts" name="fonts getAvailableFonts" time="0.062">
+    </testcase>
+  </testsuite>
+  <testsuite name="files" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:52" time="0.62" tests="14">
+    <testcase classname="files fsDelete" name="files fsDelete" time="0.011">
+    </testcase>
+    <testcase classname="files fsExists" name="files fsExists" time="0.004">
+    </testcase>
+    <testcase classname="files fsNewDir" name="files fsNewDir" time="0.004">
+    </testcase>
+    <testcase classname="files fsNewDir - error" name="files fsNewDir - error" time="0.005">
+    </testcase>
+    <testcase classname="files fsNewFile" name="files fsNewFile" time="0.003">
+    </testcase>
+    <testcase classname="files fsNewFile - error" name="files fsNewFile - error" time="0.001">
+    </testcase>
+    <testcase classname="files fsRename" name="files fsRename" time="0.001">
+    </testcase>
+    <testcase classname="files fsRename - error" name="files fsRename - error" time="0.001">
+    </testcase>
+    <testcase classname="files fsTouch" name="files fsTouch" time="0.002">
+    </testcase>
+    <testcase classname="files fsTouch - error" name="files fsTouch - error" time="0.001">
+    </testcase>
+    <testcase classname="files fsTrash" name="files fsTrash" time="0.001">
+    </testcase>
+    <testcase classname="files report" name="files report" time="0.001">
+    </testcase>
+    <testcase classname="files report" name="files report" time="0.002">
+    </testcase>
+    <testcase classname="files report" name="files report" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="copy-move" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:53" time="0.668" tests="9">
+    <testcase classname="copy-move fsCopy" name="copy-move fsCopy" time="0.02">
+    </testcase>
+    <testcase classname="copy-move fsCopyOrMove - copy to file" name="copy-move fsCopyOrMove - copy to file" time="0.008">
+    </testcase>
+    <testcase classname="copy-move fsCopyOrMove - error" name="copy-move fsCopyOrMove - error" time="0.002">
+    </testcase>
+    <testcase classname="copy-move fsCopyOrMoveImpl - copy" name="copy-move fsCopyOrMoveImpl - copy" time="0.006">
+    </testcase>
+    <testcase classname="copy-move cleanupAfterMove" name="copy-move cleanupAfterMove" time="0.003">
+    </testcase>
+    <testcase classname="copy-move disambiguateTos" name="copy-move disambiguateTos" time="0.002">
+    </testcase>
+    <testcase classname="copy-move itemizeFroms" name="copy-move itemizeFroms" time="0.002">
+    </testcase>
+    <testcase classname="copy-move matchFromsWithTos" name="copy-move matchFromsWithTos" time="0.001">
+    </testcase>
+    <testcase classname="copy-move fsMove" name="copy-move fsMove" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="readdir" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:54" time="0.387" tests="4">
+    <testcase classname="readdir fsLoadPathRequest" name="readdir fsLoadPathRequest" time="0.011">
+    </testcase>
+    <testcase classname="readdir fsLoadPathRequest (failure)" name="readdir fsLoadPathRequest (failure)" time="0.002">
+    </testcase>
+    <testcase classname="readdir makeDescriptor" name="readdir makeDescriptor" time="0.001">
     </testcase>
     <testcase classname="readdir watcher fallback" name="readdir watcher fallback" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="rreaddir" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:04" time="1.896" tests="5">
-    <testcase classname="rreaddir smoke test" name="rreaddir smoke test" time="0.01">
+  <testsuite name="chmod" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:54" time="0.403" tests="7">
+    <testcase classname="chmod fsChmod" name="chmod fsChmod" time="0.007">
     </testcase>
-    <testcase classname="rreaddir budgeted count can be exceeded" name="rreaddir budgeted count can be exceeded" time="0.002">
-    </testcase>
-    <testcase classname="rreaddir budgeted time can be exceeded" name="rreaddir budgeted time can be exceeded" time="0.004">
-    </testcase>
-    <testcase classname="rreaddir quick exit on unreadable directory" name="rreaddir quick exit on unreadable directory" time="0.001">
-    </testcase>
-    <testcase classname="rreaddir real-life test on home directory" name="rreaddir real-life test on home directory" time="1.27">
-    </testcase>
-  </testsuite>
-  <testsuite name="themes" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:06" time="0.486" tests="2">
-    <testcase classname="themes getAvailableThemes" name="themes getAvailableThemes" time="0.005">
-    </testcase>
-    <testcase classname="themes loadTheme" name="themes loadTheme" time="0.007">
-    </testcase>
-  </testsuite>
-  <testsuite name="xterm-pty" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:07" time="0.827" tests="6">
-    <testcase classname="xterm-pty findCWD" name="xterm-pty findCWD" time="0.504">
-    </testcase>
-    <testcase classname="xterm-pty xtermConnect" name="xterm-pty xtermConnect" time="0.003">
-    </testcase>
-    <testcase classname="xterm-pty xtermDisconnect" name="xterm-pty xtermDisconnect" time="0.001">
-    </testcase>
-    <testcase classname="xterm-pty xtermKill" name="xterm-pty xtermKill" time="0.002">
-    </testcase>
-    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0.001">
-    </testcase>
-    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="fonts" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:08" time="0.355" tests="1">
-    <testcase classname="fonts getAvailableFonts" name="fonts getAvailableFonts" time="0.056">
-    </testcase>
-  </testsuite>
-  <testsuite name="analyze" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:08" time="0.324" tests="5">
-    <testcase classname="analyze fsAnalyze" name="analyze fsAnalyze" time="0.009">
-    </testcase>
-    <testcase classname="analyze fsAnalyze (failure)" name="analyze fsAnalyze (failure)" time="0.003">
-    </testcase>
-    <testcase classname="analyze itemizePaths (directory)" name="analyze itemizePaths (directory)" time="0.003">
-    </testcase>
-    <testcase classname="analyze itemizePaths (file)" name="analyze itemizePaths (file)" time="0.001">
-    </testcase>
-    <testcase classname="analyze performAnalysis" name="analyze performAnalysis" time="0.004">
-    </testcase>
-  </testsuite>
-  <testsuite name="copy-move" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:08" time="0.391" tests="7">
-    <testcase classname="copy-move fsCopyOrMove" name="copy-move fsCopyOrMove" time="0.018">
-    </testcase>
-    <testcase classname="copy-move fsCopyOrMoveImpl - copy" name="copy-move fsCopyOrMoveImpl - copy" time="0.005">
-    </testcase>
-    <testcase classname="copy-move fsCopyOrMoveImpl - move" name="copy-move fsCopyOrMoveImpl - move" time="0.006">
-    </testcase>
-    <testcase classname="copy-move cleanupAfterMove" name="copy-move cleanupAfterMove" time="0.002">
-    </testcase>
-    <testcase classname="copy-move disambiguateTos" name="copy-move disambiguateTos" time="0.003">
-    </testcase>
-    <testcase classname="copy-move itemizeFroms" name="copy-move itemizeFroms" time="0.001">
-    </testcase>
-    <testcase classname="copy-move matchFromsWithTos" name="copy-move matchFromsWithTos" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="chmod" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:09" time="0.337" tests="5">
-    <testcase classname="chmod fsChmod" name="chmod fsChmod" time="0.006">
-    </testcase>
-    <testcase classname="chmod fsChmod (failure)" name="chmod fsChmod (failure)" time="0.001">
+    <testcase classname="chmod fsChmod (failure)" name="chmod fsChmod (failure)" time="0.002">
     </testcase>
     <testcase classname="chmod fsChmodImpl" name="chmod fsChmodImpl" time="0.001">
     </testcase>
-    <testcase classname="chmod report" name="chmod report" time="0.004">
+    <testcase classname="chmod report" name="chmod report" time="0.001">
+    </testcase>
+    <testcase classname="chmod report" name="chmod report" time="0.001">
+    </testcase>
+    <testcase classname="chmod report" name="chmod report" time="0.001">
     </testcase>
     <testcase classname="chmod statsByPath" name="chmod statsByPath" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="icons" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:09" time="0.328" tests="2">
-    <testcase classname="icons makeColor" name="icons makeColor" time="0.002">
+  <testsuite name="analyze" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:55" time="0.403" tests="5">
+    <testcase classname="analyze fsAnalyze" name="analyze fsAnalyze" time="0.007">
+    </testcase>
+    <testcase classname="analyze fsAnalyze (failure)" name="analyze fsAnalyze (failure)" time="0.001">
+    </testcase>
+    <testcase classname="analyze itemizePaths (directory)" name="analyze itemizePaths (directory)" time="0.001">
+    </testcase>
+    <testcase classname="analyze itemizePaths (file)" name="analyze itemizePaths (file)" time="0.001">
+    </testcase>
+    <testcase classname="analyze performAnalysis" name="analyze performAnalysis" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="themes" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:55" time="0.351" tests="2">
+    <testcase classname="themes getAvailableThemes" name="themes getAvailableThemes" time="0.008">
+    </testcase>
+    <testcase classname="themes loadTheme" name="themes loadTheme" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="long-running-op" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:55" time="0.361" tests="1">
+    <testcase classname="long-running-op longRunningOpCancel" name="long-running-op longRunningOpCancel" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="icons" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:56" time="0.3" tests="2">
+    <testcase classname="icons makeColor" name="icons makeColor" time="0.003">
     </testcase>
     <testcase classname="icons makeIcon" name="icons makeIcon" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="process-list" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:09" time="0.473" tests="2">
-    <testcase classname="process-list processListKill" name="process-list processListKill" time="0.003">
-    </testcase>
-    <testcase classname="process-list processListRequest" name="process-list processListRequest" time="0.148">
+  <testsuite name="system-info" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:56" time="0.341" tests="1">
+    <testcase classname="system-info systemInfo" name="system-info systemInfo" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:10" time="0.342" tests="4">
-    <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.002">
+  <testsuite name="local-storage" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:56" time="0.342" tests="6">
+    <testcase classname="local-storage smoke test" name="local-storage smoke test" time="0.003">
     </testcase>
-    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0.001">
+    <testcase classname="local-storage localStorageClear" name="local-storage localStorageClear" time="0">
     </testcase>
-    <testcase classname="ternimal ready (getBounds)" name="ternimal ready (getBounds)" time="0.001">
+    <testcase classname="local-storage localStorageGetItem" name="local-storage localStorageGetItem" time="0.001">
     </testcase>
-    <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="files" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:10" time="0.342" tests="8">
-    <testcase classname="files report" name="files report" time="0.003">
-    </testcase>
-    <testcase classname="files fsDelete" name="files fsDelete" time="0.004">
-    </testcase>
-    <testcase classname="files fsExists" name="files fsExists" time="0.001">
-    </testcase>
-    <testcase classname="files fsNewDir" name="files fsNewDir" time="0.001">
-    </testcase>
-    <testcase classname="files fsNewFile" name="files fsNewFile" time="0.002">
-    </testcase>
-    <testcase classname="files fsRename" name="files fsRename" time="0.004">
-    </testcase>
-    <testcase classname="files fsTouch" name="files fsTouch" time="0.001">
-    </testcase>
-    <testcase classname="files fsTrash" name="files fsTrash" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="toolbar" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:11" time="0.309" tests="2">
-    <testcase classname="toolbar openDevTools" name="toolbar openDevTools" time="0.002">
-    </testcase>
-    <testcase classname="toolbar reload" name="toolbar reload" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="paths" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:11" time="0.325" tests="5">
-    <testcase classname="paths fsHomeDir" name="paths fsHomeDir" time="0.003">
-    </testcase>
-    <testcase classname="paths fsParentDir" name="paths fsParentDir" time="0">
-    </testcase>
-    <testcase classname="paths fsParsePath" name="paths fsParsePath" time="0.001">
-    </testcase>
-    <testcase classname="paths fsPathSeparator" name="paths fsPathSeparator" time="0.001">
-    </testcase>
-    <testcase classname="paths fsRootDir" name="paths fsRootDir" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="local-storage" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:11" time="0.335" tests="6">
-    <testcase classname="local-storage smoke test" name="local-storage smoke test" time="0.002">
-    </testcase>
-    <testcase classname="local-storage localStorageClear" name="local-storage localStorageClear" time="0.001">
-    </testcase>
-    <testcase classname="local-storage localStorageGetItem" name="local-storage localStorageGetItem" time="0">
-    </testcase>
-    <testcase classname="local-storage localStorageKey" name="local-storage localStorageKey" time="0.001">
+    <testcase classname="local-storage localStorageKey" name="local-storage localStorageKey" time="0">
     </testcase>
     <testcase classname="local-storage localStorageRemoveItem" name="local-storage localStorageRemoveItem" time="0">
     </testcase>
     <testcase classname="local-storage localStorageSetItem" name="local-storage localStorageSetItem" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="system-info" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:12" time="0.308" tests="1">
-    <testcase classname="system-info systemInfo" name="system-info systemInfo" time="0.003">
+  <testsuite name="Electron tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:57" time="0.32" tests="1">
+    <testcase classname="Electron tests helpers Dummy test" name="Electron tests helpers Dummy test" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="long-running-op" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:12" time="0.307" tests="1">
-    <testcase classname="long-running-op longRunningOpCancel" name="long-running-op longRunningOpCancel" time="0.001">
+  <testsuite name="paths" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:57" time="0.416" tests="5">
+    <testcase classname="paths fsHomeDir" name="paths fsHomeDir" time="0.002">
+    </testcase>
+    <testcase classname="paths fsParentDir" name="paths fsParentDir" time="0.001">
+    </testcase>
+    <testcase classname="paths fsParsePath" name="paths fsParsePath" time="0">
+    </testcase>
+    <testcase classname="paths fsPathSeparator" name="paths fsPathSeparator" time="0.001">
+    </testcase>
+    <testcase classname="paths fsRootDir" name="paths fsRootDir" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="native" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:12" time="0.327" tests="5">
+  <testsuite name="native" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:58" time="0.313" tests="5">
     <testcase classname="native nativeClipboardClear" name="native nativeClipboardClear" time="0.002">
     </testcase>
-    <testcase classname="native nativeClipboardRead" name="native nativeClipboardRead" time="0.001">
+    <testcase classname="native nativeClipboardRead" name="native nativeClipboardRead" time="0">
     </testcase>
     <testcase classname="native nativeClipboardWrite" name="native nativeClipboardWrite" time="0">
     </testcase>
@@ -178,8 +202,10 @@
     <testcase classname="native nativeOpen" name="native nativeOpen" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Electron tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-04T12:54:13" time="0.509" tests="1">
-    <testcase classname="Electron tests helpers Dummy test" name="Electron tests helpers Dummy test" time="0.002">
+  <testsuite name="toolbar" errors="0" failures="0" skipped="0" timestamp="2020-09-05T11:53:58" time="0.345" tests="2">
+    <testcase classname="toolbar openDevTools" name="toolbar openDevTools" time="0.003">
+    </testcase>
+    <testcase classname="toolbar reload" name="toolbar reload" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

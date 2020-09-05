@@ -6,7 +6,6 @@ import { maxScrollback } from '../common';
 import * as child_process from 'child_process';
 import * as electron from 'electron';
 import * as fs from 'fs';
-import * as os from 'os';
 import * as process from 'process';
 
 import { debounce } from 'debounce';
@@ -24,28 +23,32 @@ export const ptys: Record<string, nodePty.IPty> = {};
 export const scrollbacks: Record<string, typeof CBuffer> = {};
 
 // @see https://stackoverflow.com/questions/15939380/
-export const findCWD = debounce((pid: number, callback): void => {
-  switch (os.type()) {
-    case 'Linux':
-      fs.readlink(`/proc/${pid}/cwd`, callback);
-      break;
-    case 'Darwin':
-      child_process.exec(
-        `lsof -a -d cwd -p ${pid} | tail -1 | awk '{print $9}'`,
-        callback
-      );
-      break;
-    default:
-      callback('unsupported OS', null);
-  }
-}, cwdDebounceTimeout);
+export const findCWD = debounce(
+  (pid: number, platform: string, callback): void => {
+    switch (platform) {
+      case 'linux':
+        fs.readlink(`/proc/${pid}/cwd`, callback);
+        break;
+      case 'darwin':
+        child_process.exec(
+          `lsof -a -d cwd -p ${pid} | tail -1 | awk '{print $9}'`,
+          callback
+        );
+        break;
+      default:
+        callback('Unsupported OS', null);
+    }
+  },
+  cwdDebounceTimeout
+);
 
 export const xtermConnect = (_, id: string, cwd: string): void => {
   const theWindow = globalThis.theWindow;
   let pty = ptys[id];
   if (!pty) {
     // no pty session yet
-    const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
+    const shell =
+      process.env[process.platform === 'win32' ? 'COMSPEC' : 'SHELL'];
     pty = nodePty.spawn(shell, [], {
       cwd: cwd,
       env: process.env,
@@ -59,12 +62,12 @@ export const xtermConnect = (_, id: string, cwd: string): void => {
     let prevCWD: string = null;
     pty.onData((data: string): void => {
       if (connected.has(id))
-        theWindow?.webContents.send(Channels.xtermFromPty, id, data);
+        theWindow.webContents.send(Channels.xtermFromPty, id, data);
       scrollbacks[id].push(data);
       // look for a change in the pty session's CWD
-      findCWD(pty.pid, (err, cwd) => {
+      findCWD(pty.pid, process.platform, (err, cwd) => {
         if (!err && cwd !== prevCWD) {
-          theWindow?.webContents.send(Channels.xtermCWD, id, cwd);
+          theWindow.webContents.send(Channels.xtermCWD, id, cwd);
           prevCWD = cwd;
         }
       });
@@ -73,7 +76,7 @@ export const xtermConnect = (_, id: string, cwd: string): void => {
     // reattach to pty session
     connected.add(id);
     const scrollback = scrollbacks[id].toArray().join('');
-    theWindow?.webContents.send(Channels.xtermFromPty, id, scrollback);
+    theWindow.webContents.send(Channels.xtermFromPty, id, scrollback);
   }
 };
 

@@ -22,10 +22,10 @@ export const fsAnalyze = async (_, paths: string[]): Promise<void> => {
   try {
     const stats = await itemizePaths(paths);
     const analysis = performAnalysis(stats);
-    theWindow?.webContents.send(Channels.fsAnalyzeCompleted, analysis);
+    theWindow.webContents.send(Channels.fsAnalyzeCompleted, analysis);
   } catch (error) {
-    theWindow?.webContents.send(Channels.fsAnalyzeCompleted, {});
-    theWindow?.webContents.send(Channels.error, error.message);
+    theWindow.webContents.send(Channels.fsAnalyzeCompleted, {});
+    theWindow.webContents.send(Channels.error, error.message);
   }
 };
 

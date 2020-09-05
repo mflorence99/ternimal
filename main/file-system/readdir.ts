@@ -28,7 +28,7 @@ export const fsLoadPathRequest = async (_, dirname: string): Promise<void> => {
     const names = await fs.readdir(dirname);
     const paths = names.map((name) => path.join(dirname, name));
     const hash = await statsByPath(paths);
-    theWindow?.webContents.send(
+    theWindow.webContents.send(
       Channels.fsLoadPathSuccess,
       dirname,
       names.map((name) =>
@@ -40,8 +40,8 @@ export const fsLoadPathRequest = async (_, dirname: string): Promise<void> => {
     watcher.add(dirname);
   } catch (error) {
     if (error.code === 'EACCES')
-      theWindow?.webContents.send(Channels.error, error.message);
-    theWindow?.webContents.send(Channels.fsLoadPathFailure, dirname);
+      theWindow.webContents.send(Channels.error, error.message);
+    theWindow.webContents.send(Channels.fsLoadPathFailure, dirname);
     watcher.remove(dirname);
   }
 };
@@ -114,7 +114,7 @@ watcher.on('change', (root: string) => fsLoadPathRequest(undefined, root));
 watcher.on('fallback', (ulimit: number) => {
   const theWindow = globalThis.theWindow;
   const message = `Ran out of file handles after watching ${ulimit} files. Falling back to polling which uses more CPU. Run ulimit -n 10000 to increase the limit for open files`;
-  theWindow?.webContents.send(Channels.error, message);
+  theWindow.webContents.send(Channels.error, message);
 });
 
 ipcMain.on(Channels.fsLoadPathRequest, fsLoadPathRequest);

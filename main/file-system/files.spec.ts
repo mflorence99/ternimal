@@ -27,15 +27,9 @@ describe('files', () => {
     theWindow = new BrowserWindow({});
     globalThis.theWindow = theWindow;
     mockFileSystem({
+      '/root': mockFileSystem.directory({ mode: 0, items: {} }),
       '/fake/file': 'xxx'
     });
-  });
-
-  test('report', () => {
-    report(['this', 'that', 'another']);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied this and 2 others');
   });
 
   test('fsDelete', async () => {
@@ -71,6 +65,14 @@ describe('files', () => {
     } catch (error) {}
   });
 
+  test('fsNewDir - error', async () => {
+    const callbacks = electron['callbacks'];
+    await callbacks[Channels.fsNewDir](undefined, '/root/base', 'dir');
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toEqual('Permission denied /root/dir');
+  });
+
   test('fsNewFile', async () => {
     expect.assertions(2);
     const callbacks = electron['callbacks'];
@@ -82,6 +84,14 @@ describe('files', () => {
     } catch (error) {}
   });
 
+  test('fsNewFile - error', async () => {
+    const callbacks = electron['callbacks'];
+    await callbacks[Channels.fsNewFile](undefined, '/root/base', 'file');
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toEqual('Permission denied /root/file');
+  });
+
   test('fsRename', async () => {
     expect.assertions(2);
     const callbacks = electron['callbacks'];
@@ -91,6 +101,14 @@ describe('files', () => {
       expect(fs.lstatSync('/fake/file.txt')).toBeTruthy();
       expect(theWindow.webContents.send).toHaveBeenCalledTimes(0);
     } catch (error) {}
+  });
+
+  test('fsRename - error', async () => {
+    const callbacks = electron['callbacks'];
+    await callbacks[Channels.fsRename](undefined, '/root/hoot', 'boot');
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toEqual('Permission denied /root/hoot');
   });
 
   test('fsTouch', async () => {
@@ -105,6 +123,14 @@ describe('files', () => {
     } catch (error) {}
   });
 
+  test('fsTouch - error', async () => {
+    const callbacks = electron['callbacks'];
+    await callbacks[Channels.fsTouch](undefined, ['/root']);
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toEqual('Permission denied /root');
+  });
+
   test('fsTrash', async () => {
     expect.assertions(3);
     expect(fs.lstatSync('/fake/file')).toBeTruthy();
@@ -117,5 +143,26 @@ describe('files', () => {
       expect(error.message).toBeTruthy();
       expect(theWindow.webContents.send).toHaveBeenCalledTimes(0);
     }
+  });
+
+  test('report', () => {
+    report(['this']);
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toEqual('Permission denied this');
+  });
+
+  test('report', () => {
+    report(['this', 'that']);
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toEqual('Permission denied this and one other');
+  });
+
+  test('report', () => {
+    report(['this', 'that', 'another']);
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.error);
+    expect(calls[0][1]).toEqual('Permission denied this and 2 others');
   });
 });

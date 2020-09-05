@@ -47,7 +47,7 @@ export const report = (failures: string[]): void => {
   let message = `Permission denied ${failures[0]}`;
   if (failures.length === 2) message += ' and one other';
   if (failures.length > 2) message += ` and ${failures.length - 1} others`;
-  theWindow?.webContents.send(Channels.error, message);
+  theWindow.webContents.send(Channels.error, message);
 };
 
 export const statsByPath = async (

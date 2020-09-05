@@ -1,5 +1,7 @@
 import './copy-move';
 
+import { Channels } from '../common';
+
 import { cleanupAfterMove } from './copy-move';
 import { disambiguateTos } from './copy-move';
 import { fsCopyOrMove } from './copy-move';
@@ -28,29 +30,53 @@ describe('copy-move', () => {
     theWindow = new BrowserWindow({});
     globalThis.theWindow = theWindow;
     mockFileSystem({
+      '/fake/file': 'ppp',
       '/source': {
         'file-a': 'xxx',
         'file-b': 'yyy',
         'file-c': 'zzz'
       },
-      '/fake/file': 'ppp',
       '/target': {
-        file: 'qqq'
+        'file': 'qqq',
+        'file (1)': 'qqq'
       }
     });
   });
 
-  test('fsCopyOrMove', async () => {
+  test('fsCopy', async () => {
+    const callbacks = electron['callbacks'];
     const froms = ['/source', '/fake/file'];
     const to = '/target';
+    await callbacks[Channels.fsCopy](undefined, 'x', froms, to);
+    const itos = [
+      '/target/source/file-a',
+      '/target/source/file-b',
+      '/target/source/file-c',
+      '/target/file (2)'
+    ];
+    for (const ito of itos) expect(fs.existsSync(ito)).toBe(true);
+  });
+
+  test('fsCopyOrMove - copy to file', async () => {
+    const froms = ['/source', '/fake/file'];
+    const to = '/target/file';
     await fsCopyOrMove('x', froms, to, 'copy');
     const itos = [
       '/target/source/file-a',
       '/target/source/file-b',
       '/target/source/file-c',
-      '/target/file (1)'
+      '/target/file (2)'
     ];
     for (const ito of itos) expect(fs.existsSync(ito)).toBe(true);
+  });
+
+  test('fsCopyOrMove - error', async () => {
+    await fsCopyOrMove('x', ['/does/not/exist'], '/not/all/there', 'copy');
+    const calls = theWindow.webContents.send.mock.calls;
+    expect(calls[0][0]).toEqual(Channels.longRunningOpProgress);
+    expect(calls[1][0]).toEqual(Channels.error);
+    expect(calls[1][1]).toContain('ENOENT');
+    expect(calls[2][0]).toEqual(Channels.longRunningOpProgress);
   });
 
   test('fsCopyOrMoveImpl - copy', async () => {
@@ -64,27 +90,10 @@ describe('copy-move', () => {
       '/target/source/file-a',
       '/target/source/file-b',
       '/target/source/file-c',
-      '/target/file (1)'
+      '/target/file (2)'
     ];
+    for (const ifrom of ifroms) expect(fs.existsSync(ifrom)).toBe(true);
     await fsCopyOrMoveImpl('x', ifroms, itos, 'copy');
-    for (const ito of itos) expect(fs.existsSync(ito)).toBe(true);
-  });
-
-  test('fsCopyOrMoveImpl - move', async () => {
-    const ifroms = [
-      '/source/file-a',
-      '/source/file-b',
-      '/source/file-c',
-      '/fake/file'
-    ];
-    const itos = [
-      '/target/source/file-a',
-      '/target/source/file-b',
-      '/target/source/file-c',
-      '/target/file (1)'
-    ];
-    await fsCopyOrMoveImpl('x', ifroms, itos, 'move');
-    for (const ifrom of ifroms) expect(fs.existsSync(ifrom)).toBe(false);
     for (const ito of itos) expect(fs.existsSync(ito)).toBe(true);
   });
 
@@ -95,14 +104,14 @@ describe('copy-move', () => {
   });
 
   test('disambiguateTos', async () => {
-    const tos = ['/target/source', '/target/file'];
+    const tos = ['/target/source', '/target/file (1)'];
     await disambiguateTos(tos);
-    expect(tos).toEqual(['/target/source', '/target/file (1)']);
+    expect(tos).toEqual(['/target/source', '/target/file (2)']);
   });
 
   test('itemizeFroms', async () => {
     const froms = ['/source', '/fake/file'];
-    const tos = ['/target/source', '/target/file (1)'];
+    const tos = ['/target/source', '/target/file (2)'];
     const [ifroms, itos] = await itemizeFroms(froms, tos);
     // process.stdout.write('ifroms=' + JSON.stringify(ifroms) + '\n');
     // process.stdout.write('itos=' + JSON.stringify(itos) + '\n');
@@ -116,7 +125,7 @@ describe('copy-move', () => {
       '/target/source/file-a',
       '/target/source/file-b',
       '/target/source/file-c',
-      '/target/file (1)'
+      '/target/file (2)'
     ]);
   });
 
@@ -125,5 +134,25 @@ describe('copy-move', () => {
     const to = '/target';
     const tos = await matchFromsWithTos(froms, to);
     expect(tos).toEqual(['/target/source', '/target/file']);
+  });
+
+  // TODO: move deletes the source files -- which shouldn't matter
+  // as the mock file system should be restored before each test --
+  // but it appears that asynchromously -- somehow -- the source
+  // files disappear on us! the docs warn about async code, by we are
+  // are careful to await before leaving tests
+
+  test('fsMove', async () => {
+    const callbacks = electron['callbacks'];
+    const froms = ['/source', '/fake/file'];
+    const to = '/target';
+    await callbacks[Channels.fsMove](undefined, 'x', froms, to);
+    const ifroms = [
+      '/source/file-a',
+      '/source/file-b',
+      '/source/file-c',
+      '/fake/file'
+    ];
+    for (const ifrom of ifroms) expect(fs.existsSync(ifrom)).toBe(false);
   });
 });
