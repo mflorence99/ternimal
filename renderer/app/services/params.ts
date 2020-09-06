@@ -3,8 +3,18 @@ import { Channels } from '../common';
 import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 
-// NOTE: break the rules because we need this statically
-const { ipcRenderer } = window.require('electron');
+// TODO: break the rules because we need this statically
+// but it only works when running live, not when running Jest tests
+let ipcRenderer;
+try {
+  ipcRenderer = window.require('electron').ipcRenderer;
+} catch (error) {
+  ipcRenderer = {
+    on: (): void => {},
+    send: (): void => {},
+    sendSync: (): void => {}
+  };
+}
 
 @Injectable({ providedIn: 'root' })
 export class Params {

@@ -2,6 +2,8 @@
 import { Channels } from '../common';
 import { StorageService } from './storage';
 
+import { prepare } from './services.spec';
+
 import { TestBed } from '@angular/core/testing';
 
 // @see __mocks__/ngx-electron.ts
@@ -10,6 +12,7 @@ describe('StorageService', () => {
   let storage: StorageService;
 
   beforeEach(() => {
+    prepare();
     storage = TestBed.inject(StorageService);
   });
 

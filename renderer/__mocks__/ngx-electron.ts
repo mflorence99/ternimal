@@ -1,7 +1,4 @@
-import { Injectable } from '@angular/core';
-
-@Injectable({ providedIn: 'root' })
-export class ElectronService {
+export class MockElectronService {
   ipcRenderer = {
     on: jest.fn(),
     send: jest.fn(),

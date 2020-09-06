@@ -6,8 +6,11 @@ describe('Params', () => {
   let params: Params;
 
   beforeEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     params = TestBed.inject(Params);
+  });
+
+  test('log', () => {
+    expect(params.log.colorize('red')).toContain('red');
   });
 
   test('uuid', () => {
