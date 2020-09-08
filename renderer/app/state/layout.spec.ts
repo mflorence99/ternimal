@@ -36,6 +36,26 @@ describe('LayoutState', () => {
     bundle.selection.selectLayout({ layoutID: 'a' });
   });
 
+  test('closeSplit - not found', () => {
+    bundle.layout.closeSplit({
+      splitID: 'does not exist',
+      ix: 0,
+      visitor: jest.fn()
+    });
+    expect(bundle.layout.layout).toEqual(state.a);
+  });
+
+  test('makeSplit - not found', () => {
+    bundle.layout.makeSplit({
+      splitID: 'does not exist',
+      ix: 0,
+      direction: 'vertical',
+      before: true,
+      visitor: jest.fn()
+    });
+    expect(bundle.layout.layout).toEqual(state.a);
+  });
+
   test('makeSplit/closeSplit - vertical - before (aka up)', () => {
     bundle.layout.makeSplit({
       splitID: 'a.b',
@@ -212,6 +232,11 @@ describe('LayoutState', () => {
         { id: 'a.b.2.ii', size: 75 }
       ]
     });
+  });
+
+  test('updateSplit - not found', () => {
+    bundle.layout.updateSplit({ splitID: 'does not exist', sizes: [25, 75] });
+    expect(bundle.layout.layout).toEqual(state.a);
   });
 
   test('newLayout/remove', () => {
