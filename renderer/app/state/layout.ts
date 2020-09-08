@@ -185,6 +185,7 @@ export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
     for (const inner of layout.splits ?? []) {
       if (!visitor(inner) || !this.everySplit(inner, visitor)) return false;
     }
+    return true;
   }
 
   findSplitByID(id: string, model = this.snapshot): Layout {
@@ -208,6 +209,7 @@ export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
     for (const inner of layout.splits ?? []) {
       if (visitor(inner) || this.someSplit(inner, visitor)) return true;
     }
+    return false;
   }
 
   visitSplits(layout: Layout, visitor: SplitVisitorFn): void {

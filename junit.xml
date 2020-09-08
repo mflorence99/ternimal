@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="9" failures="0" time="6.872">
-  <testsuite name="xterm-pty" errors="0" failures="0" skipped="0" timestamp="2020-09-08T08:57:37" time="6.356" tests="9">
-    <testcase classname="xterm-pty findCWD - Linux" name="xterm-pty findCWD - Linux" time="0.509">
+<testsuites name="jest tests" tests="13" failures="0" time="3.975">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-08T11:45:09" time="3.458" tests="13">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="xterm-pty findCWD - MacOS" name="xterm-pty findCWD - MacOS" time="1.384">
+    <testcase classname="LayoutState makeSplit/closeSplit - vertical - before" name="LayoutState makeSplit/closeSplit - vertical - before" time="0.034">
     </testcase>
-    <testcase classname="xterm-pty findCWD - Windows" name="xterm-pty findCWD - Windows" time="0.504">
+    <testcase classname="LayoutState makeSplit/closeSplit - vertical - after" name="LayoutState makeSplit/closeSplit - vertical - after" time="0.004">
     </testcase>
-    <testcase classname="xterm-pty xtermConnect" name="xterm-pty xtermConnect" time="0.006">
+    <testcase classname="LayoutState makeSplit/closeSplit - horizontal - before" name="LayoutState makeSplit/closeSplit - horizontal - before" time="0.004">
     </testcase>
-    <testcase classname="xterm-pty xtermConnect - detect CWD" name="xterm-pty xtermConnect - detect CWD" time="0.601">
+    <testcase classname="LayoutState makeSplit/closeSplit - horizontal - after" name="LayoutState makeSplit/closeSplit - horizontal - after" time="0.003">
     </testcase>
-    <testcase classname="xterm-pty xtermDisconnect" name="xterm-pty xtermDisconnect" time="0.002">
+    <testcase classname="LayoutState makeSplit/closeSplit - collapse splits" name="LayoutState makeSplit/closeSplit - collapse splits" time="0.003">
     </testcase>
-    <testcase classname="xterm-pty xtermKill" name="xterm-pty xtermKill" time="0.002">
+    <testcase classname="LayoutState updateSplit" name="LayoutState updateSplit" time="0.003">
     </testcase>
-    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0">
+    <testcase classname="LayoutState newLayout/remove" name="LayoutState newLayout/remove" time="0.003">
     </testcase>
-    <testcase classname="xterm-pty xtermToPty" name="xterm-pty xtermToPty" time="0.001">
+    <testcase classname="LayoutState findSplitByID" name="LayoutState findSplitByID" time="0.005">
+    </testcase>
+    <testcase classname="LayoutState layout -- from selection" name="LayoutState layout -- from selection" time="0.004">
+    </testcase>
+    <testcase classname="LayoutState everySplit" name="LayoutState everySplit" time="0.003">
+    </testcase>
+    <testcase classname="LayoutState someSplit" name="LayoutState someSplit" time="0.003">
+    </testcase>
+    <testcase classname="LayoutState visitSplits" name="LayoutState visitSplits" time="0.005">
     </testcase>
   </testsuite>
 </testsuites>

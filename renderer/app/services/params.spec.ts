@@ -1,5 +1,7 @@
 import { Params } from './params';
 
+import 'jest-extended';
+
 import { TestBed } from '@angular/core/testing';
 
 describe('Params', () => {
@@ -16,6 +18,6 @@ describe('Params', () => {
   test('uuid', () => {
     const uuid1 = Params.initialLayoutID;
     const uuid2 = Params.initialLayoutID;
-    expect(uuid1).toEqual(uuid2);
+    expect(uuid1).toBe(uuid2);
   });
 });

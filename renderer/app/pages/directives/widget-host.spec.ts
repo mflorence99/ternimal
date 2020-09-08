@@ -1,5 +1,7 @@
 import { WidgetHostDirective } from './widget-host';
 
+import 'jest-extended';
+
 import { ViewContainerRef } from '@angular/core';
 
 describe('WidgetHostDirective', () => {

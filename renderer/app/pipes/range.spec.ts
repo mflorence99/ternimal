@@ -1,5 +1,7 @@
 import { RangePipe } from './range';
 
+import 'jest-extended';
+
 describe('RangePipe', () => {
   test('creates array without offset', () => {
     const range = new RangePipe();

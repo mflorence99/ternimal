@@ -1,5 +1,7 @@
 import { Utils } from './utils';
 
+import 'jest-extended';
+
 import { TestBed } from '@angular/core/testing';
 
 describe('Utils', () => {
@@ -18,11 +20,11 @@ describe('Utils', () => {
         };
       }
     });
-    expect(utils.colorOf(element, 'var(--may-grey-900)', 0)).toEqual(
+    expect(utils.colorOf(element, 'var(--may-grey-900)', 0)).toBe(
       'rgba(0, 0, 0, 0)'
     );
-    expect(utils.colorOf(element, 'var(--may-grey-900)', 1)).toEqual('#123456');
-    expect(utils.colorOf(element, 'var(--may-grey-900)', 0.5)).toEqual(
+    expect(utils.colorOf(element, 'var(--may-grey-900)', 1)).toBe('#123456');
+    expect(utils.colorOf(element, 'var(--may-grey-900)', 0.5)).toBe(
       '#12345680'
     );
   });
@@ -35,14 +37,14 @@ describe('Utils', () => {
 
   test('hasProperty (string)', () => {
     const obj = { a: 1, b: { c: 2 } };
-    expect(utils.hasProperty(obj, 'a')).toBe(true);
-    expect(utils.hasProperty(obj, 'c')).toBe(false);
+    expect(utils.hasProperty(obj, 'a')).toBeTrue();
+    expect(utils.hasProperty(obj, 'c')).toBeFalse();
   });
 
   test('hasProperty (regex)', () => {
     const obj = { alpha: 1, aLPHA: { gamma: 2 } };
-    expect(utils.hasProperty(obj, /^[a-z]*$/)).toBe(true);
-    expect(utils.hasProperty(obj, /^[A-Z]*$/)).toBe(false);
+    expect(utils.hasProperty(obj, /^[a-z]*$/)).toBeTrue();
+    expect(utils.hasProperty(obj, /^[A-Z]*$/)).toBeFalse();
   });
 
   test('merge', () => {
