@@ -135,7 +135,7 @@ export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
           ];
       }
       // visit every split we're adjusting
-      this.visitSplits(split, (split) => visitor?.(split));
+      if (visitor) this.visitSplits(split, (split) => visitor(split));
       this.ctx.setState(model);
     }
   }
@@ -145,8 +145,11 @@ export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
     @Payload('LayoutState.newLayout') { layoutID, visitor }: DataActionParams
   ): void {
     this.ctx.setState(patch({ [layoutID]: LayoutState.defaultLayout() }));
-    const layout = this.ctx.getState()[layoutID];
-    this.visitSplits(layout, (split) => visitor?.(split));
+    // visit every split in the new layout
+    if (visitor) {
+      const layout = this.ctx.getState()[layoutID];
+      this.visitSplits(layout, (split) => visitor(split));
+    }
   }
 
   @DataAction({ insideZone: true })
@@ -156,7 +159,7 @@ export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
     const layout = this.ctx.getState()[layoutID];
     if (layout) {
       // visit every layout we're deleting
-      this.visitSplits(layout, (split) => visitor?.(split));
+      if (visitor) this.visitSplits(layout, (split) => visitor(split));
       this.ctx.setState(scratch(layoutID));
     }
   }
