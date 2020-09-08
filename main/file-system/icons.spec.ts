@@ -3,6 +3,8 @@ import './icons';
 import { makeColor } from './icons';
 import { makeIcon } from './icons';
 
+import 'jest-extended';
+
 import * as fs from 'fs-extra';
 import * as path from 'path';
 
@@ -13,7 +15,7 @@ describe('icons', () => {
     expect(color).toEqual('var(--mat-deep-orange-a100)');
     // color of file
     color = makeColor(__filename, fs.lstatSync(__filename));
-    expect(color).toBeTruthy();
+    expect(color).toEqual(expect.stringMatching(/^var\(.*\)$/));
     // color of symlink
     const symlink = path.join(__dirname, '..', 'common', 'index.ts');
     color = makeColor(symlink, fs.lstatSync(symlink));
@@ -29,7 +31,7 @@ describe('icons', () => {
     expect(icon).toEqual(['fas', 'folder']);
     // icon of file
     icon = makeIcon(__filename, fs.lstatSync(__filename));
-    expect(icon).toBeTruthy();
+    expect(icon).toEqual(expect.any(Array));
     // icon of symlink
     const symlink = path.join(__dirname, '..', 'common', 'index.ts');
     icon = makeIcon(symlink, fs.lstatSync(symlink));

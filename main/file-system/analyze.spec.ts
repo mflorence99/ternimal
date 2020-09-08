@@ -7,6 +7,8 @@ import { fsAnalyze } from './analyze';
 import { itemizePaths } from './analyze';
 import { performAnalysis } from './analyze';
 
+import 'jest-extended';
+
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
 
@@ -25,40 +27,67 @@ describe('analyze', () => {
 
   test('fsAnalyze', async () => {
     await fsAnalyze(undefined, [__dirname]);
-    expect(theWindow.webContents.send).toHaveBeenCalledTimes(1);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.fsAnalyzeCompleted);
-    const analysis: AnalysisByExt = calls[0][1];
-    expect(analysis['.ts'].count).toBeGreaterThan(0);
-    expect(analysis['.ts'].icon).toEqual(['far', 'file-code']);
-    expect(analysis['.ts'].size).toBeGreaterThan(0);
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.fsAnalyzeCompleted,
+      expect.objectContaining({
+        '.ts': {
+          color: expect.stringMatching(/^var\(.*\)$/),
+          count: expect.any(Number),
+          icon: ['far', 'file-code'],
+          size: expect.any(Number)
+        }
+      })
+    );
   });
 
   test('fsAnalyze (failure)', async () => {
     await fsAnalyze(undefined, ['/root']);
-    expect(theWindow.webContents.send).toHaveBeenCalledTimes(2);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.fsAnalyzeCompleted);
-    expect(calls[0][1]).toEqual({});
-    expect(calls[1][0]).toEqual(Channels.error);
-    expect(calls[1][1]).toContain('EACCES');
+    expect(theWindow.webContents.send).toHaveBeenNthCalledWith(
+      1,
+      Channels.fsAnalyzeCompleted,
+      {}
+    );
+    expect(theWindow.webContents.send).toHaveBeenNthCalledWith(
+      2,
+      Channels.error,
+      expect.stringMatching(/^EACCES/)
+    );
   });
 
   test('itemizePaths (directory)', async () => {
     const hash: Record<string, fs.Stats> = await itemizePaths([__dirname]);
-    expect(hash[__filename].size).toBeGreaterThan(0);
+    expect(hash).toEqual(
+      expect.objectContaining({
+        [__filename]: expect.objectContaining({
+          size: expect.any(Number)
+        })
+      })
+    );
   });
 
   test('itemizePaths (file)', async () => {
     const hash: Record<string, fs.Stats> = await itemizePaths([__filename]);
-    expect(hash[__filename].size).toBeGreaterThan(0);
+    expect(hash).toEqual(
+      expect.objectContaining({
+        [__filename]: expect.objectContaining({
+          size: expect.any(Number)
+        })
+      })
+    );
   });
 
   test('performAnalysis', async () => {
     const hash: Record<string, fs.Stats> = await itemizePaths([__dirname]);
     const analysis: AnalysisByExt = performAnalysis(hash);
-    expect(analysis['.ts'].count).toBeGreaterThan(0);
-    expect(analysis['.ts'].icon).toEqual(['far', 'file-code']);
-    expect(analysis['.ts'].size).toBeGreaterThan(0);
+    expect(analysis).toEqual(
+      expect.objectContaining({
+        '.ts': {
+          color: expect.stringMatching(/^var\(.*\)/),
+          count: expect.any(Number),
+          icon: ['far', 'file-code'],
+          size: expect.any(Number)
+        }
+      })
+    );
   });
 });

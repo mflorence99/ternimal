@@ -5,6 +5,7 @@ import { Channels } from '../common';
 import { connected } from './xterm-pty';
 import { cwdDebounceTimeout } from '../common';
 import { findCWD } from './xterm-pty';
+import { on } from '../common';
 import { ptys } from './xterm-pty';
 import { scrollbacks } from './xterm-pty';
 import { xtermConnect } from './xterm-pty';
@@ -12,6 +13,8 @@ import { xtermDisconnect } from './xterm-pty';
 import { xtermKill } from './xterm-pty';
 import { xtermResizePty } from './xterm-pty';
 import { xtermToPty } from './xterm-pty';
+
+import 'jest-extended';
 
 import * as electron from 'electron';
 import * as process from 'process';
@@ -23,13 +26,13 @@ import * as process from 'process';
 const { BrowserWindow } = electron;
 
 describe('xterm-pty', () => {
+  const onData = (pty): Function => pty.onData.mock.calls[0][0];
   let theWindow;
 
   beforeEach(() => {
     theWindow = new BrowserWindow({});
     globalThis.theWindow = theWindow;
-    const callbacks = electron['callbacks'];
-    callbacks['window-all-closed']();
+    on('window-all-closed')();
   });
 
   test('findCWD - Linux', (done) => {
@@ -50,7 +53,7 @@ describe('xterm-pty', () => {
 
   test('findCWD - Windows', (done) => {
     findCWD(process.pid, 'win32', (err, cwd) => {
-      expect(err).toEqual('Unsupported OS');
+      expect(err).toBe('Unsupported OS');
       expect(cwd).toBeNull();
       done();
     });
@@ -59,58 +62,59 @@ describe('xterm-pty', () => {
   test('xtermConnect', () => {
     // attempt connect
     xtermConnect(undefined, 'x', '/home');
-    expect(connected.has('x')).toBe(true);
+    expect(connected.has('x')).toBeTrue();
     const pty = ptys['x'];
     expect(pty).toBeTruthy();
     // generate 'xxx' data
-    (pty.onData as any).mock.calls[0][0]('xxx');
-    expect(theWindow.webContents.send).toHaveBeenCalledTimes(1);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.xtermFromPty);
-    expect(calls[0][1]).toEqual('x');
-    expect(calls[0][2]).toEqual('xxx');
+    onData(pty)('xxx');
+    expect(theWindow.webContents.send).toHaveBeenNthCalledWith(
+      1,
+      Channels.xtermFromPty,
+      'x',
+      'xxx'
+    );
     // scrollbacks is whatever we just sent
-    expect(scrollbacks['x'].toArray().join('')).toEqual('xxx');
+    expect(scrollbacks['x'].toArray().join('')).toBe('xxx');
     // connect again and we'll receive the scrollback data
     xtermConnect(undefined, 'x', '/home');
-    expect(theWindow.webContents.send).toHaveBeenCalledTimes(2);
-    expect(calls[1][0]).toEqual(Channels.xtermFromPty);
-    expect(calls[1][1]).toEqual('x');
-    expect(calls[1][2]).toEqual('xxx');
+    expect(theWindow.webContents.send).toHaveBeenNthCalledWith(
+      2,
+      Channels.xtermFromPty,
+      'x',
+      'xxx'
+    );
   });
 
   test('xtermConnect - detect CWD', (done) => {
     xtermConnect(undefined, 'x', '/home');
     // trigger change in CWD
     const pty = ptys['x'];
-    (pty.onData as any).mock.calls[0][0](`cd ${__dirname}`);
+    onData(pty)(`cd ${__dirname}`);
     // NOTE: this sucks, but any other way is way too complicated
     // and for little reward
     setTimeout(() => {
       expect(theWindow.webContents.send).toHaveBeenCalledTimes(2);
-      const calls = theWindow.webContents.send.mock.calls;
-      expect(calls[1][0]).toEqual(Channels.xtermCWD);
       done();
     }, cwdDebounceTimeout + 100);
   });
 
   test('xtermDisconnect', () => {
     xtermConnect(undefined, 'x', '/home');
-    expect(connected.has('x')).toBe(true);
+    expect(connected.has('x')).toBeTrue();
     xtermDisconnect(undefined, 'x');
-    expect(connected.has('x')).toBe(false);
+    expect(connected.has('x')).toBeFalse();
   });
 
   test('xtermKill', () => {
     xtermConnect(undefined, 'x', '/home');
-    expect(connected.has('x')).toBe(true);
+    expect(connected.has('x')).toBeTrue();
     const pty = ptys['x'];
     expect(ptys['x']).toBeTruthy();
     xtermKill(undefined, 'x');
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(pty.kill).toHaveBeenCalled();
-    expect(connected.has('x')).toBe(false);
-    expect(ptys['x']).toBeFalsy();
+    expect(connected.has('x')).toBeFalse();
+    expect(ptys['x']).toBeUndefined();
   });
 
   test('xtermResizePty', () => {
@@ -118,19 +122,14 @@ describe('xterm-pty', () => {
     const pty = ptys['x'];
     xtermResizePty(undefined, 'x', 80, 40);
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(pty.resize).toHaveBeenCalled();
-    const calls = (pty.resize as any).mock.calls;
-    expect(calls[0][0]).toEqual(80);
-    expect(calls[0][1]).toEqual(40);
+    expect(pty.resize).toHaveBeenCalledWith(80, 40);
   });
 
-  test('xtermResizePty', () => {
+  test('xtermToPty', () => {
     xtermConnect(undefined, 'x', '/home');
     const pty = ptys['x'];
     xtermToPty(undefined, 'x', 'xxx');
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(pty.write).toHaveBeenCalled();
-    const calls = (pty.write as any).mock.calls;
-    expect(calls[0][0]).toEqual('xxx');
+    expect(pty.write).toHaveBeenCalledWith('xxx');
   });
 });

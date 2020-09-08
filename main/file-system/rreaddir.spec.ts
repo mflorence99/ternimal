@@ -1,5 +1,7 @@
 import { rreaddir } from './rreaddir';
 
+import 'jest-extended';
+
 import * as fs from 'fs-extra';
 import * as path from 'path';
 
@@ -39,7 +41,7 @@ describe('rreaddir', () => {
     try {
       await rreaddir('/root', hash);
     } catch (error) {
-      expect(error.message).toBeTruthy();
+      expect(error.message).toEqual(expect.stringMatching(/^EACCES/));
       expect(hash).toEqual({});
     }
   });
@@ -50,7 +52,7 @@ describe('rreaddir', () => {
     try {
       await rreaddir('/home', hash, 0, 500);
     } catch (error) {
-      expect(error.message).toBeTruthy();
+      expect(error.message).toContain(' 500ms ');
       expect(hash).toEqual({});
     }
   });

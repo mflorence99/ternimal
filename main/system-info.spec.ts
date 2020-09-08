@@ -1,9 +1,10 @@
 import './system-info';
 
 import { Channels } from './common';
-import { SystemInfo } from './common';
 
-import * as electron from 'electron';
+import { on } from './common';
+
+import 'jest-extended';
 
 // @see __mocks__/electron.ts
 
@@ -17,10 +18,12 @@ describe('system-info', () => {
   });
 
   test('systemInfo', () => {
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.systemInfo](event);
-    const systemInfo: SystemInfo = event.returnValue;
-    expect(systemInfo.cpuUsage).toBeGreaterThanOrEqual(0);
-    expect(systemInfo.memUsage).toBeGreaterThanOrEqual(0);
+    on(Channels.systemInfo)(event);
+    expect(event.returnValue).toEqual(
+      expect.objectContaining({
+        cpuUsage: expect.any(Number),
+        memUsage: expect.any(Number)
+      })
+    );
   });
 });

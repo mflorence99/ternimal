@@ -2,7 +2,9 @@ import './fonts';
 
 import { Channels } from './common';
 
-import * as electron from 'electron';
+import { on } from './common';
+
+import 'jest-extended';
 
 // @see __mocks__/electron.ts
 
@@ -16,8 +18,7 @@ describe('fonts', () => {
   });
 
   test('getAvailableFonts', async () => {
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.getAvailableFonts](event);
-    expect(event.returnValue.length).toBeGreaterThan(1);
+    await on(Channels.getAvailableFonts)(event);
+    expect(event.returnValue).toBeArray();
   });
 });

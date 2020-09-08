@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="7" failures="0" time="4.463">
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-06T21:16:42" time="3.915" tests="7">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+<testsuites name="jest tests" tests="9" failures="0" time="6.872">
+  <testsuite name="xterm-pty" errors="0" failures="0" skipped="0" timestamp="2020-09-08T08:57:37" time="6.356" tests="9">
+    <testcase classname="xterm-pty findCWD - Linux" name="xterm-pty findCWD - Linux" time="0.509">
     </testcase>
-    <testcase classname="LayoutState makeSplit/closeSplit - vertical" name="LayoutState makeSplit/closeSplit - vertical" time="0.035">
+    <testcase classname="xterm-pty findCWD - MacOS" name="xterm-pty findCWD - MacOS" time="1.384">
     </testcase>
-    <testcase classname="LayoutState makeSplit/closeSplit - horizontal" name="LayoutState makeSplit/closeSplit - horizontal" time="0.006">
+    <testcase classname="xterm-pty findCWD - Windows" name="xterm-pty findCWD - Windows" time="0.504">
     </testcase>
-    <testcase classname="LayoutState updateSplit" name="LayoutState updateSplit" time="0.005">
+    <testcase classname="xterm-pty xtermConnect" name="xterm-pty xtermConnect" time="0.006">
     </testcase>
-    <testcase classname="LayoutState newLayout/remove" name="LayoutState newLayout/remove" time="0.007">
+    <testcase classname="xterm-pty xtermConnect - detect CWD" name="xterm-pty xtermConnect - detect CWD" time="0.601">
     </testcase>
-    <testcase classname="LayoutState findSplitByID" name="LayoutState findSplitByID" time="0.003">
+    <testcase classname="xterm-pty xtermDisconnect" name="xterm-pty xtermDisconnect" time="0.002">
     </testcase>
-    <testcase classname="LayoutState visitSplits" name="LayoutState visitSplits" time="0.004">
+    <testcase classname="xterm-pty xtermKill" name="xterm-pty xtermKill" time="0.002">
+    </testcase>
+    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0">
+    </testcase>
+    <testcase classname="xterm-pty xtermToPty" name="xterm-pty xtermToPty" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

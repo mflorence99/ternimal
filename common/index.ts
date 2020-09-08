@@ -73,6 +73,14 @@ export enum Channels {
   xtermResizePty = 'xterm.resizepty'
 }
 
+// NOTE: for testing
+globalThis.TERNIMAL_CHANNELS = {};
+type CB = (...args: any) => any | Promise<any>;
+export const on = (channel: Channels | string, cb?: CB): CB => {
+  if (cb) globalThis.TERNIMAL_CHANNELS[channel] = cb;
+  return globalThis.TERNIMAL_CHANNELS[channel];
+};
+
 export interface Chmod {
   group: ChmodFlags;
   others: ChmodFlags;

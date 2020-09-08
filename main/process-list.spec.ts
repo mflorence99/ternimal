@@ -1,9 +1,11 @@
 import './process-list';
 
-import { ProcessList } from './common';
+import { Channels } from './common';
 
 import { processListKill } from './process-list';
 import { processListRequest } from './process-list';
+
+import 'jest-extended';
 
 import * as electron from 'electron';
 
@@ -30,8 +32,9 @@ describe('process-list', () => {
 
   test('processListRequest', async () => {
     await processListRequest();
-    const processList: ProcessList =
-      theWindow.webContents.send.mock.calls[0][1];
-    expect(processList.length).toBeGreaterThanOrEqual(1);
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.processListResponse,
+      expect.any(Array)
+    );
   });
 });

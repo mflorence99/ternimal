@@ -45,12 +45,7 @@ ipcMain.on(
 );
 
 ipcMain.on(Channels.fsExists, (event: Event, path: string): void => {
-  try {
-    fs.accessSync(path);
-    event.returnValue = true;
-  } catch (error) {
-    event.returnValue = false;
-  }
+  event.returnValue = fs.existsSync(path);
 });
 
 ipcMain.on(

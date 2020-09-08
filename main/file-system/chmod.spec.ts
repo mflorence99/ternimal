@@ -8,6 +8,8 @@ import { fsChmodImpl } from './chmod';
 import { report } from './chmod';
 import { statsByPath } from './chmod';
 
+import 'jest-extended';
+
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
 
@@ -53,8 +55,9 @@ describe('chmod', () => {
       }
     };
     await fsChmod(undefined, paths, chmod);
+    // mode has been changed
     const stat = fs.lstatSync('/fake/file');
-    expect(stat.mode).toEqual(33279);
+    expect(stat.mode).toBe(33279);
   });
 
   test('fsChmod (failure)', async () => {
@@ -77,11 +80,13 @@ describe('chmod', () => {
       }
     };
     await fsChmod(undefined, paths, chmod);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied /does/not/exist');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied /does/not/exist'
+    );
+    // mode is unchanged
     const stat = fs.lstatSync('/fake/file');
-    expect(stat.mode).toEqual(33206);
+    expect(stat.mode).toBe(33206);
   });
 
   test('fsChmodImpl', async () => {
@@ -105,33 +110,43 @@ describe('chmod', () => {
       }
     };
     await fsChmodImpl(paths, originalStats, chmod);
+    // mode has been changed
     const stat = fs.lstatSync('/fake/file');
     expect(stat.mode).toEqual(33279);
   });
 
   test('report', () => {
     report(['this']);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied this');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied this'
+    );
   });
 
   test('report', () => {
     report(['this', 'that']);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied this and one other');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied this and one other'
+    );
   });
 
   test('report', () => {
     report(['this', 'that', 'another']);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied this and 2 others');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied this and 2 others'
+    );
   });
 
   test('statsByPath', async () => {
     const hash: Record<string, fs.Stats> = await statsByPath(['/fake/file']);
-    expect(hash['/fake/file'].size).toBeGreaterThan(0);
+    expect(hash).toEqual(
+      expect.objectContaining({
+        '/fake/file': expect.objectContaining({
+          size: expect.any(Number)
+        })
+      })
+    );
   });
 });

@@ -1,14 +1,11 @@
-const callbacks = {};
+import { on } from '../common';
 
 function filewatcher(): any {
   return {
     add: jest.fn(),
-    on: jest.fn((event, cb) => (callbacks[event] = cb)),
+    on: jest.fn(on),
     remove: jest.fn()
   };
 }
-
-// private API for testing
-filewatcher.callbacks = callbacks;
 
 module.exports = filewatcher;

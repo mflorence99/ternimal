@@ -2,7 +2,10 @@ import './files';
 
 import { Channels } from '../common';
 
+import { on } from '../common';
 import { report } from './files';
+
+import 'jest-extended';
 
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
@@ -33,136 +36,99 @@ describe('files', () => {
   });
 
   test('fsDelete', async () => {
-    expect.assertions(3);
-    expect(fs.lstatSync('/fake/file')).toBeTruthy();
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsDelete](undefined, ['/fake/file']);
-    // @see https://stackoverflow.com/questions/46042613/
-    try {
-      fs.lstatSync('/fake/file');
-    } catch (error) {
-      expect(error.message).toBeTruthy();
-      expect(theWindow.webContents.send).toHaveBeenCalledTimes(0);
-    }
+    expect(fs.existsSync('/fake/file')).toBeTrue();
+    await on(Channels.fsDelete)(undefined, ['/fake/file']);
+    expect(fs.existsSync('/fake/file')).toBeFalse();
   });
 
   test('fsExists', () => {
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.fsExists](event, '/fake/file');
-    expect(event.returnValue).toBe(true);
-    callbacks[Channels.fsExists](event, __filename);
-    expect(event.returnValue).toBe(false);
+    on(Channels.fsExists)(event, '/fake/file');
+    expect(event.returnValue).toBeTrue();
+    on(Channels.fsExists)(event, __filename);
+    expect(event.returnValue).toBeFalse();
   });
 
   test('fsNewDir', async () => {
-    expect.assertions(2);
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsNewDir](undefined, '/fake/base', 'directory');
-    // @see https://stackoverflow.com/questions/46042613/
-    try {
-      expect(fs.lstatSync('/fake/directory')).toBeTruthy();
-      expect(theWindow.webContents.send).toHaveBeenCalledTimes(0);
-    } catch (error) {}
+    await on(Channels.fsNewDir)(undefined, '/fake/base', 'directory');
+    expect(fs.existsSync('/fake/directory')).toBeTrue();
   });
 
   test('fsNewDir - error', async () => {
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsNewDir](undefined, '/root/base', 'dir');
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied /root/dir');
+    await on(Channels.fsNewDir)(undefined, '/root/base', 'dir');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied /root/dir'
+    );
   });
 
   test('fsNewFile', async () => {
-    expect.assertions(2);
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsNewFile](undefined, '/fake/base', 'file.txt');
-    // @see https://stackoverflow.com/questions/46042613/
-    try {
-      expect(fs.lstatSync('/fake/file.txt')).toBeTruthy();
-      expect(theWindow.webContents.send).toHaveBeenCalledTimes(0);
-    } catch (error) {}
+    await on(Channels.fsNewFile)(undefined, '/fake/base', 'file.txt');
+    expect(fs.existsSync('/fake/file.txt')).toBeTrue();
   });
 
   test('fsNewFile - error', async () => {
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsNewFile](undefined, '/root/base', 'file');
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied /root/file');
+    await on(Channels.fsNewFile)(undefined, '/root/base', 'file');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied /root/file'
+    );
   });
 
   test('fsRename', async () => {
-    expect.assertions(2);
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsRename](undefined, '/fake/file', 'file.txt');
-    // @see https://stackoverflow.com/questions/46042613/
-    try {
-      expect(fs.lstatSync('/fake/file.txt')).toBeTruthy();
-      expect(theWindow.webContents.send).toHaveBeenCalledTimes(0);
-    } catch (error) {}
+    await on(Channels.fsRename)(undefined, '/fake/file', 'file.txt');
+    expect(fs.existsSync('/fake/file')).toBeFalse();
+    expect(fs.existsSync('/fake/file.txt')).toBeTrue();
   });
 
   test('fsRename - error', async () => {
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsRename](undefined, '/root/hoot', 'boot');
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied /root/hoot');
+    await on(Channels.fsRename)(undefined, '/root/hoot', 'boot');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied /root/hoot'
+    );
   });
 
   test('fsTouch', async () => {
-    expect.assertions(2);
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsTouch](undefined, ['/fake/file']);
-    // @see https://stackoverflow.com/questions/46042613/
-    try {
-      const stat = fs.lstatSync('/fake/file');
-      expect(Date.now() - stat.mtimeMs).toBeLessThan(1000);
-      expect(theWindow.webContents.send).toHaveBeenCalledTimes(0);
-    } catch (error) {}
+    await on(Channels.fsTouch)(undefined, ['/fake/file']);
+    const stat = fs.lstatSync('/fake/file');
+    expect(Date.now() - stat.mtimeMs).toBeLessThan(1000);
   });
 
   test('fsTouch - error', async () => {
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsTouch](undefined, ['/root']);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied /root');
+    await on(Channels.fsTouch)(undefined, ['/root']);
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied /root'
+    );
   });
 
   test('fsTrash', async () => {
-    expect.assertions(3);
-    expect(fs.lstatSync('/fake/file')).toBeTruthy();
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.fsTrash](undefined, ['/fake/file']);
-    // @see https://stackoverflow.com/questions/46042613/
-    try {
-      fs.lstatSync('/fake/file');
-    } catch (error) {
-      expect(error.message).toBeTruthy();
-      expect(theWindow.webContents.send).toHaveBeenCalledTimes(0);
-    }
+    expect(fs.existsSync('/fake/file')).toBeTrue();
+    await on(Channels.fsTrash)(undefined, ['/fake/file']);
+    expect(fs.existsSync('/fake/file')).toBeFalse();
   });
 
   test('report', () => {
     report(['this']);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied this');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied this'
+    );
   });
 
   test('report', () => {
     report(['this', 'that']);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied this and one other');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied this and one other'
+    );
   });
 
   test('report', () => {
     report(['this', 'that', 'another']);
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.error);
-    expect(calls[0][1]).toEqual('Permission denied this and 2 others');
+    expect(theWindow.webContents.send).toHaveBeenCalledWith(
+      Channels.error,
+      'Permission denied this and 2 others'
+    );
   });
 });

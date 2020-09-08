@@ -27,7 +27,7 @@ module.exports = {
     '<rootDir>/renderer/app/services',
     '<rootDir>/renderer/app/state'
   ],
-  setupFilesAfterEnv: ['<rootDir>/renderer/test.ts'],
+  setupFilesAfterEnv: ['jest-extended', '<rootDir>/renderer/test.ts'],
   testMatch: ['**/+(*.)+(spec).+(ts)'],
   testResultsProcessor: 'jest-junit',
   transform: {

@@ -2,6 +2,10 @@ import './toolbar';
 
 import { Channels } from './common';
 
+import { on } from './common';
+
+import 'jest-extended';
+
 import * as electron from 'electron';
 
 // @see __mocks__/electron.ts
@@ -18,14 +22,12 @@ describe('toolbar', () => {
   });
 
   test('openDevTools', () => {
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.openDevTools]();
+    on(Channels.openDevTools)();
     expect(theWindow.webContents.openDevTools).toHaveBeenCalled();
   });
 
   test('reload', () => {
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.reload]();
+    on(Channels.reload)();
     expect(theWindow.webContents.reload).toHaveBeenCalled();
   });
 });

@@ -2,6 +2,10 @@ import './native';
 
 import { Channels } from './common';
 
+import { on } from './common';
+
+import 'jest-extended';
+
 import * as electron from 'electron';
 
 import opener = require('opener');
@@ -29,36 +33,32 @@ describe('native', () => {
   test('nativeClipboardClear', () => {
     clipboard.writeText('xxx');
     expect(clipboard.readText()).toBe('xxx');
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.nativeClipboardClear]();
-    expect(clipboard.readText()).toBe(null);
+    on(Channels.nativeClipboardClear)();
+    expect(clipboard.readText()).toBeNil();
   });
 
   test('nativeClipboardRead', () => {
     clipboard.writeText('xxx');
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.nativeClipboardRead](event);
+    on(Channels.nativeClipboardRead)(event);
     expect(event.returnValue).toBe('xxx');
   });
 
   test('nativeClipboardWrite', () => {
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.nativeClipboardWrite](event, 'xxx');
+    on(Channels.nativeClipboardWrite)(event, 'xxx');
     expect(clipboard.readText()).toBe('xxx');
   });
 
   test('nativeDragStart', async () => {
-    const callbacks = electron['callbacks'];
-    await callbacks[Channels.nativeDragStart](event, __filename);
-    expect(event.sender.startDrag).toHaveBeenCalled();
-    const { file } = event.sender.startDrag.mock.calls[0][0];
-    expect(file).toEqual(__filename);
+    await on(Channels.nativeDragStart)(event, __filename);
+    expect(event.sender.startDrag).toHaveBeenCalledWith(
+      expect.objectContaining({
+        file: __filename
+      })
+    );
   });
 
   test('nativeOpen', () => {
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.nativeOpen](event, __filename);
-    const path = (opener as any).mock.calls[0][0];
-    expect(path).toEqual(__filename);
+    on(Channels.nativeOpen)(event, __filename);
+    expect(opener).toHaveBeenCalledWith(__filename);
   });
 });

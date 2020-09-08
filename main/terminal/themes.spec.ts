@@ -2,7 +2,9 @@ import './themes';
 
 import { Channels } from '../common';
 
-import * as electron from 'electron';
+import { on } from '../common';
+
+import 'jest-extended';
 
 // @see __mocks__/electron.ts
 
@@ -16,8 +18,7 @@ describe('themes', () => {
   });
 
   test('getAvailableThemes', () => {
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.getAvailableThemes](event);
+    on(Channels.getAvailableThemes)(event);
     const themes = event.returnValue;
     expect(themes.length).toBeGreaterThan(1);
     expect(themes).toContain('3024 Day');
@@ -25,8 +26,7 @@ describe('themes', () => {
   });
 
   test('loadTheme', () => {
-    const callbacks = electron['callbacks'];
-    callbacks[Channels.loadTheme](event, '(Built-in Theme)');
+    on(Channels.loadTheme)(event, '(Built-in Theme)');
     const theme = event.returnValue;
     expect(theme).toEqual({
       colors: {

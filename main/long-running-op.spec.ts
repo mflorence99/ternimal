@@ -3,20 +3,18 @@ import './long-running-op';
 import { Channels } from './common';
 
 import { isLongRunningOpCanceled } from './long-running-op';
+import { on } from './common';
 
-import * as electron from 'electron';
+import 'jest-extended';
 
 // @see __mocks__/electron.ts
 
 describe('long-running-op', () => {
-  test('longRunningOpCancel', () => {});
-  const callbacks = electron['callbacks'];
-  callbacks[Channels.longRunningOpCancel](undefined, 'xxx');
-  // @see https://stackoverflow.com/questions/46042613/
-  expect.assertions(1);
-  try {
-    isLongRunningOpCanceled('xxx', 'yyy');
-  } catch (error) {
-    expect(error.message).toEqual('yyy');
-  }
+  test('longRunningOpCancel', () => {
+    on(Channels.longRunningOpCancel)(undefined, 'xxx');
+    expect(() => isLongRunningOpCanceled('xxx', 'yyy')).toThrowWithMessage(
+      Error,
+      'yyy'
+    );
+  });
 });

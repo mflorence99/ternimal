@@ -8,6 +8,9 @@ import { fsCopyOrMove } from './copy-move';
 import { fsCopyOrMoveImpl } from './copy-move';
 import { itemizeFroms } from './copy-move';
 import { matchFromsWithTos } from './copy-move';
+import { on } from '../common';
+
+import 'jest-extended';
 
 import * as electron from 'electron';
 import * as fs from 'fs-extra';
@@ -44,10 +47,9 @@ describe('copy-move', () => {
   });
 
   test('fsCopy', async () => {
-    const callbacks = electron['callbacks'];
     const froms = ['/source', '/fake/file'];
     const to = '/target';
-    await callbacks[Channels.fsCopy](undefined, 'x', froms, to);
+    await on(Channels.fsCopy)(undefined, 'x', froms, to);
     const itos = [
       '/target/source/file-a',
       '/target/source/file-b',
@@ -72,11 +74,29 @@ describe('copy-move', () => {
 
   test('fsCopyOrMove - error', async () => {
     await fsCopyOrMove('x', ['/does/not/exist'], '/not/all/there', 'copy');
-    const calls = theWindow.webContents.send.mock.calls;
-    expect(calls[0][0]).toEqual(Channels.longRunningOpProgress);
-    expect(calls[1][0]).toEqual(Channels.error);
-    expect(calls[1][1]).toContain('ENOENT');
-    expect(calls[2][0]).toEqual(Channels.longRunningOpProgress);
+    expect(theWindow.webContents.send).toHaveBeenNthCalledWith(
+      1,
+      Channels.longRunningOpProgress,
+      expect.objectContaining({
+        id: 'x',
+        progress: 0,
+        running: true
+      })
+    );
+    expect(theWindow.webContents.send).toHaveBeenNthCalledWith(
+      2,
+      Channels.error,
+      expect.stringMatching(/^ENOENT/)
+    );
+    expect(theWindow.webContents.send).toHaveBeenNthCalledWith(
+      3,
+      Channels.longRunningOpProgress,
+      expect.objectContaining({
+        id: 'x',
+        progress: 100,
+        running: false
+      })
+    );
   });
 
   test('fsCopyOrMoveImpl - copy', async () => {
@@ -143,10 +163,9 @@ describe('copy-move', () => {
   // are careful to await before leaving tests
 
   test('fsMove', async () => {
-    const callbacks = electron['callbacks'];
     const froms = ['/source', '/fake/file'];
     const to = '/target';
-    await callbacks[Channels.fsMove](undefined, 'x', froms, to);
+    await on(Channels.fsMove)(undefined, 'x', froms, to);
     const ifroms = [
       '/source/file-a',
       '/source/file-b',
