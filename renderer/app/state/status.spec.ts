@@ -139,12 +139,12 @@ describe('StatusState', () => {
       widgetID: 'a1',
       status: {
         search: '[($^)]',
-        searchCaseSensitive: true,
+        searchCaseSensitive: false,
         searchRegex: false,
         searchWholeWord: true
       }
     });
-    expect(bundle.status.regex('a', 'a1')).toEqual(/(\b\[\(\$\^\)\]\b)/g);
+    expect(bundle.status.regex('a', 'a1')).toEqual(/(\b\[\(\$\^\)\]\b)/gi);
   });
 
   test('status', () => {

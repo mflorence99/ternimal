@@ -37,7 +37,7 @@ export class FileSystemClipboardState
   implements NgxsOnInit {
   //
   constructor(
-    private actions$: Actions,
+    public actions$: Actions,
     public electron: ElectronService,
     private utils: Utils
   ) {

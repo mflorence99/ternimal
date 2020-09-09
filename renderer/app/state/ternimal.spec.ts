@@ -7,6 +7,8 @@ import { prepare } from './state.spec';
 
 import 'jest-extended';
 
+// @see __mocks__/ngx-electron
+
 const state: TernimalStateModel = {
   enabled: true,
   longRunningOp: {

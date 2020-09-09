@@ -12,7 +12,11 @@ try {
   ipcRenderer = {
     on: (): void => {},
     send: (): void => {},
-    sendSync: (): void => {}
+    sendSync: (channel): string => {
+      if (channel === Channels.fsHomeDir) return '/home/mflo';
+      else if (channel === Channels.fsPathSeparator) return '/';
+      else if (channel === Channels.fsRootDir) return '/';
+    }
   };
 }
 

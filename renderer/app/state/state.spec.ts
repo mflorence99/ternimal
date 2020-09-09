@@ -3,6 +3,7 @@ import { FileSystemFilesState } from './file-system/files';
 import { FileSystemPathsState } from './file-system/paths';
 import { FileSystemPrefsState } from './file-system/prefs';
 import { LayoutState } from './layout';
+import { MockActions } from '../../__mocks__/actions';
 import { MockElectronService } from '../../__mocks__/ngx-electron';
 import { PanesState } from './panes';
 import { ProcessListPrefsState } from './processes/prefs';
@@ -17,6 +18,7 @@ import { TernimalState } from './ternimal';
 
 import { states } from './app';
 
+import { Actions } from '@ngxs/store';
 import { ElectronService } from 'ngx-electron';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
@@ -50,6 +52,10 @@ export function prepare(): Bundle {
       NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN])
     ],
     providers: [
+      {
+        provide: Actions,
+        useClass: MockActions
+      },
       {
         provide: ElectronService,
         useClass: MockElectronService
