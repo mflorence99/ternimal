@@ -125,16 +125,16 @@ export class TernimalState
     return this.snapshot.showTabPrefs;
   }
 
-  @Computed() get widgetSidebarShowing(): boolean {
-    return this.snapshot.showWidgetSidebar;
-  }
-
   @Computed() get widgetSidebarCtx(): any {
     return this.snapshot.widgetSidebarCtx;
   }
 
   @Computed() get widgetSidebarImpl(): string {
     return this.snapshot.widgetSidebarImpl;
+  }
+
+  @Computed() get widgetSidebarShowing(): boolean {
+    return this.snapshot.showWidgetSidebar;
   }
 
   /* eslint-disable @typescript-eslint/member-ordering */

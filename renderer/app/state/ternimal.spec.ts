@@ -1,29 +1,86 @@
 import { Bundle } from './state.spec';
+import { Channels } from '../common';
+import { TernimalStateModel } from './ternimal';
 
+import { on } from '../common';
 import { prepare } from './state.spec';
+
+import 'jest-extended';
+
+const state: TernimalStateModel = {
+  enabled: true,
+  longRunningOp: {
+    id: null,
+    item: null,
+    progress: 0,
+    running: false
+  },
+  showTabPrefs: false,
+  showWidgetSidebar: false,
+  unique: {},
+  widgetSidebarCtx: null,
+  widgetSidebarImpl: null
+};
 
 describe('TernimalState', () => {
   let bundle: Bundle;
 
-  beforeEach(() => (bundle = prepare()));
+  beforeEach(() => {
+    bundle = prepare();
+    bundle.ternimal.setState(state);
+  });
 
-  test('Ternimal can be enabled and disabled', () => {
-    expect(bundle.ternimal.isEnabled).toBe(true);
+  test('enable', () => {
     bundle.ternimal.enable({ enabled: false });
-    expect(bundle.ternimal.isEnabled).toBe(false);
+    expect(bundle.ternimal.isEnabled).toBeFalse();
+    bundle.ternimal.enable({ enabled: true });
+    expect(bundle.ternimal.isEnabled).toBeTrue();
   });
 
-  test('Tab prefs can be shown/hidden', () => {
-    expect(bundle.ternimal.tabPrefsShowing).toBe(false);
-    bundle.ternimal.hideTabPrefs();
-    expect(bundle.ternimal.tabPrefsShowing).toBe(false);
+  test('hide/showTabPrefs', () => {
     bundle.ternimal.showTabPrefs();
-    expect(bundle.ternimal.tabPrefsShowing).toBe(true);
+    expect(bundle.ternimal.tabPrefsShowing).toBeTrue();
+    bundle.ternimal.hideTabPrefs();
+    expect(bundle.ternimal.tabPrefsShowing).toBeFalse();
   });
 
-  test('Ternimal can compute a locally unique number', () => {
-    const unique1 = bundle.ternimal.unique('tab');
-    const unique2 = bundle.ternimal.unique('tab');
-    expect(unique2 - unique1).toBe(1);
+  test('hide/showWidgetSidebar', () => {
+    bundle.ternimal.showWidgetSidebar({ implementation: 'i', context: 'c' });
+    expect(bundle.ternimal.widgetSidebarCtx).toBe('c');
+    expect(bundle.ternimal.widgetSidebarImpl).toBe('i');
+    expect(bundle.ternimal.widgetSidebarShowing).toBeTrue();
+    bundle.ternimal.hideWidgetSidebar();
+    expect(bundle.ternimal.widgetSidebarShowing).toBeFalse();
+  });
+
+  test('updateLongRunningOp', () => {
+    const op = {
+      id: 'a',
+      item: 'b',
+      progress: 25,
+      running: true
+    };
+    bundle.ternimal.updateLongRunningOp({
+      longRunningOp: op
+    });
+    expect(bundle.ternimal.longRunningOp).toEqual(op);
+  });
+
+  test('unique', () => {
+    expect(bundle.ternimal.unique('p')).toBe(1);
+    expect(bundle.ternimal.unique('q')).toBe(1);
+    expect(bundle.ternimal.unique('p')).toBe(2);
+  });
+
+  test('rcvProgress$', () => {
+    const op = {
+      id: 'a',
+      item: 'b',
+      progress: 100,
+      running: false
+    };
+    bundle.ternimal.ngxsOnInit();
+    on(Channels.longRunningOpProgress)(undefined, op);
+    expect(bundle.ternimal.longRunningOp).toEqual(op);
   });
 });

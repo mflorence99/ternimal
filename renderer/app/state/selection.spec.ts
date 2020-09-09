@@ -3,6 +3,8 @@ import { SelectionStateModel } from './selection';
 
 import { prepare } from './state.spec';
 
+import 'jest-extended';
+
 const state: SelectionStateModel = {
   layoutID: 'a',
   splitIDByLayoutID: {

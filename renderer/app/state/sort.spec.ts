@@ -4,6 +4,8 @@ import { SortStateModel } from './sort';
 
 import { prepare } from './state.spec';
 
+import 'jest-extended';
+
 const state: SortStateModel = {
   a: {
     at1: {

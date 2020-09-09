@@ -4,6 +4,8 @@ import { PanesState } from './panes';
 
 import { prepare } from './state.spec';
 
+import 'jest-extended';
+
 const state: Record<string, PanePrefs> = {
   a: {
     widget: 'a.1'
