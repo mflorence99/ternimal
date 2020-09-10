@@ -36,10 +36,10 @@ export class TerminalXtermDataState
   implements NgxsOnInit {
   //
   constructor(
-    private actions$: Actions,
+    public actions$: Actions,
     public electron: ElectronService,
     public prefs: TerminalPrefsState,
-    private status: StatusState,
+    public status: StatusState,
     private utils: Utils
   ) {
     super();

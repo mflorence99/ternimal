@@ -40,7 +40,7 @@ export type TabsStateModel = Tab[];
 })
 export class TabsState extends NgxsDataRepository<TabsStateModel> {
   //
-  constructor(private selection: SelectionState) {
+  constructor(public selection: SelectionState) {
     super();
   }
 

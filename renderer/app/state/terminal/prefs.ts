@@ -1,3 +1,4 @@
+import { Dictionary } from '../prefs';
 import { Params } from '../../services/params';
 import { PrefsState } from '../prefs';
 import { PrefsStateModel } from '../prefs';
@@ -6,6 +7,7 @@ import { StorageService } from '../../services/storage';
 import { Utils } from '../../services/utils';
 
 import { Actions } from '@ngxs/store';
+import { Computed } from '@ngxs-labs/data/decorators';
 import { FontWeight } from 'xterm';
 import { Injectable } from '@angular/core';
 import { Persistence } from '@ngxs-labs/data/decorators';
@@ -69,5 +71,9 @@ export class TerminalPrefsState extends PrefsState<TerminalPrefs> {
       theme: '(Built-in Theme)',
       title: undefined
     };
+  }
+
+  @Computed() get dictionary(): Dictionary[] {
+    return [];
   }
 }

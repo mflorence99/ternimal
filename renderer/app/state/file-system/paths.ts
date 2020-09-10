@@ -39,7 +39,7 @@ export class FileSystemPathsState
   implements NgxsOnInit {
   //
   constructor(
-    private actions$: Actions,
+    public actions$: Actions,
     public electron: ElectronService,
     private utils: Utils
   ) {
@@ -76,7 +76,7 @@ export class FileSystemPathsState
   /* eslint-disable @typescript-eslint/member-ordering */
 
   isOpen(splitID: string, path: string): boolean {
-    return this.snapshot[splitID]?.includes(path);
+    return !!this.snapshot[splitID]?.includes(path);
   }
 
   ngxsOnInit(): void {

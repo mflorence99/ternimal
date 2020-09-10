@@ -9,6 +9,7 @@ let ipcRenderer;
 try {
   ipcRenderer = window.require('electron').ipcRenderer;
 } catch (error) {
+  // TODO: find a way to re-use __mocks__/ngx-electron
   ipcRenderer = {
     on: (): void => {},
     send: (): void => {},

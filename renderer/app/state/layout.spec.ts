@@ -33,7 +33,7 @@ describe('LayoutState', () => {
   beforeEach(() => {
     bundle = prepare();
     bundle.layout.setState(state);
-    bundle.selection.selectLayout({ layoutID: 'a' });
+    bundle.layout.selection.selectLayout({ layoutID: 'a' });
   });
 
   test('closeSplit - not found', () => {

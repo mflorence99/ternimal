@@ -55,13 +55,12 @@ export class ProcessListState
   implements NgxsOnInit {
   private accrueCPU;
   private accrueMemory;
-  private polling = false;
 
   constructor(
     public electron: ElectronService,
-    private layout: LayoutState,
-    private panes: PanesState,
-    private params: Params,
+    public layout: LayoutState,
+    public panes: PanesState,
+    public params: Params,
     private utils: Utils
   ) {
     super();
@@ -100,11 +99,13 @@ export class ProcessListState
   private accrue(attr: string): Function {
     const timelines: Record<string, Timeline> = {};
     const indexes: Record<string, number> = {};
-    const numPoints =
-      this.params.processList.maxTimeline /
-      this.params.processList.pollInterval;
     // perform actual accrual
     return (ps: ProcessDescriptor): Timeline => {
+      // NOTE: why do this here rather than up in the closure?
+      // because we want to override the number of points in tests
+      const numPoints =
+        this.params.processList.maxTimeline /
+        this.params.processList.pollInterval;
       let timeline = timelines[ps.pid];
       // initialize the timeline
       if (!timeline) {
@@ -119,7 +120,7 @@ export class ProcessListState
       timeline.data[indexes[ps.pid]] = ps[attr];
       timeline.labels[indexes[ps.pid]] = String(ps.timestamp);
       // prepare for the next iteration
-      if (++indexes[ps.pid] >= numPoints) {
+      if (++indexes[ps.pid] > numPoints) {
         timeline.data.shift();
         timeline.labels.shift();
         indexes[ps.pid] -= 1;

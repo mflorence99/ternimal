@@ -42,8 +42,8 @@ export abstract class PrefsState<T>
   implements NgxsOnInit {
   //
   constructor(
-    private actions$: Actions,
-    private selection: SelectionState,
+    public actions$: Actions,
+    public selection: SelectionState,
     private utils: Utils
   ) {
     super();
@@ -106,9 +106,7 @@ export abstract class PrefsState<T>
 
   // accessors
 
-  get dictionary(): Dictionary[] {
-    return [];
-  }
+  abstract get dictionary(): Dictionary[];
 
   @Computed() get byLayoutID(): T {
     return (

@@ -105,12 +105,12 @@ describe('TabsState', () => {
   });
 
   test('tab', () => {
-    bundle.selection.selectLayout({ layoutID: 'b' });
+    bundle.tabs.selection.selectLayout({ layoutID: 'b' });
     expect(bundle.tabs.tab).toEqual({ layoutID: 'b' });
   });
 
   test('tabIndex', () => {
-    bundle.selection.selectLayout({ layoutID: 'c' });
+    bundle.tabs.selection.selectLayout({ layoutID: 'c' });
     expect(bundle.tabs.tabIndex).toBe(2);
   });
 

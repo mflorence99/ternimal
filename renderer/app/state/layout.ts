@@ -52,7 +52,7 @@ export type SplitVisitorFn = (split: Layout) => void | boolean;
 })
 export class LayoutState extends NgxsDataRepository<LayoutStateModel> {
   //
-  constructor(private selection: SelectionState, private utils: Utils) {
+  constructor(public selection: SelectionState, private utils: Utils) {
     super();
   }
 
