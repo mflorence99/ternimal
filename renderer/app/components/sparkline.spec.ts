@@ -2,16 +2,25 @@ import { SparklineComponent } from './sparkline';
 
 import { prepare } from './component.spec';
 
+import 'jest-extended';
+
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('SparklineComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: SparklineComponent;
 
-  test('Component is created', () => {
+  beforeEach(() => {
+    prepare();
     const fixture = TestBed.createComponent(SparklineComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+    component = fixture.componentInstance;
+  });
+
+  test('sparkline accessor / ngOnInit', () => {
+    component.sparkline = {
+      data: [1, 2],
+      labels: ['1', '2']
+    };
+    component.ngOnInit();
+    expect(component.chart.data.labels).toEqual(['1', '2']);
   });
 });

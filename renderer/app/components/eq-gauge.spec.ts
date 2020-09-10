@@ -2,29 +2,25 @@ import { EqGaugeComponent } from './eq-gauge';
 
 import { prepare } from './component.spec';
 
+import 'jest-extended';
+
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('EqGaugeComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: EqGaugeComponent;
 
-  test('Component is created', () => {
+  beforeEach(() => {
+    prepare();
     const fixture = TestBed.createComponent(EqGaugeComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+    component = fixture.componentInstance;
   });
 
   test('count is calculated correctly', () => {
-    const fixture = TestBed.createComponent(EqGaugeComponent);
-    const component = fixture.componentInstance;
     component.handleResize({ contentRect: { width: 80 } } as any);
     expect(component.count).toBe(13);
   });
 
   test('color is calculated correctly', () => {
-    const fixture = TestBed.createComponent(EqGaugeComponent);
-    const component = fixture.componentInstance;
     component.handleResize({ contentRect: { width: 80 } } as any);
     expect(component.count).toBe(13);
     component.value = 0.85;

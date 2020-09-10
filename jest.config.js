@@ -21,13 +21,18 @@ module.exports = {
   ],
   roots: [
     '<rootDir>/main/',
+    '<rootDir>/renderer/app/components',
     '<rootDir>/renderer/app/directives',
     '<rootDir>/renderer/app/pages/directives',
     '<rootDir>/renderer/app/pipes',
     '<rootDir>/renderer/app/services',
     '<rootDir>/renderer/app/state'
   ],
-  setupFilesAfterEnv: ['jest-extended', '<rootDir>/renderer/test.ts'],
+  setupFilesAfterEnv: [
+    'jest-canvas-mock',
+    'jest-extended',
+    '<rootDir>/renderer/test.ts'
+  ],
   testMatch: ['**/+(*.)+(spec).+(ts)'],
   testResultsProcessor: 'jest-junit',
   transform: {

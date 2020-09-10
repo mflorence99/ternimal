@@ -1,3 +1,4 @@
+import { MockElementRef } from '../../__mocks__/element-ref';
 import { Utils } from './utils';
 
 import 'jest-extended';
@@ -12,14 +13,7 @@ describe('Utils', () => {
   });
 
   test('colorOf', () => {
-    const element = { nativeElement: null };
-    Object.defineProperty(window, 'getComputedStyle', {
-      value: () => {
-        return {
-          getPropertyValue: (): string => '#123456'
-        };
-      }
-    });
+    const element = new MockElementRef();
     expect(utils.colorOf(element, 'var(--may-grey-900)', 0)).toBe(
       'rgba(0, 0, 0, 0)'
     );
