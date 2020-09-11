@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EqGaugeComponent snapshot 1`] = `
+<ternimal-eq-gauge
+  __ngContext__={[Function LRootView]}
+  params={[Function Params]}
+  tag={[Function String]}
+  value={[Function Number]}
+>
+  <figure
+    class="eq-gauge monospace"
+  >
+    <figcaption
+      class="tag"
+    >
+      25%
+    </figcaption>
+    <ul
+      class="gauge"
+    >
+      
+    </ul>
+    <figcaption
+      class="value"
+    >
+      25%
+    </figcaption>
+  </figure>
+</ternimal-eq-gauge>
+`;

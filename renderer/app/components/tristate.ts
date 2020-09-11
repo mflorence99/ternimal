@@ -4,15 +4,13 @@ import { MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
 import { MatCheckboxDefaultOptions } from '@angular/material/checkbox';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { forwardRef } from '@angular/core';
-
 // @see https://stackoverflow.com/questions/49296051
 
 @Component({
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TriStateComponent),
+      useExisting: TriStateComponent,
       multi: true
     },
     {
@@ -25,7 +23,7 @@ import { forwardRef } from '@angular/core';
   styleUrls: ['tristate.scss']
 })
 export class TriStateComponent implements ControlValueAccessor {
-  disabled: boolean;
+  disabled = false;
 
   value: any;
 
@@ -38,7 +36,7 @@ export class TriStateComponent implements ControlValueAccessor {
       (this.tape.indexOf(this.value) + 1) % this.tape.length
     ];
     this.onChange(this.value);
-    this.onTouched();
+    this.onTouched(this.value);
   }
 
   registerOnChange(fn: Function): void {
