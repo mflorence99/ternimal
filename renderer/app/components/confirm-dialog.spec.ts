@@ -5,14 +5,16 @@ import { prepare } from './component.spec';
 
 import 'jest-extended';
 
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 describe('ConfirmDialogComponent', () => {
   let component: ConfirmDialogComponent;
+  let fixture: ComponentFixture<ConfirmDialogComponent>;
 
   beforeEach(() => {
     prepare();
-    const fixture = TestBed.createComponent(ConfirmDialogComponent);
+    fixture = TestBed.createComponent(ConfirmDialogComponent);
     component = fixture.componentInstance;
   });
 
@@ -32,5 +34,12 @@ describe('ConfirmDialogComponent', () => {
     component.dismiss();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(component.dialogRef.close).toHaveBeenCalledWith(false);
+  });
+
+  test('snapshot', () => {
+    component.message = 'A message';
+    component.title = 'A title';
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });

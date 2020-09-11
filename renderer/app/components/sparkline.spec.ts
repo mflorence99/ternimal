@@ -4,14 +4,16 @@ import { prepare } from './component.spec';
 
 import 'jest-extended';
 
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 describe('SparklineComponent', () => {
   let component: SparklineComponent;
+  let fixture: ComponentFixture<SparklineComponent>;
 
   beforeEach(() => {
     prepare();
-    const fixture = TestBed.createComponent(SparklineComponent);
+    fixture = TestBed.createComponent(SparklineComponent);
     component = fixture.componentInstance;
   });
 
@@ -28,5 +30,14 @@ describe('SparklineComponent', () => {
     expect(component.chart.data.datasets[0].data).toEqual(green);
     expect(component.chart.data.datasets[1].data).toEqual(yellow);
     expect(component.chart.data.datasets[2].data).toEqual(red);
+  });
+
+  test('snapshot', () => {
+    const data = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    const labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+    component.sparkline = { data, labels };
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });

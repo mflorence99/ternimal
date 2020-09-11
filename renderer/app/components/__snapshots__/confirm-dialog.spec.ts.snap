@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfirmDialogComponent snapshot 1`] = `
+<ternimal-confirm-dialog
+  __ngContext__={[Function LRootView]}
+  data={[Function Object]}
+  dialogRef={[Function MockMatDialogRef]}
+  message={[Function String]}
+  title={[Function String]}
+>
+  <h3
+    class="mat-dialog-title"
+    mat-dialog-title=""
+  >
+    A title
+  </h3><p
+    class="mat-dialog-content"
+    mat-dialog-content=""
+  >
+    A message
+  </p><article
+    class="mat-dialog-actions"
+    mat-dialog-actions=""
+  >
+    <button
+      class="mat-focus-indicator mat-button mat-button-base"
+      mat-button=""
+    >
+      <span
+        class="mat-button-wrapper"
+      >
+        No
+      </span>
+      <span
+        class="mat-ripple mat-button-ripple"
+        matripple=""
+      />
+      <span
+        class="mat-button-focus-overlay"
+      />
+    </button>
+    <button
+      cdkfocusinitial=""
+      class="mat-focus-indicator mat-raised-button mat-button-base mat-primary"
+      color="primary"
+      mat-raised-button=""
+      type="button"
+    >
+      <span
+        class="mat-button-wrapper"
+      >
+         Yes 
+      </span>
+      <span
+        class="mat-ripple mat-button-ripple"
+        matripple=""
+      />
+      <span
+        class="mat-button-focus-overlay"
+      />
+    </button>
+  </article>
+</ternimal-confirm-dialog>
+`;

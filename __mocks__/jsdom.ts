@@ -1,11 +1,10 @@
-import 'jest-preset-angular';
-
-// TODO: why are all these here and what do they mean?
+// @see https://github.com/thymikee/jest-preset-angular/
 
 Object.defineProperty(document, 'doctype', {
   value: '<!DOCTYPE html>'
 });
 
+// @see https://github.com/angular/material2/issues/7101
 Object.defineProperty(document.body.style, 'transform', {
   value: () => {
     return {
@@ -29,11 +28,7 @@ Object.defineProperty(window, 'getComputedStyle', {
 
 Object.defineProperty(window, 'ResizeObserver', {
   value: class {
-    observe(): any {
-      // do nothing
-    }
-    unobserve(): any {
-      // do nothing
-    }
+    observe(): any {}
+    unobserve(): any {}
   }
 });

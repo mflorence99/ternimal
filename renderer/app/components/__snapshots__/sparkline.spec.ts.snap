@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SparklineComponent snapshot 1`] = `
+<ternimal-sparkline
+  __ngContext__={[Function LRootView]}
+  _sparkline={[Function Object]}
+  canvas={[Function ElementRef]}
+  chart={[Function Chart]}
+  host={[Function ElementRef]}
+  params={[Function Params]}
+  utils={[Function Utils]}
+  wrapper={[Function ElementRef]}
+>
+  <figure
+    class="sparkline"
+  >
+    <canvas
+      height="0"
+      style="display: block;"
+      width="0"
+    />
+  </figure>
+</ternimal-sparkline>
+`;

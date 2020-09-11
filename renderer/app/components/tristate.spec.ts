@@ -4,14 +4,16 @@ import { prepare } from './component.spec';
 
 import 'jest-extended';
 
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 describe('TriStateComponent', () => {
   let component: TriStateComponent;
+  let fixture: ComponentFixture<TriStateComponent>;
 
   beforeEach(() => {
     prepare();
-    const fixture = TestBed.createComponent(TriStateComponent);
+    fixture = TestBed.createComponent(TriStateComponent);
     component = fixture.componentInstance;
   });
 
@@ -27,5 +29,11 @@ describe('TriStateComponent', () => {
     expect(component.disabled).toBeFalse();
     component.setDisabledState(true);
     expect(component.disabled).toBeTrue();
+  });
+
+  test('snapshot', () => {
+    component.value = true;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });

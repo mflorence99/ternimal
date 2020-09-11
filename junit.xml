@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="4" failures="0" time="4.467">
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T08:51:29" time="3.975" tests="4">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.036">
+<testsuites name="jest tests" tests="3" failures="0" time="2.677">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T10:31:39" time="2.158" tests="3">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.044">
     </testcase>
-    <testcase classname="EqGaugeComponent count" name="EqGaugeComponent count" time="0.058">
+    <testcase classname="SparklineComponent sparkline accessor / ngOnInit" name="SparklineComponent sparkline accessor / ngOnInit" time="0.088">
     </testcase>
-    <testcase classname="EqGaugeComponent color" name="EqGaugeComponent color" time="0.017">
-    </testcase>
-    <testcase classname="EqGaugeComponent snapshot" name="EqGaugeComponent snapshot" time="0.021">
+    <testcase classname="SparklineComponent snapshot" name="SparklineComponent snapshot" time="0.041">
     </testcase>
   </testsuite>
 </testsuites>
