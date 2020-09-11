@@ -14,6 +14,10 @@ Object.defineProperty(document.body.style, 'transform', {
   }
 });
 
+Object.defineProperty(Element.prototype, 'scrollIntoView', {
+  value: () => {}
+});
+
 Object.defineProperty(window, 'CSS', { value: null });
 
 Object.defineProperty(window, 'getComputedStyle', {
@@ -23,6 +27,13 @@ Object.defineProperty(window, 'getComputedStyle', {
       display: 'none',
       getPropertyValue: (): string => '#123456'
     };
+  }
+});
+
+Object.defineProperty(window, 'IntersectionObserver', {
+  value: class {
+    observe(): any {}
+    unobserve(): any {}
   }
 });
 

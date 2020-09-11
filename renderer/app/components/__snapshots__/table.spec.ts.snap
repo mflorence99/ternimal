@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableComponent snapshot 1`] = `
+<table-spec
+  __ngContext__={[Function LRootView]}
+  table={[Function TableComponent]}
+>
+  <ternimal-table
+    splitid="s"
+    tableid="t"
+  >
+    <article
+      class="header-wrapper"
+      style="transform: translateX(-undefinedpx); visibility: hidden;"
+    >
+      <table
+        class="header"
+      >
+        <thead>
+          <tr>
+            <th
+              _dir="horizontal"
+              _text="A"
+              class="horizontal"
+              id="a"
+            >
+              
+            
+              <div
+                _ix="0"
+                class="column"
+              >
+                
+              
+                <div
+                  _ix="0"
+                  class="text"
+                >
+                  
+                A ⮝
+              
+                </div>
+              </div>
+            </th>
+            <th
+              _dir="horizontal"
+              _text="B"
+              class="horizontal"
+              id="b"
+            >
+              
+            
+              <div
+                _ix="1"
+                class="column"
+              >
+                
+              
+                <div
+                  _ix="1"
+                  class="text"
+                >
+                  
+                B
+              
+                </div>
+              </div>
+            </th>
+            <th
+              _dir="horizontal"
+              _text="C"
+              class="horizontal"
+              id="c"
+            >
+              
+            
+              <div
+                _ix="2"
+                class="column"
+              >
+                
+              
+                <div
+                  _ix="2"
+                  class="text"
+                >
+                  
+                C
+              
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </article>
+    <article
+      class="body-wrapper"
+    >
+      <table
+        class="body"
+      >
+        <tbody>
+          <tr
+            id="1"
+          >
+            <td>
+              A1
+            </td>
+            <td>
+              B1
+            </td>
+            <td>
+              C1
+            </td>
+          </tr>
+          <tr
+            id="2"
+          >
+            <td>
+              A2
+            </td>
+            <td>
+              B2
+            </td>
+            <td>
+              C2
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </ternimal-table>
+</table-spec>
+`;

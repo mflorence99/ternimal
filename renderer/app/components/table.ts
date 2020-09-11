@@ -62,7 +62,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
   private ths: HTMLElement[];
 
   constructor(
-    private actions$: Actions,
+    public actions$: Actions,
     private cdf: ChangeDetectorRef,
     private destroy$: DestroyService,
     private host: ElementRef,
@@ -348,7 +348,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
           const splitID = action['SelectionState.selectSplit']?.splitID;
           if (splitID && splitID !== this.splitID) this.rowUnselect();
         }),
-        // NOTE: Necessary for headers to be rebuikt properly
+        // NOTE: Necessary for headers to be rebuilt properly
         debounceTime(0),
         takeUntil(this.destroy$)
       )
@@ -373,8 +373,8 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
         if (!th.getAttribute('_dir')) {
           this.addClass(th, 'horizontal');
           th.setAttribute('_dir', 'horizontal');
-          th.setAttribute('_text', th.innerText);
-          let text = th.innerText;
+          th.setAttribute('_text', th.textContent);
+          let text = th.textContent;
           if (ix === this.sortedColumn)
             text +=
               ' ' +
@@ -493,7 +493,7 @@ export class TableComponent implements AfterContentInit, OnDestroy, OnInit {
 
   private setHeaderText(column: HTMLElement, text: string): void {
     const element = this.findElement(column, '.column div.text');
-    element.innerText = text;
+    element.textContent = text;
   }
 
   private syncCells(): void {
