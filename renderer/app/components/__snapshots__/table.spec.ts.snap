@@ -11,7 +11,7 @@ exports[`TableComponent snapshot 1`] = `
   >
     <article
       class="header-wrapper"
-      style="transform: translateX(-undefinedpx); visibility: hidden;"
+      style="transform: translateX(-undefinedpx); visibility: visible;"
     >
       <table
         class="header"
@@ -19,10 +19,12 @@ exports[`TableComponent snapshot 1`] = `
         <thead>
           <tr>
             <th
-              _dir="horizontal"
+              _dir="vertical"
               _text="A"
-              class="horizontal"
+              class="vertical"
               id="a"
+              sortable=""
+              style="min-width: 0px; width: 0px;"
             >
               
             
@@ -43,10 +45,12 @@ exports[`TableComponent snapshot 1`] = `
               </div>
             </th>
             <th
-              _dir="horizontal"
+              _dir="vertical"
               _text="B"
-              class="horizontal"
+              class="vertical"
               id="b"
+              sortable=""
+              style="min-width: 0px; width: 0px;"
             >
               
             
@@ -67,10 +71,12 @@ exports[`TableComponent snapshot 1`] = `
               </div>
             </th>
             <th
-              _dir="horizontal"
+              _dir="vertical"
               _text="C"
-              class="horizontal"
+              class="vertical"
               id="c"
+              sortable=""
+              style="min-width: 0px; width: 0px;"
             >
               
             
@@ -102,6 +108,7 @@ exports[`TableComponent snapshot 1`] = `
       >
         <tbody>
           <tr
+            class="hydrated"
             id="1"
           >
             <td>
@@ -125,6 +132,19 @@ exports[`TableComponent snapshot 1`] = `
             </td>
             <td>
               C2
+            </td>
+          </tr>
+          <tr
+            id="3"
+          >
+            <td>
+              A3
+            </td>
+            <td>
+              B3
+            </td>
+            <td>
+              C3
             </td>
           </tr>
         </tbody>

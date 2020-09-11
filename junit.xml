@@ -1,446 +1,518 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="275" failures="0" time="29.22">
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:01" time="2.376" tests="3">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.045">
+<testsuites name="jest tests" tests="287" failures="0" time="35.269">
+  <testsuite name="xterm-pty" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:25:47" time="4.024" tests="9">
+    <testcase classname="xterm-pty findCWD - Linux" name="xterm-pty findCWD - Linux" time="0.505">
     </testcase>
-    <testcase classname="TableComponent handleActions$" name="TableComponent handleActions$" time="0.119">
+    <testcase classname="xterm-pty findCWD - MacOS" name="xterm-pty findCWD - MacOS" time="1.442">
     </testcase>
-    <testcase classname="TableComponent snapshot" name="TableComponent snapshot" time="0.071">
+    <testcase classname="xterm-pty findCWD - Windows" name="xterm-pty findCWD - Windows" time="0.505">
     </testcase>
-  </testsuite>
-  <testsuite name="xterm-pty" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:03" time="3.902" tests="9">
-    <testcase classname="xterm-pty findCWD - Linux" name="xterm-pty findCWD - Linux" time="0.512">
+    <testcase classname="xterm-pty xtermConnect" name="xterm-pty xtermConnect" time="0.011">
     </testcase>
-    <testcase classname="xterm-pty findCWD - MacOS" name="xterm-pty findCWD - MacOS" time="1.666">
+    <testcase classname="xterm-pty xtermConnect - detect CWD" name="xterm-pty xtermConnect - detect CWD" time="0.605">
     </testcase>
-    <testcase classname="xterm-pty findCWD - Windows" name="xterm-pty findCWD - Windows" time="0.504">
-    </testcase>
-    <testcase classname="xterm-pty xtermConnect" name="xterm-pty xtermConnect" time="0.005">
-    </testcase>
-    <testcase classname="xterm-pty xtermConnect - detect CWD" name="xterm-pty xtermConnect - detect CWD" time="0.602">
-    </testcase>
-    <testcase classname="xterm-pty xtermDisconnect" name="xterm-pty xtermDisconnect" time="0.003">
+    <testcase classname="xterm-pty xtermDisconnect" name="xterm-pty xtermDisconnect" time="0.007">
     </testcase>
     <testcase classname="xterm-pty xtermKill" name="xterm-pty xtermKill" time="0.005">
     </testcase>
-    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0.003">
+    <testcase classname="xterm-pty xtermResizePty" name="xterm-pty xtermResizePty" time="0.002">
     </testcase>
-    <testcase classname="xterm-pty xtermToPty" name="xterm-pty xtermToPty" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="DraggableDirective" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:07" time="1.47" tests="1">
-    <testcase classname="DraggableDirective draggable set after long click" name="DraggableDirective draggable set after long click" time="1.111">
+    <testcase classname="xterm-pty xtermToPty" name="xterm-pty xtermToPty" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="rreaddir" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:08" time="1.181" tests="5">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:25:51" time="4.601" tests="15">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.043">
+    </testcase>
+    <testcase classname="TableComponent cellElement" name="TableComponent cellElement" time="0.096">
+    </testcase>
+    <testcase classname="TableComponent cleanup / columnUnhover" name="TableComponent cleanup / columnUnhover" time="0.04">
+    </testcase>
+    <testcase classname="TableComponent columnHover" name="TableComponent columnHover" time="0.031">
+    </testcase>
+    <testcase classname="TableComponent columnSort - new column" name="TableComponent columnSort - new column" time="0.032">
+    </testcase>
+    <testcase classname="TableComponent columnSort - change direction" name="TableComponent columnSort - change direction" time="0.028">
+    </testcase>
+    <testcase classname="TableComponent handleActions$" name="TableComponent handleActions$" time="0.132">
+    </testcase>
+    <testcase classname="TableComponent isHydrated" name="TableComponent isHydrated" time="0.054">
+    </testcase>
+    <testcase classname="TableComponent observeIntersectionImpl" name="TableComponent observeIntersectionImpl" time="0.026">
+    </testcase>
+    <testcase classname="TableComponent resize / observeRows" name="TableComponent resize / observeRows" time="0.024">
+    </testcase>
+    <testcase classname="TableComponent rowDeselect / rowUnselect" name="TableComponent rowDeselect / rowUnselect" time="0.029">
+    </testcase>
+    <testcase classname="TableComponent rowSelect" name="TableComponent rowSelect" time="0.03">
+    </testcase>
+    <testcase classname="TableComponent rowSelect / rowSelectXtnd" name="TableComponent rowSelect / rowSelectXtnd" time="0.025">
+    </testcase>
+    <testcase classname="TableComponent rowSelectCancel" name="TableComponent rowSelectCancel" time="0.024">
+    </testcase>
+    <testcase classname="TableComponent snapshot" name="TableComponent snapshot" time="0.038">
+    </testcase>
+  </testsuite>
+  <testsuite name="rreaddir" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:25:55" time="1.353" tests="5">
     <testcase classname="rreaddir smoke test" name="rreaddir smoke test" time="0.01">
     </testcase>
-    <testcase classname="rreaddir budgeted count can be exceeded" name="rreaddir budgeted count can be exceeded" time="0.004">
+    <testcase classname="rreaddir budgeted count can be exceeded" name="rreaddir budgeted count can be exceeded" time="0.002">
     </testcase>
-    <testcase classname="rreaddir budgeted time can be exceeded" name="rreaddir budgeted time can be exceeded" time="0.007">
+    <testcase classname="rreaddir budgeted time can be exceeded" name="rreaddir budgeted time can be exceeded" time="0.003">
     </testcase>
-    <testcase classname="rreaddir quick exit on unreadable directory" name="rreaddir quick exit on unreadable directory" time="0.002">
+    <testcase classname="rreaddir quick exit on unreadable directory" name="rreaddir quick exit on unreadable directory" time="0.001">
     </testcase>
-    <testcase classname="rreaddir real-life test on home directory" name="rreaddir real-life test on home directory" time="0.784">
+    <testcase classname="rreaddir real-life test on home directory" name="rreaddir real-life test on home directory" time="0.951">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:10" time="0.674" tests="5">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.036">
+  <testsuite name="DraggableDirective" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:25:57" time="1.599" tests="1">
+    <testcase classname="DraggableDirective draggable set after long click" name="DraggableDirective draggable set after long click" time="1.112">
     </testcase>
-    <testcase classname="ConfirmDialogComponent model" name="ConfirmDialogComponent model" time="0.063">
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:25:58" time="0.505" tests="15">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="ConfirmDialogComponent confirm" name="ConfirmDialogComponent confirm" time="0.023">
+    <testcase classname="FileSystemPrefsState emptyPrefs" name="FileSystemPrefsState emptyPrefs" time="0.039">
     </testcase>
-    <testcase classname="ConfirmDialogComponent dismiss" name="ConfirmDialogComponent dismiss" time="0.021">
+    <testcase classname="FileSystemPrefsState remove - layout" name="FileSystemPrefsState remove - layout" time="0.006">
+    </testcase>
+    <testcase classname="FileSystemPrefsState remove - split" name="FileSystemPrefsState remove - split" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemPrefsState rescope" name="FileSystemPrefsState rescope" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemPrefsState update - global" name="FileSystemPrefsState update - global" time="0.004">
+    </testcase>
+    <testcase classname="FileSystemPrefsState update - by new layout" name="FileSystemPrefsState update - by new layout" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemPrefsState update - by existing layout" name="FileSystemPrefsState update - by existing layout" time="0.004">
+    </testcase>
+    <testcase classname="FileSystemPrefsState update - by new split" name="FileSystemPrefsState update - by new split" time="0.006">
+    </testcase>
+    <testcase classname="FileSystemPrefsState update - by existing split" name="FileSystemPrefsState update - by existing split" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemPrefsState dictionary" name="FileSystemPrefsState dictionary" time="0.008">
+    </testcase>
+    <testcase classname="FileSystemPrefsState byLayoutID - unknowm layout" name="FileSystemPrefsState byLayoutID - unknowm layout" time="0.006">
+    </testcase>
+    <testcase classname="FileSystemPrefsState bySplitID - unknowm split" name="FileSystemPrefsState bySplitID - unknowm split" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemPrefsState effectivePrefs" name="FileSystemPrefsState effectivePrefs" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemPrefsState handleActions$/remove" name="FileSystemPrefsState handleActions$/remove" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:25:59" time="0.712" tests="5">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.044">
+    </testcase>
+    <testcase classname="ConfirmDialogComponent model" name="ConfirmDialogComponent model" time="0.065">
+    </testcase>
+    <testcase classname="ConfirmDialogComponent confirm" name="ConfirmDialogComponent confirm" time="0.028">
+    </testcase>
+    <testcase classname="ConfirmDialogComponent dismiss" name="ConfirmDialogComponent dismiss" time="0.023">
     </testcase>
     <testcase classname="ConfirmDialogComponent snapshot" name="ConfirmDialogComponent snapshot" time="0.037">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:10" time="0.605" tests="3">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.035">
-    </testcase>
-    <testcase classname="SparklineComponent sparkline accessor / ngOnInit" name="SparklineComponent sparkline accessor / ngOnInit" time="0.067">
-    </testcase>
-    <testcase classname="SparklineComponent snapshot" name="SparklineComponent snapshot" time="0.031">
-    </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:11" time="0.608" tests="4">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:00" time="0.522" tests="1">
     <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.034">
     </testcase>
-    <testcase classname="TriStateComponent writeValue / next" name="TriStateComponent writeValue / next" time="0.059">
+  </testsuite>
+  <testsuite name="Utils" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:00" time="0.355" tests="6">
+    <testcase classname="Utils colorOf" name="Utils colorOf" time="0.012">
     </testcase>
-    <testcase classname="TriStateComponent disabled state" name="TriStateComponent disabled state" time="0.025">
+    <testcase classname="Utils deepCopy" name="Utils deepCopy" time="0.003">
     </testcase>
-    <testcase classname="TriStateComponent snapshot" name="TriStateComponent snapshot" time="0.033">
+    <testcase classname="Utils hasProperty (string)" name="Utils hasProperty (string)" time="0.002">
+    </testcase>
+    <testcase classname="Utils hasProperty (regex)" name="Utils hasProperty (regex)" time="0.003">
+    </testcase>
+    <testcase classname="Utils merge" name="Utils merge" time="0.002">
+    </testcase>
+    <testcase classname="Utils nextTick" name="Utils nextTick" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="process-list" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:12" time="0.391" tests="2">
-    <testcase classname="process-list processListKill" name="process-list processListKill" time="0.002">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:00" time="0.683" tests="4">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.04">
     </testcase>
-    <testcase classname="process-list processListRequest" name="process-list processListRequest" time="0.083">
+    <testcase classname="TriStateComponent writeValue / next" name="TriStateComponent writeValue / next" time="0.062">
     </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:12" time="0.57" tests="4">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.038">
+    <testcase classname="TriStateComponent disabled state" name="TriStateComponent disabled state" time="0.027">
     </testcase>
-    <testcase classname="EqGaugeComponent count" name="EqGaugeComponent count" time="0.046">
-    </testcase>
-    <testcase classname="EqGaugeComponent color" name="EqGaugeComponent color" time="0.019">
-    </testcase>
-    <testcase classname="EqGaugeComponent snapshot" name="EqGaugeComponent snapshot" time="0.02">
+    <testcase classname="TriStateComponent snapshot" name="TriStateComponent snapshot" time="0.038">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:13" time="0.386" tests="10">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:01" time="0.652" tests="4">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.045">
+    </testcase>
+    <testcase classname="EqGaugeComponent count" name="EqGaugeComponent count" time="0.059">
+    </testcase>
+    <testcase classname="EqGaugeComponent color" name="EqGaugeComponent color" time="0.021">
+    </testcase>
+    <testcase classname="EqGaugeComponent snapshot" name="EqGaugeComponent snapshot" time="0.027">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:02" time="0.654" tests="3">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.042">
+    </testcase>
+    <testcase classname="SparklineComponent sparkline accessor / ngOnInit" name="SparklineComponent sparkline accessor / ngOnInit" time="0.077">
+    </testcase>
+    <testcase classname="SparklineComponent snapshot" name="SparklineComponent snapshot" time="0.037">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:03" time="0.484" tests="15">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
     </testcase>
-    <testcase classname="FileSystemPathsState close" name="FileSystemPathsState close" time="0.03">
+    <testcase classname="TerminalPrefsState emptyPrefs" name="TerminalPrefsState emptyPrefs" time="0.035">
     </testcase>
-    <testcase classname="FileSystemPathsState close - split not found" name="FileSystemPathsState close - split not found" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemPathsState open - new split" name="FileSystemPathsState open - new split" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemPathsState open - new path" name="FileSystemPathsState open - new path" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemPathsState open - existing path" name="FileSystemPathsState open - existing path" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemPathsState remove" name="FileSystemPathsState remove" time="0.006">
-    </testcase>
-    <testcase classname="FileSystemPathsState isOpen - split not found" name="FileSystemPathsState isOpen - split not found" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemPathsState handleActions$/remove" name="FileSystemPathsState handleActions$/remove" time="0.006">
-    </testcase>
-    <testcase classname="FileSystemPathsState rcvPath$ - fsLoadPathFailure" name="FileSystemPathsState rcvPath$ - fsLoadPathFailure" time="0.004">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:13" time="0.476" tests="4">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-    <testcase classname="ProcessListState update" name="ProcessListState update" time="0.034">
-    </testcase>
-    <testcase classname="ProcessListState pollProcessList$" name="ProcessListState pollProcessList$" time="0.109">
-    </testcase>
-    <testcase classname="ProcessListState rcvProcessList$" name="ProcessListState rcvProcessList$" time="0.018">
-    </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:14" time="0.469" tests="1">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.037">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:14" time="0.422" tests="15">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-    <testcase classname="TerminalPrefsState emptyPrefs" name="TerminalPrefsState emptyPrefs" time="0.031">
-    </testcase>
-    <testcase classname="TerminalPrefsState remove - layout" name="TerminalPrefsState remove - layout" time="0.005">
+    <testcase classname="TerminalPrefsState remove - layout" name="TerminalPrefsState remove - layout" time="0.006">
     </testcase>
     <testcase classname="TerminalPrefsState remove - split" name="TerminalPrefsState remove - split" time="0.005">
     </testcase>
     <testcase classname="TerminalPrefsState rescope" name="TerminalPrefsState rescope" time="0.004">
     </testcase>
-    <testcase classname="TerminalPrefsState update - global" name="TerminalPrefsState update - global" time="0.004">
+    <testcase classname="TerminalPrefsState update - global" name="TerminalPrefsState update - global" time="0.009">
     </testcase>
-    <testcase classname="TerminalPrefsState update - by new layout" name="TerminalPrefsState update - by new layout" time="0.004">
+    <testcase classname="TerminalPrefsState update - by new layout" name="TerminalPrefsState update - by new layout" time="0.006">
     </testcase>
-    <testcase classname="TerminalPrefsState update - by existing layout" name="TerminalPrefsState update - by existing layout" time="0.008">
+    <testcase classname="TerminalPrefsState update - by existing layout" name="TerminalPrefsState update - by existing layout" time="0.004">
     </testcase>
-    <testcase classname="TerminalPrefsState update - by new split" name="TerminalPrefsState update - by new split" time="0.004">
+    <testcase classname="TerminalPrefsState update - by new split" name="TerminalPrefsState update - by new split" time="0.006">
     </testcase>
-    <testcase classname="TerminalPrefsState update - by existing split" name="TerminalPrefsState update - by existing split" time="0.004">
+    <testcase classname="TerminalPrefsState update - by existing split" name="TerminalPrefsState update - by existing split" time="0.005">
     </testcase>
     <testcase classname="TerminalPrefsState dictionary" name="TerminalPrefsState dictionary" time="0.004">
     </testcase>
-    <testcase classname="TerminalPrefsState byLayoutID - unknowm layout" name="TerminalPrefsState byLayoutID - unknowm layout" time="0.004">
+    <testcase classname="TerminalPrefsState byLayoutID - unknowm layout" name="TerminalPrefsState byLayoutID - unknowm layout" time="0.005">
     </testcase>
-    <testcase classname="TerminalPrefsState bySplitID - unknowm split" name="TerminalPrefsState bySplitID - unknowm split" time="0.004">
+    <testcase classname="TerminalPrefsState bySplitID - unknowm split" name="TerminalPrefsState bySplitID - unknowm split" time="0.005">
     </testcase>
     <testcase classname="TerminalPrefsState effectivePrefs" name="TerminalPrefsState effectivePrefs" time="0.004">
     </testcase>
     <testcase classname="TerminalPrefsState handleActions$/remove" name="TerminalPrefsState handleActions$/remove" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:15" time="0.441" tests="14">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:03" time="0.41" tests="6">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="ProcessListPrefsState emptyPrefs" name="ProcessListPrefsState emptyPrefs" time="0.03">
+    <testcase classname="PanesState remove" name="PanesState remove" time="0.035">
     </testcase>
-    <testcase classname="ProcessListPrefsState remove - layout" name="ProcessListPrefsState remove - layout" time="0.005">
+    <testcase classname="PanesState update - create new" name="PanesState update - create new" time="0.005">
     </testcase>
-    <testcase classname="ProcessListPrefsState remove - split" name="ProcessListPrefsState remove - split" time="0.005">
+    <testcase classname="PanesState update - change existing" name="PanesState update - change existing" time="0.004">
     </testcase>
-    <testcase classname="ProcessListPrefsState rescope" name="ProcessListPrefsState rescope" time="0.004">
+    <testcase classname="PanesState prefs" name="PanesState prefs" time="0.004">
     </testcase>
-    <testcase classname="ProcessListPrefsState update - by new layout" name="ProcessListPrefsState update - by new layout" time="0.005">
-    </testcase>
-    <testcase classname="ProcessListPrefsState update - by existing layout" name="ProcessListPrefsState update - by existing layout" time="0.007">
-    </testcase>
-    <testcase classname="ProcessListPrefsState update - by new split" name="ProcessListPrefsState update - by new split" time="0.005">
-    </testcase>
-    <testcase classname="ProcessListPrefsState update - by existing split" name="ProcessListPrefsState update - by existing split" time="0.004">
-    </testcase>
-    <testcase classname="ProcessListPrefsState dictionary" name="ProcessListPrefsState dictionary" time="0.005">
-    </testcase>
-    <testcase classname="ProcessListPrefsState byLayoutID - unknowm layout" name="ProcessListPrefsState byLayoutID - unknowm layout" time="0.005">
-    </testcase>
-    <testcase classname="ProcessListPrefsState bySplitID - unknowm split" name="ProcessListPrefsState bySplitID - unknowm split" time="0.004">
-    </testcase>
-    <testcase classname="ProcessListPrefsState effectivePrefs" name="ProcessListPrefsState effectivePrefs" time="0.004">
-    </testcase>
-    <testcase classname="ProcessListPrefsState handleActions$/remove" name="ProcessListPrefsState handleActions$/remove" time="0.005">
+    <testcase classname="PanesState prefs - not found" name="PanesState prefs - not found" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:15" time="0.533" tests="15">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:04" time="0.472" tests="13">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="FileSystemPrefsState emptyPrefs" name="FileSystemPrefsState emptyPrefs" time="0.068">
+    <testcase classname="TabsState move - left" name="TabsState move - left" time="0.033">
     </testcase>
-    <testcase classname="FileSystemPrefsState remove - layout" name="FileSystemPrefsState remove - layout" time="0.01">
+    <testcase classname="TabsState move - right" name="TabsState move - right" time="0.006">
     </testcase>
-    <testcase classname="FileSystemPrefsState remove - split" name="FileSystemPrefsState remove - split" time="0.007">
+    <testcase classname="TabsState move - unchanged" name="TabsState move - unchanged" time="0.005">
     </testcase>
-    <testcase classname="FileSystemPrefsState rescope" name="FileSystemPrefsState rescope" time="0.006">
+    <testcase classname="TabsState move - does not exist" name="TabsState move - does not exist" time="0.008">
     </testcase>
-    <testcase classname="FileSystemPrefsState update - global" name="FileSystemPrefsState update - global" time="0.007">
+    <testcase classname="TabsState newTab/remove" name="TabsState newTab/remove" time="0.006">
     </testcase>
-    <testcase classname="FileSystemPrefsState update - by new layout" name="FileSystemPrefsState update - by new layout" time="0.005">
+    <testcase classname="TabsState remove - does not exist" name="TabsState remove - does not exist" time="0.004">
     </testcase>
-    <testcase classname="FileSystemPrefsState update - by existing layout" name="FileSystemPrefsState update - by existing layout" time="0.006">
+    <testcase classname="TabsState update" name="TabsState update" time="0.005">
     </testcase>
-    <testcase classname="FileSystemPrefsState update - by new split" name="FileSystemPrefsState update - by new split" time="0.007">
-    </testcase>
-    <testcase classname="FileSystemPrefsState update - by existing split" name="FileSystemPrefsState update - by existing split" time="0.005">
-    </testcase>
-    <testcase classname="FileSystemPrefsState dictionary" name="FileSystemPrefsState dictionary" time="0.005">
-    </testcase>
-    <testcase classname="FileSystemPrefsState byLayoutID - unknowm layout" name="FileSystemPrefsState byLayoutID - unknowm layout" time="0.005">
-    </testcase>
-    <testcase classname="FileSystemPrefsState bySplitID - unknowm split" name="FileSystemPrefsState bySplitID - unknowm split" time="0.005">
-    </testcase>
-    <testcase classname="FileSystemPrefsState effectivePrefs" name="FileSystemPrefsState effectivePrefs" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemPrefsState handleActions$/remove" name="FileSystemPrefsState handleActions$/remove" time="0.008">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:16" time="0.452" tests="16">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-    <testcase classname="LayoutState closeSplit - not found" name="LayoutState closeSplit - not found" time="0.03">
-    </testcase>
-    <testcase classname="LayoutState makeSplit - not found" name="LayoutState makeSplit - not found" time="0.005">
-    </testcase>
-    <testcase classname="LayoutState makeSplit/closeSplit - vertical - before (aka up)" name="LayoutState makeSplit/closeSplit - vertical - before (aka up)" time="0.01">
-    </testcase>
-    <testcase classname="LayoutState makeSplit/closeSplit - vertical - after (aka down)" name="LayoutState makeSplit/closeSplit - vertical - after (aka down)" time="0.005">
-    </testcase>
-    <testcase classname="LayoutState makeSplit/closeSplit - horizontal - before (aka left)" name="LayoutState makeSplit/closeSplit - horizontal - before (aka left)" time="0.006">
-    </testcase>
-    <testcase classname="LayoutState makeSplit/closeSplit - horizontal - after (aka right)" name="LayoutState makeSplit/closeSplit - horizontal - after (aka right)" time="0.005">
-    </testcase>
-    <testcase classname="LayoutState updateSplit" name="LayoutState updateSplit" time="0.004">
-    </testcase>
-    <testcase classname="LayoutState updateSplit - not found" name="LayoutState updateSplit - not found" time="0.004">
-    </testcase>
-    <testcase classname="LayoutState newLayout/remove" name="LayoutState newLayout/remove" time="0.005">
-    </testcase>
-    <testcase classname="LayoutState findSplitByID" name="LayoutState findSplitByID" time="0.004">
-    </testcase>
-    <testcase classname="LayoutState findSplitByID - not found" name="LayoutState findSplitByID - not found" time="0.003">
-    </testcase>
-    <testcase classname="LayoutState layout -- from selection" name="LayoutState layout -- from selection" time="0.003">
-    </testcase>
-    <testcase classname="LayoutState everySplit" name="LayoutState everySplit" time="0.004">
-    </testcase>
-    <testcase classname="LayoutState someSplit" name="LayoutState someSplit" time="0.004">
-    </testcase>
-    <testcase classname="LayoutState visitSplits" name="LayoutState visitSplits" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:16" time="0.396" tests="10">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
-    </testcase>
-    <testcase classname="StatusState remove" name="StatusState remove" time="0.03">
-    </testcase>
-    <testcase classname="StatusState update - create new split" name="StatusState update - create new split" time="0.005">
-    </testcase>
-    <testcase classname="StatusState update - create new widget" name="StatusState update - create new widget" time="0.007">
-    </testcase>
-    <testcase classname="StatusState update - update existing status" name="StatusState update - update existing status" time="0.005">
-    </testcase>
-    <testcase classname="StatusState match" name="StatusState match" time="0.005">
-    </testcase>
-    <testcase classname="StatusState match - with no search or matchees" name="StatusState match - with no search or matchees" time="0.005">
-    </testcase>
-    <testcase classname="StatusState regex" name="StatusState regex" time="0.003">
-    </testcase>
-    <testcase classname="StatusState status" name="StatusState status" time="0.004">
-    </testcase>
-    <testcase classname="StatusState status" name="StatusState status" time="0.004">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:16" time="0.445" tests="13">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-    <testcase classname="TabsState move - left" name="TabsState move - left" time="0.031">
-    </testcase>
-    <testcase classname="TabsState move - right" name="TabsState move - right" time="0.004">
-    </testcase>
-    <testcase classname="TabsState move - unchanged" name="TabsState move - unchanged" time="0.004">
-    </testcase>
-    <testcase classname="TabsState move - does not exist" name="TabsState move - does not exist" time="0.004">
-    </testcase>
-    <testcase classname="TabsState newTab/remove" name="TabsState newTab/remove" time="0.005">
-    </testcase>
-    <testcase classname="TabsState remove - does not exist" name="TabsState remove - does not exist" time="0.003">
-    </testcase>
-    <testcase classname="TabsState update" name="TabsState update" time="0.008">
-    </testcase>
-    <testcase classname="TabsState update - does not exist" name="TabsState update - does not exist" time="0.004">
+    <testcase classname="TabsState update - does not exist" name="TabsState update - does not exist" time="0.005">
     </testcase>
     <testcase classname="TabsState tab" name="TabsState tab" time="0.004">
     </testcase>
-    <testcase classname="TabsState tabIndex" name="TabsState tabIndex" time="0.004">
+    <testcase classname="TabsState tabIndex" name="TabsState tabIndex" time="0.005">
     </testcase>
     <testcase classname="TabsState findTabByID" name="TabsState findTabByID" time="0.004">
     </testcase>
     <testcase classname="TabsState findTabIndexByID" name="TabsState findTabIndexByID" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:17" time="0.401" tests="7">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:04" time="0.576" tests="16">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.003">
     </testcase>
-    <testcase classname="TernimalState enable" name="TernimalState enable" time="0.032">
+    <testcase classname="LayoutState closeSplit - not found" name="LayoutState closeSplit - not found" time="0.045">
     </testcase>
-    <testcase classname="TernimalState hide/showTabPrefs" name="TernimalState hide/showTabPrefs" time="0.005">
+    <testcase classname="LayoutState makeSplit - not found" name="LayoutState makeSplit - not found" time="0.008">
     </testcase>
-    <testcase classname="TernimalState hide/showWidgetSidebar" name="TernimalState hide/showWidgetSidebar" time="0.005">
+    <testcase classname="LayoutState makeSplit/closeSplit - vertical - before (aka up)" name="LayoutState makeSplit/closeSplit - vertical - before (aka up)" time="0.01">
     </testcase>
-    <testcase classname="TernimalState updateLongRunningOp" name="TernimalState updateLongRunningOp" time="0.004">
+    <testcase classname="LayoutState makeSplit/closeSplit - vertical - after (aka down)" name="LayoutState makeSplit/closeSplit - vertical - after (aka down)" time="0.017">
     </testcase>
-    <testcase classname="TernimalState unique" name="TernimalState unique" time="0.006">
+    <testcase classname="LayoutState makeSplit/closeSplit - horizontal - before (aka left)" name="LayoutState makeSplit/closeSplit - horizontal - before (aka left)" time="0.009">
     </testcase>
-    <testcase classname="TernimalState rcvProgress$" name="TernimalState rcvProgress$" time="0.003">
+    <testcase classname="LayoutState makeSplit/closeSplit - horizontal - after (aka right)" name="LayoutState makeSplit/closeSplit - horizontal - after (aka right)" time="0.008">
     </testcase>
-  </testsuite>
-  <testsuite name="copy-move" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:17" time="0.38" tests="9">
-    <testcase classname="copy-move fsCopy" name="copy-move fsCopy" time="0.017">
+    <testcase classname="LayoutState updateSplit" name="LayoutState updateSplit" time="0.007">
     </testcase>
-    <testcase classname="copy-move fsCopyOrMove - copy to file" name="copy-move fsCopyOrMove - copy to file" time="0.007">
+    <testcase classname="LayoutState updateSplit - not found" name="LayoutState updateSplit - not found" time="0.008">
     </testcase>
-    <testcase classname="copy-move fsCopyOrMove - error" name="copy-move fsCopyOrMove - error" time="0.002">
+    <testcase classname="LayoutState newLayout/remove" name="LayoutState newLayout/remove" time="0.01">
     </testcase>
-    <testcase classname="copy-move fsCopyOrMoveImpl - copy" name="copy-move fsCopyOrMoveImpl - copy" time="0.01">
+    <testcase classname="LayoutState findSplitByID" name="LayoutState findSplitByID" time="0.027">
     </testcase>
-    <testcase classname="copy-move cleanupAfterMove" name="copy-move cleanupAfterMove" time="0.003">
+    <testcase classname="LayoutState findSplitByID - not found" name="LayoutState findSplitByID - not found" time="0.007">
     </testcase>
-    <testcase classname="copy-move disambiguateTos" name="copy-move disambiguateTos" time="0.002">
+    <testcase classname="LayoutState layout -- from selection" name="LayoutState layout -- from selection" time="0.005">
     </testcase>
-    <testcase classname="copy-move itemizeFroms" name="copy-move itemizeFroms" time="0.002">
+    <testcase classname="LayoutState everySplit" name="LayoutState everySplit" time="0.005">
     </testcase>
-    <testcase classname="copy-move matchFromsWithTos" name="copy-move matchFromsWithTos" time="0.001">
+    <testcase classname="LayoutState someSplit" name="LayoutState someSplit" time="0.006">
     </testcase>
-    <testcase classname="copy-move fsMove" name="copy-move fsMove" time="0.007">
+    <testcase classname="LayoutState visitSplits" name="LayoutState visitSplits" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:18" time="0.398" tests="8">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:05" time="0.54" tests="4">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="FileSystemFilesState loadPath" name="FileSystemFilesState loadPath" time="0.035">
+    <testcase classname="ProcessListState update" name="ProcessListState update" time="0.041">
     </testcase>
-    <testcase classname="FileSystemFilesState unloadPath" name="FileSystemFilesState unloadPath" time="0.004">
+    <testcase classname="ProcessListState pollProcessList$" name="ProcessListState pollProcessList$" time="0.108">
     </testcase>
-    <testcase classname="FileSystemFilesState descsForPaths" name="FileSystemFilesState descsForPaths" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemFilesState loadPaths" name="FileSystemFilesState loadPaths" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemFilesState loadPaths - already present" name="FileSystemFilesState loadPaths - already present" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemFilesState rcvPath$ - fsLoadPathSuccess" name="FileSystemFilesState rcvPath$ - fsLoadPathSuccess" time="0.004">
-    </testcase>
-    <testcase classname="FileSystemFilesState rcvPath$ - fsLoadPathFailure" name="FileSystemFilesState rcvPath$ - fsLoadPathFailure" time="0.003">
+    <testcase classname="ProcessListState rcvProcessList$" name="ProcessListState rcvProcessList$" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:18" time="0.386" tests="5">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:05" time="0.446" tests="10">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="SelectionState selectLayout" name="SelectionState selectLayout" time="0.03">
+    <testcase classname="FileSystemPathsState close" name="FileSystemPathsState close" time="0.035">
     </testcase>
-    <testcase classname="SelectionState selectSplit" name="SelectionState selectSplit" time="0.005">
+    <testcase classname="FileSystemPathsState close - split not found" name="FileSystemPathsState close - split not found" time="0.004">
     </testcase>
-    <testcase classname="SelectionState layoutID" name="SelectionState layoutID" time="0.003">
+    <testcase classname="FileSystemPathsState open - new split" name="FileSystemPathsState open - new split" time="0.005">
     </testcase>
-    <testcase classname="SelectionState splitID" name="SelectionState splitID" time="0.004">
+    <testcase classname="FileSystemPathsState open - new path" name="FileSystemPathsState open - new path" time="0.004">
+    </testcase>
+    <testcase classname="FileSystemPathsState open - existing path" name="FileSystemPathsState open - existing path" time="0.004">
+    </testcase>
+    <testcase classname="FileSystemPathsState remove" name="FileSystemPathsState remove" time="0.004">
+    </testcase>
+    <testcase classname="FileSystemPathsState isOpen - split not found" name="FileSystemPathsState isOpen - split not found" time="0.003">
+    </testcase>
+    <testcase classname="FileSystemPathsState handleActions$/remove" name="FileSystemPathsState handleActions$/remove" time="0.006">
+    </testcase>
+    <testcase classname="FileSystemPathsState rcvPath$ - fsLoadPathFailure" name="FileSystemPathsState rcvPath$ - fsLoadPathFailure" time="0.008">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:19" time="0.417" tests="8">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:06" time="0.397" tests="3">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="TerminalXtermDataState consume" name="TerminalXtermDataState consume" time="0.03">
+    <testcase classname="FileSystemClipboardState update" name="FileSystemClipboardState update" time="0.031">
     </testcase>
-    <testcase classname="TerminalXtermDataState produce" name="TerminalXtermDataState produce" time="0.005">
-    </testcase>
-    <testcase classname="TerminalXtermDataState remove" name="TerminalXtermDataState remove" time="0.004">
-    </testcase>
-    <testcase classname="TerminalXtermDataState xtermData" name="TerminalXtermDataState xtermData" time="0.008">
-    </testcase>
-    <testcase classname="TerminalXtermDataState handleActions$/remove" name="TerminalXtermDataState handleActions$/remove" time="0.008">
-    </testcase>
-    <testcase classname="TerminalXtermDataState rcvXtermCWD$" name="TerminalXtermDataState rcvXtermCWD$" time="0.005">
-    </testcase>
-    <testcase classname="TerminalXtermDataState rcvXtermData$" name="TerminalXtermDataState rcvXtermData$" time="0.004">
+    <testcase classname="FileSystemClipboardState handleActions$/validate" name="FileSystemClipboardState handleActions$/validate" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:19" time="0.404" tests="7">
+  <testsuite name="icons" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:06" time="0.327" tests="2">
+    <testcase classname="icons makeColor" name="icons makeColor" time="0.003">
+    </testcase>
+    <testcase classname="icons makeIcon" name="icons makeIcon" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:06" time="0.479" tests="14">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="ProcessListPrefsState emptyPrefs" name="ProcessListPrefsState emptyPrefs" time="0.036">
+    </testcase>
+    <testcase classname="ProcessListPrefsState remove - layout" name="ProcessListPrefsState remove - layout" time="0.006">
+    </testcase>
+    <testcase classname="ProcessListPrefsState remove - split" name="ProcessListPrefsState remove - split" time="0.006">
+    </testcase>
+    <testcase classname="ProcessListPrefsState rescope" name="ProcessListPrefsState rescope" time="0.004">
+    </testcase>
+    <testcase classname="ProcessListPrefsState update - by new layout" name="ProcessListPrefsState update - by new layout" time="0.005">
+    </testcase>
+    <testcase classname="ProcessListPrefsState update - by existing layout" name="ProcessListPrefsState update - by existing layout" time="0.006">
+    </testcase>
+    <testcase classname="ProcessListPrefsState update - by new split" name="ProcessListPrefsState update - by new split" time="0.005">
+    </testcase>
+    <testcase classname="ProcessListPrefsState update - by existing split" name="ProcessListPrefsState update - by existing split" time="0.005">
+    </testcase>
+    <testcase classname="ProcessListPrefsState dictionary" name="ProcessListPrefsState dictionary" time="0.006">
+    </testcase>
+    <testcase classname="ProcessListPrefsState byLayoutID - unknowm layout" name="ProcessListPrefsState byLayoutID - unknowm layout" time="0.008">
+    </testcase>
+    <testcase classname="ProcessListPrefsState bySplitID - unknowm split" name="ProcessListPrefsState bySplitID - unknowm split" time="0.005">
+    </testcase>
+    <testcase classname="ProcessListPrefsState effectivePrefs" name="ProcessListPrefsState effectivePrefs" time="0.005">
+    </testcase>
+    <testcase classname="ProcessListPrefsState handleActions$/remove" name="ProcessListPrefsState handleActions$/remove" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:07" time="0.594" tests="4">
+    <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.005">
+    </testcase>
+    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0.001">
+    </testcase>
+    <testcase classname="ternimal ready (getBounds)" name="ternimal ready (getBounds)" time="0.001">
+    </testcase>
+    <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:08" time="0.742" tests="7">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.003">
+    </testcase>
+    <testcase classname="TernimalState enable" name="TernimalState enable" time="0.064">
+    </testcase>
+    <testcase classname="TernimalState hide/showTabPrefs" name="TernimalState hide/showTabPrefs" time="0.01">
+    </testcase>
+    <testcase classname="TernimalState hide/showWidgetSidebar" name="TernimalState hide/showWidgetSidebar" time="0.01">
+    </testcase>
+    <testcase classname="TernimalState updateLongRunningOp" name="TernimalState updateLongRunningOp" time="0.01">
+    </testcase>
+    <testcase classname="TernimalState unique" name="TernimalState unique" time="0.011">
+    </testcase>
+    <testcase classname="TernimalState rcvProgress$" name="TernimalState rcvProgress$" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:08" time="0.438" tests="5">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="SelectionState selectLayout" name="SelectionState selectLayout" time="0.036">
+    </testcase>
+    <testcase classname="SelectionState selectSplit" name="SelectionState selectSplit" time="0.006">
+    </testcase>
+    <testcase classname="SelectionState layoutID" name="SelectionState layoutID" time="0.005">
+    </testcase>
+    <testcase classname="SelectionState splitID" name="SelectionState splitID" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:09" time="0.404" tests="7">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
     <testcase classname="SortState remove" name="SortState remove" time="0.032">
     </testcase>
     <testcase classname="SortState update - create new split" name="SortState update - create new split" time="0.005">
     </testcase>
-    <testcase classname="SortState update - create new table" name="SortState update - create new table" time="0.004">
+    <testcase classname="SortState update - create new table" name="SortState update - create new table" time="0.005">
     </testcase>
     <testcase classname="SortState update - update existing sort" name="SortState update - update existing sort" time="0.004">
     </testcase>
-    <testcase classname="SortState columnSort" name="SortState columnSort" time="0.003">
+    <testcase classname="SortState columnSort" name="SortState columnSort" time="0.004">
     </testcase>
-    <testcase classname="SortState columnSort - not found" name="SortState columnSort - not found" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:19" time="0.378" tests="3">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
-    </testcase>
-    <testcase classname="FileSystemClipboardState update" name="FileSystemClipboardState update" time="0.03">
-    </testcase>
-    <testcase classname="FileSystemClipboardState handleActions$/validate" name="FileSystemClipboardState handleActions$/validate" time="0.005">
+    <testcase classname="SortState columnSort - not found" name="SortState columnSort - not found" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:20" time="0.374" tests="6">
+  <testsuite name="Params" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:09" time="0.335" tests="5">
+    <testcase classname="Params static homeDir" name="Params static homeDir" time="0.011">
+    </testcase>
+    <testcase classname="Params static pathSeparator" name="Params static pathSeparator" time="0.003">
+    </testcase>
+    <testcase classname="Params static rootDir" name="Params static rootDir" time="0.002">
+    </testcase>
+    <testcase classname="Params static uuid" name="Params static uuid" time="0.002">
+    </testcase>
+    <testcase classname="Params log" name="Params log" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="RangePipe" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:10" time="0.327" tests="2">
+    <testcase classname="RangePipe creates array without offset" name="RangePipe creates array without offset" time="0.002">
+    </testcase>
+    <testcase classname="RangePipe creates array with offset" name="RangePipe creates array with offset" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:10" time="0.448" tests="10">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="PanesState remove" name="PanesState remove" time="0.03">
+    <testcase classname="StatusState remove" name="StatusState remove" time="0.041">
     </testcase>
-    <testcase classname="PanesState update - create new" name="PanesState update - create new" time="0.004">
+    <testcase classname="StatusState update - create new split" name="StatusState update - create new split" time="0.006">
     </testcase>
-    <testcase classname="PanesState update - change existing" name="PanesState update - change existing" time="0.004">
+    <testcase classname="StatusState update - create new widget" name="StatusState update - create new widget" time="0.008">
     </testcase>
-    <testcase classname="PanesState prefs" name="PanesState prefs" time="0.004">
+    <testcase classname="StatusState update - update existing status" name="StatusState update - update existing status" time="0.004">
     </testcase>
-    <testcase classname="PanesState prefs - not found" name="PanesState prefs - not found" time="0.003">
+    <testcase classname="StatusState match" name="StatusState match" time="0.005">
     </testcase>
-  </testsuite>
-  <testsuite name="fonts" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:20" time="0.377" tests="1">
-    <testcase classname="fonts getAvailableFonts" name="fonts getAvailableFonts" time="0.084">
+    <testcase classname="StatusState match - with no search or matchees" name="StatusState match - with no search or matchees" time="0.005">
     </testcase>
-  </testsuite>
-  <testsuite name="ternimal" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:21" time="0.371" tests="4">
-    <testcase classname="ternimal ready (dev mode)" name="ternimal ready (dev mode)" time="0.004">
+    <testcase classname="StatusState regex" name="StatusState regex" time="0.004">
     </testcase>
-    <testcase classname="ternimal ready (prod mode)" name="ternimal ready (prod mode)" time="0">
+    <testcase classname="StatusState status" name="StatusState status" time="0.003">
     </testcase>
-    <testcase classname="ternimal ready (getBounds)" name="ternimal ready (getBounds)" time="0.001">
-    </testcase>
-    <testcase classname="ternimal window-all-closed" name="ternimal window-all-closed" time="0.001">
+    <testcase classname="StatusState status" name="StatusState status" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="files" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:21" time="0.35" tests="14">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:10" time="0.439" tests="8">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="FileSystemFilesState loadPath" name="FileSystemFilesState loadPath" time="0.038">
+    </testcase>
+    <testcase classname="FileSystemFilesState unloadPath" name="FileSystemFilesState unloadPath" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemFilesState descsForPaths" name="FileSystemFilesState descsForPaths" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemFilesState loadPaths" name="FileSystemFilesState loadPaths" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemFilesState loadPaths - already present" name="FileSystemFilesState loadPaths - already present" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemFilesState rcvPath$ - fsLoadPathSuccess" name="FileSystemFilesState rcvPath$ - fsLoadPathSuccess" time="0.005">
+    </testcase>
+    <testcase classname="FileSystemFilesState rcvPath$ - fsLoadPathFailure" name="FileSystemFilesState rcvPath$ - fsLoadPathFailure" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="fonts" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:11" time="0.397" tests="1">
+    <testcase classname="fonts getAvailableFonts" name="fonts getAvailableFonts" time="0.098">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:11" time="0.38" tests="1">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="process-list" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:12" time="0.748" tests="2">
+    <testcase classname="process-list processListKill" name="process-list processListKill" time="0.003">
+    </testcase>
+    <testcase classname="process-list processListRequest" name="process-list processListRequest" time="0.424">
+    </testcase>
+  </testsuite>
+  <testsuite name="copy-move" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:12" time="0.424" tests="9">
+    <testcase classname="copy-move fsCopy" name="copy-move fsCopy" time="0.02">
+    </testcase>
+    <testcase classname="copy-move fsCopyOrMove - copy to file" name="copy-move fsCopyOrMove - copy to file" time="0.013">
+    </testcase>
+    <testcase classname="copy-move fsCopyOrMove - error" name="copy-move fsCopyOrMove - error" time="0.003">
+    </testcase>
+    <testcase classname="copy-move fsCopyOrMoveImpl - copy" name="copy-move fsCopyOrMoveImpl - copy" time="0.007">
+    </testcase>
+    <testcase classname="copy-move cleanupAfterMove" name="copy-move cleanupAfterMove" time="0.002">
+    </testcase>
+    <testcase classname="copy-move disambiguateTos" name="copy-move disambiguateTos" time="0.003">
+    </testcase>
+    <testcase classname="copy-move itemizeFroms" name="copy-move itemizeFroms" time="0.002">
+    </testcase>
+    <testcase classname="copy-move matchFromsWithTos" name="copy-move matchFromsWithTos" time="0.001">
+    </testcase>
+    <testcase classname="copy-move fsMove" name="copy-move fsMove" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:13" time="0.448" tests="8">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="TerminalXtermDataState consume" name="TerminalXtermDataState consume" time="0.046">
+    </testcase>
+    <testcase classname="TerminalXtermDataState produce" name="TerminalXtermDataState produce" time="0.005">
+    </testcase>
+    <testcase classname="TerminalXtermDataState remove" name="TerminalXtermDataState remove" time="0.005">
+    </testcase>
+    <testcase classname="TerminalXtermDataState xtermData" name="TerminalXtermDataState xtermData" time="0.005">
+    </testcase>
+    <testcase classname="TerminalXtermDataState handleActions$/remove" name="TerminalXtermDataState handleActions$/remove" time="0.007">
+    </testcase>
+    <testcase classname="TerminalXtermDataState rcvXtermCWD$" name="TerminalXtermDataState rcvXtermCWD$" time="0.006">
+    </testcase>
+    <testcase classname="TerminalXtermDataState rcvXtermData$" name="TerminalXtermDataState rcvXtermData$" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="toolbar" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:13" time="0.339" tests="2">
+    <testcase classname="toolbar openDevTools" name="toolbar openDevTools" time="0.002">
+    </testcase>
+    <testcase classname="toolbar reload" name="toolbar reload" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="files" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:14" time="0.382" tests="14">
     <testcase classname="files fsDelete" name="files fsDelete" time="0.006">
     </testcase>
     <testcase classname="files fsExists" name="files fsExists" time="0.001">
@@ -451,11 +523,11 @@
     </testcase>
     <testcase classname="files fsNewFile" name="files fsNewFile" time="0.002">
     </testcase>
-    <testcase classname="files fsNewFile - error" name="files fsNewFile - error" time="0.001">
+    <testcase classname="files fsNewFile - error" name="files fsNewFile - error" time="0">
     </testcase>
-    <testcase classname="files fsRename" name="files fsRename" time="0.005">
+    <testcase classname="files fsRename" name="files fsRename" time="0.001">
     </testcase>
-    <testcase classname="files fsRename - error" name="files fsRename - error" time="0.001">
+    <testcase classname="files fsRename - error" name="files fsRename - error" time="0">
     </testcase>
     <testcase classname="files fsTouch" name="files fsTouch" time="0.001">
     </testcase>
@@ -463,15 +535,51 @@
     </testcase>
     <testcase classname="files fsTrash" name="files fsTrash" time="0.001">
     </testcase>
-    <testcase classname="files report" name="files report" time="0">
+    <testcase classname="files report" name="files report" time="0.001">
     </testcase>
-    <testcase classname="files report" name="files report" time="0">
+    <testcase classname="files report" name="files report" time="0.001">
     </testcase>
     <testcase classname="files report" name="files report" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="chmod" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:21" time="0.355" tests="7">
-    <testcase classname="chmod fsChmod" name="chmod fsChmod" time="0.005">
+  <testsuite name="Services tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:14" time="0.376" tests="6">
+    <testcase classname="Services tests helpers Dummy test" name="Services tests helpers Dummy test" time="0.002">
+    </testcase>
+    <testcase classname="StorageService clear" name="StorageService clear" time="0.013">
+    </testcase>
+    <testcase classname="StorageService getItem" name="StorageService getItem" time="0.003">
+    </testcase>
+    <testcase classname="StorageService key" name="StorageService key" time="0.002">
+    </testcase>
+    <testcase classname="StorageService removeItem" name="StorageService removeItem" time="0.003">
+    </testcase>
+    <testcase classname="StorageService setItem" name="StorageService setItem" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="NumeralPipe" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:14" time="0.331" tests="3">
+    <testcase classname="NumeralPipe 0b" name="NumeralPipe 0b" time="0.002">
+    </testcase>
+    <testcase classname="NumeralPipe 0,0" name="NumeralPipe 0,0" time="0.001">
+    </testcase>
+    <testcase classname="NumeralPipe null" name="NumeralPipe null" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="readdir" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:15" time="0.347" tests="4">
+    <testcase classname="readdir fsLoadPathRequest" name="readdir fsLoadPathRequest" time="0.006">
+    </testcase>
+    <testcase classname="readdir fsLoadPathRequest (failure)" name="readdir fsLoadPathRequest (failure)" time="0.001">
+    </testcase>
+    <testcase classname="readdir makeDescriptor" name="readdir makeDescriptor" time="0.001">
+    </testcase>
+    <testcase classname="readdir watcher fallback" name="readdir watcher fallback" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="DestroyService" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:15" time="0.334" tests="1">
+    <testcase classname="DestroyService destroy$ will complete a stream" name="DestroyService destroy$ will complete a stream" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="chmod" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:16" time="0.377" tests="7">
+    <testcase classname="chmod fsChmod" name="chmod fsChmod" time="0.006">
     </testcase>
     <testcase classname="chmod fsChmod (failure)" name="chmod fsChmod (failure)" time="0.002">
     </testcase>
@@ -479,177 +587,93 @@
     </testcase>
     <testcase classname="chmod report" name="chmod report" time="0.001">
     </testcase>
-    <testcase classname="chmod report" name="chmod report" time="0">
-    </testcase>
     <testcase classname="chmod report" name="chmod report" time="0.001">
+    </testcase>
+    <testcase classname="chmod report" name="chmod report" time="0">
     </testcase>
     <testcase classname="chmod statsByPath" name="chmod statsByPath" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Utils" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:22" time="0.328" tests="6">
-    <testcase classname="Utils colorOf" name="Utils colorOf" time="0.011">
-    </testcase>
-    <testcase classname="Utils deepCopy" name="Utils deepCopy" time="0.003">
-    </testcase>
-    <testcase classname="Utils hasProperty (string)" name="Utils hasProperty (string)" time="0.002">
-    </testcase>
-    <testcase classname="Utils hasProperty (regex)" name="Utils hasProperty (regex)" time="0.006">
-    </testcase>
-    <testcase classname="Utils merge" name="Utils merge" time="0.003">
-    </testcase>
-    <testcase classname="Utils nextTick" name="Utils nextTick" time="0.003">
+  <testsuite name="long-running-op" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:16" time="0.312" tests="1">
+    <testcase classname="long-running-op longRunningOpCancel" name="long-running-op longRunningOpCancel" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Services tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:22" time="0.343" tests="6">
+  <testsuite name="Services tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:16" time="0.325" tests="1">
     <testcase classname="Services tests helpers Dummy test" name="Services tests helpers Dummy test" time="0.002">
     </testcase>
-    <testcase classname="StorageService clear" name="StorageService clear" time="0.011">
+  </testsuite>
+  <testsuite name="themes" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:17" time="0.353" tests="2">
+    <testcase classname="themes getAvailableThemes" name="themes getAvailableThemes" time="0.005">
     </testcase>
-    <testcase classname="StorageService getItem" name="StorageService getItem" time="0.003">
-    </testcase>
-    <testcase classname="StorageService key" name="StorageService key" time="0.002">
-    </testcase>
-    <testcase classname="StorageService removeItem" name="StorageService removeItem" time="0.002">
-    </testcase>
-    <testcase classname="StorageService setItem" name="StorageService setItem" time="0.002">
+    <testcase classname="themes loadTheme" name="themes loadTheme" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="themes" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:22" time="0.339" tests="2">
-    <testcase classname="themes getAvailableThemes" name="themes getAvailableThemes" time="0.004">
-    </testcase>
-    <testcase classname="themes loadTheme" name="themes loadTheme" time="0.005">
+  <testsuite name="operators" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:17" time="0.542" tests="1">
+    <testcase classname="operators scratch" name="operators scratch" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="analyze" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:23" time="0.351" tests="5">
-    <testcase classname="analyze fsAnalyze" name="analyze fsAnalyze" time="0.006">
+  <testsuite name="local-storage" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:18" time="0.58" tests="6">
+    <testcase classname="local-storage smoke test" name="local-storage smoke test" time="0.003">
     </testcase>
-    <testcase classname="analyze fsAnalyze (failure)" name="analyze fsAnalyze (failure)" time="0.002">
+    <testcase classname="local-storage localStorageClear" name="local-storage localStorageClear" time="0">
     </testcase>
-    <testcase classname="analyze itemizePaths (directory)" name="analyze itemizePaths (directory)" time="0.001">
+    <testcase classname="local-storage localStorageGetItem" name="local-storage localStorageGetItem" time="0.001">
     </testcase>
-    <testcase classname="analyze itemizePaths (file)" name="analyze itemizePaths (file)" time="0.001">
+    <testcase classname="local-storage localStorageKey" name="local-storage localStorageKey" time="0">
     </testcase>
-    <testcase classname="analyze performAnalysis" name="analyze performAnalysis" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="readdir" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:23" time="0.334" tests="4">
-    <testcase classname="readdir fsLoadPathRequest" name="readdir fsLoadPathRequest" time="0.006">
-    </testcase>
-    <testcase classname="readdir fsLoadPathRequest (failure)" name="readdir fsLoadPathRequest (failure)" time="0.001">
-    </testcase>
-    <testcase classname="readdir makeDescriptor" name="readdir makeDescriptor" time="0">
-    </testcase>
-    <testcase classname="readdir watcher fallback" name="readdir watcher fallback" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:24" time="0.362" tests="1">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="WidgetHostDirective" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:24" time="0.317" tests="1">
-    <testcase classname="WidgetHostDirective directive is created" name="WidgetHostDirective directive is created" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="Params" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:24" time="0.345" tests="5">
-    <testcase classname="Params static homeDir" name="Params static homeDir" time="0.013">
-    </testcase>
-    <testcase classname="Params static pathSeparator" name="Params static pathSeparator" time="0.002">
-    </testcase>
-    <testcase classname="Params static rootDir" name="Params static rootDir" time="0.003">
-    </testcase>
-    <testcase classname="Params static uuid" name="Params static uuid" time="0.002">
-    </testcase>
-    <testcase classname="Params log" name="Params log" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="RangePipe" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:25" time="0.313" tests="2">
-    <testcase classname="RangePipe creates array without offset" name="RangePipe creates array without offset" time="0.003">
-    </testcase>
-    <testcase classname="RangePipe creates array with offset" name="RangePipe creates array with offset" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="icons" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:25" time="0.315" tests="2">
-    <testcase classname="icons makeColor" name="icons makeColor" time="0.003">
-    </testcase>
-    <testcase classname="icons makeIcon" name="icons makeIcon" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="local-storage" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:25" time="0.318" tests="6">
-    <testcase classname="local-storage smoke test" name="local-storage smoke test" time="0.002">
-    </testcase>
-    <testcase classname="local-storage localStorageClear" name="local-storage localStorageClear" time="0.001">
-    </testcase>
-    <testcase classname="local-storage localStorageGetItem" name="local-storage localStorageGetItem" time="0">
-    </testcase>
-    <testcase classname="local-storage localStorageKey" name="local-storage localStorageKey" time="0.001">
-    </testcase>
-    <testcase classname="local-storage localStorageRemoveItem" name="local-storage localStorageRemoveItem" time="0">
+    <testcase classname="local-storage localStorageRemoveItem" name="local-storage localStorageRemoveItem" time="0.001">
     </testcase>
     <testcase classname="local-storage localStorageSetItem" name="local-storage localStorageSetItem" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Services tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:26" time="0.317" tests="1">
-    <testcase classname="Services tests helpers Dummy test" name="Services tests helpers Dummy test" time="0.002">
+  <testsuite name="analyze" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:18" time="0.533" tests="5">
+    <testcase classname="analyze fsAnalyze" name="analyze fsAnalyze" time="0.019">
+    </testcase>
+    <testcase classname="analyze fsAnalyze (failure)" name="analyze fsAnalyze (failure)" time="0.003">
+    </testcase>
+    <testcase classname="analyze itemizePaths (directory)" name="analyze itemizePaths (directory)" time="0.002">
+    </testcase>
+    <testcase classname="analyze itemizePaths (file)" name="analyze itemizePaths (file)" time="0.001">
+    </testcase>
+    <testcase classname="analyze performAnalysis" name="analyze performAnalysis" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="long-running-op" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:26" time="0.322" tests="1">
-    <testcase classname="long-running-op longRunningOpCancel" name="long-running-op longRunningOpCancel" time="0.002">
+  <testsuite name="WidgetHostDirective" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:19" time="0.821" tests="1">
+    <testcase classname="WidgetHostDirective directive is created" name="WidgetHostDirective directive is created" time="0.005">
     </testcase>
   </testsuite>
-  <testsuite name="paths" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:26" time="0.33" tests="5">
+  <testsuite name="BreakablePipe" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:20" time="0.587" tests="2">
+    <testcase classname="BreakablePipe breakable" name="BreakablePipe breakable" time="0.003">
+    </testcase>
+    <testcase classname="BreakablePipe unbreakable" name="BreakablePipe unbreakable" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="system-info" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:20" time="0.314" tests="1">
+    <testcase classname="system-info systemInfo" name="system-info systemInfo" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="native" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:20" time="0.328" tests="5">
+    <testcase classname="native nativeClipboardClear" name="native nativeClipboardClear" time="0.002">
+    </testcase>
+    <testcase classname="native nativeClipboardRead" name="native nativeClipboardRead" time="0">
+    </testcase>
+    <testcase classname="native nativeClipboardWrite" name="native nativeClipboardWrite" time="0.001">
+    </testcase>
+    <testcase classname="native nativeDragStart" name="native nativeDragStart" time="0.002">
+    </testcase>
+    <testcase classname="native nativeOpen" name="native nativeOpen" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="paths" errors="0" failures="0" skipped="0" timestamp="2020-09-11T20:26:21" time="0.314" tests="5">
     <testcase classname="paths fsHomeDir" name="paths fsHomeDir" time="0.002">
     </testcase>
-    <testcase classname="paths fsParentDir" name="paths fsParentDir" time="0.001">
+    <testcase classname="paths fsParentDir" name="paths fsParentDir" time="0.005">
     </testcase>
     <testcase classname="paths fsParsePath" name="paths fsParsePath" time="0">
     </testcase>
     <testcase classname="paths fsPathSeparator" name="paths fsPathSeparator" time="0.001">
     </testcase>
     <testcase classname="paths fsRootDir" name="paths fsRootDir" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="toolbar" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:27" time="0.318" tests="2">
-    <testcase classname="toolbar openDevTools" name="toolbar openDevTools" time="0.002">
-    </testcase>
-    <testcase classname="toolbar reload" name="toolbar reload" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="native" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:27" time="0.313" tests="5">
-    <testcase classname="native nativeClipboardClear" name="native nativeClipboardClear" time="0.003">
-    </testcase>
-    <testcase classname="native nativeClipboardRead" name="native nativeClipboardRead" time="0">
-    </testcase>
-    <testcase classname="native nativeClipboardWrite" name="native nativeClipboardWrite" time="0">
-    </testcase>
-    <testcase classname="native nativeDragStart" name="native nativeDragStart" time="0.002">
-    </testcase>
-    <testcase classname="native nativeOpen" name="native nativeOpen" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="DestroyService" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:27" time="0.328" tests="1">
-    <testcase classname="DestroyService destroy$ will complete a stream" name="DestroyService destroy$ will complete a stream" time="0.005">
-    </testcase>
-  </testsuite>
-  <testsuite name="operators" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:28" time="0.471" tests="1">
-    <testcase classname="operators scratch" name="operators scratch" time="0.002">
-    </testcase>
-  </testsuite>
-  <testsuite name="system-info" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:28" time="0.314" tests="1">
-    <testcase classname="system-info systemInfo" name="system-info systemInfo" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="NumeralPipe" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:28" time="0.318" tests="3">
-    <testcase classname="NumeralPipe 0b" name="NumeralPipe 0b" time="0.003">
-    </testcase>
-    <testcase classname="NumeralPipe 0,0" name="NumeralPipe 0,0" time="0">
-    </testcase>
-    <testcase classname="NumeralPipe null" name="NumeralPipe null" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="BreakablePipe" errors="0" failures="0" skipped="0" timestamp="2020-09-11T11:47:29" time="0.31" tests="2">
-    <testcase classname="BreakablePipe breakable" name="BreakablePipe breakable" time="0.002">
-    </testcase>
-    <testcase classname="BreakablePipe unbreakable" name="BreakablePipe unbreakable" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

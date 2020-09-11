@@ -18,6 +18,10 @@ Object.defineProperty(Element.prototype, 'scrollIntoView', {
   value: () => {}
 });
 
+Object.defineProperty(Element.prototype, 'scrollTo', {
+  value: () => {}
+});
+
 Object.defineProperty(window, 'CSS', { value: null });
 
 Object.defineProperty(window, 'getComputedStyle', {
@@ -32,6 +36,7 @@ Object.defineProperty(window, 'getComputedStyle', {
 
 Object.defineProperty(window, 'IntersectionObserver', {
   value: class {
+    disconnect(): any {}
     observe(): any {}
     unobserve(): any {}
   }
@@ -39,6 +44,7 @@ Object.defineProperty(window, 'IntersectionObserver', {
 
 Object.defineProperty(window, 'ResizeObserver', {
   value: class {
+    disconnect(): any {}
     observe(): any {}
     unobserve(): any {}
   }
