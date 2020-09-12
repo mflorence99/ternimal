@@ -17,7 +17,7 @@ module.exports = {
     './main/',
     './renderer/app/components',
     './renderer/app/directives',
-    './renderer/app/pages/directives',
+    './renderer/app/pages',
     './renderer/app/pipes',
     './renderer/app/services',
     './renderer/app/state'

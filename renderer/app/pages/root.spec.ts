@@ -1,45 +1,34 @@
-import { BarrelModule } from '../barrel';
-import { ComponentsModule } from './components/module';
+import { Channels } from '../../../common';
 import { RootComponent } from './root';
 
-import { states } from '../state/app';
+import { on } from '../../../common';
+import { prepare } from './page.spec';
 
-import { ContextMenuService } from 'ngx-contextmenu';
-import { ElementRef } from '@angular/core';
-import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
-import { NgxsDataPluginModule } from '@ngxs-labs/data';
-import { NgxsModule } from '@ngxs/store';
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
-// @see https://stackoverflow.com/questions/38623065
-export class MockElementRef extends ElementRef {
-  constructor() {
-    super(null);
-  }
-}
-
 describe('RootComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [RootComponent],
-      imports: [
-        BarrelModule,
-        ComponentsModule,
-        NgxsModule.forRoot(states),
-        NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN])
-      ],
-      providers: [
-        ContextMenuService,
-        { provide: ElementRef, useValue: new MockElementRef() }
-      ]
-    }).compileComponents();
-  }));
+  let component: RootComponent;
+  let fixture: ComponentFixture<RootComponent>;
 
-  test('App is created', () => {
-    const fixture = TestBed.createComponent(RootComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(RootComponent);
+    component = fixture.componentInstance;
+  });
+
+  test('handleActions$ / rcvEror$', () => {
+    component.ngOnInit();
+    // NOTE: we cheated and made Actions a Subject rather than an Observable
+    component.actions$['next']({
+      action: {},
+      status: 'SUCCESSFUL'
+    });
+    // pretend an error has been issued from the main thread
+    on(Channels.error)(undefined, 'error');
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(component.snackBar.open).toHaveBeenCalledWith('error', 'OK');
   });
 });

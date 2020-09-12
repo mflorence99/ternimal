@@ -2,7 +2,7 @@
 import { Channels } from '../../common';
 import { ToolbarComponent } from './toolbar';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
 import { TestBed } from '@angular/core/testing';
 

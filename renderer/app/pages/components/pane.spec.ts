@@ -1,17 +1,19 @@
 import { PaneComponent } from './pane';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
+describe('RootComponent', () => {
+  let component: PaneComponent;
+  let fixture: ComponentFixture<PaneComponent>;
 
-describe('PaneComponent', () => {
-  beforeEach(async(() => prepare()));
-
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(PaneComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(PaneComponent);
+    component = fixture.componentInstance;
   });
 });

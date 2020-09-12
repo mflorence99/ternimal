@@ -1,7 +1,7 @@
 import { Tab } from '../../state/tabs';
 import { TabsComponent } from './tabs';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
 import { TestBed } from '@angular/core/testing';
 

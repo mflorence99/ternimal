@@ -1,6 +1,6 @@
 import { WidgetSidebarComponent } from './widget-prefs';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
 import { TestBed } from '@angular/core/testing';
 
