@@ -2,16 +2,22 @@ import { SystemInfoComponent } from './system-info';
 
 import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('SystemInfoComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: SystemInfoComponent;
+  let fixture: ComponentFixture<SystemInfoComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(SystemInfoComponent);
-    const component = fixture.componentInstance;
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(SystemInfoComponent);
+    component = fixture.componentInstance;
+  });
+
+  test('component', () => {
     expect(component).toBeTruthy();
   });
 });

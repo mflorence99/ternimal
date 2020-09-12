@@ -2,16 +2,24 @@ import { SplittableComponent } from './splittable';
 
 import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('SplittableComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: SplittableComponent;
+  let fixture: ComponentFixture<SplittableComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(SplittableComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(SplittableComponent);
+    component = fixture.componentInstance;
+  });
+
+  test('trackBySplitID', () => {
+    expect(component.trackBySplitID(undefined, { id: 'a', size: 50 })).toBe(
+      'a'
+    );
   });
 });

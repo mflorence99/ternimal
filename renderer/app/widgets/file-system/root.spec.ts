@@ -2,16 +2,22 @@ import { FileSystemComponent } from './root';
 
 import { prepare } from '../widget.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('FileSystemComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: FileSystemComponent;
+  let fixture: ComponentFixture<FileSystemComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(FileSystemComponent);
-    const component = fixture.componentInstance;
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(FileSystemComponent);
+    component = fixture.componentInstance;
+  });
+
+  test('component', () => {
     expect(component).toBeTruthy();
   });
 });

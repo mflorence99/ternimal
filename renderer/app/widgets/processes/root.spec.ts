@@ -2,16 +2,22 @@ import { ProcessListComponent } from './root';
 
 import { prepare } from '../widget.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('ProcessListComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: ProcessListComponent;
+  let fixture: ComponentFixture<ProcessListComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(ProcessListComponent);
-    const component = fixture.componentInstance;
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(ProcessListComponent);
+    component = fixture.componentInstance;
+  });
+
+  test('component', () => {
     expect(component).toBeTruthy();
   });
 });

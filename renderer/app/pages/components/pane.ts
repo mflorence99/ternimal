@@ -58,7 +58,7 @@ export class PaneComponent implements OnInit {
   widgetHost: WidgetHostDirective;
 
   constructor(
-    private actions$: Actions,
+    public actions$: Actions,
     private cdf: ChangeDetectorRef,
     private destroy$: DestroyService,
     public electron: ElectronService,

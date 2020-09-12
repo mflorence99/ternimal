@@ -2,16 +2,22 @@ import { TerminalPreviewComponent } from './preview';
 
 import { prepare } from '../widget.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('TerminalPreviewComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: TerminalPreviewComponent;
+  let fixture: ComponentFixture<TerminalPreviewComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(TerminalPreviewComponent);
-    const component = fixture.componentInstance;
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(TerminalPreviewComponent);
+    component = fixture.componentInstance;
+  });
+
+  test('component', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -13,15 +13,7 @@ module.exports = {
     'default',
     ['jest-junit', { outputDirectory: './reports/junit' }]
   ],
-  roots: [
-    './main/',
-    './renderer/app/components',
-    './renderer/app/directives',
-    './renderer/app/pages',
-    './renderer/app/pipes',
-    './renderer/app/services',
-    './renderer/app/state'
-  ],
+  roots: ['./main/', './renderer/app/'],
   setupFilesAfterEnv: [
     'jest-canvas-mock',
     'jest-extended',

@@ -7,7 +7,7 @@ import 'jest-extended';
 import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-describe('RootComponent', () => {
+describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 
@@ -29,10 +29,5 @@ describe('RootComponent', () => {
     component.selection.selectLayout({ layoutID: 'l' });
     expect(component.isTabsSelected({ layoutID: 'l' })).toBeTrue();
     expect(component.isTabsSelected({ layoutID: 'm' })).toBeFalse();
-  });
-
-  test('snapshot', () => {
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
   });
 });

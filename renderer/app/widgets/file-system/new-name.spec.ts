@@ -2,16 +2,22 @@ import { FileSystemNewNameComponent } from './new-name';
 
 import { prepare } from '../widget.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('FileSystemNewNameComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: FileSystemNewNameComponent;
+  let fixture: ComponentFixture<FileSystemNewNameComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(FileSystemNewNameComponent);
-    const component = fixture.componentInstance;
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(FileSystemNewNameComponent);
+    component = fixture.componentInstance;
+  });
+
+  test('component', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,17 +1,23 @@
-import { WidgetSidebarComponent } from './widget-prefs';
+import { WidgetSidebarComponent } from './widget-sidebar';
 
 import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('WidgetSidebarComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: WidgetSidebarComponent;
+  let fixture: ComponentFixture<WidgetSidebarComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(WidgetSidebarComponent);
-    const component = fixture.componentInstance;
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(WidgetSidebarComponent);
+    component = fixture.componentInstance;
+  });
+
+  test('component', () => {
     expect(component).toBeTruthy();
   });
 });
