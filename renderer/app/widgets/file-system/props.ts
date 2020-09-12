@@ -82,7 +82,7 @@ export class FileSystemPropsComponent
     public ternimal: TernimalState,
     private utils: Utils
   ) {
-    this.desc = this.ternimal.widgetSidebarCtx[0];
+    this.desc = this.ternimal.widgetSidebarCtx?.[0];
     this.descs = this.ternimal.widgetSidebarCtx;
     this.propsForm = this.formBuilder.group({
       owner: this.formBuilder.group({
