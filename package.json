@@ -19,15 +19,13 @@
     "clean:caches": "jest --clearCache",
     "clean:config": "rm -f ~/.config/ternimal/config.dev.json",
     "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
-    "electron:main": "npm run build:main && npm run xxx:hack && DEV_MODE=1 electron . --ignore-gpu-blacklist",
-    "electron:rebuild": "ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/electron-rebuild -f -w node-pty",
+    "electron:main": "npm run build:main && DEV_MODE=1 electron . --ignore-gpu-blacklist",
     "electron:renderer": "ng serve",
     "lint": "eslint --fix 'bin/**/*.ts' 'common/**/*.ts' 'main/**/*.ts' 'renderer/app/**/*.ts' && stylelint --fix 'renderer/**/*.css' 'renderer/**/*.scss'",
-    "postinstall": "ngcc",
+    "postinstall": "ngcc && electron-rebuild -t prod,dev,optional",
     "prettier": "prettier --write .",
-    "test": "ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron  --unhandled-rejections=none ./node_modules/.bin/jest --runInBand --coverage --unhandled-rejections=none && ts-node --dir bin coverage-icon.ts",
-    "test:only": "ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron --unhandled-rejections=none ./node_modules/.bin/jest --coverage=false -- %1",
-    "xxx:hack": "cp -R /home/mflo/experiments/node-pty/examples/electron/node_modules/node-pty /home/mflo/mflorence99/ternimal/node_modules/"
+    "test": "ELECTRON_RUN_AS_NODE=true electron  --unhandled-rejections=none ./node_modules/.bin/jest --runInBand --coverage --unhandled-rejections=none && ts-node --dir bin coverage-icon.ts",
+    "test:only": "ELECTRON_RUN_AS_NODE=true electron --unhandled-rejections=none ./node_modules/.bin/jest --coverage=false -- %1"
   },
   "dependencies": {},
   "devDependencies": {
