@@ -1,0 +1,8 @@
+{
+  "dest": "installers/",
+  "categories": ["Utility"],
+  "icon": "renderer/assets/ternimal.png",
+  "name": "ternimal",
+  "productName": "TERИIMAL",
+  "lintianOverrides": ["changelog-file-missing-in-native-package"]
+}

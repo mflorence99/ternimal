@@ -1,4 +1,7 @@
 /coverage
-/reports
 /dist
+/installers
 /node_modules
+/package
+/reports
+/temp

@@ -249,7 +249,6 @@ export class PaneComponent implements OnInit {
   // private methods
 
   private handleActions$(): void {
-    // NOTE: trigger change detection on any action
     this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.effectiveStatus = this.status.status(
         this.widget.splitID,
