@@ -4,11 +4,10 @@
     "lib": ["es2019", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es2019",
     "outDir": "../dist/main",
     "sourceMap": true,
-    "rootDir": "."
+    "target": "es2019"
   },
-  "exclude": ["**/*.spec.ts"],
+  "exclude": ["**/*.spec.ts", "**/__mocks__/*.ts"],
   "include": ["**/*.ts"]
 }
