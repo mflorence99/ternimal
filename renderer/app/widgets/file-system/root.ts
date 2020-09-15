@@ -395,7 +395,7 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
     // TODO: we have to delay here because the rows we want to
     // select won't exist until the table is redrawn -- and currently
     // we can't detect that
-    // so this is an ugky hack
+    // so this is an ugly hack
     setTimeout(() => {
       this.table.rowUnselect();
       this.table.rowSelectByIDs(tos);
