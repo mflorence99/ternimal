@@ -32,7 +32,7 @@
     "test:only": "ELECTRON_RUN_AS_NODE=true electron --unhandled-rejections=none ./node_modules/.bin/jest --coverage=false -- %1"
   },
   "dependencies": {
-    "CBuffer": "^2.1.0",
+    "CBuffer": "^2",
     "async": "^3.2.0",
     "debounce": "^1.2.0",
     "electron-store": "^6.0.0",
@@ -51,8 +51,7 @@
     "yaml": "^1.10.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1001.1",
-    "@angular-ru/common": "^14.37.0",
+    "@angular-devkit/build-angular": "^0.1001.2",
     "@angular/animations": "^10",
     "@angular/cdk": "^10",
     "@angular/cli": "^10",
@@ -112,7 +111,7 @@
     "jest-junit": "^11",
     "jest-preset-angular": "^8.2.1",
     "mock-fs": "^4.13.0",
-    "moment": "^2.27.0",
+    "moment": "^2",
     "ngx-contextmenu": "^5.4.0",
     "ngx-electron": "^2.2.0",
     "ngx-moment": "^5.0.0",
