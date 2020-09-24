@@ -30,6 +30,7 @@ import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
+import { formatDistance } from 'date-fns';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -149,6 +150,10 @@ export class ProcessListComponent implements OnInit, Widget {
     this.snackBar.open('Process list display', running ? 'Running' : 'Paused', {
       duration: this.params.snackBarDuration
     });
+  }
+
+  timeAgo(time: number): string {
+    return formatDistance(0, time);
   }
 
   trackByDict(_, dict: Dictionary): string {

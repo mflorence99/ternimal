@@ -23,7 +23,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
 import { NgxResizeObserverModule } from 'ngx-resize-observer';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -53,7 +52,6 @@ const MODULES = [
   MatSnackBarModule,
   MatSortModule,
   MatTooltipModule,
-  MomentModule,
   NgxResizeObserverModule,
   OverlayModule,
   PipesModule,

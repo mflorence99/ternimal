@@ -37,6 +37,7 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { ViewChild } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
+import { formatDistanceToNow } from 'date-fns';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -432,6 +433,10 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
       if (name) this.electron.ipcRenderer.send(Channels.fsRename, path, name);
       this.overlayRef.detach();
     });
+  }
+
+  timeAgo(time: any): string {
+    return formatDistanceToNow(time);
   }
 
   touch(): void {

@@ -52,10 +52,10 @@
 
             <ng-container *ngIf="['ctime'].includes(dict.name)">
               <ng-container *ngIf="effectivePrefs.timeFormat === 'duration'">
-                {{ stat[dict.name] | amDuration:'milliseconds' }}
+                {{ timeAgo(stat[dict.name]) }}
               </ng-container>
               <ng-container *ngIf="effectivePrefs.timeFormat === 'hhmmss'">
-                {{ stat[dict.name] | amUtc | amDateFormat:'HH:mm:ss' }}
+                {{ stat[dict.name] | date:'HH:mm:ss':'Z' }}
               </ng-container>
             </ng-container>
           </ng-container>

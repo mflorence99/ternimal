@@ -29,6 +29,7 @@
     "postinstall": "ngcc && electron-rebuild -t prod,dev,optional",
     "prettier": "prettier --write .",
     "test": "ELECTRON_RUN_AS_NODE=true electron  --unhandled-rejections=none ./node_modules/.bin/jest --runInBand --coverage --unhandled-rejections=none && ts-node --dir bin coverage-icon.ts",
+    "test:nosnaps": "jest --runInBand --coverage=false --updateSnapshot",
     "test:only": "ELECTRON_RUN_AS_NODE=true electron --unhandled-rejections=none ./node_modules/.bin/jest --coverage=false -- %1"
   },
   "dependencies": {
@@ -51,7 +52,7 @@
     "yaml": "^1.10.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1001.2",
+    "@angular-devkit/build-angular": "^0.1001.3",
     "@angular/animations": "^10",
     "@angular/cdk": "^10",
     "@angular/cli": "^10",
@@ -95,6 +96,7 @@
     "angular-split": "^4",
     "angular2-uuid": "^1.1.1",
     "chart.js": "^2.9.3",
+    "date-fns": "^2.16.1",
     "electron": "^10",
     "electron-installer-debian": "^3.1.0",
     "electron-packager": "^15.1.0",
@@ -111,10 +113,8 @@
     "jest-junit": "^11",
     "jest-preset-angular": "^8.2.1",
     "mock-fs": "^4.13.0",
-    "moment": "^2",
     "ngx-contextmenu": "^5.4.0",
     "ngx-electron": "^2.2.0",
-    "ngx-moment": "^5.0.0",
     "ngx-resize-observer": "^1.0.2",
     "numeral": "^2.0.6",
     "prettier": "^2",

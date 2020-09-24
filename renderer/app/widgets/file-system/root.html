@@ -102,7 +102,7 @@
               *ngIf="['mtime', 'btime', 'atime'].includes(dict.name)"
             >
               <ng-container *ngIf="effectivePrefs.dateFormat === 'ago'">
-                {{ desc[dict.name] | amTimeAgo }}
+                {{ timeAgo(desc[dict.name]) }}
               </ng-container>
 
               <ng-container

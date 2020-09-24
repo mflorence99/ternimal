@@ -20,7 +20,7 @@ app.allowRendererProcessReuse = false;
 
 export const connected = new Set<string>();
 export const ptys: Record<string, nodePty.IPty> = {};
-export const scrollbacks: Record<string, typeof CBuffer> = {};
+export const scrollbacks: Record<string, CBuffer<string>> = {};
 
 // @see https://stackoverflow.com/questions/15939380/
 export const findCWD = debounce(
@@ -57,7 +57,7 @@ export const xtermConnect = (_, id: string, cwd: string): void => {
     // register new connection
     connected.add(id);
     ptys[id] = pty;
-    scrollbacks[id] = new CBuffer(maxScrollback);
+    scrollbacks[id] = new CBuffer<string>(maxScrollback);
     // route data to xterm while still connected
     let prevCWD: string = null;
     pty.onData((data: string): void => {
