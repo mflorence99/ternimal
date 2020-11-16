@@ -347,8 +347,7 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
     if (!root.endsWith(Params.pathSeparator)) root += Params.pathSeparator;
     const ix = root.length;
     const parts = desc.path.substring(ix).split(Params.pathSeparator);
-    // NOTE: a non-directory has one more part that we don't want to indent extra for
-    return parts.length - 1 - (desc.isDirectory ? 0 : 1);
+    return parts.length - 1;
   }
 
   loadPath(path: string): void {
@@ -395,8 +394,7 @@ export class FileSystemComponent implements OnDestroy, OnInit, Widget {
     this.clearClipboard();
     // TODO: we have to delay here because the rows we want to
     // select won't exist until the table is redrawn -- and currently
-    // we can't detect that
-    // so this is an ugly hack
+    // we can't detect that so this is an ugly hack
     setTimeout(() => {
       this.table.rowUnselect();
       this.table.rowSelectByIDs(tos);
