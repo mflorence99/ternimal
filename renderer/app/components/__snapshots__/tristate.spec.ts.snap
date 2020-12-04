@@ -14,7 +14,7 @@ exports[`TriStateComponent snapshot 1`] = `
       class="mat-checkbox-layout"
       for="mat-checkbox-3-input"
     >
-      <div
+      <span
         class="mat-checkbox-inner-container mat-checkbox-inner-container-no-side-margin"
       >
         <input
@@ -24,18 +24,18 @@ exports[`TriStateComponent snapshot 1`] = `
           tabindex="0"
           type="checkbox"
         />
-        <div
+        <span
           class="mat-ripple mat-checkbox-ripple mat-focus-indicator"
           matripple=""
         >
-          <div
+          <span
             class="mat-ripple-element mat-checkbox-persistent-ripple"
           />
-        </div>
-        <div
+        </span>
+        <span
           class="mat-checkbox-frame"
         />
-        <div
+        <span
           class="mat-checkbox-background"
         >
           <svg
@@ -52,11 +52,11 @@ exports[`TriStateComponent snapshot 1`] = `
               stroke="white"
             />
           </svg>
-          <div
+          <span
             class="mat-checkbox-mixedmark"
           />
-        </div>
-      </div>
+        </span>
+      </span>
       <span
         class="mat-checkbox-label"
       >
